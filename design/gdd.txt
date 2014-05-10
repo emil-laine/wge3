@@ -1,0 +1,68 @@
+﻿WGE3
+
+
+Basics:
+- map: 47x47 bricks
+- one brick: 16x16 pixels
+- 1-4 players
+
+
+Menu:
+- Play
+- Settings
+- Map maker
+     *map generator?
+
+
+game features:
+- Fog of war (on/off)
+- Timing (on/off/how long)
+- A quest to kill someone/go somewhere
+- Respawn (on/off)
+- The map size 
+
+
+Blocks:
+- Unbreakable
+- Breakable  (many sorts)
+- Water
+- One-way block
+
+
+Weapons:
+- Pistol
+- Laster (instant)
+- Bomberman
+- Sliding bomberman?
+- Following rocket (goes certain length and starts aiming)
+- Bazooka (kaboom)
+
+
+
+
+
+
+
+
+
+
+Buffs:
+- Shooting speed
+- Movement speed
+- Heal
+- Ammo
+- Invincibility (5-10s?)
+- Stealth (off when attacking someone or 30s)
+
+
+Debuffs:
+- Slow
+- Stun
+- Blind
+- Health debuff (aka damage?)
+- Thieves
+
+
+Buildings:
+- Healing altar
+- Ammo storage
