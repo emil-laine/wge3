@@ -7,7 +7,7 @@ Features:
 - map editor
 
 Game settings:
-- fog of ward on/off
+- fog of war on/off
 - timed gameplay on/off
 - map size (normal/large/huge)?
 - respawn on/off
