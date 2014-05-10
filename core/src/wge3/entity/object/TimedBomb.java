@@ -11,11 +11,11 @@ public class TimedBomb extends Item implements Explosive {
 
     private Timer timer;
     private Task task;
-    private int time; // seconds
+    private int time; // in seconds
 
     public TimedBomb() {
         color = new Color(0x222222ff);
-        time = 2;
+        time = 3;
         timer = new Timer();
         task = new Task() {
 
@@ -46,7 +46,11 @@ public class TimedBomb extends Item implements Explosive {
     }
 
     @Override
-    public void useItem(Area area, float x, float y) {
-        // ...
+    public void use(Area area, float x, float y) {
+        this.setArea(area);
+        this.setX(area.getTileAt(x, y).getX());
+        this.setY(area.getTileAt(x, y).getY());
+        area.getTileAt(x, y).setObject(this);
+        this.startTimer();
     }
 }

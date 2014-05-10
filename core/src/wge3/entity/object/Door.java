@@ -7,6 +7,7 @@ public class Door extends Wall {
     private boolean locked;
 
     // private KeyType keytype;
+    
     public Door() {
     }
     

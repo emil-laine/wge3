@@ -182,11 +182,6 @@ public abstract class Character {
     }
     
     public void useItem() {
-        TimedBomb item = new TimedBomb();
-        item.setX(area.getTileAt(x, y).x);
-        item.setY(area.getTileAt(x, y).y);
-        item.setArea(area);
-        area.getTileAt(x, y).setObject(item);
-        item.startTimer();
+        selectedItem.use();
     }
 }

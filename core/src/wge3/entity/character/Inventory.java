@@ -3,8 +3,6 @@ package wge3.entity.character;
 
 import java.util.*;
 import wge3.entity.object.Item;
-import wge3.entity.object.TimedBomb;
-
 
 public class Inventory {
     private Map<Item, Integer> items;
@@ -43,7 +41,8 @@ public class Inventory {
     }
     
     public Item getItem(int which_one) {
-        // ...
+        
+                
         return null;
     }
 }

@@ -12,5 +12,5 @@ public abstract class Item extends GameObject {
         
     }
     
-    public abstract void useItem(Area area, float x, float y);
+    public abstract void use(Area area, float x, float y);
 }

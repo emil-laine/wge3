@@ -38,10 +38,8 @@ public class InputHandler extends InputAdapter {
         }
     }
     
-    public void update() {
-        for (int i = 0; i < keys; i++) {
-            previousKeysDown[i] = keysDown[i];
-        }
+    public void updateKeyDowns() {
+        System.arraycopy(keysDown, 0, previousKeysDown, 0, keys);
     }
     
     public boolean isDown(int key) {
@@ -49,9 +47,6 @@ public class InputHandler extends InputAdapter {
     }
     
     public boolean isPressed(int key) {
-        System.out.println("keysDown[key]: " +  keysDown[key]);
-        System.out.println("previousKeysDown[key]: " + previousKeysDown[key]);
-        System.out.println("----");
         return keysDown[key] && !previousKeysDown[key];
     }
     

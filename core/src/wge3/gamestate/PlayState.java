@@ -27,7 +27,7 @@ public class PlayState extends GameState {
     public void update(float delta) {
         
         handleInput();
-        input.update();
+        input.updateKeyDowns();
         player.updatePosition(delta);
         System.out.println(Gdx.graphics.getFramesPerSecond());
     }
