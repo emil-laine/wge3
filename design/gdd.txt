@@ -1,33 +1,31 @@
 ﻿WGE3
 
+Features:
+- single/multiplayer
+    - 1-4 players on a single computers
+    - online play for more players
+- map editor
 
-Basics:
-- map: 47x47 bricks
-- one brick: 16x16 pixels
-- 1-4 players
+Game settings:
+- fog of war on/off
+- timed gameplay on/off
+- map size (normal/large/huge)?
+- respawn on/off
 
+Structure of the game area:
+- Consists of 47x47 tiles
+- Each tile is 16x16 pixels
 
-Menu:
-- Play
-- Settings
-- Map maker
-     *map generator?
-
-
-game features:
-- Fog of war (on/off)
-- Timing (on/off/how long)
-- A quest to kill someone/go somewhere
-- Respawn (on/off)
-- The map size 
-
-
-Blocks:
-- Unbreakable
-- Breakable  (many sorts)
+Ground tile types:
+- Grass
 - Water
-- One-way block
+- One-way floor
 
+Wall types:
+- Unbreakable wall
+- Breakable wall
+- Door without lock
+- Door with lock
 
 Weapons:
 - Pistol
@@ -37,22 +35,14 @@ Weapons:
 - Following rocket (goes certain length and starts aiming)
 - Bazooka (kaboom)
 
-
-
-
-
-
-
-
-
-
-Buffs:
-- Shooting speed
-- Movement speed
-- Heal
-- Ammo
-- Invincibility (5-10s?)
-- Stealth (off when attacking someone or 30s)
+Items:
+- Ammo pack
+- Health pack
+- Energy pack
+- Rapid fire potion
+- Speed potion
+- Invincibility potion (5-10s?)
+- Invisibility potion (off when attacking someone or after 30s)
 
 
 Debuffs:
@@ -61,7 +51,6 @@ Debuffs:
 - Blind
 - Health debuff (aka damage?)
 - Thieves
-
 
 Buildings:
 - Healing altar
