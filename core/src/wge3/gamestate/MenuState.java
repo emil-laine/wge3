@@ -17,7 +17,7 @@ public class MenuState extends GameState {
     }
 
     @Override
-    public void draw(ShapeRenderer sr) {
+    public void draw(com.badlogic.gdx.graphics.g2d.Batch batch) {
     }
 
     @Override

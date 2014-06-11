@@ -1,4 +1,4 @@
-package wge3.entity.object;
+package wge3.interfaces;
 
 public interface Explosive {
 

@@ -1,7 +1,7 @@
 package wge3.gamestate;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.game.InputHandler;
 import wge3.interfaces.Drawable;
 
@@ -24,7 +24,7 @@ public abstract class GameState implements Drawable {
     public abstract void init();
     public abstract void update(float delta);
     @Override
-    public abstract void draw(ShapeRenderer sr);
+    public abstract void draw(Batch batch);
     public abstract void handleInput();
     public abstract void dispose();
 

@@ -1,8 +1,6 @@
 package wge3.gamestate;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.entity.character.Player;
 import wge3.world.Area;
 
@@ -30,11 +28,11 @@ public class PlayState extends GameState {
     }
 
     @Override
-    public void draw(ShapeRenderer sr) {
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        area.draw(sr);
-        player.draw(sr);
-        sr.end();
+    public void draw(Batch batch) {
+        batch.begin();
+        area.draw(batch);
+        player.draw(batch);
+        batch.end();
         needsToBeDrawn = false;
     }
 

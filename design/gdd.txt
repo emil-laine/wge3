@@ -1,4 +1,4 @@
-﻿WGE3
+WGE3
 
 Features:
 - single/multiplayer
@@ -7,14 +7,14 @@ Features:
 - map editor
 
 Game settings:
-- fog of war on/off
-- timed gameplay on/off
-- map size (normal/large/huge)?
-- respawn on/off
+- fog of war: on/off
+- timed gameplay: on/off
+- map size: normal/large/huge
+- respawn: on/off
 
-Structure of the game area:
-- Consists of 47x47 tiles
-- Each tile is 16x16 pixels
+Structure of the game world:
+- Consists of 32×32 tiles (normal size, which fits the whole screen at once)
+- Each tile is 24×24 pixels
 
 Ground tile types:
 - Grass
@@ -32,7 +32,7 @@ Weapons:
 - Laster (instant)
 - Bomberman
 - Sliding bomberman?
-- Following rocket (goes certain length and starts aiming)
+- Homing rocket (goes certain length and starts aiming)
 - Bazooka (kaboom)
 
 Items:
@@ -43,7 +43,6 @@ Items:
 - Speed potion
 - Invincibility potion (5-10s?)
 - Invisibility potion (off when attacking someone or after 30s)
-
 
 Debuffs:
 - Slow

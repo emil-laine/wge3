@@ -1,21 +1,18 @@
 package wge3.entity.object;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import wge3.interfaces.Explosive;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-import wge3.world.Area;
-import wge3.world.Tile;
 
 public class TimedBomb extends Item implements Explosive {
 
     private Timer timer;
     private Task task;
     private int time; // in seconds
-
+    
     public TimedBomb() {
         name = "timed bomb";
-        color = new Color(0x222222ff);
         time = 3;
         timer = new Timer();
         task = new Task() {
@@ -39,15 +36,17 @@ public class TimedBomb extends Item implements Explosive {
     }
     
     @Override
-    public void draw(ShapeRenderer sr) {
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(color);
-        sr.circle(x + Tile.size/2, y + Tile.size/2, Tile.size/4);
-        sr.end();
+    public void draw(Batch batch) {
+        batch.draw(sprite, x, y);
+    }
+    
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
     }
 
     @Override
-    public void use(Area area, float x, float y) {
+    public void use() {
         this.setArea(area);
         this.setX(area.getTileAt(x, y).getX());
         this.setY(area.getTileAt(x, y).getY());
