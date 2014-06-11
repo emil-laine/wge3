@@ -10,10 +10,11 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
         cfg.width = 1024;
-        cfg.height = 720;
+        cfg.height = 768;
         cfg.resizable = false;
         cfg.title = "WGE3";
         cfg.useGL30 = false;
+        cfg.forceExit = true;
 
         LwjglApplication game = new LwjglApplication(new WGE3(), cfg);
     }
