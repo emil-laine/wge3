@@ -2,7 +2,8 @@ package wge3.entity.character;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import wge3.entity.object.Item;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
@@ -25,7 +26,6 @@ public abstract class Character implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
-    protected Color color;
     protected Texture sprite;
     protected boolean needsToBeDrawn;
 
@@ -113,19 +113,14 @@ public abstract class Character implements Drawable {
         return size;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
     public int getCurrentSpeed() {
         return currentSpeed;
     }
 
     @Override
-    public void draw(ShapeRenderer sr) {
-        sr.setColor(color);
-        sr.rect(x - Tile.size / 2, y - Tile.size / 2, Tile.size, Tile.size, Tile.size / 2, Tile.size / 2, direction * 57.2957795131f);
-        
+    public void draw(Batch batch) {
+        TextureRegion currentSprite = new TextureRegion(sprite);
+        batch.draw(currentSprite, x-8, y-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*57.2957795f);
         needsToBeDrawn = false;
     }
 
@@ -194,7 +189,7 @@ public abstract class Character implements Drawable {
     }
     
     public void useItem() {
-        selectedItem.use(area, x, y);
+        selectedItem.use();
     }
 
     public boolean NeedsToBeDrawn() {

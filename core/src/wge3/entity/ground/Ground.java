@@ -1,7 +1,7 @@
 package wge3.entity.ground;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.world.Tile;
 
 public abstract class Ground {
@@ -9,7 +9,7 @@ public abstract class Ground {
     protected Tile tile;
     protected int x, y;
     
-    protected Color color;
+    protected Texture sprite;
     protected boolean drainsHealth;
     protected boolean slowsMovement;
 
@@ -26,9 +26,8 @@ public abstract class Ground {
         return y;
     }
     
-    public void draw(ShapeRenderer sr) {
-        sr.setColor(color);
-        sr.rect(x, y, Tile.size, Tile.size);
+    public void draw(Batch batch) {
+        batch.draw(sprite, x, y);
     }
 
     public void setX(int x) {

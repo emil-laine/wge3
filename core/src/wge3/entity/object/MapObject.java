@@ -1,19 +1,22 @@
 package wge3.entity.object;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import wge3.interfaces.Drawable;
 import wge3.world.Area;
-import wge3.world.Tile;
 
-public abstract class Terrain {
+public abstract class MapObject implements Drawable {
     
     protected Area area;
     protected int x, y;
     
-    protected Color color;
+    protected Texture sprite;
+    
     protected boolean passable;
+    protected boolean needsToBeDrawn;
 
-    public Terrain() {
+    public MapObject() {
+        // default values:
         passable = true;
     }
 
@@ -37,18 +40,23 @@ public abstract class Terrain {
         return y;
     }
     
-    public Terrain(int x, int y) {
+    public MapObject(int x, int y) {
         this();
         this.x = x;
         this.y = y;
     }
 
-    public void draw(ShapeRenderer sr) {
-        sr.setColor(color);
-        sr.rect(x, y, Tile.size, Tile.size);
+    @Override
+    public void draw(Batch batch) {
+        batch.draw(sprite, x, y);
     }
 
     public boolean isPassable() {
         return passable;
+    }
+    
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
     }
 }

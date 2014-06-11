@@ -25,13 +25,15 @@ public class WGE3 extends Game {
         
         gsm = new GameStateManager();
         gsm.setState(1);
+        
+        Gdx.gl.glClearColor(0, 0, 0, 1);
     }
 
     @Override
     public void render () {
         gsm.update(Gdx.graphics.getDeltaTime());
         
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         gsm.draw();

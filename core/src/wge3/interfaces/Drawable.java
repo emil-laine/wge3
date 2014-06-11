@@ -1,6 +1,6 @@
 package wge3.interfaces;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 ////////////////////////////////////////////
 // All game objects that are drawn on the //
@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 // in an interface.
 
 public interface Drawable {
-    public void draw(ShapeRenderer sr);
+    public void draw(Batch batch);
     // This might be useful too:
     // public void forceDraw(ShapeRenderer sr);
     public boolean needsToBeDrawn();

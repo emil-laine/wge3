@@ -1,15 +1,15 @@
 package wge3.gamestate;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameStateManager {
     
     private GameState currentState;
     
-    private ShapeRenderer sr;
+    private SpriteBatch batch;
 
     public GameStateManager() {
-        sr = new ShapeRenderer();
+        batch = new SpriteBatch();
     }
     
     public void setState(int newState) {
@@ -37,6 +37,6 @@ public class GameStateManager {
     }
     
     public void draw() {
-        currentState.draw(sr);
+        currentState.draw(batch);
     }
 }
