@@ -7,4 +7,3 @@ You need Gradle to open the project. If you don't have it, here's how to get it:
 - In the Available Plugins tab, search for Gradle Support.
 - Select it and install.
 - Now you can open the project file.
-- 
