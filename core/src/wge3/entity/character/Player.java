@@ -1,6 +1,8 @@
 package wge3.entity.character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import wge3.entity.object.TimedBomb;
 import wge3.interfaces.Drawable;
@@ -15,7 +17,9 @@ public class Player extends Character {
     
     public Player(Area area) {
         super(area);
-        // color = new Color(0x88ffff88);
+        color = new Color(0x88ffff88);
+        sprite = new Texture(Gdx.files.internal("graphics/player3.png"));
+        
         goingForward = false;
         goingBackward = false;
         turningLeft = false;
