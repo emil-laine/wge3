@@ -5,8 +5,8 @@ import com.badlogic.gdx.InputAdapter;
 
 public class InputHandler extends InputAdapter {
     
-    private boolean[] keysDown;
-    private boolean[] previousKeysDown;
+    private final boolean[] keysDown;
+    private final boolean[] previousKeysDown;
     
     private final int keys = 6;
     
