@@ -126,11 +126,13 @@ public abstract class Character implements Drawable {
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
+        drawTilesUnder();
         needsToBeDrawn = true;
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
+        drawTilesUnder();
         needsToBeDrawn = true;
     }
 
@@ -152,6 +154,7 @@ public abstract class Character implements Drawable {
             if (canMove(dx + addx, dy + addy)) {
                 x += dx;
                 y += dy;
+                drawTilesUnder();
                 needsToBeDrawn = true;
                 return;
             } else {
@@ -194,5 +197,18 @@ public abstract class Character implements Drawable {
 
     public boolean NeedsToBeDrawn() {
         return needsToBeDrawn;
+    }
+    
+    public void drawTilesUnder() {
+        // The following could probably be implemented in a nicer way?
+        area.requestDrawTile(x, y);
+        area.requestDrawTile(x - Tile.size, y);
+        area.requestDrawTile(x + Tile.size, y);
+        area.requestDrawTile(x, y - Tile.size);
+        area.requestDrawTile(x, y + Tile.size);
+        area.requestDrawTile(x - Tile.size, y - Tile.size);
+        area.requestDrawTile(x + Tile.size, y + Tile.size);
+        area.requestDrawTile(x - Tile.size, y + Tile.size);
+        area.requestDrawTile(x + Tile.size, y - Tile.size);
     }
 }

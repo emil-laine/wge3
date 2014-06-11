@@ -1,6 +1,9 @@
 package wge3.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import wge3.entity.ground.Grass;
 import wge3.entity.ground.Ground;
 import wge3.entity.ground.Water;
@@ -13,10 +16,12 @@ public class Area implements Drawable {
     private Tile[][] map;
     private int size;
     private boolean needsToBeDrawn;
+    private List<Tile> tilesToDraw;
 
     public Area() {
         size = 31;
         map = new Tile[size][size];
+        tilesToDraw = new ArrayList<Tile>();
         
         // Temporary hard-coded map file:
         String[] ground_layer = {
@@ -114,6 +119,7 @@ public class Area implements Drawable {
                 newtile.setY(size-1 - i);
                 
                 map[j][size-1 - i] = newtile;
+                tilesToDraw.add(map[j][size-1 - i]);
             }
         }
         
@@ -131,14 +137,20 @@ public class Area implements Drawable {
     @Override
     public void draw(Batch batch) {
         // not optimized: loops through ALL the tiles in the map right now
-        for (int i = 0; i < size; i++) {
+        /*for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 // if (map[j][i].needsToBeDrawn())
                 {
                     map[j][i].draw(batch);
                 }
             }
+        }*/
+        for (Iterator<Tile> it = tilesToDraw.iterator(); it.hasNext();) {
+            Tile tile = it.next();
+            tile.draw(batch);
+            it.remove();
         }
+        
         needsToBeDrawn = false;
     }
     
@@ -154,6 +166,10 @@ public class Area implements Drawable {
         int x0 = (int) ((x - (x % Tile.size)) / Tile.size);
         int y0 = (int) ((y - (y % Tile.size)) / Tile.size);
         
+        if (x0 < 0 || x0 >= size || y0 < 0 || y0 >= size) {
+            return null;
+        }
+        
         return map[x0][y0];
     }
 
@@ -161,5 +177,11 @@ public class Area implements Drawable {
     public boolean needsToBeDrawn() {
         // Area needs to be redrawn if any of the tiles in it needs to be redrawn.
         return needsToBeDrawn;
+    }
+    
+    public void requestDrawTile(float x, float y) {
+        if (getTileAt(x, y) != null) {
+            tilesToDraw.add(getTileAt(x, y));
+        }
     }
 }
