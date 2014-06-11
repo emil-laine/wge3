@@ -27,7 +27,7 @@ public abstract class Ground {
     }
     
     public void draw(Batch batch) {
-        batch.draw(sprite, x, y);
+        batch.draw(sprite, x*Tile.size, y*Tile.size);
     }
 
     public void setX(int x) {

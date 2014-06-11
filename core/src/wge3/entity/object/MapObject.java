@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
+import wge3.world.Tile;
 
 public abstract class MapObject implements Drawable {
     
@@ -48,7 +49,7 @@ public abstract class MapObject implements Drawable {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, x, y);
+        batch.draw(sprite, x*Tile.size, y*Tile.size);
     }
 
     public boolean isPassable() {

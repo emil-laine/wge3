@@ -175,9 +175,9 @@ public abstract class Character implements Drawable {
     }
 
     public boolean canMove(float dx, float dy) {
-        if (x + dx >= area.getWidth() || x + dx < 0) {
+        if (x + dx >= area.getSize() * Tile.size || x + dx < 0) {
             return false;
-        } else if (y + dy >= area.getHeight() || y + dy < 0) {
+        } else if (y + dy >= area.getSize() * Tile.size || y + dy < 0) {
             return false;
         }
         
