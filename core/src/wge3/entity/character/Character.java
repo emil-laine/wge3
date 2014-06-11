@@ -1,13 +1,16 @@
 package wge3.entity.character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.entity.object.Item;
 import wge3.entity.object.TimedBomb;
+import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
 
-public abstract class Character {
+public abstract class Character implements Drawable {
 
     private float x, y;
 
@@ -24,6 +27,8 @@ public abstract class Character {
     
     protected Inventory inventory;
     protected Item selectedItem;
+    
+    protected boolean needsToBeDrawn;
 
     public Character(Area area) {
         this.area = area;
@@ -37,6 +42,8 @@ public abstract class Character {
         
         inventory = new Inventory();
         // selectedItem = 
+        
+        needsToBeDrawn = true;
     }
     
     public float getX() {
@@ -115,22 +122,27 @@ public abstract class Character {
         return currentSpeed;
     }
 
+    @Override
     public void draw(ShapeRenderer sr) {
-        sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.setColor(color);
         sr.rect(x - Tile.size / 2, y - Tile.size / 2, Tile.size, Tile.size, Tile.size / 2, Tile.size / 2, direction * 57.2957795131f);
-        sr.end();
+        
+        needsToBeDrawn = false;
     }
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
+        needsToBeDrawn = true;
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
+        needsToBeDrawn = true;
     }
 
     public void move(float dx, float dy) {
+        // This method should probably be rewritten.
+        
         int addx = Tile.size / 2;
         int addy = Tile.size / 2;
 
@@ -146,6 +158,7 @@ public abstract class Character {
             if (canMove(dx + addx, dy + addy)) {
                 x += dx;
                 y += dy;
+                needsToBeDrawn = true;
                 return;
             } else {
                 if (dx >= 1) {
@@ -182,6 +195,10 @@ public abstract class Character {
     }
     
     public void useItem() {
-        selectedItem.use();
+        selectedItem.use(area, x, y);
+    }
+
+    public boolean NeedsToBeDrawn() {
+        return needsToBeDrawn;
     }
 }

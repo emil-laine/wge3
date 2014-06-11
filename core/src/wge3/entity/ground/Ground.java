@@ -27,10 +27,8 @@ public abstract class Ground {
     }
     
     public void draw(ShapeRenderer sr) {
-        sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.setColor(color);
         sr.rect(x, y, Tile.size, Tile.size);
-        sr.end();
     }
 
     public void setX(int x) {

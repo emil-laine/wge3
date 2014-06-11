@@ -1,13 +1,13 @@
 package wge3.gamestate;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import wge3.world.Area;
 import wge3.entity.character.Player;
+import wge3.world.Area;
 
 public class PlayState extends GameState {
     
-    private ShapeRenderer sr;
     private Area area;
     private Player player;
 
@@ -17,28 +17,25 @@ public class PlayState extends GameState {
 
     @Override
     public void init() {
-        sr = new ShapeRenderer();
         area = new Area();
         player = new Player(area);
-        //area.draw(sr);
     }
 
     @Override
     public void update(float delta) {
-        
         handleInput();
         input.updateKeyDowns();
         player.updatePosition(delta);
-        System.out.println(Gdx.graphics.getFramesPerSecond());
+        //System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
     @Override
-    public void draw() {
-        if (area.needsToBeDrawn()) {
-            area.draw(sr);
-            //area.setNeedsToBeDrawn(false);
-        }
+    public void draw(ShapeRenderer sr) {
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        area.draw(sr);
         player.draw(sr);
+        sr.end();
+        needsToBeDrawn = false;
     }
 
     @Override
@@ -54,5 +51,11 @@ public class PlayState extends GameState {
 
     @Override
     public void dispose() {
+        // code...
+    }
+    
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
     }
 }

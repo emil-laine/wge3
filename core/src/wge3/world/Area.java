@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.entity.ground.Grass;
 import wge3.entity.ground.Ground;
-import wge3.entity.object.GameObject;
 import wge3.entity.ground.Water;
 import wge3.entity.object.BrickWall;
+import wge3.entity.object.Terrain;
+import wge3.interfaces.Drawable;
 
-public class Area {
+public class Area implements Drawable {
     private Tile[][] map;
     private int width, height;
     private int size;
@@ -20,6 +21,7 @@ public class Area {
         height = size * Tile.size;
         map = new Tile[size][size];
         
+        // Temporary hard-coded map file:
         String[] ground_layer = {
             
           // 0                   1                   2                   3                   4
@@ -85,9 +87,9 @@ public class Area {
             ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", //  6
             ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", //  7
             ". . . . . . . . . . . . . . . . w w w w w w w . . . . . . . . . . . . . . . . . . . . . . . . ", //  8
-            ". . . . . . . . . . . . . . . . w . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", //  9
-            ". . . . . . . . . . . . . . . . w . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", // 10
-            ". . . . . . . . . . . . . . . . w . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", //  1
+            ". . . . . . . . . . . . . . . . w . . . . . w . . . . . . . . . . . . . . . . . . . . . . . . ", //  9
+            ". . . . . . . . . . . . . . . . w . w . . w w . . . . . . . . . . . . . . . . . . . . . . . . ", // 10
+            ". . . . . . . . . . . . . . . . w . w . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", //  1
             ". . . . . . . . . . . . . . . . w . w . . w w . . . . . . . . . . . . . . . . . . . . . . . . ", //  2
             ". . . . . . . . . . . . . . . . . . w . . . w . . . . . . . . . . . . . . . . . . . . . . . . ", //  3
             ". . . . . . . . . . . . . . . . . . w . . . w . . . . . . . . . . . . . . . . . . . . . . . . ", //  4
@@ -133,7 +135,7 @@ public class Area {
                     default: ground = new Grass(); break;
                 }
                 
-                GameObject object;
+                Terrain object;
                 switch (object_layer[i].charAt(2*j)) {
                     case 'w': object = new BrickWall(); break;
                     default: object = null; break;
@@ -159,8 +161,30 @@ public class Area {
     public int getSize() {
         return size;
     }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
     
+    @Override
     public void draw(ShapeRenderer sr) {
+        // not optimized: loops through ALL the tiles in the map right now
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                // if (map[j][i].needsToBeDrawn())
+                {
+                    map[j][i].draw(sr);
+                }
+            }
+        }
+        needsToBeDrawn = false;
+    }
+    
+    public void forceDraw(ShapeRenderer sr) {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 map[j][i].draw(sr);
@@ -175,21 +199,9 @@ public class Area {
         return map[x0][y0];
     }
 
+    @Override
     public boolean needsToBeDrawn() {
+        // Area needs to be redrawn if any of the tiles in it needs to be redrawn.
         return needsToBeDrawn;
     }
-
-    public void setNeedsToBeDrawn(boolean needsToBeDrawn) {
-        this.needsToBeDrawn = needsToBeDrawn;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-    
-    
 }

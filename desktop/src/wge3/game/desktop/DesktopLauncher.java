@@ -11,7 +11,7 @@ public class DesktopLauncher {
 
         cfg.width = 1024;
         cfg.height = 720;
-        cfg.resizable = true;
+        cfg.resizable = false;
         cfg.title = "WGE3";
         cfg.useGL30 = false;
 

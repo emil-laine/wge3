@@ -1,11 +1,15 @@
 package wge3.gamestate;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 public class GameStateManager {
     
     private GameState currentState;
+    
+    private ShapeRenderer sr;
 
     public GameStateManager() {
-        
+        sr = new ShapeRenderer();
     }
     
     public void setState(int newState) {
@@ -33,6 +37,6 @@ public class GameStateManager {
     }
     
     public void draw() {
-        currentState.draw();
+        currentState.draw(sr);
     }
 }

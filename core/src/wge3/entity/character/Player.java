@@ -3,6 +3,7 @@ package wge3.entity.character;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import wge3.entity.object.TimedBomb;
+import wge3.interfaces.Drawable;
 import wge3.world.Area;
 
 public class Player extends Character {
@@ -53,5 +54,10 @@ public class Player extends Character {
         } else if (turningRight) {
             turnRight(delta);
         }
+    }
+
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
     }
 }

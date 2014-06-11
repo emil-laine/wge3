@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.world.Area;
 import wge3.world.Tile;
 
-public abstract class GameObject {
+public abstract class Terrain {
     
     protected Area area;
     protected int x, y;
@@ -13,7 +13,7 @@ public abstract class GameObject {
     protected Color color;
     protected boolean passable;
 
-    public GameObject() {
+    public Terrain() {
         passable = true;
     }
 
@@ -37,17 +37,15 @@ public abstract class GameObject {
         return y;
     }
     
-    public GameObject(int x, int y) {
+    public Terrain(int x, int y) {
         this();
         this.x = x;
         this.y = y;
     }
 
     public void draw(ShapeRenderer sr) {
-        sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.setColor(color);
         sr.rect(x, y, Tile.size, Tile.size);
-        sr.end();
     }
 
     public boolean isPassable() {

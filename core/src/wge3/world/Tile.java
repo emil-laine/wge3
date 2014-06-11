@@ -2,9 +2,10 @@ package wge3.world;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.entity.ground.Ground;
-import wge3.entity.object.GameObject;
+import wge3.entity.object.Terrain;
+import wge3.interfaces.Drawable;
 
-public class Tile {
+public class Tile implements Drawable {
     
     public static final int size = 16;
     
@@ -12,16 +13,19 @@ public class Tile {
     private int x, y;
     
     private Ground ground;
-    private GameObject object;
+    private Terrain object;
+    
+    private boolean needsToBeDrawn;
 
     public Tile() {
+        needsToBeDrawn = true;
     }
 
     public Ground getGround() {
         return ground;
     }
 
-    public GameObject getObject() {
+    public Terrain getObject() {
         return object;
     }
     
@@ -29,7 +33,7 @@ public class Tile {
         ground = g;
     }
 
-    public void setObject(GameObject o) {
+    public void setObject(Terrain o) {
         object = o;
     }
 
@@ -45,9 +49,12 @@ public class Tile {
         }
     }
     
+    @Override
     public void draw(ShapeRenderer sr) {
         ground.draw(sr);
         if (object != null) object.draw(sr);
+        
+        needsToBeDrawn = false;
     }
 
     public int getX() {
@@ -72,5 +79,10 @@ public class Tile {
         if (object != null) {
             object.setY(y);
         }
+    }
+    
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
     }
 }

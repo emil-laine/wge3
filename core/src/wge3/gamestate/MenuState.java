@@ -1,5 +1,7 @@
 package wge3.gamestate;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 public class MenuState extends GameState {
 
     public MenuState(GameStateManager gsm) {
@@ -15,7 +17,7 @@ public class MenuState extends GameState {
     }
 
     @Override
-    public void draw() {
+    public void draw(ShapeRenderer sr) {
     }
 
     @Override
@@ -24,6 +26,11 @@ public class MenuState extends GameState {
 
     @Override
     public void dispose() {
+    }
+
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
     }
 
 }

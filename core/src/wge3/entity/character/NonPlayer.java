@@ -7,4 +7,9 @@ public class NonPlayer extends Character {
     public NonPlayer(Area area) {
         super(area);
     }
+
+    @Override
+    public boolean needsToBeDrawn() {
+        return needsToBeDrawn;
+    }
 }

@@ -14,6 +14,7 @@ public class TimedBomb extends Item implements Explosive {
     private int time; // in seconds
 
     public TimedBomb() {
+        name = "timed bomb";
         color = new Color(0x222222ff);
         time = 3;
         timer = new Timer();
