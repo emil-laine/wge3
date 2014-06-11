@@ -1,11 +1,9 @@
 package wge3.entity.character;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.entity.object.Item;
-import wge3.entity.object.TimedBomb;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
@@ -16,7 +14,6 @@ public abstract class Character implements Drawable {
 
     protected Area area;
     protected int size;
-    protected Color color;
     protected int defaultSpeed;
     protected int currentSpeed;
     protected float direction;
@@ -28,6 +25,8 @@ public abstract class Character implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
+    protected Color color;
+    protected Texture sprite;
     protected boolean needsToBeDrawn;
 
     public Character(Area area) {

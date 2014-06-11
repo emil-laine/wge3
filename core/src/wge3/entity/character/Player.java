@@ -15,7 +15,7 @@ public class Player extends Character {
     
     public Player(Area area) {
         super(area);
-        color = new Color(0x88ffff88);
+        // color = new Color(0x88ffff88);
         goingForward = false;
         goingBackward = false;
         turningLeft = false;
