@@ -2,6 +2,7 @@ package wge3.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import wge3.entity.character.Creature;
 import wge3.entity.ground.Ground;
 import wge3.entity.object.MapObject;
 import wge3.interfaces.Drawable;
@@ -97,5 +98,12 @@ public class Tile implements Drawable {
 
     public boolean slowsMovement() {
         return ground.slowsMovement();
+    }
+    
+    public boolean canBeSeenBy(Creature c) {
+        float dx = c.getX() - bounds.x;
+        float dy = c.getY() - bounds.y;
+        float distance = (float) Math.sqrt(dx*dx + dy*dy);
+        return distance <= c.getSight() * Tile.size;
     }
 }

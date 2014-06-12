@@ -23,7 +23,8 @@ public class PlayState extends GameState {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(PlayState.class.getName()).log(Level.SEVERE, null, ex);
         }
-        player = new Player(area);
+        player = new Player();
+        area.addCreature(player);
     }
 
     @Override
@@ -31,6 +32,7 @@ public class PlayState extends GameState {
         handleInput();
         input.updateKeyDowns();
         player.updatePosition(delta);
+        area.checkLOS(player);
         //System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
