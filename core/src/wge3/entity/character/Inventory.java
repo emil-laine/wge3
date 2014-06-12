@@ -9,7 +9,6 @@ public class Inventory {
     
     public Inventory() {
         items = new HashMap<Item, Integer>();
-        //addItem(new TimedBomb());
     }
 
     public Map<Item, Integer> getItems() {
