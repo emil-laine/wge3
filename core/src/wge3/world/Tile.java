@@ -1,6 +1,7 @@
 package wge3.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.ground.Ground;
 import wge3.entity.object.MapObject;
 import wge3.interfaces.Drawable;
@@ -11,6 +12,7 @@ public class Tile implements Drawable {
     
     private Area area;
     private int x, y;
+    private Rectangle bounds;
     
     private Ground ground;
     private MapObject object;
@@ -18,6 +20,9 @@ public class Tile implements Drawable {
     private boolean needsToBeDrawn;
 
     public Tile() {
+        bounds = new Rectangle();
+        bounds.width = Tile.size;
+        bounds.height = Tile.size;
         needsToBeDrawn = true;
     }
 
@@ -65,20 +70,22 @@ public class Tile implements Drawable {
         return y;
     }
 
+    public Area getArea() {
+        return area;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
     public void setX(int x) {
         this.x = x;
-        ground.setX(x);
-        if (object != null) {
-            object.setX(x);
-        }
+        bounds.x = x * Tile.size;
     }
 
     public void setY(int y) {
         this.y = y;
-        ground.setY(y);
-        if (object != null) {
-            object.setY(y);
-        }
+        bounds.y = y * Tile.size;
     }
     
     @Override

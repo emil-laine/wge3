@@ -113,6 +113,8 @@ public class Area implements Drawable {
                 }
                 
                 Tile newtile = new Tile();
+                ground.setTile(newtile);
+                if (object != null) object.setTile(newtile);
                 newtile.setGround(ground);
                 newtile.setObject(object);
                 newtile.setX(j);

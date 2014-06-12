@@ -32,12 +32,12 @@ public class TimedBomb extends Item implements Explosive {
     @Override
     public void explode() {
         System.out.println("*explosion*");
-        area.getTileAt(x, y).setObject(null);
+        tile.getArea().getTileAt(tile.getX(), tile.getY()).setObject(null);
     }
     
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, x, y);
+        batch.draw(sprite, tile.getX(), tile.getY());
     }
     
     @Override
@@ -47,10 +47,6 @@ public class TimedBomb extends Item implements Explosive {
 
     @Override
     public void use() {
-        this.setArea(area);
-        this.setX(area.getTileAt(x, y).getX());
-        this.setY(area.getTileAt(x, y).getY());
-        area.getTileAt(x, y).setObject(this);
-        this.startTimer();
+        
     }
 }
