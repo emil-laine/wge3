@@ -8,14 +8,14 @@ public class DesktopLauncher {
     
     public static void main (String[] arg) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-
+        
         cfg.width = 1024;
         cfg.height = 768;
+        //cfg.fullscreen = true;
         cfg.resizable = false;
         cfg.title = "WGE3";
         cfg.useGL30 = false;
-        cfg.forceExit = true;
-
+        
         LwjglApplication game = new LwjglApplication(new WGE3(), cfg);
     }
 }
