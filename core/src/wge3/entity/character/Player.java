@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import wge3.world.Area;
 
-public class Player extends Character {
+public class Player extends Creature {
     
     private boolean goingForward;
     private boolean goingBackward;
     private boolean turningLeft;
     private boolean turningRight;
     
-    public Player(Area area) {
-        super(area);
+    public Player() {
+        super();
         sprite = new Texture(Gdx.files.internal("graphics/player.png"));
         currentSprite = new TextureRegion(sprite);
         
