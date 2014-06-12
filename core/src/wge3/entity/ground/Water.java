@@ -9,5 +9,4 @@ public class Water extends Ground {
         sprite = new Texture(Gdx.files.internal("graphics/water.png"));
         slowsMovement = true;
     }
-    
 }

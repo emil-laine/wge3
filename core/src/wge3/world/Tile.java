@@ -92,4 +92,8 @@ public class Tile implements Drawable {
     public boolean needsToBeDrawn() {
         return needsToBeDrawn;
     }
+
+    public boolean slowsMovement() {
+        return ground.slowsMovement();
+    }
 }

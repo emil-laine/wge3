@@ -140,6 +140,11 @@ public abstract class Character implements Drawable {
     }
 
     public void move(float dx, float dy) {
+        if (area.getTileAt(getX(), getY()).slowsMovement()) {
+            dx /= 2;
+            dy /= 2;
+        }
+        
         float destX = getX() + dx;
         float destY = getY() + dy;
         
