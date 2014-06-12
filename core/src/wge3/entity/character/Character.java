@@ -27,6 +27,7 @@ public abstract class Character implements Drawable {
     protected Item selectedItem;
     
     protected Texture sprite;
+    protected TextureRegion currentSprite;
     protected boolean needsToBeDrawn;
 
     public Character(Area area) {
@@ -119,7 +120,6 @@ public abstract class Character implements Drawable {
 
     @Override
     public void draw(Batch batch) {
-        TextureRegion currentSprite = new TextureRegion(sprite);
         batch.draw(currentSprite, x-8, y-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*57.2957795f);
         needsToBeDrawn = false;
     }
