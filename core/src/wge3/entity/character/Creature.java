@@ -9,7 +9,7 @@ import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
 
-public abstract class Character implements Drawable {
+public abstract class Creature implements Drawable {
 
     protected Rectangle bounds;
 
@@ -19,6 +19,7 @@ public abstract class Character implements Drawable {
     protected int currentSpeed;
     protected float direction;
     protected float turningSpeed;
+    protected int sight;
 
     protected int maxHealth;
     protected int health;
@@ -30,13 +31,14 @@ public abstract class Character implements Drawable {
     protected TextureRegion currentSprite;
     protected boolean needsToBeDrawn;
 
-    public Character(Area area) {
-        this.area = area;
+    public Creature() {
         size = Tile.size;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
         direction = 0f;
         turningSpeed = 3.5f;
+        sight = 10;
+        
         bounds = new Rectangle();
         bounds.height = 0.75f*Tile.size;
         bounds.width = 0.75f*Tile.size;
@@ -173,10 +175,6 @@ public abstract class Character implements Drawable {
         
         return area.getTileAt(x, y).isPassable();
     }
-
-    public boolean canSee() {
-        return true;
-    }
     
     public void useItem() {
         selectedItem.use();
@@ -199,5 +197,9 @@ public abstract class Character implements Drawable {
         area.requestDrawTile(x + Tile.size, y + Tile.size);
         area.requestDrawTile(x - Tile.size, y + Tile.size);
         area.requestDrawTile(x + Tile.size, y - Tile.size);
+    }
+
+    public int getSight() {
+        return sight;
     }
 }
