@@ -7,35 +7,23 @@ import wge3.world.Tile;
 public abstract class Ground {
     
     protected Tile tile;
-    protected int x, y;
     
     protected Texture sprite;
     protected boolean drainsHealth;
     protected boolean slowsMovement;
 
     public Ground() {
+        // Default values:
         drainsHealth = false;
         slowsMovement = false;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
     
     public void draw(Batch batch) {
-        batch.draw(sprite, x*Tile.size, y*Tile.size);
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
+        batch.draw(sprite, tile.getX()*Tile.size, tile.getY()*Tile.size);
     }
     
     public boolean slowsMovement() {

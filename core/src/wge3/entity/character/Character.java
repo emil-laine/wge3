@@ -1,9 +1,9 @@
 package wge3.entity.character;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.object.Item;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
@@ -11,14 +11,14 @@ import wge3.world.Tile;
 
 public abstract class Character implements Drawable {
 
-    private float x, y;
+    protected Rectangle bounds;
 
     protected Area area;
     protected int size;
     protected int defaultSpeed;
     protected int currentSpeed;
     protected float direction;
-    protected int turningSpeed;
+    protected float turningSpeed;
 
     protected int maxHealth;
     protected int health;
@@ -35,10 +35,13 @@ public abstract class Character implements Drawable {
         size = Tile.size;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
-        x = 400;
-        y = 500;
         direction = 0f;
-        turningSpeed = 4;
+        turningSpeed = 3.5f;
+        bounds = new Rectangle();
+        bounds.height = 0.75f*Tile.size;
+        bounds.width = 0.75f*Tile.size;
+        bounds.x = 300;
+        bounds.y = 300;
         
         inventory = new Inventory();
         // selectedItem = 
@@ -47,19 +50,19 @@ public abstract class Character implements Drawable {
     }
     
     public float getX() {
-        return x;
+        return bounds.x;
     }
 
     public void setX(float x) {
-        this.x = x;
+        bounds.x = x;
     }
 
     public float getY() {
-        return y;
+        return bounds.y;
     }
 
     public void setY(float y) {
-        this.y = y;
+        bounds.y = y;
     }
 
     public Area getArea() {
@@ -86,11 +89,11 @@ public abstract class Character implements Drawable {
         this.direction = direction;
     }
 
-    public int getTurningSpeed() {
+    public float getTurningSpeed() {
         return turningSpeed;
     }
 
-    public void setTurningSpeed(int turningSpeed) {
+    public void setTurningSpeed(float turningSpeed) {
         this.turningSpeed = turningSpeed;
     }
 
@@ -120,7 +123,7 @@ public abstract class Character implements Drawable {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(currentSprite, x-8, y-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*57.2957795f);
+        batch.draw(currentSprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*57.2957795f);
         needsToBeDrawn = false;
     }
 
@@ -137,54 +140,33 @@ public abstract class Character implements Drawable {
     }
 
     public void move(float dx, float dy) {
-        // This method should probably be rewritten.
+        float destX = getX() + dx;
+        float destY = getY() + dy;
         
-        int addx = Tile.size / 2;
-        int addy = Tile.size / 2;
-
-        if (dx < 0) {
-            addx = -addx;
+        if (canMove(destX, destY)) {
+            setX(destX);
+            setY(destY);
+            drawTilesUnder();
+            needsToBeDrawn = true;
+        } else if (canMove(getX(), destY)) {
+            setY(destY);
+            drawTilesUnder();
+            needsToBeDrawn = true;
+        } else if (canMove(destX, getY())) {
+            setX(destX);
+            drawTilesUnder();
+            needsToBeDrawn = true;
         }
-
-        if (dy < 0) {
-            addy = -addy;
-        }
-
-        do {
-            if (canMove(dx + addx, dy + addy)) {
-                x += dx;
-                y += dy;
-                drawTilesUnder();
-                needsToBeDrawn = true;
-                return;
-            } else {
-                if (dx >= 1) {
-                    dx--;
-                } else if (dx <= -1) {
-                    dx++;
-                } else {
-                    dx = 0;
-                }
-
-                if (dy >= 1) {
-                    dy--;
-                } else if (dy <= -1) {
-                    dy++;
-                } else {
-                    dy = 0;
-                }
-            }
-        } while (dx != 0 || dy != 0);
     }
 
-    public boolean canMove(float dx, float dy) {
-        if (x + dx >= area.getSize() * Tile.size || x + dx < 0) {
+    public boolean canMove(float x, float y) {
+        if (x >= area.getSize()*Tile.size || x < 0) {
             return false;
-        } else if (y + dy >= area.getSize() * Tile.size || y + dy < 0) {
+        } else if (y >= area.getSize()*Tile.size || y < 0) {
             return false;
         }
         
-        return area.getTileAt(x + dx, y + dy).isPassable();
+        return area.getTileAt(x, y).isPassable();
     }
 
     public boolean canSee() {
@@ -201,6 +183,8 @@ public abstract class Character implements Drawable {
     
     public void drawTilesUnder() {
         // The following could probably be implemented in a nicer way?
+        float x = getX();
+        float y = getY();
         area.requestDrawTile(x, y);
         area.requestDrawTile(x - Tile.size, y);
         area.requestDrawTile(x + Tile.size, y);
