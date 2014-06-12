@@ -3,6 +3,7 @@ package wge3.game;
 import wge3.gamestate.GameStateManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 
 public class WGE3 extends Game {
     
@@ -25,6 +26,7 @@ public class WGE3 extends Game {
     @Override
     public void render () {
         gsm.update(Gdx.graphics.getDeltaTime());
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gsm.draw();
     }
 }
