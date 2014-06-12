@@ -35,10 +35,12 @@ public class Tile implements Drawable {
     }
     
     public void setGround(Ground g) {
+        g.setTile(this);
         ground = g;
     }
 
     public void setObject(MapObject o) {
+        o.setTile(this);
         object = o;
     }
 
