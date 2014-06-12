@@ -1,9 +1,14 @@
 package wge3.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import wge3.entity.ground.Grass;
 import wge3.entity.ground.Ground;
 import wge3.entity.ground.Water;
@@ -18,11 +23,11 @@ public class Area implements Drawable {
     private boolean needsToBeDrawn;
     private List<Tile> tilesToDraw;
 
-    public Area() {
+    public Area() throws FileNotFoundException {
         size = 31;
         map = new Tile[size][size];
         tilesToDraw = new ArrayList<Tile>();
-        
+        /*
         // Temporary hard-coded map file:
         String[] ground_layer = {
           // 0                   1                   2                   3
@@ -95,28 +100,32 @@ public class Area implements Drawable {
             ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", //  9
             ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ", // 30
             ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "};//  1
+        */
         
+        File mapFile = new File("maps/testmap.txt");
+        
+        Scanner mapLoader = new Scanner(mapFile);
+        
+        //mapLoader.useDelimiter(" ");
+        for (int i = 0; i < 8; i++) {
+            mapLoader.nextLine();
+        }
+
+        // Create tiles and load grounds:
         for (int i = 0; i < size; i++) {
+            String line = mapLoader.nextLine();
+            
             for (int j = 0; j < size; j++) {
                 
                 Ground ground;
-                switch (ground_layer[i].charAt(2*j)) {
+                switch (line.charAt(2*j)) {
                     case '~': ground = new Water(); break;
                     case '_': ground = new WoodenFloor(); break;
-                    default: ground = new Grass(); break;
-                }
-                
-                MapObject object;
-                switch (object_layer[i].charAt(2*j)) {
-                    case 'w': object = new BrickWall(); break;
-                    default: object = null; break;
+                    default:  ground = new Grass(); break;
                 }
                 
                 Tile newtile = new Tile();
-                ground.setTile(newtile);
-                if (object != null) object.setTile(newtile);
                 newtile.setGround(ground);
-                newtile.setObject(object);
                 newtile.setX(j);
                 newtile.setY(size-1 - i);
                 
@@ -124,6 +133,29 @@ public class Area implements Drawable {
                 tilesToDraw.add(map[j][size-1 - i]);
             }
         }
+        
+        for (int i = 0; i < 3; i++) {
+            mapLoader.nextLine();
+        }
+        
+        // Load objects:
+        for (int i = 0; i < size; i++) {
+            String line = mapLoader.nextLine();
+            
+            for (int j = 0; j < size; j++) {
+                MapObject object;
+                switch (line.charAt(2*j)) {
+                    case 'w': object = new BrickWall(); break;
+                    default: object = null; break;
+                }
+                
+                if (object != null) {
+                    map[j][size-1 - i].setObject(object);
+                }
+            }
+        }
+        
+        mapLoader.close();
         
         needsToBeDrawn = true;
     }
