@@ -3,6 +3,7 @@ package wge3.entity.character;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.object.Item;
 import wge3.interfaces.Drawable;
@@ -125,19 +126,17 @@ public abstract class Creature implements Drawable {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(currentSprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*57.2957795f);
+        batch.draw(currentSprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*MathUtils.radiansToDegrees);
         needsToBeDrawn = false;
     }
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
-        drawTilesUnder();
         needsToBeDrawn = true;
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
-        drawTilesUnder();
         needsToBeDrawn = true;
     }
 
@@ -153,15 +152,12 @@ public abstract class Creature implements Drawable {
         if (canMove(destX, destY)) {
             setX(destX);
             setY(destY);
-            drawTilesUnder();
             needsToBeDrawn = true;
         } else if (canMove(getX(), destY)) {
             setY(destY);
-            drawTilesUnder();
             needsToBeDrawn = true;
         } else if (canMove(destX, getY())) {
             setX(destX);
-            drawTilesUnder();
             needsToBeDrawn = true;
         }
     }
@@ -182,21 +178,6 @@ public abstract class Creature implements Drawable {
 
     public boolean NeedsToBeDrawn() {
         return needsToBeDrawn;
-    }
-    
-    public void drawTilesUnder() {
-        // The following could probably be implemented in a nicer way?
-        float x = getX();
-        float y = getY();
-        area.requestDrawTile(x, y);
-        area.requestDrawTile(x - Tile.size, y);
-        area.requestDrawTile(x + Tile.size, y);
-        area.requestDrawTile(x, y - Tile.size);
-        area.requestDrawTile(x, y + Tile.size);
-        area.requestDrawTile(x - Tile.size, y - Tile.size);
-        area.requestDrawTile(x + Tile.size, y + Tile.size);
-        area.requestDrawTile(x - Tile.size, y + Tile.size);
-        area.requestDrawTile(x + Tile.size, y - Tile.size);
     }
 
     public int getSight() {
