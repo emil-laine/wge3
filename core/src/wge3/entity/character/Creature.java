@@ -21,6 +21,7 @@ public abstract class Creature implements Drawable {
     protected float direction;
     protected float turningSpeed;
     protected int sight;
+    protected float FOV;
 
     protected int maxHealth;
     protected int health;
@@ -36,9 +37,10 @@ public abstract class Creature implements Drawable {
         size = Tile.size;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
-        direction = 0f;
+        direction = 0;
         turningSpeed = 3.5f;
         sight = 10;
+        FOV = MathUtils.PI/4*3;
         
         bounds = new Rectangle();
         bounds.height = 0.75f*Tile.size;
@@ -90,6 +92,7 @@ public abstract class Creature implements Drawable {
 
     public void setDirection(float direction) {
         this.direction = direction;
+        wrapDirection();
     }
 
     public float getTurningSpeed() {
@@ -132,11 +135,13 @@ public abstract class Creature implements Drawable {
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
+        wrapDirection();
         needsToBeDrawn = true;
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
+        wrapDirection();
         needsToBeDrawn = true;
     }
 
@@ -182,5 +187,19 @@ public abstract class Creature implements Drawable {
 
     public int getSight() {
         return sight;
+    }
+
+    public float getFOV() {
+        return FOV;
+    }
+    
+    private void wrapDirection() {
+        if (direction < MathUtils.PI2 && direction >= 0) {
+            return;
+        } else if (direction >= MathUtils.PI2) {
+            direction -= MathUtils.PI2;
+        } else if (direction < 0) {
+            direction += MathUtils.PI2;
+        }
     }
 }
