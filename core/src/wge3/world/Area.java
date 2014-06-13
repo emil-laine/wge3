@@ -3,7 +3,6 @@ package wge3.world;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
