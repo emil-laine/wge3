@@ -1,11 +1,9 @@
 package wge3.world;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.character.Creature;
-import wge3.entity.ground.Ground;
-import wge3.entity.object.MapObject;
 import wge3.interfaces.Drawable;
 
 public class Tile implements Drawable {
@@ -18,7 +16,7 @@ public class Tile implements Drawable {
     
     private Ground ground;
     private MapObject object;
-    
+        
     private boolean needsToBeDrawn;
 
     public Tile() {
@@ -38,11 +36,13 @@ public class Tile implements Drawable {
     
     public void setGround(Ground g) {
         g.setTile(this);
+        g.setPosition(x * Tile.size, y * Tile.size);
         ground = g;
     }
 
     public void setObject(MapObject o) {
         o.setTile(this);
+        o.setPosition(x * Tile.size, y * Tile.size);
         object = o;
     }
 
@@ -58,14 +58,6 @@ public class Tile implements Drawable {
         }
     }
     
-    @Override
-    public void draw(Batch batch) {
-        if (object != null) object.draw(batch);
-        else ground.draw(batch);
-        
-        needsToBeDrawn = false;
-    }
-
     public int getX() {
         return x;
     }
@@ -81,15 +73,21 @@ public class Tile implements Drawable {
     public Rectangle getBounds() {
         return bounds;
     }
-
-    public void setX(int x) {
+    
+    public void setPosition(int x, int y) {
         this.x = x;
+        this.y = y;
         bounds.x = x * Tile.size;
+        bounds.y = y * Tile.size;
+        ground.setPosition(x * Tile.size, y * Tile.size);
+        if (object != null) {
+            object.setPosition(x * Tile.size, y * Tile.size);
+        }
     }
 
-    public void setY(int y) {
-        this.y = y;
-        bounds.y = y * Tile.size;
+    public void setLighting(Color color) {
+        ground.setLighting(color);
+        if (object != null) object.setLighting(color);
     }
     
     @Override
@@ -107,6 +105,21 @@ public class Tile implements Drawable {
         } else {
             return false;
         }
+    }
+    
+    @Override
+    public void draw(Batch batch) {
+        if (object != null && object.blocksVision) {
+            object.draw(batch);
+        } else if (object == null) {
+            ground.draw(batch);
+        } else {
+            ground.draw(batch);
+            batch.enableBlending();
+            object.draw(batch);
+            batch.disableBlending();
+        }
+        needsToBeDrawn = false;
     }
     
     public boolean canBeSeenBy(Creature c) {

@@ -32,14 +32,16 @@ public class PlayState extends GameState {
         handleInput();
         input.updateKeyDowns();
         player.updatePosition(delta);
-        area.checkLOS(player);
+        area.calculateFOV();
         //System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
     @Override
     public void draw(Batch batch) {
         batch.begin();
+        batch.disableBlending();
         area.draw(batch);
+        batch.enableBlending();
         player.draw(batch);
         batch.end();
         needsToBeDrawn = false;

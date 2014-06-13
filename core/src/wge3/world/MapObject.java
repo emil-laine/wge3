@@ -1,15 +1,17 @@
-package wge3.entity.object;
+package wge3.world;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.interfaces.Drawable;
-import wge3.world.Tile;
 
 public abstract class MapObject implements Drawable {
     
     protected Tile tile;
     
-    protected Texture sprite;
+    protected Texture texture;
+    protected Sprite sprite;
     
     protected boolean passable;
     protected boolean needsToBeDrawn;
@@ -25,9 +27,25 @@ public abstract class MapObject implements Drawable {
         this.tile = tile;
     }
     
+    public int getX() {
+        return tile.getX();
+    }
+    
+    public int getY() {
+        return tile.getY();
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+    
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, tile.getX()*Tile.size, tile.getY()*Tile.size);
+        sprite.draw(batch);
     }
 
     public boolean isPassable() {
@@ -41,5 +59,13 @@ public abstract class MapObject implements Drawable {
 
     public boolean blocksVision() {
         return blocksVision;
+    }
+
+    public void setLighting(Color color) {
+        sprite.setColor(color);
+    }
+    
+    public void setPosition(int x, int y) {
+        sprite.setPosition(x, y);
     }
 }
