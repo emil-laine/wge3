@@ -19,9 +19,9 @@ public class LightSource extends MapObject {
     }
     
     public LightSource(int range) {
-        texture = new Texture(Gdx.files.internal("graphics/streetlight.png"));
+        texture = new Texture(Gdx.files.internal("graphics/lamppost.png"));
         sprite = new Sprite(texture);
-        color = new Color(1f, 1f, 1f, 1f);
+        color = new Color(1f, 1f, 0f, 1f);
         blocksVision = false;
         this.range = range;
     }
