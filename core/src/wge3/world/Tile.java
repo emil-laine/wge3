@@ -1,6 +1,7 @@
 package wge3.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.character.Creature;
 import wge3.entity.ground.Ground;
@@ -59,8 +60,8 @@ public class Tile implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        ground.draw(batch);
         if (object != null) object.draw(batch);
+        else ground.draw(batch);
         
         needsToBeDrawn = false;
     }
@@ -100,9 +101,21 @@ public class Tile implements Drawable {
         return ground.slowsMovement();
     }
     
+    public boolean blocksVision() {
+        if (object != null) {
+            return object.blocksVision();
+        } else {
+            return false;
+        }
+    }
+    
     public boolean canBeSeenBy(Creature c) {
         float dx = c.getX() - bounds.x;
         float dy = c.getY() - bounds.y;
+        // If dx < 0, the tile is to the right of c.
+        // If dx > 0, the tile is to the left of c.
+        // If dy < 0, the tile is above c.
+        // If dy > 0, the tile is below c.
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
         return distance <= c.getSight() * Tile.size;
     }

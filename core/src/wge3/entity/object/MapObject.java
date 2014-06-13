@@ -13,10 +13,12 @@ public abstract class MapObject implements Drawable {
     
     protected boolean passable;
     protected boolean needsToBeDrawn;
+    protected boolean blocksVision;
 
     public MapObject() {
         // Default values:
         passable = true;
+        blocksVision = true;
     }
 
     public void setTile(Tile tile) {
@@ -35,5 +37,9 @@ public abstract class MapObject implements Drawable {
     @Override
     public boolean needsToBeDrawn() {
         return needsToBeDrawn;
+    }
+
+    public boolean blocksVision() {
+        return blocksVision;
     }
 }

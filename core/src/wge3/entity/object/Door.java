@@ -9,6 +9,7 @@ public class Door extends Wall {
     // private KeyType keytype;
     
     public Door() {
+        super();
     }
     
     @Override
@@ -36,5 +37,10 @@ public class Door extends Wall {
     
     public void unlock() {
         locked = false;
+    }
+    
+    @Override
+    public boolean blocksVision() {
+        return closed;
     }
 }
