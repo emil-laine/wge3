@@ -126,6 +126,10 @@ public abstract class Creature implements Drawable {
         return currentSpeed;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     @Override
     public void draw(Batch batch) {
         batch.draw(sprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*MathUtils.radiansToDegrees);
@@ -145,28 +149,43 @@ public abstract class Creature implements Drawable {
     }
 
     public void move(float dx, float dy) {
-        if (area.getTileAt(getX(), getY()).slowsMovement()) {
-            dx /= 2;
-            dy /= 2;
+        // Apply movement modifiers:
+        Tile currentTile = area.getTileAt(getX(), getY());
+        if (currentTile.affectsMovement()) {
+            float movementModifier = currentTile.getMovementModifier();
+            dx *= movementModifier;
+            dy *= movementModifier;
         }
         
+        // Calculate actual movement:
         float destX = getX() + dx;
         float destY = getY() + dy;
         
-        if (canMove(destX, destY)) {
+        if (canMoveTo(destX, destY)) {
             setX(destX);
             setY(destY);
             needsToBeDrawn = true;
-        } else if (canMove(getX(), destY)) {
+            
+            // Pick up any items in the tile:
+            if (this.isInCenterOfATile()) {
+                // Could maybe be optimized by using the same tile as in the beginning of this method?
+                currentTile = area.getTileAt(destX, destY);
+                if (currentTile.hasItem()) {
+                    inventory.addItem((Item) currentTile.getObject());
+                    currentTile.removeObject();
+                }
+            }
+            
+        } else if (canMoveTo(getX(), destY)) {
             setY(destY);
             needsToBeDrawn = true;
-        } else if (canMove(destX, getY())) {
+        } else if (canMoveTo(destX, getY())) {
             setX(destX);
             needsToBeDrawn = true;
         }
     }
 
-    public boolean canMove(float x, float y) {
+    public boolean canMoveTo(float x, float y) {
         if (x >= area.getSize()*Tile.size || x < 0) {
             return false;
         } else if (y >= area.getSize()*Tile.size || y < 0) {
@@ -210,5 +229,11 @@ public abstract class Creature implements Drawable {
     
     public void toggleWalksThroughWalls() {
         walksThroughWalls = walksThroughWalls == false;
+    }
+
+    private boolean isInCenterOfATile() {
+        float x = (getX() % Tile.size) / Tile.size;
+        float y = (getY() % Tile.size) / Tile.size;
+        return (x >= 0.25f && x <= 0.75f) && (y >= 0.25f && y <= 0.75f);
     }
 }
