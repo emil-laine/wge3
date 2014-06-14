@@ -3,7 +3,6 @@ package wge3.world;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.interfaces.Drawable;
-import wge3.world.Tile;
 
 public abstract class MapObject implements Drawable {
     

@@ -1,7 +1,5 @@
 package wge3.world;
 
-import wge3.world.MapObject;
-
 public abstract class Item extends MapObject {
     
     protected String name;
