@@ -16,7 +16,6 @@ import wge3.entity.ground.Grass;
 import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
 import wge3.entity.mapobject.BrickWall;
-import wge3.entity.object.BrickWall;
 import wge3.entity.object.LightSource;
 import wge3.interfaces.Drawable;
 
