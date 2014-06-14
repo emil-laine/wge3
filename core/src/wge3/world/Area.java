@@ -6,28 +6,35 @@ import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import wge3.entity.character.Creature;
 import wge3.entity.ground.Grass;
 import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
-import wge3.entity.object.BrickWall;
+import wge3.entity.mapobject.BrickWall;
 import wge3.interfaces.Drawable;
 
 public class Area implements Drawable {
     private Tile[][] map;
     private int size;
     private boolean needsToBeDrawn;
+    private Random RNG;
+    
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
     private List<Creature> creatures;
+    private List<Item> items;
 
     public Area() throws FileNotFoundException {
         size = 31;
         map = new Tile[size][size];
+        RNG = new Random();
+        
         allTiles = new LinkedList<Tile>();
         tilesToDraw = new LinkedList<Tile>();
         creatures = new LinkedList<Creature>();
+        items = new LinkedList<Item>();
         
         // Generate map:
         File mapFile = new File("maps/testmap.txt");
@@ -76,6 +83,8 @@ public class Area implements Drawable {
                 }
             }
         }
+        
+        
         
         mapLoader.close();
         needsToBeDrawn = true;
@@ -148,5 +157,20 @@ public class Area implements Drawable {
     public void addCreature(Creature c) {
         c.setArea(this);
         creatures.add(c);
+    }
+    
+    public void addItem(Item item, int x, int y) {
+        items.add(item);
+        map[x][y].setObject(item);
+    }
+    
+    public void addItem(Item item) {
+        // Adds item to a random tile that has no object yet.
+        // If every tile has an object, this will loop infinitely.
+        Tile dest;
+        do {
+            dest = map[RNG.nextInt(size)][RNG.nextInt(size)];
+        } while (dest.hasObject());
+        addItem(item, dest.getX(), dest.getY());
     }
 }
