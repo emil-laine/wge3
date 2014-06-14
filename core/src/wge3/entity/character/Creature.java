@@ -22,9 +22,11 @@ public abstract class Creature implements Drawable {
     protected float turningSpeed;
     protected int sight;
     protected float FOV;
-
+    
     protected int maxHealth;
     protected int health;
+    protected boolean canSeeEverything;
+    protected boolean walksThroughWalls;
     
     protected Inventory inventory;
     protected Item selectedItem;
@@ -41,6 +43,8 @@ public abstract class Creature implements Drawable {
         turningSpeed = 3.5f;
         sight = 10;
         FOV = MathUtils.PI/4*3;
+        canSeeEverything = false;
+        walksThroughWalls = false;
         
         bounds = new Rectangle();
         bounds.height = 0.75f*Tile.size;
@@ -90,11 +94,6 @@ public abstract class Creature implements Drawable {
         return direction;
     }
 
-    public void setDirection(float direction) {
-        this.direction = direction;
-        wrapDirection();
-    }
-
     public float getTurningSpeed() {
         return turningSpeed;
     }
@@ -135,13 +134,13 @@ public abstract class Creature implements Drawable {
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
-        wrapDirection();
+        if (direction >= MathUtils.PI2) direction -= MathUtils.PI2;
         needsToBeDrawn = true;
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
-        wrapDirection();
+        if (direction < 0) direction += MathUtils.PI2;
         needsToBeDrawn = true;
     }
 
@@ -174,6 +173,10 @@ public abstract class Creature implements Drawable {
             return false;
         }
         
+        if (this.walksThroughWalls()) {
+            return true;
+        }
+        
         return area.getTileAt(x, y).isPassable();
     }
     
@@ -192,14 +195,20 @@ public abstract class Creature implements Drawable {
     public float getFOV() {
         return FOV;
     }
+
+    public boolean canSeeEverything() {
+        return canSeeEverything;
+    }
     
-    private void wrapDirection() {
-        if (direction < MathUtils.PI2 && direction >= 0) {
-            return;
-        } else if (direction >= MathUtils.PI2) {
-            direction -= MathUtils.PI2;
-        } else if (direction < 0) {
-            direction += MathUtils.PI2;
-        }
+    public void toggleCanSeeEverything() {
+        canSeeEverything = canSeeEverything == false;
+    }
+    
+    public boolean walksThroughWalls() {
+        return walksThroughWalls;
+    }
+    
+    public void toggleWalksThroughWalls() {
+        walksThroughWalls = walksThroughWalls == false;
     }
 }

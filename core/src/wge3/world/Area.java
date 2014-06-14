@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 import wge3.entity.character.Creature;
 import wge3.entity.ground.Grass;
-import wge3.entity.ground.Ground;
 import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
 import wge3.entity.object.BrickWall;
-import wge3.entity.object.MapObject;
 import wge3.interfaces.Drawable;
 
 public class Area implements Drawable {
@@ -134,8 +132,14 @@ public class Area implements Drawable {
     }
     
     public void checkLOS(Creature c) {
-        for (Tile tile : allTiles) {
-            if (tile.canBeSeenBy(c)) {
+        if (!c.canSeeEverything()) {
+            for (Tile tile : allTiles) {
+                if (tile.canBeSeenBy(c)) {
+                    tilesToDraw.add(tile);
+                }
+            }
+        } else {
+            for (Tile tile : allTiles) {
                 tilesToDraw.add(tile);
             }
         }

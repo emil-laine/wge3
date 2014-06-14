@@ -8,25 +8,19 @@ public class InputHandler extends InputAdapter {
     private final boolean[] keysDown;
     private final boolean[] previousKeysDown;
     
-    private final int keys = 6;
+    private final int keys = 8;
     
     private final int up = Keys.UP;
     private final int down = Keys.DOWN;
     private final int left = Keys.LEFT;
     private final int right = Keys.RIGHT;
-    private final int fire = Keys.C;
-    private final int change_weapon = Keys.X;
     
-    ///////////////////////////
-    // 0 = up
-    // 1 = down
-    // 2 = left
-    // 3 = right
-    // 
-    // 4 = fire/use item
-    // 5 = change weapon
-    // 6 = run
-    ///////////////////////////
+    private final int shoot = Keys.C;
+    private final int changeWeapon = Keys.X;
+    
+    // Development tools:
+    private final int toggleFOV = Keys.NUM_1;
+    private final int toggleWalkThroughWalls = Keys.NUM_2;
 
     public InputHandler() {
         keysDown = new boolean[keys];
@@ -58,8 +52,11 @@ public class InputHandler extends InputAdapter {
             case left:  keysDown[2] = true; break;
             case right: keysDown[3] = true; break;
                 
-            case fire:  keysDown[4] = true; break;
-            case change_weapon: keysDown[5] = true; break;
+            case shoot: keysDown[4] = true; break;
+            case changeWeapon: keysDown[5] = true; break;
+                
+            case toggleFOV: keysDown[6] = true; break;
+            case toggleWalkThroughWalls: keysDown[7] = true; break;
                 
             default: break;
         }
@@ -74,8 +71,11 @@ public class InputHandler extends InputAdapter {
             case left:  keysDown[2] = false; break;
             case right: keysDown[3] = false; break;
                 
-            case fire:  keysDown[4] = false; break;
-            case change_weapon: keysDown[5] = false; break;
+            case shoot: keysDown[4] = false; break;
+            case changeWeapon: keysDown[5] = false; break;
+                
+            case toggleFOV: keysDown[6] = false; break;
+            case toggleWalkThroughWalls: keysDown[7] = false; break;
                 
             default: break;
         }

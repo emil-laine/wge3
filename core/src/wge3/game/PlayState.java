@@ -1,4 +1,4 @@
-package wge3.gamestate;
+package wge3.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import java.io.FileNotFoundException;
@@ -53,6 +53,10 @@ public class PlayState extends GameState {
         player.turnRight (input.isDown(3));
         if (input.isPressed(4)) {
             player.useItem();
+        } else if (input.isPressed(6)) {
+            player.toggleCanSeeEverything();
+        } else if (input.isPressed(7)) {
+            player.toggleWalksThroughWalls();
         }
     }
 
