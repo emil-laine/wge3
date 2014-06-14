@@ -2,10 +2,11 @@ package wge3.world;
 
 public abstract class Item extends MapObject {
     
-    protected String name;
+    protected final String name;
     protected int value;
 
-    public Item() {
+    public Item(String name) {
+        this.name = name;
         blocksVision = false;
     }
 
@@ -16,17 +17,21 @@ public abstract class Item extends MapObject {
     public abstract void use();
 
     @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + (this.name != null ? this.name.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
-        return getClass() == obj.getClass();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + (this.name != null ? this.name.hashCode() : 0);
-        return hash;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        return !((this.name == null) ? (other.name != null) : !this.name.equals(other.name));
     }
 }

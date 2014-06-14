@@ -15,9 +15,9 @@ public class Bomb extends Item implements Explosive {
     private int time; // in seconds
     
     public Bomb() {
+        super("bomb");
         texture = new Texture(Gdx.files.internal("graphics/bomb.png"));
         sprite = new Sprite(texture);
-        name = "bomb";
         time = 3;
         
         timer = new Timer();
