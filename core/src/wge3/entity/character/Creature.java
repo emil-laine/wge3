@@ -175,9 +175,9 @@ public abstract class Creature implements Drawable {
         
         if (this.walksThroughWalls()) {
             return true;
+        } else {
+            return area.getTileAt(x, y).isPassable();
         }
-        
-        return area.getTileAt(x, y).isPassable();
     }
     
     public void useItem() {
