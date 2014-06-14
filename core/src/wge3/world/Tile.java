@@ -1,7 +1,6 @@
 package wge3.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.character.Creature;
 import wge3.interfaces.Drawable;
@@ -116,5 +115,9 @@ public class Tile implements Drawable {
         // If dy > 0, the tile is below c.
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
         return distance <= c.getSight() * Tile.size;
+    }
+
+    public boolean hasObject() {
+        return object != null;
     }
 }
