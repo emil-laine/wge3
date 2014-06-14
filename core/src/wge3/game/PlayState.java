@@ -59,6 +59,8 @@ public class PlayState extends GameState {
             player.toggleCanSeeEverything();
         } else if (input.isPressed(7)) {
             player.toggleWalksThroughWalls();
+        } else if (input.isPressed(8)) {
+            player.getInventory().print();
         }
     }
 

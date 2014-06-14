@@ -45,7 +45,6 @@ public abstract class MapObject implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        batch.draw(texture, tile.getX()*Tile.size, tile.getY()*Tile.size);
         sprite.draw(batch);
     }
 
@@ -68,5 +67,9 @@ public abstract class MapObject implements Drawable {
     
     public void setPosition(int x, int y) {
         sprite.setPosition(x, y);
+    }
+
+    public boolean isItem() {
+        return this.getClass().getSuperclass()== Item.class;
     }
 }

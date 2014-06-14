@@ -8,7 +8,7 @@ public class InputHandler extends InputAdapter {
     private final boolean[] keysDown;
     private final boolean[] previousKeysDown;
     
-    private final int keys = 8;
+    private final int keys = 9;
     
     private final int up = Keys.UP;
     private final int down = Keys.DOWN;
@@ -21,6 +21,7 @@ public class InputHandler extends InputAdapter {
     // Development tools:
     private final int toggleFOV = Keys.NUM_1;
     private final int toggleWalkThroughWalls = Keys.NUM_2;
+    private final int printInventory = Keys.NUM_3;
 
     public InputHandler() {
         keysDown = new boolean[keys];
@@ -57,6 +58,7 @@ public class InputHandler extends InputAdapter {
                 
             case toggleFOV: keysDown[6] = true; break;
             case toggleWalkThroughWalls: keysDown[7] = true; break;
+            case printInventory: keysDown[8] = true; break;
                 
             default: break;
         }
@@ -76,6 +78,7 @@ public class InputHandler extends InputAdapter {
                 
             case toggleFOV: keysDown[6] = false; break;
             case toggleWalkThroughWalls: keysDown[7] = false; break;
+            case printInventory: keysDown[8] = false; break;
                 
             default: break;
         }
