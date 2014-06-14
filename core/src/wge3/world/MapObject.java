@@ -8,7 +8,7 @@ public abstract class MapObject implements Drawable {
     
     protected Tile tile;
     
-    protected Texture sprite;
+    protected Texture texture;
     
     protected boolean passable;
     protected boolean needsToBeDrawn;
@@ -26,7 +26,7 @@ public abstract class MapObject implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, tile.getX()*Tile.size, tile.getY()*Tile.size);
+        batch.draw(texture, tile.getX()*Tile.size, tile.getY()*Tile.size);
     }
 
     public boolean isPassable() {

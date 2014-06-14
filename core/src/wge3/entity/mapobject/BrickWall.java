@@ -7,6 +7,6 @@ public class BrickWall extends Wall {
 
     public BrickWall() {
         super();
-        sprite = new Texture(Gdx.files.internal("graphics/brickwall.png"));
+        texture = new Texture(Gdx.files.internal("graphics/brickwall.png"));
     }
 }

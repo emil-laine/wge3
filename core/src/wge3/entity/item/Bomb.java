@@ -1,5 +1,7 @@
 package wge3.entity.item;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import wge3.interfaces.Explosive;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Timer;
@@ -13,8 +15,10 @@ public class Bomb extends Item implements Explosive {
     private int time; // in seconds
     
     public Bomb() {
+        texture = new Texture(Gdx.files.internal("graphics/bomb.png"));
         name = "timed bomb";
         time = 3;
+        
         timer = new Timer();
         task = new Task() {
 
@@ -25,7 +29,7 @@ public class Bomb extends Item implements Explosive {
         };
         timer.scheduleTask(task, time);
     }
-    
+   
    public void startTimer() {
        timer.start();
    }
@@ -38,7 +42,7 @@ public class Bomb extends Item implements Explosive {
     
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, tile.getX(), tile.getY());
+        batch.draw(texture, tile.getX(), tile.getY());
     }
     
     @Override
