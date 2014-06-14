@@ -44,4 +44,11 @@ public class Inventory {
                 
         return null;
     }
+    
+    public void print() {
+        System.out.println("Amount | Item name");
+        for (Item item : items.keySet()) {
+            System.out.println(items.get(item) + "      | " + item.getName());
+        }
+    }
 }
