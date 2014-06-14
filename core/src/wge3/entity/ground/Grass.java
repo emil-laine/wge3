@@ -11,6 +11,9 @@ public class Grass extends Ground {
         super();
         texture = new Texture(Gdx.files.internal("graphics/grass.png"));
         sprite = new Sprite(texture);
+        
+        affectsMovement = true;
+        movementModifier = 0.9f;
     }
 
 }
