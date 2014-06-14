@@ -2,7 +2,7 @@ package wge3.entity.character;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import wge3.world.Item;
@@ -31,8 +31,8 @@ public abstract class Creature implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
-    protected Texture sprite;
-    protected TextureRegion currentSprite;
+    protected Texture texture;
+    protected Sprite sprite;
     protected boolean needsToBeDrawn;
 
     public Creature() {
@@ -128,7 +128,7 @@ public abstract class Creature implements Drawable {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(currentSprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*MathUtils.radiansToDegrees);
+        batch.draw(sprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*MathUtils.radiansToDegrees);
         needsToBeDrawn = false;
     }
 

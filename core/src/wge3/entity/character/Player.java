@@ -2,7 +2,7 @@ package wge3.entity.character;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Player extends Creature {
@@ -14,8 +14,8 @@ public class Player extends Creature {
     
     public Player() {
         super();
-        sprite = new Texture(Gdx.files.internal("graphics/player.png"));
-        currentSprite = new TextureRegion(sprite);
+        texture = new Texture(Gdx.files.internal("graphics/player.png"));
+        sprite = new Sprite(texture);
         
         goingForward = false;
         goingBackward = false;
