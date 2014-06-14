@@ -13,12 +13,19 @@ public abstract class Ground {
     protected Sprite sprite;
     
     protected boolean drainsHealth;
-    protected boolean slowsMovement;
+    protected boolean affectsMovement;
+    protected float movementModifier;
+    // Effects of movementModifier's values:
+    // ]1, inf[ -> speeds up movement
+    //        1 -> does nothing
+    //   ]0, 1[ -> slows down movement
+    //        0 -> stops movement
+    // Negative values reverse the movement direction, but that's not any useful.
 
     public Ground() {
         // Default values:
         drainsHealth = false;
-        slowsMovement = false;
+        affectsMovement = false;
     }
 
     public void setTile(Tile tile) {
@@ -37,8 +44,12 @@ public abstract class Ground {
         sprite.draw(batch);
     }
     
-    public boolean slowsMovement() {
-        return slowsMovement;
+    public boolean affectsMovement() {
+        return affectsMovement;
+    }
+
+    public float getMovementModifier() {
+        return movementModifier;
     }
 
     public void setLighting(Color color) {

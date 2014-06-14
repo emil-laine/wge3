@@ -95,8 +95,12 @@ public class Tile implements Drawable {
         return needsToBeDrawn;
     }
 
-    public boolean slowsMovement() {
-        return ground.slowsMovement();
+    public boolean affectsMovement() {
+        return ground.affectsMovement();
+    }
+    
+    public float getMovementModifier() {
+        return ground.getMovementModifier();
     }
     
     public boolean blocksVision() {
@@ -135,5 +139,10 @@ public class Tile implements Drawable {
 
     public boolean hasObject() {
         return object != null;
+    }
+
+    public boolean hasItem() {
+        if (object == null) return false;
+        return object.isItem();
     }
 }
