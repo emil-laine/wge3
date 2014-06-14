@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wge3.entity.character.Player;
+import wge3.entity.mapobject.BrickWall;
 import wge3.world.Area;
 
 public class PlayState extends GameState {
@@ -61,6 +62,10 @@ public class PlayState extends GameState {
             player.toggleWalksThroughWalls();
         } else if (input.isPressed(8)) {
             player.getInventory().print();
+        } else if (input.isPressed(9)) {
+            area.getTileAt(player.getX(), player.getY()).setObject(new BrickWall());
+        } else if (input.isPressed(10)) {
+            area.getTileAt(player.getX(), player.getY()).removeObject();
         }
     }
 
