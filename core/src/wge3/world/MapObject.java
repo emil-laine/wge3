@@ -45,7 +45,7 @@ public abstract class MapObject implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        batch.draw(texture, tile.getX()*Tile.size, tile.getY()*Tile.size)
+        batch.draw(texture, tile.getX()*Tile.size, tile.getY()*Tile.size);
         sprite.draw(batch);
     }
 
