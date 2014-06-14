@@ -1,17 +1,18 @@
-package wge3.entity.object;
+package wge3.entity.item;
 
 import wge3.interfaces.Explosive;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import wge3.world.Item;
 
-public class TimedBomb extends Item implements Explosive {
+public class Bomb extends Item implements Explosive {
 
     private Timer timer;
     private Task task;
     private int time; // in seconds
     
-    public TimedBomb() {
+    public Bomb() {
         name = "timed bomb";
         time = 3;
         timer = new Timer();

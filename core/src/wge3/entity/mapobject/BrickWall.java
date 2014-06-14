@@ -1,4 +1,4 @@
-package wge3.entity.object;
+package wge3.entity.mapobject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
