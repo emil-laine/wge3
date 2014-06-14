@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import wge3.entity.character.Creature;
-import wge3.entity.ground.Ground;
-import wge3.entity.object.MapObject;
 import wge3.interfaces.Drawable;
 
 public class Tile implements Drawable {

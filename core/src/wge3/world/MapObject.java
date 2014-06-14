@@ -1,4 +1,4 @@
-package wge3.entity.object;
+package wge3.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

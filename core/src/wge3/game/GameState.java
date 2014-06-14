@@ -1,4 +1,4 @@
-package wge3.gamestate;
+package wge3.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;

@@ -1,4 +1,4 @@
-package wge3.gamestate;
+package wge3.game;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 

@@ -1,6 +1,5 @@
 package wge3.game;
 
-import wge3.gamestate.GameStateManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
