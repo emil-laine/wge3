@@ -165,23 +165,20 @@ public abstract class Creature implements Drawable {
             setX(destX);
             setY(destY);
             needsToBeDrawn = true;
-            
-            // Pick up any items in the tile:
-            if (this.isInCenterOfATile()) {
-                // Could maybe be optimized by using the same tile as in the beginning of this method?
-                currentTile = area.getTileAt(destX, destY);
-                if (currentTile.hasItem()) {
-                    inventory.addItem((Item) currentTile.getObject());
-                    currentTile.removeObject();
-                }
-            }
-            
         } else if (canMoveTo(getX(), destY)) {
             setY(destY);
             needsToBeDrawn = true;
         } else if (canMoveTo(destX, getY())) {
             setX(destX);
             needsToBeDrawn = true;
+        }
+        
+        // Pick up any items in the tile:
+        currentTile = area.getTileAt(getX(), getY());
+        // Could this be optimized by using the same tile as in the beginning of this method?
+        if (currentTile.hasItem()) {
+            inventory.addItem((Item) currentTile.getObject());
+            currentTile.removeObject();
         }
     }
 
