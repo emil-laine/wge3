@@ -11,8 +11,8 @@ public class Inventory {
         items = new HashMap<Item, Integer>();
     }
 
-    public Map<Item, Integer> getItems() {
-        return items;
+    public Set<Item> getItems() {
+        return items.keySet();
     }
     
     public void addItem(Item item) {
@@ -27,6 +27,10 @@ public class Inventory {
         }
     }
     
+    public void removeItem(Item item) {
+        removeItem(item, 1);
+    }
+    
     public void removeItem(Item item, int amount) {
         if (items.get(item) - amount <= 0) {
             items.remove(item);
@@ -39,16 +43,7 @@ public class Inventory {
         return items.get(item);
     }
     
-    public Item getItem(int which_one) {
-        
-                
+    public Item getItem(int index) {
         return null;
-    }
-    
-    public void print() {
-        System.out.println("Amount | Item name");
-        for (Item item : items.keySet()) {
-            System.out.println(items.get(item) + "      | " + item.getName());
-        }
     }
 }
