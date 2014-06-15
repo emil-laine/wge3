@@ -224,4 +224,8 @@ public final class Area implements Drawable {
         } while (dest.hasObject());
         addItem(item, dest.getX(), dest.getY());
     }
+
+    public List<Creature> getCreatures() {
+        return creatures;
+    }
 }

@@ -5,6 +5,8 @@ import wge3.entity.terrainelement.Ground;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.LinkedList;
+import java.util.List;
 import wge3.entity.character.Creature;
 import wge3.interfaces.Drawable;
 
@@ -146,5 +148,62 @@ public class Tile implements Drawable {
     public boolean hasItem() {
         if (object == null) return false;
         return object.isItem();
+    }
+
+    public boolean hasCreature() {
+        return !getCreatures().isEmpty();
+    }
+
+    public List<Creature> getCreatures() {
+        List<Creature> creatures = new LinkedList<Creature>();
+        for (Creature creature : area.getCreatures()) {
+            if (area.getTileAt(creature.getX(), creature.getY()).equals(this)) {
+                creatures.add(creature);
+            }
+        }
+        return creatures;
+    }
+
+    public void dealDamage(int amount) {
+        for (Creature creature : getCreatures()) {
+            creature.dealDamage(amount);
+            if (creature.isDead()) {
+                creature = null;
+            }
+        }
+        if (hasItem()) {
+            object = null;
+        } else if (hasObject()) {
+            object.dealDamage(amount);
+            if (object.isDestroyed()) {
+                object = null;
+            }
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + this.x;
+        hash = 53 * hash + this.y;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Tile other = (Tile) obj;
+        if (this.x != other.x) {
+            return false;
+        }
+        if (this.y != other.y) {
+            return false;
+        }
+        return true;
     }
 }

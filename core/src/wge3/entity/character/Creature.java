@@ -24,8 +24,10 @@ public abstract class Creature implements Drawable {
     protected int sight;
     protected float FOV;
     
-    protected int maxHealth;
-    protected int health;
+    protected int maxHP;
+    protected int HP;
+    protected int HPRegenRate;
+    
     protected boolean canSeeEverything;
     protected boolean walksThroughWalls;
     
@@ -108,19 +110,19 @@ public abstract class Creature implements Drawable {
     }
 
     public int getMaxHealth() {
-        return maxHealth;
+        return maxHP;
     }
 
     public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
+        this.maxHP = maxHealth;
     }
 
     public int getHealth() {
-        return health;
+        return HP;
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        this.HP = health;
     }
 
     public int getSize() {
@@ -237,5 +239,20 @@ public abstract class Creature implements Drawable {
         float x = (getX() % Tile.size) / Tile.size;
         float y = (getY() % Tile.size) / Tile.size;
         return (x >= 0.25f && x <= 0.75f) && (y >= 0.25f && y <= 0.75f);
+    }
+
+    public void dealDamage(int amount) {
+        HP -= amount;
+    }
+
+    public boolean isDead() {
+        return HP <= 0;
+    }
+    
+    public void regenerateHP(float delta) {
+        if (HP < maxHP) {
+            HP += HPRegenRate * delta;
+            if (HP > maxHP) HP = maxHP;
+        }
     }
 }
