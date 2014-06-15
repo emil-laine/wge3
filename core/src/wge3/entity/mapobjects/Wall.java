@@ -1,6 +1,6 @@
-package wge3.entity.mapobject;
+package wge3.entity.mapobjects;
 
-import wge3.entity.terrainelement.MapObject;
+import wge3.entity.terrainelements.MapObject;
 
 public abstract class Wall extends MapObject {
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.TimeUtils;
-import wge3.entity.terrainelement.Item;
+import wge3.entity.terrainelements.Item;
 import wge3.interfaces.Drawable;
 
 public final class MessageStream implements Drawable {

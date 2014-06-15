@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import wge3.entity.terrainelement.Item;
+import wge3.entity.terrainelements.Item;
 
 public class Inventory {
     private Map<Item, Integer> items;

@@ -1,6 +1,6 @@
-package wge3.entity.mapobject;
+package wge3.entity.mapobjects;
 
-import wge3.entity.terrainelement.MapObject;
+import wge3.entity.terrainelements.MapObject;
 import com.badlogic.gdx.graphics.Color;
 import wge3.world.Area;
 

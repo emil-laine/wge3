@@ -1,4 +1,4 @@
-package wge3.entity.mapobject;
+package wge3.entity.mapobjects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 

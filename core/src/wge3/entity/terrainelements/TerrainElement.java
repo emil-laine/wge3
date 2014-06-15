@@ -1,4 +1,4 @@
-package wge3.entity.terrainelement;
+package wge3.entity.terrainelements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

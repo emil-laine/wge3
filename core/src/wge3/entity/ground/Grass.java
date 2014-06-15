@@ -1,7 +1,7 @@
 package wge3.entity.ground;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import wge3.entity.terrainelement.Ground;
+import wge3.entity.terrainelements.Ground;
 import wge3.world.Tile;
 
 public final class Grass extends Ground {

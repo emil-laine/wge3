@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wge3.entity.character.Player;
-import wge3.entity.mapobject.BrickWall;
+import wge3.entity.mapobjects.BrickWall;
 import wge3.world.Area;
 
 public final class PlayState extends GameState {

@@ -1,4 +1,4 @@
-package wge3.entity.terrainelement;
+package wge3.entity.terrainelements;
 
 public abstract class MapObject extends TerrainElement {
     
