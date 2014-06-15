@@ -1,12 +1,14 @@
-package wge3.world;
+package wge3.entity.terrainelement;
 
 public abstract class Item extends MapObject {
     
     protected final String name;
     protected int value;
 
-    public Item(String name) {
+    public Item(String name, String texturePath) {
+        super(texturePath);
         this.name = name;
+        
         blocksVision = false;
     }
 

@@ -1,25 +1,20 @@
 package wge3.entity.item;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import wge3.interfaces.Explosive;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-import wge3.world.Item;
+import wge3.entity.terrainelement.Item;
 
-public class Bomb extends Item implements Explosive {
+public final class Bomb extends Item implements Explosive {
 
     private Timer timer;
     private Task task;
     private int time; // in seconds
     
     public Bomb() {
-        super("bomb");
-        texture = new Texture(Gdx.files.internal("graphics/bomb.png"));
-        sprite = new Sprite(texture);
-        time = 3;
+        super("bomb", "graphics/bomb.png");
         
+        time = 3;
         timer = new Timer();
         task = new Task() {
 

@@ -1,15 +1,12 @@
 package wge3.entity.ground;
 
-import wge3.world.Ground;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import wge3.entity.terrainelement.Ground;
 
-public class Water extends Ground {
+public final class Water extends Ground {
 
     public Water() {
-        texture = new Texture(Gdx.files.internal("graphics/water.png"));
-        sprite = new Sprite(texture);
+        super("graphics/water.png");
+        
         affectsMovement = true;
         movementModifier = 0.7f;
     }

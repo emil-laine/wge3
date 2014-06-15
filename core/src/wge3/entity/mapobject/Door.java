@@ -1,6 +1,8 @@
 package wge3.entity.mapobject;
 
-public class Door extends Wall {
+import com.badlogic.gdx.graphics.g2d.Batch;
+
+public final class Door extends Wall {
     
     private boolean closed;
     private boolean hasLock;
@@ -9,7 +11,7 @@ public class Door extends Wall {
     // private KeyType keytype;
     
     public Door() {
-        super();
+        super(null);
     }
     
     @Override
@@ -42,5 +44,14 @@ public class Door extends Wall {
     @Override
     public boolean blocksVision() {
         return closed;
+    }
+    
+    @Override
+    public void draw(Batch batch) {
+        if (closed) {
+            // draw closed door
+        } else {
+            // draw open door
+        }
     }
 }

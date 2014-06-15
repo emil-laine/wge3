@@ -1,10 +1,7 @@
 package wge3.entity.mapobject;
 
-import wge3.world.MapObject;
-import com.badlogic.gdx.Gdx;
+import wge3.entity.terrainelement.MapObject;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.world.Area;
 
 public class LightSource extends MapObject {
@@ -19,8 +16,9 @@ public class LightSource extends MapObject {
     }
     
     public LightSource(int range) {
-        texture = new Texture(Gdx.files.internal("graphics/lamppost.png"));
-        sprite = new Sprite(texture);
+        super("graphics/lamppost.png");
+        this.range = range;
+        
         color = new Color(1f, 1f, 0f, 1f);
         blocksVision = false;
         this.range = range;
