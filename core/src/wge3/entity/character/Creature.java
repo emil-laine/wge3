@@ -43,7 +43,7 @@ public abstract class Creature implements Drawable {
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
         direction = RNG.nextFloat() * MathUtils.PI2;
-        turningSpeed = 4f;
+        turningSpeed = 3.5f;
         sight = 10;
         FOV = MathUtils.PI/4*3;
         canSeeEverything = false;
