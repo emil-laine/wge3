@@ -4,18 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-public class WGE3 extends Game {
+public final class WGE3 extends Game {
     
-    public int WIDTH;
-    public int HEIGHT;
+    private GameStateManager gsm;
     
-    public GameStateManager gsm;
-
     @Override
     public void create () {
-        WIDTH = Gdx.graphics.getWidth();
-        HEIGHT = Gdx.graphics.getHeight();
-        
         gsm = new GameStateManager();
         gsm.setState(1);
         
