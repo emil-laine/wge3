@@ -8,8 +8,6 @@ public abstract class GameState implements Drawable {
     
     protected GameStateManager gsm;
     protected InputHandler input;
-    
-    protected boolean needsToBeDrawn;
 
     public GameState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -17,7 +15,6 @@ public abstract class GameState implements Drawable {
         Gdx.input.setInputProcessor(input);
         
         init();
-        needsToBeDrawn = true;
     }
     
     public abstract void init();
@@ -26,8 +23,4 @@ public abstract class GameState implements Drawable {
     public abstract void draw(Batch batch);
     public abstract void handleInput();
     public abstract void dispose();
-
-    public boolean NeedsToBeDrawn() {
-        return needsToBeDrawn;
-    }
 }

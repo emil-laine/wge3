@@ -54,11 +54,6 @@ public final class Bomb extends Item implements Explosive {
             }
         }
     }
-    
-    @Override
-    public boolean needsToBeDrawn() {
-        return needsToBeDrawn;
-    }
 
     @Override
     public void use() {

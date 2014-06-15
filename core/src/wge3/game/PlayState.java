@@ -91,9 +91,4 @@ public final class PlayState extends GameState {
     public void dispose() {
         // code...
     }
-    
-    @Override
-    public boolean needsToBeDrawn() {
-        return needsToBeDrawn;
-    }
 }

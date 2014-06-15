@@ -56,9 +56,4 @@ public class Player extends Creature {
             turnRight(delta);
         }
     }
-
-    @Override
-    public boolean needsToBeDrawn() {
-        return needsToBeDrawn;
-    }
 }

@@ -17,8 +17,6 @@ public abstract class TerrainElement implements Drawable {
     protected int spriteX;
     protected int spriteY;
     
-    protected boolean needsToBeDrawn;
-    
     protected boolean passable;
     protected boolean blocksVision;
     protected boolean drainsHealth;
@@ -64,11 +62,6 @@ public abstract class TerrainElement implements Drawable {
         return passable;
     }
     
-    @Override
-    public boolean needsToBeDrawn() {
-        return needsToBeDrawn;
-    }
-
     public boolean blocksVision() {
         return blocksVision;
     }

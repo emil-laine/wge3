@@ -20,14 +20,11 @@ public class Tile implements Drawable {
     
     private Ground ground;
     private MapObject object;
-        
-    private boolean needsToBeDrawn;
 
     public Tile() {
         bounds = new Rectangle();
         bounds.width = Tile.size;
         bounds.height = Tile.size;
-        needsToBeDrawn = true;
     }
 
     public Ground getGround() {
@@ -93,11 +90,6 @@ public class Tile implements Drawable {
         ground.setLighting(color);
         if (object != null) object.setLighting(color);
     }
-    
-    @Override
-    public boolean needsToBeDrawn() {
-        return needsToBeDrawn;
-    }
 
     public boolean affectsMovement() {
         return ground.affectsMovement();
@@ -127,7 +119,6 @@ public class Tile implements Drawable {
             object.draw(batch);
             batch.disableBlending();
         }
-        needsToBeDrawn = false;
     }
     
     public boolean canBeSeenBy(Creature c) {

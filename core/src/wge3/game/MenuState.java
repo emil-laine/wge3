@@ -1,5 +1,7 @@
 package wge3.game;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+
 public final class MenuState extends GameState {
 
     public MenuState(GameStateManager gsm) {
@@ -15,7 +17,7 @@ public final class MenuState extends GameState {
     }
 
     @Override
-    public void draw(com.badlogic.gdx.graphics.g2d.Batch batch) {
+    public void draw(Batch batch) {
     }
 
     @Override
@@ -25,10 +27,4 @@ public final class MenuState extends GameState {
     @Override
     public void dispose() {
     }
-
-    @Override
-    public boolean needsToBeDrawn() {
-        return needsToBeDrawn;
-    }
-
 }

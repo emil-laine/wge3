@@ -27,7 +27,6 @@ import wge3.interfaces.Drawable;
 public final class Area implements Drawable {
     private Tile[][] map;
     private int size;
-    private boolean needsToBeDrawn;
     private Random RNG;
     private TiledMap tiledMap;
     
@@ -98,7 +97,6 @@ public final class Area implements Drawable {
         }
 
         calculateLighting();
-        needsToBeDrawn = true;
     }
     
     public Tile[][] getMap() {
@@ -120,8 +118,6 @@ public final class Area implements Drawable {
             tile.draw(batch);
             it.remove();
         }
-        
-        needsToBeDrawn = false;
     }
     
     public Tile getTileAt(float x, float y) {
@@ -133,12 +129,6 @@ public final class Area implements Drawable {
         }
         
         return map[x0][y0];
-    }
-
-    @Override
-    public boolean needsToBeDrawn() {
-        // Area needs to be redrawn if any of the tiles in it needs to be redrawn.
-        return needsToBeDrawn;
     }
     
     public void requestDrawTile(float x, float y) {

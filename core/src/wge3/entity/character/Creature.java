@@ -37,7 +37,6 @@ public abstract class Creature implements Drawable {
     
     protected Texture texture;
     protected Sprite sprite;
-    protected boolean needsToBeDrawn;
     protected Random RNG;
 
     public Creature() {
@@ -61,8 +60,6 @@ public abstract class Creature implements Drawable {
         bounds.width = 0.75f*Tile.size;
         
         inventory = new Inventory();
-        
-        needsToBeDrawn = true;
     }
     
     public float getX() {
@@ -145,19 +142,16 @@ public abstract class Creature implements Drawable {
     @Override
     public void draw(Batch batch) {
         batch.draw(sprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*MathUtils.radiansToDegrees);
-        needsToBeDrawn = false;
     }
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
         if (direction >= MathUtils.PI2) direction -= MathUtils.PI2;
-        needsToBeDrawn = true;
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
         if (direction < 0) direction += MathUtils.PI2;
-        needsToBeDrawn = true;
     }
 
     public void move(float dx, float dy) {
@@ -176,13 +170,10 @@ public abstract class Creature implements Drawable {
         if (canMoveTo(destX, destY)) {
             setX(destX);
             setY(destY);
-            needsToBeDrawn = true;
         } else if (canMoveTo(getX(), destY)) {
             setY(destY);
-            needsToBeDrawn = true;
         } else if (canMoveTo(destX, getY())) {
             setX(destX);
-            needsToBeDrawn = true;
         }
         
         // Pick up any items in the tile:
@@ -224,10 +215,6 @@ public abstract class Creature implements Drawable {
 
     public Item getSelectedItem() {
         return selectedItem;
-    }
-
-    public boolean NeedsToBeDrawn() {
-        return needsToBeDrawn;
     }
 
     public int getSight() {

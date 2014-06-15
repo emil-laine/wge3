@@ -63,11 +63,6 @@ public final class MessageStream implements Drawable {
             }
         }
     }
-
-    @Override
-    public boolean needsToBeDrawn() {
-        return true;
-    }
     
     public void toggleShowFPS() {
         showFPS = showFPS == false;
