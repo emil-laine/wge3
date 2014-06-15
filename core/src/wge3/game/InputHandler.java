@@ -3,27 +3,28 @@ package wge3.game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 
-public class InputHandler extends InputAdapter {
+public final class InputHandler extends InputAdapter {
     
     private final boolean[] keysDown;
     private final boolean[] previousKeysDown;
     
-    private final int keys = 11;
+    private final int keys = 12;
     
     private final int up = Keys.UP;
     private final int down = Keys.DOWN;
     private final int left = Keys.LEFT;
     private final int right = Keys.RIGHT;
     
-    private final int shoot = Keys.C;
-    private final int changeWeapon = Keys.X;
+    private final int shoot = Keys.X;
+    private final int changeWeapon = Keys.Z;
     
     // Development tools:
-    private final int toggleFOV = Keys.NUM_1;
-    private final int toggleWalkThroughWalls = Keys.NUM_2;
-    private final int printInventory = Keys.NUM_3;
-    private final int createWall = Keys.NUM_4;
-    private final int destroyObject = Keys.NUM_5;
+    private final int toggleFOV = Keys.S;
+    private final int toggleGhostMode = Keys.G;
+    private final int toggleInventory = Keys.I;
+    private final int createWall = Keys.C;
+    private final int destroyObject = Keys.D;
+    private final int toggleFPS = Keys.F;
 
     public InputHandler() {
         keysDown = new boolean[keys];
@@ -59,10 +60,11 @@ public class InputHandler extends InputAdapter {
             case changeWeapon: keysDown[5] = true; break;
                 
             case toggleFOV: keysDown[6] = true; break;
-            case toggleWalkThroughWalls: keysDown[7] = true; break;
-            case printInventory: keysDown[8] = true; break;
+            case toggleGhostMode: keysDown[7] = true; break;
+            case toggleInventory: keysDown[8] = true; break;
             case createWall: keysDown[9] = true; break;
             case destroyObject: keysDown[10] = true; break;
+            case toggleFPS: keysDown[11] = true; break;
                 
             default: break;
         }
@@ -81,10 +83,11 @@ public class InputHandler extends InputAdapter {
             case changeWeapon: keysDown[5] = false; break;
                 
             case toggleFOV: keysDown[6] = false; break;
-            case toggleWalkThroughWalls: keysDown[7] = false; break;
-            case printInventory: keysDown[8] = false; break;
+            case toggleGhostMode: keysDown[7] = false; break;
+            case toggleInventory: keysDown[8] = false; break;
             case createWall: keysDown[9] = false; break;
             case destroyObject: keysDown[10] = false; break;
+            case toggleFPS: keysDown[11] = false; break;
                 
             default: break;
         }
