@@ -104,6 +104,10 @@ public final class Area implements Drawable {
     public Tile[][] getMap() {
         return map;
     }
+    
+    public List<Tile> getTiles() {
+        return allTiles;
+    }
 
     public int getSize() {
         return size;
