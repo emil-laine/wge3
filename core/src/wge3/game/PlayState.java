@@ -67,7 +67,9 @@ public final class PlayState extends GameState {
         player.turnLeft  (input.isDown(2));
         player.turnRight (input.isDown(3));
         if (input.isPressed(4)) {
-            //player.useItem();
+            player.useItem();
+        } else if (input.isPressed(5)) {
+            player.changeItem();
         } else if (input.isPressed(6)) {
             player.toggleCanSeeEverything();
         } else if (input.isPressed(7)) {

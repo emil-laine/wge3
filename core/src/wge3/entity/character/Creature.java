@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.Random;
 import wge3.entity.terrainelement.Item;
+import wge3.entity.terrainelement.MapObject;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
@@ -48,6 +49,10 @@ public abstract class Creature implements Drawable {
         turningSpeed = 3.5f;
         sight = 10;
         FOV = MathUtils.PI/4*3;
+        
+        maxHP = 100;
+        HP = maxHP;
+        
         canSeeEverything = false;
         walksThroughWalls = false;
         
@@ -109,20 +114,20 @@ public abstract class Creature implements Drawable {
         this.turningSpeed = turningSpeed;
     }
 
-    public int getMaxHealth() {
+    public int getMaxHP() {
         return maxHP;
     }
 
-    public void setMaxHealth(int maxHealth) {
-        this.maxHP = maxHealth;
+    public void setMaxHP(int newMaxHP) {
+        this.maxHP = newMaxHP;
     }
 
-    public int getHealth() {
+    public int getHP() {
         return HP;
     }
 
-    public void setHealth(int health) {
-        this.HP = health;
+    public void setHP(int newHP) {
+        this.HP = newHP;
     }
 
     public int getSize() {
@@ -181,10 +186,10 @@ public abstract class Creature implements Drawable {
         }
         
         // Pick up any items in the tile:
-        currentTile = area.getTileAt(getX(), getY());
         // Could this be optimized by using the same tile as in the beginning of this method?
-        if (currentTile.hasItem()) {
-            inventory.addItem((Item) currentTile.getObject());
+        MapObject object = area.getTileAt(getX(), getY()).getObject();
+        if (object != null && object.isItem()) {
+            inventory.addItem((Item) object);
             currentTile.removeObject();
         }
     }
@@ -204,7 +209,21 @@ public abstract class Creature implements Drawable {
     }
     
     public void useItem() {
-        selectedItem.use();
+        if (selectedItem != null) {
+            selectedItem.use();
+        }
+    }
+
+    public void changeItem() {
+        setSelectedItem(inventory.getNextItem());
+    }
+
+    public void setSelectedItem(Item selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
+    public Item getSelectedItem() {
+        return selectedItem;
     }
 
     public boolean NeedsToBeDrawn() {

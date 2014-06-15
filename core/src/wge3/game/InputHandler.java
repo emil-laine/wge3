@@ -15,8 +15,8 @@ public final class InputHandler extends InputAdapter {
     private final int left = Keys.LEFT;
     private final int right = Keys.RIGHT;
     
-    private final int shoot = Keys.X;
-    private final int changeWeapon = Keys.Z;
+    private final int shoot = Keys.Z;
+    private final int changeWeapon = Keys.X;
     
     // Development tools:
     private final int toggleFOV = Keys.S;

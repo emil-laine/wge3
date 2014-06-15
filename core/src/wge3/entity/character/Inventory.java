@@ -1,14 +1,20 @@
 
 package wge3.entity.character;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import wge3.entity.terrainelement.Item;
 
 public class Inventory {
     private Map<Item, Integer> items;
+    private Iterator<Entry<Item, Integer>> iterator;
     
     public Inventory() {
-        items = new HashMap<Item, Integer>();
+        items = new LinkedHashMap<Item, Integer>();
+        iterator = items.entrySet().iterator();
     }
 
     public Set<Item> getItems() {
@@ -43,7 +49,9 @@ public class Inventory {
         return items.get(item);
     }
     
-    public Item getItem(int index) {
-        return null;
+    public Item getNextItem() {
+        if (items.isEmpty()) return null;
+        if (!iterator.hasNext()) iterator = items.entrySet().iterator();
+        return iterator.next().getKey();
     }
 }

@@ -34,6 +34,16 @@ public final class MessageStream implements Drawable {
     @Override
     public void draw(Batch batch) {
         int line = 0;
+        font.draw(batch, "HP: " + game.getPlayer().getHP() + "/" + game.getPlayer().getMaxHP(), x, y - line*lineSpacing);
+        line++;
+        if (game.getPlayer().getSelectedItem() != null) {
+            font.draw(batch, "Selected weapon: " + game.getPlayer().getSelectedItem().getName(), x, y - line*lineSpacing);
+        } else {
+            font.draw(batch, "Selected weapon: null", x, y - line*lineSpacing);
+        }
+        line++;
+        line++;
+        
         if (showFPS) {
             font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), x, y - line*lineSpacing);
             line++;
