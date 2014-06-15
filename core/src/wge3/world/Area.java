@@ -1,10 +1,8 @@
 package wge3.world;
 
-import wge3.entity.terrainelement.Item;
-import wge3.entity.terrainelement.MapObject;
-import wge3.entity.terrainelement.Ground;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
@@ -21,6 +19,9 @@ import wge3.entity.ground.WoodenFloor;
 import wge3.entity.item.Bomb;
 import wge3.entity.mapobject.BrickWall;
 import wge3.entity.mapobject.LightSource;
+import wge3.entity.terrainelement.Ground;
+import wge3.entity.terrainelement.Item;
+import wge3.entity.terrainelement.MapObject;
 import wge3.interfaces.Drawable;
 
 public final class Area implements Drawable {
@@ -28,6 +29,7 @@ public final class Area implements Drawable {
     private int size;
     private boolean needsToBeDrawn;
     private Random RNG;
+    private TiledMap tiledMap;
     
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
@@ -51,55 +53,46 @@ public final class Area implements Drawable {
         items = new LinkedList<Item>();
         
         // Generate map:
-        File mapFile = new File("maps/testmap.txt");
-        Scanner mapLoader = new Scanner(mapFile);
-        for (int i = 0; i < 8; i++) {
-            mapLoader.nextLine();
-        }
+        Scanner mapLoader = new Scanner(new File("maps/Untitled.tmx"));
+        mapLoader.useDelimiter(",?\n?");
+        for (int i = 0; i < 7; i++) mapLoader.nextLine();
 
         // Create tiles and load grounds:
-        for (int i = 0; i < size; i++) {
-            String line = mapLoader.nextLine();
-            
-            for (int j = 0; j < size; j++) {
-                
+        for (int y = size-1; y >= 0; y--) {
+            for (int x = 0; x < size; x++) {
                 Ground ground;
-                switch (line.charAt(2*j)) {
-                    case '~': ground = new Water(); break;
-                    case '_': ground = new WoodenFloor(); break;
-                    default:  ground = new Grass(); break;
+                switch (mapLoader.nextInt()) {
+                    case 1: ground = new Grass(); break;
+                    case 2: ground = new WoodenFloor(); break;
+                    case 3: ground = new Water(); break;
+                    default:ground = new Grass(); break;
                 }
-                
                 Tile newtile = new Tile();
                 newtile.setGround(ground);
-                newtile.setPosition(j, size-1 - i);
+                newtile.setPosition(x, y);
                 allTiles.add(newtile);
-                map[j][size-1 - i] = newtile;
+                map[x][y] = newtile;
             }
         }
-        
-        for (int i = 0; i < 3; i++) mapLoader.nextLine();
+        for (int i = 0; i < 5; i++) mapLoader.nextLine();
         
         // Load objects:
-        for (int i = 0; i < size; i++) {
-            String line = mapLoader.nextLine();
-            
-            for (int j = 0; j < size; j++) {
+        for (int y = size-1; y >= 0; y--) {
+            for (int x = 0; x < size; x++) {
                 MapObject object;
-                switch (line.charAt(2*j)) {
-                    case 'w': object = new BrickWall(); break;
-                    case 'L': object = new LightSource(); break;
-                    default: object = null; break;
+                switch (mapLoader.nextInt()) {
+                    case 0: object = null; break;
+                    case 9: object = new BrickWall(); break;
+                    default:object = null; break;
                 }
-                
                 if (object != null) {
-                    map[j][size-1 - i].setObject(object);
+                    map[x][y].setObject(object);
                 }
             }
         }
-        
         mapLoader.close();
-        // Place 9 bomb in random locations on the map:
+        
+        // Place 9 bombs in random locations on the map:
         for (int i = 0; i < 9; i++) {
             addItem(new Bomb());
         }
@@ -188,7 +181,18 @@ public final class Area implements Drawable {
     }
     
     public void addCreature(Creature guy) {
+        // Places creature to a random tile that has no object in it.
+        // If every tile has an object, this will loop infinitely.
+        Tile dest;
+        do {
+            dest = map[RNG.nextInt(size)][RNG.nextInt(size)];
+        } while (dest.hasObject());
+        addCreature(guy, dest.getX(), dest.getY());
+    }
+    
+    public void addCreature(Creature guy, int x, int y) {
         guy.setArea(this);
+        guy.setPosition(x*Tile.size+Tile.size/2, y*Tile.size+Tile.size/2);
         creatures.add(guy);
         if (guy.getClass() == Player.class) {
             players.add((Player) guy);
