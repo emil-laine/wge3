@@ -14,7 +14,7 @@ public final class Bomb extends Item implements Explosive {
     private int time; // in seconds
     
     public Bomb() {
-        sprite = new Sprite(texture, 12, -24, Tile.size, Tile.size);
+        sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
         name = "bomb";
         time = 3;
         timer = new Timer();
