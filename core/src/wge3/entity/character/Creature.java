@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.Random;
 import wge3.entity.terrainelement.Item;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
@@ -12,9 +13,9 @@ import wge3.world.Tile;
 
 public abstract class Creature implements Drawable {
 
+    protected Area area;
     protected Rectangle bounds;
 
-    protected Area area;
     protected int size;
     protected int defaultSpeed;
     protected int currentSpeed;
@@ -34,13 +35,15 @@ public abstract class Creature implements Drawable {
     protected Texture texture;
     protected Sprite sprite;
     protected boolean needsToBeDrawn;
+    protected Random RNG;
 
     public Creature() {
+        RNG = new Random();
         size = Tile.size;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
-        direction = 0;
-        turningSpeed = 3.5f;
+        direction = RNG.nextFloat() * MathUtils.PI2;
+        turningSpeed = 4f;
         sight = 10;
         FOV = MathUtils.PI/4*3;
         canSeeEverything = false;
@@ -49,11 +52,8 @@ public abstract class Creature implements Drawable {
         bounds = new Rectangle();
         bounds.height = 0.75f*Tile.size;
         bounds.width = 0.75f*Tile.size;
-        bounds.x = 300;
-        bounds.y = 300;
         
         inventory = new Inventory();
-        // selectedItem = 
         
         needsToBeDrawn = true;
     }
@@ -71,6 +71,11 @@ public abstract class Creature implements Drawable {
     }
 
     public void setY(float y) {
+        bounds.y = y;
+    }
+    
+    public void setPosition(int x, int y) {
+        bounds.x = x;
         bounds.y = y;
     }
 
