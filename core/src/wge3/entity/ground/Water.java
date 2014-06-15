@@ -8,6 +8,6 @@ public final class Water extends Ground {
         super("graphics/water.png");
         
         affectsMovement = true;
-        movementModifier = 0.7f;
+        movementModifier = 0.5f;
     }
 }
