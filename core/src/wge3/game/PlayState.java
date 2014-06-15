@@ -14,7 +14,7 @@ public final class PlayState extends GameState {
     private Area area;
     private Player player;
     
-    private MessageStream mStream;
+    public static MessageStream mStream;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
