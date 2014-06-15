@@ -11,7 +11,6 @@ public final class Door extends Wall {
     // private KeyType keytype;
     
     public Door() {
-        super(null);
     }
     
     @Override

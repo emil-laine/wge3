@@ -16,7 +16,7 @@ public class LightSource extends MapObject {
     }
     
     public LightSource(int range) {
-        super("graphics/lamppost.png");
+        
         this.range = range;
         
         color = new Color(1f, 1f, 0f, 1f);

@@ -2,8 +2,7 @@ package wge3.entity.terrainelement;
 
 public abstract class MapObject extends TerrainElement {
 
-    public MapObject(String texturePath) {
-        super(texturePath);
+    public MapObject() {
         
         // Default values:
         passable = true;

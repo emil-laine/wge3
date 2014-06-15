@@ -1,8 +1,11 @@
 package wge3.entity.mapobject;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import wge3.world.Tile;
+
 public final class BrickWall extends Wall {
 
     public BrickWall() {
-        super("graphics/brickwall.png");
+        sprite = new Sprite(texture, 0, Tile.size, Tile.size, Tile.size);
     }
 }

@@ -1,14 +1,16 @@
 package wge3.entity.ground;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.entity.terrainelement.Ground;
+import wge3.world.Tile;
 
 public final class Grass extends Ground {
 
     public Grass() {
-        super("graphics/grass.png");
+        sprite = new Sprite(texture, 0, 0,Tile.size, Tile.size);
         
         affectsMovement = true;
-        movementModifier = 0.9f;
+        movementModifier = 15/16f;
     }
 
 }

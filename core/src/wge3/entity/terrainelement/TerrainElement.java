@@ -12,8 +12,11 @@ public abstract class TerrainElement implements Drawable {
     
     protected Tile tile;
     
-    protected Texture texture;
+    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/terrain.png"));
     protected Sprite sprite;
+    protected int spriteX;
+    protected int spriteY;
+    
     protected boolean needsToBeDrawn;
     
     protected boolean passable;
@@ -29,9 +32,7 @@ public abstract class TerrainElement implements Drawable {
     //        0 -> stops movement
     // Negative values reverse the movement direction, but that's not any useful.
     
-    public TerrainElement(String texturePath) {
-        texture = new Texture(Gdx.files.internal(texturePath));
-        sprite = new Sprite(texture);
+    public TerrainElement() {
     }
 
     public void setTile(Tile tile) {
