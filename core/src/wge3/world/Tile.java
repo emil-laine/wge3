@@ -1,5 +1,7 @@
 package wge3.world;
 
+import wge3.entity.terrainelement.MapObject;
+import wge3.entity.terrainelement.Ground;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
@@ -113,7 +115,7 @@ public class Tile implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        if (object != null && object.blocksVision) {
+        if (object != null && object.blocksVision()) {
             object.draw(batch);
         } else if (object == null) {
             ground.draw(batch);

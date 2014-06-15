@@ -1,5 +1,8 @@
 package wge3.world;
 
+import wge3.entity.terrainelement.Item;
+import wge3.entity.terrainelement.MapObject;
+import wge3.entity.terrainelement.Ground;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import java.io.File;

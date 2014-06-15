@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import wge3.world.Item;
+import wge3.entity.terrainelement.Item;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
