@@ -2,7 +2,7 @@ package wge3.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class GameStateManager {
+public final class GameStateManager {
     
     private GameState currentState;
     

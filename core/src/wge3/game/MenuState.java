@@ -1,8 +1,6 @@
 package wge3.game;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-public class MenuState extends GameState {
+public final class MenuState extends GameState {
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
