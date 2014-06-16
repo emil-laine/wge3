@@ -94,13 +94,13 @@ public class Tile implements Drawable {
         ground.setLighting(color);
         if (object != null) object.setLighting(color);
     }
-
-    public boolean affectsMovement() {
-        return ground.affectsMovement();
-    }
     
     public float getMovementModifier() {
-        return ground.getMovementModifier();
+        if (object == null) {
+            return ground.getMovementModifier();
+        } else {
+            return ground.getMovementModifier() * object.getMovementModifier();
+        }
     }
     
     public boolean blocksVision() {
