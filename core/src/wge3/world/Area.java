@@ -20,6 +20,7 @@ import wge3.entity.ground.WoodenFloor;
 import wge3.entity.items.Bomb;
 import wge3.entity.mapobjects.BrickWall;
 import wge3.entity.mapobjects.LightSource;
+import wge3.entity.mapobjects.SteelWall;
 import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
@@ -81,9 +82,13 @@ public final class Area implements Drawable {
             for (int x = 0; x < size; x++) {
                 MapObject object;
                 switch (mapLoader.nextInt()) {
-                    case 0: object = null; break;
-                    case 9: object = new BrickWall(); break;
-                    default:object = null; break;
+                    case 0:  object = null; break;
+                    case 9:  object = new BrickWall(); break;
+                    case 12: object = new SteelWall(0); break;
+                    case 13: object = new SteelWall(1); break;
+                    case 14: object = new SteelWall(2); break;
+                    case 17: object = new Bomb(); break;
+                    default: object = null; break;
                 }
                 if (object != null) {
                     map[x][y].setObject(object);
