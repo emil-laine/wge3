@@ -7,7 +7,7 @@ public final class SteelWall extends Wall {
 
     public SteelWall(int type) {
         if (type < 0 || type > 2) throw new IllegalArgumentException();
-        sprite = new Sprite(texture, Tile.size, 3*Tile.size + type*Tile.size, Tile.size, Tile.size);
+        sprite = new Sprite(texture, 3*Tile.size + type*Tile.size, Tile.size, Tile.size, Tile.size);
     }
 
     @Override
