@@ -20,6 +20,8 @@ public final class BrickWall extends Wall {
             sprite.setRegion(2*Tile.size, Tile.size, Tile.size, Tile.size);
             passable = true;
             blocksVision = false;
+            affectsMovement = true;
+            movementModifier = 0.7f;
         } else if (HP < 30) {
             // show damaged sprite
             sprite.setRegion(Tile.size, Tile.size, Tile.size, Tile.size);
