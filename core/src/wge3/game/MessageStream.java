@@ -39,7 +39,7 @@ public final class MessageStream implements Drawable {
         if (game.getPlayer().getSelectedItem() != null) {
             font.draw(batch, "Selected weapon: " + game.getPlayer().getSelectedItem().getName(), x, y - line*lineSpacing);
         } else {
-            font.draw(batch, "Selected weapon: null", x, y - line*lineSpacing);
+            font.draw(batch, "Selected weapon: unarmed", x, y - line*lineSpacing);
         }
         line++;
         line++;

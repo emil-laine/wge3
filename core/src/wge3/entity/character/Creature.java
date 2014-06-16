@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.Random;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
+import static wge3.game.PlayState.mStream;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
@@ -181,13 +182,13 @@ public abstract class Creature implements Drawable {
             updateSpritePosition();
         }
         
-        // Pick up any items in the tile:
+        // Pick up any items in the new tile:
         // Could this be optimized by using the same tile as in the beginning of this method?
-        currentTile = area.getTileAt(getX(), getY());
-        MapObject object = currentTile.getObject();
+        Tile newTile = area.getTileAt(getX(), getY());
+        MapObject object = newTile.getObject();
         if (object != null && object.isItem()) {
             inventory.addItem((Item) object);
-            currentTile.removeObject();
+            newTile.removeObject();
         }
     }
 
@@ -207,7 +208,9 @@ public abstract class Creature implements Drawable {
     
     public void useItem() {
         if (selectedItem != null) {
-            selectedItem.use();
+            selectedItem.use(this);
+        } else {
+            punch();
         }
     }
 
@@ -274,5 +277,9 @@ public abstract class Creature implements Drawable {
     
     public void updateSpriteRotation() {
         sprite.setRotation(direction*MathUtils.radiansToDegrees);
+    }
+
+    private void punch() {
+        mStream.addMessage("*punch*");
     }
 }
