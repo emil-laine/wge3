@@ -21,7 +21,6 @@ public abstract class TerrainElement implements Drawable {
     protected boolean blocksVision;
     protected boolean drainsHealth;
     protected int healthDrainAmount;
-    protected boolean affectsMovement;
     protected float movementModifier;
     // Effects of movementModifier's values:
     // ]1, inf[ -> speeds up movement
@@ -31,6 +30,8 @@ public abstract class TerrainElement implements Drawable {
     // Negative values reverse the movement direction, but that's not any useful.
     
     public TerrainElement() {
+        // Default values:
+        movementModifier = 1f;
     }
 
     public void setTile(Tile tile) {
@@ -72,10 +73,6 @@ public abstract class TerrainElement implements Drawable {
 
     public int getHealthDrainAmount() {
         return healthDrainAmount;
-    }
-
-    public boolean affectsMovement() {
-        return affectsMovement;
     }
     
     public float getMovementModifier() {

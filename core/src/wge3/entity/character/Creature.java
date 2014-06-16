@@ -160,12 +160,9 @@ public abstract class Creature implements Drawable {
 
     public void move(float dx, float dy) {
         // Apply movement modifiers:
-        Tile currentTile = area.getTileAt(getX(), getY());
-        if (currentTile.affectsMovement()) {
-            float movementModifier = currentTile.getMovementModifier();
-            dx *= movementModifier;
-            dy *= movementModifier;
-        }
+        float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
+        dx *= movementModifier;
+        dy *= movementModifier;
         
         // Calculate actual movement:
         float destX = getX() + dx;
