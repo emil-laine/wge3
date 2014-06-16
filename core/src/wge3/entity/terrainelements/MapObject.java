@@ -8,6 +8,7 @@ public abstract class MapObject extends TerrainElement {
     public MapObject() {
         
         // Default values:
+        HP = 100;
         passable = true;
         blocksVision = true;
         drainsHealth = false;
