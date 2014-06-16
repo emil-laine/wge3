@@ -1,4 +1,4 @@
-package bullets;
+package wge3.entity.bullets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
