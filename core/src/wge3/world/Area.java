@@ -56,8 +56,8 @@ public final class Area implements Drawable {
         bullets = new LinkedList<Bullet>();
         
         // Generate map:
-        Scanner mapLoader = new Scanner(new File("maps/Untitled.tmx"));
-        mapLoader.useDelimiter(",?\n?");
+        Scanner mapLoader = new Scanner(new File("maps/1.tmx"));
+        mapLoader.useDelimiter("[,\n]");
         for (int i = 0; i < 7; i++) mapLoader.nextLine();
 
         // Create tiles and load grounds:
@@ -74,8 +74,9 @@ public final class Area implements Drawable {
                 newtile.setGround(ground);
                 addTile(newtile, x, y);
             }
+            mapLoader.nextLine();
         }
-        for (int i = 0; i < 5; i++) mapLoader.nextLine();
+        for (int i = 0; i < 4; i++) mapLoader.nextLine();
         
         // Load objects:
         for (int y = size-1; y >= 0; y--) {
@@ -94,13 +95,9 @@ public final class Area implements Drawable {
                     map[x][y].setObject(object);
                 }
             }
+            mapLoader.nextLine();
         }
         mapLoader.close();
-        
-        // Place 9 bombs in random locations on the map:
-        for (int i = 0; i < 9; i++) {
-            addItem(new Bomb());
-        }
 
         calculateLighting();
     }
