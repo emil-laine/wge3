@@ -71,9 +71,7 @@ public final class Area implements Drawable {
                 }
                 Tile newtile = new Tile();
                 newtile.setGround(ground);
-                newtile.setPosition(x, y);
-                allTiles.add(newtile);
-                map[x][y] = newtile;
+                addTile(newtile, x, y);
             }
         }
         for (int i = 0; i < 5; i++) mapLoader.nextLine();
@@ -108,6 +106,13 @@ public final class Area implements Drawable {
     
     public List<Tile> getTiles() {
         return allTiles;
+    }
+    
+    public void addTile(Tile tile, int x, int y) {
+        tile.setArea(this);
+        tile.setPosition(x, y);
+        allTiles.add(tile);
+        map[x][y] = tile;
     }
 
     public int getSize() {
@@ -240,6 +245,7 @@ public final class Area implements Drawable {
     }
     
     public void addBullet(Bullet bullet) {
+        bullet.setArea(this);
         bullets.add(bullet);
     }
     
