@@ -61,5 +61,6 @@ public class FusedBomb extends Bullet implements Explosive {
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
+        area.removeBullet(this);
     }
 }
