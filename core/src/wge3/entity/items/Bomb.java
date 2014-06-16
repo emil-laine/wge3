@@ -1,6 +1,8 @@
 package wge3.entity.items;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import wge3.entity.bullets.FusedBomb;
+import wge3.entity.character.Creature;
 import wge3.entity.terrainelements.Item;
 import wge3.world.Tile;
 
@@ -12,7 +14,11 @@ public final class Bomb extends Item {
     }
 
     @Override
-    public void use() {
-        
+    public void use(Creature user) {
+        FusedBomb bomb = new FusedBomb();
+        bomb.setPosition(user.getX(), user.getY());
+        user.getInventory().removeItem(this);
+        user.getArea().addBullet(bomb);
+        bomb.startTimer();
     }
 }
