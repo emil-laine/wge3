@@ -9,6 +9,8 @@ import java.util.Set;
 import wge3.entity.terrainelements.Item;
 
 public class Inventory {
+    
+    private Creature owner;
     private Map<Item, Integer> items;
     private Iterator<Entry<Item, Integer>> iterator;
     
@@ -28,6 +30,7 @@ public class Inventory {
     public void addItem(Item item, int amount) {
         if (!items.containsKey(item)) {
             items.put(item, amount);
+            owner.setSelectedItem(getNextItem());
         } else {
             items.replace(item, items.get(item) + amount);
         }
@@ -40,6 +43,7 @@ public class Inventory {
     public void removeItem(Item item, int amount) {
         if (items.get(item) - amount <= 0) {
             items.remove(item);
+            owner.setSelectedItem(getNextItem());
         } else {
             items.replace(item, items.get(item) - amount);
         }
@@ -50,8 +54,17 @@ public class Inventory {
     }
     
     public Item getNextItem() {
-        if (items.isEmpty()) return null;
-        if (!iterator.hasNext()) iterator = items.entrySet().iterator();
-        return iterator.next().getKey();
+        if (items.isEmpty()) {
+            return null;
+        } else if (!iterator.hasNext()) {
+            iterator = items.entrySet().iterator();
+            return null;
+        } else {
+            return iterator.next().getKey();
+        }
+    }
+
+    public void setOwner(Creature owner) {
+        this.owner = owner;
     }
 }

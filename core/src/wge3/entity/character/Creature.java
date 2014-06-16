@@ -61,6 +61,7 @@ public abstract class Creature implements Drawable {
         bounds.width = 0.75f*Tile.size;
         
         inventory = new Inventory();
+        inventory.setOwner(this);
     }
     
     public float getX() {
