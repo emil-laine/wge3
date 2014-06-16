@@ -10,4 +10,4 @@ You need Gradle to open the project. If you don't have it, here's how to get it:
 - Select it and install.
 - Now you can open the project file.
 
-Remember, when running the project, you must run the desktop subproject. The core subproject cannot be run.
+Remember, when running the project, you must run the desktop subproject. The core subproject cannot be run directly.
