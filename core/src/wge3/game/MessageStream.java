@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.TimeUtils;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import wge3.entity.terrainelements.Item;
 import wge3.interfaces.Drawable;
 
@@ -16,8 +19,7 @@ public final class MessageStream implements Drawable {
     private int y;
     private int lineSpacing;
     
-    private String latestMessage;
-    private long latestMessageTime;
+    private Map<Long, String> messages;
     
     private boolean showFPS;
     private boolean showInventory;
@@ -28,7 +30,8 @@ public final class MessageStream implements Drawable {
         this.y = y;
         lineSpacing = 20;
         this.game = game;
-        latestMessageTime = TimeUtils.millis();
+        
+        messages = new LinkedHashMap<Long, String>();
     }
 
     @Override
@@ -56,10 +59,15 @@ public final class MessageStream implements Drawable {
                 line++;
             }
         }
-        if (latestMessage != null) {
-            font.draw(batch, latestMessage, x, y - line*lineSpacing);
-            if (TimeUtils.timeSinceMillis(latestMessageTime) > 5000) {
-                latestMessage = null;
+        line++;
+        
+        for (Iterator<Long> it = messages.keySet().iterator(); it.hasNext();) {
+            Long time = it.next();
+            if (TimeUtils.timeSinceMillis(time) < 4000) {
+                font.draw(batch, messages.get(time), x, y - line*lineSpacing);
+                line++;
+            } else {
+                it.remove();
             }
         }
     }
@@ -73,7 +81,6 @@ public final class MessageStream implements Drawable {
     }
     
     public void addMessage(String message) {
-        latestMessage = message;
-        latestMessageTime = TimeUtils.millis();
+        messages.put(TimeUtils.millis(), message);
     };
 }
