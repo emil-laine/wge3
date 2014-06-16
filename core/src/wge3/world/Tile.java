@@ -67,6 +67,10 @@ public class Tile implements Drawable {
         return y;
     }
 
+    public void setArea(Area area) {
+        this.area = area;
+    }
+
     public Area getArea() {
         return area;
     }
@@ -109,10 +113,10 @@ public class Tile implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        if (object != null && object.blocksVision()) {
-            object.draw(batch);
-        } else if (object == null) {
+        if (object == null) {
             ground.draw(batch);
+        } else if (object.blocksVision()) {
+            object.draw(batch);
         } else {
             ground.draw(batch);
             batch.enableBlending();
