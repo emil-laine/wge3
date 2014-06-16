@@ -55,7 +55,6 @@ public final class PlayState extends GameState {
         batch.disableBlending();
         area.draw(batch);
         batch.enableBlending();
-        player.draw(batch);
         mStream.draw(batch);
         batch.end();
     }
