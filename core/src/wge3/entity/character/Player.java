@@ -16,6 +16,7 @@ public final class Player extends Creature {
         super();
         texture = new Texture(Gdx.files.internal("graphics/player.png"));
         sprite = new Sprite(texture);
+        updateSpriteRotation();
         
         goingForward = false;
         goingBackward = false;
