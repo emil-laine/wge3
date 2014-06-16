@@ -170,7 +170,7 @@ public class Tile implements Drawable {
             object = null;
         } else if (hasObject()) {
             object.dealDamage(amount);
-            if (object.isDestroyed()) {
+            if (object.isDestroyed() & !object.hasDestroyedSprite()) {
                 object = null;
             }
         }

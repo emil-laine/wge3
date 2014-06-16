@@ -3,6 +3,7 @@ package wge3.entity.terrainelements;
 public abstract class MapObject extends TerrainElement {
     
     protected int HP;
+    protected boolean hasDestroyedSprite;
     
     public MapObject() {
         
@@ -18,5 +19,9 @@ public abstract class MapObject extends TerrainElement {
     
     public boolean isDestroyed() {
         return HP <= 0;
+    }
+
+    public boolean hasDestroyedSprite() {
+        return hasDestroyedSprite;
     }
 }
