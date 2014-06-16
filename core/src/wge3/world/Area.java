@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import wge3.entity.character.Bullet;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
@@ -37,6 +38,7 @@ public final class Area implements Drawable {
     private List<NonPlayer> NPCs;
     private List<LightSource> lightSources;
     private List<Item> items;
+    private List<Bullet> bullets;
 
     public Area() throws FileNotFoundException {
         size = 31;
@@ -50,6 +52,7 @@ public final class Area implements Drawable {
         NPCs = new LinkedList<NonPlayer>();
         lightSources = new LinkedList<LightSource>();
         items = new LinkedList<Item>();
+        bullets = new LinkedList<Bullet>();
         
         // Generate map:
         Scanner mapLoader = new Scanner(new File("maps/Untitled.tmx"));
@@ -113,11 +116,27 @@ public final class Area implements Drawable {
     
     @Override
     public void draw(Batch batch) {
+        // draw terrain & items
         for (Iterator<Tile> it = tilesToDraw.iterator(); it.hasNext();) {
-            Tile tile = it.next();
-            tile.draw(batch);
+            it.next().draw(batch);
             it.remove();
         }
+        
+        // draw bullets
+        batch.enableBlending();
+        for (Bullet bullet : bullets) {
+            if (bullet.exists()) {
+                bullet.draw(batch);
+            } else {
+                removeBullet(bullet);
+            }
+        }
+        
+        // draw creatures
+        for (Creature creature : creatures) {
+            creature.draw(batch);
+        }
+        batch.disableBlending();
     }
     
     public Tile getTileAt(float x, float y) {
@@ -187,6 +206,7 @@ public final class Area implements Drawable {
     public void addCreature(Creature guy, int x, int y) {
         guy.setArea(this);
         guy.setPosition(x*Tile.size+Tile.size/2, y*Tile.size+Tile.size/2);
+        guy.updateSpritePosition();
         creatures.add(guy);
         if (guy.getClass() == Player.class) {
             players.add((Player) guy);
@@ -217,5 +237,13 @@ public final class Area implements Drawable {
 
     public List<Creature> getCreatures() {
         return creatures;
+    }
+    
+    public void addBullet(Bullet bullet) {
+        bullets.add(bullet);
+    }
+    
+    public void removeBullet(Bullet bullet) {
+        bullets.remove(bullet);
     }
 }
