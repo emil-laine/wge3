@@ -1,36 +1,44 @@
-package wge3.entity.items;
+package bullets;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
-import wge3.entity.terrainelements.Item;
+import wge3.entity.character.Bullet;
 import static wge3.game.PlayState.mStream;
 import wge3.interfaces.Explosive;
 import wge3.world.Tile;
 
-public final class Bomb extends Item implements Explosive {
-
+public class FusedBomb extends Bullet implements Explosive {
+    
     private Timer timer;
-    private Task task;
+    private Timer.Task task;
     private int time; // in seconds
-    
-    private int damage;
     private int range;
+    private int damage;
     
-    public Bomb() {
+    public FusedBomb() {
+        texture = new Texture(Gdx.files.internal("graphics/terrain.png"));
         sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
-        name = "bomb";
+        
         range = 3;
+        damage = 50;
         
         time = 3;
         timer = new Timer();
-        task = new Task() {
+        task = new Timer.Task() {
 
             @Override
             public void run() {
                 explode();
             }
         };
+    }
+
+    @Override
+    public void draw(Batch batch) {
+        sprite.draw(batch);
     }
     
     public void startTimer() {
@@ -41,22 +49,17 @@ public final class Bomb extends Item implements Explosive {
     public void explode() {
         mStream.addMessage("*EXPLOSION*");
         
-        int x = this.getX();
-        int y = this.getY();
-        int range = this.range;
-        for (Tile currentTile : tile.getArea().getTiles()) {
-            float dx = x - currentTile.getX();
-            float dy = y - currentTile.getY();
+        float x = this.x;
+        float y = this.y;
+        int range = this.range * Tile.size;
+        for (Tile currentTile : area.getTiles()) {
+            float dx = x - currentTile.getX() * Tile.size;
+            float dy = y - currentTile.getY() * Tile.size;
             float distance = (float) Math.sqrt(dx*dx + dy*dy);
             if (distance <= range) {
                 float intensity = 1f-(distance-1)*(1f/range);
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
-    }
-
-    @Override
-    public void use() {
-        
     }
 }
