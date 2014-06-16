@@ -1,5 +1,7 @@
 package wge3.entity.terrainelements;
 
+import wge3.entity.character.Creature;
+
 public abstract class Item extends MapObject {
     
     protected String name;
@@ -14,7 +16,7 @@ public abstract class Item extends MapObject {
         return name;
     }
     
-    public abstract void use();
+    public abstract void use(Creature user);
 
     @Override
     public int hashCode() {
