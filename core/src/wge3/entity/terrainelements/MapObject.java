@@ -2,12 +2,11 @@ package wge3.entity.terrainelements;
 
 public abstract class MapObject extends TerrainElement {
     
-    private int HP;
+    protected int HP;
     
     public MapObject() {
         
         // Default values:
-        HP = 100;
         passable = true;
         blocksVision = true;
         drainsHealth = false;
