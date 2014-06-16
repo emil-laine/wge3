@@ -141,17 +141,19 @@ public abstract class Creature implements Drawable {
 
     @Override
     public void draw(Batch batch) {
-        batch.draw(sprite, getX()-Tile.size/3, getY()-Tile.size/2, 7.5f, 12, 15, 24, 1, 1, direction*MathUtils.radiansToDegrees);
+        sprite.draw(batch);
     }
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
         if (direction >= MathUtils.PI2) direction -= MathUtils.PI2;
+        updateSpriteRotation();
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
         if (direction < 0) direction += MathUtils.PI2;
+        updateSpriteRotation();
     }
 
     public void move(float dx, float dy) {
@@ -170,15 +172,19 @@ public abstract class Creature implements Drawable {
         if (canMoveTo(destX, destY)) {
             setX(destX);
             setY(destY);
+            updateSpritePosition();
         } else if (canMoveTo(getX(), destY)) {
             setY(destY);
+            updateSpritePosition();
         } else if (canMoveTo(destX, getY())) {
             setX(destX);
+            updateSpritePosition();
         }
         
         // Pick up any items in the tile:
         // Could this be optimized by using the same tile as in the beginning of this method?
-        MapObject object = area.getTileAt(getX(), getY()).getObject();
+        currentTile = area.getTileAt(getX(), getY());
+        MapObject object = currentTile.getObject();
         if (object != null && object.isItem()) {
             inventory.addItem((Item) object);
             currentTile.removeObject();
@@ -260,5 +266,13 @@ public abstract class Creature implements Drawable {
             HP += HPRegenRate * delta;
             if (HP > maxHP) HP = maxHP;
         }
+    }
+    
+    public void updateSpritePosition() {
+        sprite.setPosition(getX()-Tile.size/3, getY()-Tile.size/2);
+    }
+    
+    public void updateSpriteRotation() {
+        sprite.setRotation(direction*MathUtils.radiansToDegrees);
     }
 }
