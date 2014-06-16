@@ -16,6 +16,8 @@ import wge3.world.Tile;
 public abstract class Creature implements Drawable {
 
     protected Area area;
+    protected float x;
+    protected float y;
     protected Rectangle bounds;
 
     protected int size;
@@ -65,24 +67,24 @@ public abstract class Creature implements Drawable {
     }
     
     public float getX() {
-        return bounds.x;
+        return x;
     }
 
     public void setX(float x) {
-        bounds.x = x;
+        this.x = x;
     }
 
     public float getY() {
-        return bounds.y;
+        return y;
     }
 
     public void setY(float y) {
-        bounds.y = y;
+        this.y = y;
     }
     
     public void setPosition(int x, int y) {
-        bounds.x = x;
-        bounds.y = y;
+        this.x = x;
+        this.y = y;
     }
 
     public Area getArea() {
