@@ -23,7 +23,7 @@ public final class FusedBomb extends Bullet implements Explosive {
         sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
         
         range = 3;
-        damage = 50;
+        damage = 70;
         time = 3;
         timer = new Timer();
         task = new Timer.Task() {

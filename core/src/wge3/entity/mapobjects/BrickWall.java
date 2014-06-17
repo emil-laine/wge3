@@ -8,7 +8,8 @@ public final class BrickWall extends Wall {
     public BrickWall() {
         sprite = new Sprite(texture, 0, Tile.size, Tile.size, Tile.size);
         hasDestroyedSprite = true;
-        HP = 50;
+        maxHP = 150;
+        HP = 150;
     }
     
     @Override
