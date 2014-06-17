@@ -33,6 +33,8 @@ public abstract class Creature implements Drawable {
     protected int HP;
     protected int HPRegenRate;
     protected long timeOfLastRegen;
+    protected int strength;
+    protected int defense;
     
     protected boolean canSeeEverything;
     protected boolean walksThroughWalls;
@@ -58,6 +60,8 @@ public abstract class Creature implements Drawable {
         HP = maxHP;
         HPRegenRate = 1;
         timeOfLastRegen = TimeUtils.millis();
+        strength = 10;
+        defense = 0;
         
         canSeeEverything = false;
         walksThroughWalls = false;
@@ -261,7 +265,7 @@ public abstract class Creature implements Drawable {
     }
 
     public void dealDamage(int amount) {
-        HP -= amount;
+        HP -= Math.max(amount - defense, 0);
         if (this.isDead()) {
             area.getCreatures().remove(this);
             if (this.isPlayer()) {
@@ -294,6 +298,12 @@ public abstract class Creature implements Drawable {
 
     public void punch() {
         mStream.addMessage("*punch*");
+        float destX = getX() + MathUtils.cos(direction) * Tile.size/2;
+        float destY = getY() + MathUtils.sin(direction) * Tile.size/2;
+        Tile destTile = area.getTileAt(destX, destY);
+        if (!destTile.getCreatures().contains(this)) {
+            destTile.dealDamage(strength);
+        }
     }
     
     public boolean isPlayer() {
