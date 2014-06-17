@@ -144,21 +144,21 @@ public final class Area implements Drawable {
     }
     
     public void calculateLighting() {
-        for (LightSource source : lightSources) {
-            int x = source.getX();
-            int y = source.getY();
-            int range = source.getRange();
+        for (Player player : players) {
+            float x = player.getX();
+            float y = player.getY();
+            int range = 12;
             for (Tile tile : allTiles) {
-                Color color = new Color(source.getColor());
-                float dx = x - tile.getX();
-                float dy = y - tile.getY();
-                float distance = (float) Math.sqrt(dx*dx + dy*dy);
-                if (distance <= range) {
-                    float multiplier = 1f-(distance-1)*(1f/range);
-                    color.mul(multiplier, multiplier, multiplier, 1f);
-                    tile.setLighting(color);
-                } else {
-                    tile.setLighting(new Color(0, 0, 0, 1));
+                if (tile.canBeSeenBy(player)) {
+                    Color color = new Color(1,1,1,1);
+                    float distance = tile.getDistanceTo(x, y) / Tile.size;
+                    if (distance <= range) {
+                        float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
+                        color.mul(multiplier, multiplier, multiplier, 1f);
+                        tile.setLighting(color);
+                    } else {
+                        tile.setLighting(new Color(0, 0, 0, 1));
+                    }
                 }
             }
         }
