@@ -2,10 +2,6 @@ package wge3.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.Timer;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.BrickWall;
 import wge3.world.Area;
@@ -14,7 +10,6 @@ public final class PlayState extends GameState {
     
     private Area area;
     private Player player;
-    private Timer intro[];
     
     public static MessageStream mStream;
 
@@ -33,31 +28,8 @@ public final class PlayState extends GameState {
     @Override
     public void init() {
         mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
-        
         area = new Area();
-        player = new Player();
-        area.addCreature(player, 0, 29);
-        
-        intro = new Timer[2];
-        intro[0] = new Timer();
-        intro[0].scheduleTask(new Timer.Task() {
-
-            @Override
-            public void run() {
-                mStream.addMessage("Find your way through the maze.");
-                mStream.addMessage("Collect bombs and blow the");
-                mStream.addMessage("brickwalls in your way.");
-            }
-        }, 1);
-        intro[1] = new Timer();
-        intro[1].scheduleTask(new Timer.Task() {
-
-            @Override
-            public void run() {
-                mStream.addMessage("X changes weapon, Z uses the");
-                mStream.addMessage("current weapon. Good luck!");
-            }
-        }, 6);
+        player = area.getPlayers().get(0);
     }
 
     @Override

@@ -39,14 +39,14 @@ public final class Area implements Drawable {
         map = new Tile[size][size];
         RNG = new Random();
         
-        allTiles = new LinkedList<Tile>();
-        tilesToDraw = new LinkedList<Tile>();
-        creatures = new LinkedList<Creature>();
-        players = new LinkedList<Player>();
-        NPCs = new LinkedList<NonPlayer>();
+        allTiles     = new LinkedList<Tile>();
+        tilesToDraw  = new LinkedList<Tile>();
+        creatures    = new LinkedList<Creature>();
+        players      = new LinkedList<Player>();
+        NPCs         = new LinkedList<NonPlayer>();
         lightSources = new LinkedList<LightSource>();
-        items = new LinkedList<Item>();
-        bullets = new LinkedList<Bullet>();
+        items        = new LinkedList<Item>();
+        bullets      = new LinkedList<Bullet>();
         
         mapLoader = new MapLoader();
         try {
@@ -125,12 +125,6 @@ public final class Area implements Drawable {
             return null;
         } else {
             return map[x][y];
-        }
-    }
-    
-    public void requestDrawTile(float x, float y) {
-        if (getTileAt(x, y) != null) {
-            tilesToDraw.add(getTileAt(x, y));
         }
     }
 
@@ -215,6 +209,10 @@ public final class Area implements Drawable {
 
     public List<Creature> getCreatures() {
         return creatures;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
     
     public void addBullet(Bullet bullet) {

@@ -3,6 +3,7 @@ package wge3.world;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import wge3.entity.character.Player;
 import wge3.entity.ground.Grass;
 import wge3.entity.ground.Lava;
 import wge3.entity.ground.Water;
@@ -54,6 +55,7 @@ public final class MapLoader {
                     case 13: object = new StoneWall(1); break;
                     case 14: object = new StoneWall(2); break;
                     case 17: object = new Bomb(); break;
+                    case 25: object = null; area.addCreature(new Player(), x, y); break;
                     default: object = null; break;
                 }
                 if (object != null) {
