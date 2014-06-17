@@ -40,7 +40,7 @@ public final class MessageStream implements Drawable {
         font.draw(batch, "HP: " + game.getPlayer().getHP() + "/" + game.getPlayer().getMaxHP(), x, y - line*lineSpacing);
         line++;
         if (game.getPlayer().getSelectedItem() != null) {
-            font.draw(batch, "Selected weapon: " + game.getPlayer().getSelectedItem().getName(), x, y - line*lineSpacing);
+            font.draw(batch, "Selected weapon: " + game.getPlayer().getSelectedItem().getName() + " (x" + game.getPlayer().getInventory().getAmount(game.getPlayer().getSelectedItem()) + ")", x, y - line*lineSpacing);
         } else {
             font.draw(batch, "Selected weapon: unarmed", x, y - line*lineSpacing);
         }
@@ -63,7 +63,7 @@ public final class MessageStream implements Drawable {
         
         for (Iterator<Long> it = messages.keySet().iterator(); it.hasNext();) {
             Long time = it.next();
-            if (TimeUtils.timeSinceMillis(time) < 4000) {
+            if (TimeUtils.nanosToMillis(TimeUtils.timeSinceNanos(time)) < 4000) {
                 font.draw(batch, messages.get(time), x, y - line*lineSpacing);
                 line++;
             } else {
@@ -81,6 +81,6 @@ public final class MessageStream implements Drawable {
     }
     
     public void addMessage(String message) {
-        messages.put(TimeUtils.millis(), message);
+        messages.put(TimeUtils.nanoTime(), message);
     };
 }
