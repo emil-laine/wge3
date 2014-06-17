@@ -3,28 +3,19 @@ package wge3.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import wge3.entity.character.Bullet;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
-import wge3.entity.ground.Grass;
-import wge3.entity.ground.Lava;
-import wge3.entity.ground.Water;
-import wge3.entity.ground.WoodenFloor;
-import wge3.entity.items.Bomb;
-import wge3.entity.mapobjects.BrickWall;
 import wge3.entity.mapobjects.LightSource;
-import wge3.entity.mapobjects.StoneWall;
-import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.Item;
-import wge3.entity.terrainelements.MapObject;
 import wge3.interfaces.Drawable;
 
 public final class Area implements Drawable {
@@ -32,6 +23,7 @@ public final class Area implements Drawable {
     private int size;
     private Random RNG;
     private TiledMap tiledMap;
+    private MapLoader mapLoader;
     
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
@@ -42,7 +34,7 @@ public final class Area implements Drawable {
     private List<Item> items;
     private List<Bullet> bullets;
 
-    public Area() throws FileNotFoundException {
+    public Area() {
         size = 31;
         map = new Tile[size][size];
         RNG = new Random();
@@ -56,52 +48,12 @@ public final class Area implements Drawable {
         items = new LinkedList<Item>();
         bullets = new LinkedList<Bullet>();
         
-        // Generate map:
-        Scanner mapLoader = new Scanner(new File("maps/1.tmx"));
-        mapLoader.useDelimiter("[,\n]");
-        for (int i = 0; i < 7; i++) mapLoader.nextLine();
-
-        // Create tiles and load grounds:
-        for (int y = size-1; y >= 0; y--) {
-            for (int x = 0; x < size; x++) {
-                Ground ground;
-                switch (mapLoader.nextInt()) {
-                    case 1: ground = new Grass(); break;
-                    case 2: ground = new WoodenFloor(); break;
-                    case 3: ground = new Water(); break;
-                    case 4: ground = new Lava(); break;
-                    default:ground = new Grass(); break;
-                }
-                Tile newtile = new Tile();
-                newtile.setGround(ground);
-                addTile(newtile, x, y);
-            }
-            mapLoader.nextLine();
+        mapLoader = new MapLoader();
+        try {
+            mapLoader.loadMap("1", this);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (int i = 0; i < 4; i++) mapLoader.nextLine();
-        
-        // Load objects:
-        for (int y = size-1; y >= 0; y--) {
-            for (int x = 0; x < size; x++) {
-                MapObject object;
-                switch (mapLoader.nextInt()) {
-                    case 0:  object = null; break;
-                    case 9:  object = new BrickWall(); break;
-                    case 12: object = new StoneWall(0); break;
-                    case 13: object = new StoneWall(1); break;
-                    case 14: object = new StoneWall(2); break;
-                    case 17: object = new Bomb(); break;
-                    default: object = null; break;
-                }
-                if (object != null) {
-                    map[x][y].setObject(object);
-                }
-            }
-            mapLoader.nextLine();
-        }
-        mapLoader.close();
-
-        calculateLighting();
     }
     
     public Tile[][] getMap() {
@@ -125,13 +77,20 @@ public final class Area implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        // draw terrain & items
-        for (Iterator<Tile> it = tilesToDraw.iterator(); it.hasNext();) {
-            it.next().draw(batch);
-            it.remove();
+        drawTiles(batch);
+        drawBullets(batch);
+        drawCreatures(batch);
+    }
+
+    public void drawCreatures(Batch batch) {
+        batch.enableBlending();
+        for (Creature creature : creatures) {
+            creature.draw(batch);
         }
-        
-        // draw bullets
+        batch.disableBlending();
+    }
+
+    public void drawBullets(Batch batch) {
         batch.enableBlending();
         for (Bullet bullet : bullets) {
             if (bullet.exists()) {
@@ -140,12 +99,14 @@ public final class Area implements Drawable {
                 removeBullet(bullet);
             }
         }
-        
-        // draw creatures
-        for (Creature creature : creatures) {
-            creature.draw(batch);
-        }
         batch.disableBlending();
+    }
+
+    public void drawTiles(Batch batch) {
+        for (Iterator<Tile> it = tilesToDraw.iterator(); it.hasNext();) {
+            it.next().draw(batch);
+            it.remove();
+        }
     }
     
     public Tile getTileAt(float x, float y) {
@@ -157,6 +118,14 @@ public final class Area implements Drawable {
         }
         
         return map[x0][y0];
+    }
+    
+    public Tile getTileAt(int x, int y) {
+        if (x < 0 || x >= size || y < 0 || y >= size) {
+            return null;
+        } else {
+            return map[x][y];
+        }
     }
     
     public void requestDrawTile(float x, float y) {

@@ -34,13 +34,10 @@ public final class PlayState extends GameState {
     public void init() {
         mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
         
-        try {
-            area = new Area();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PlayState.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        area = new Area();
         player = new Player();
-        area.addCreature(player, 1, 29);
+        area.addCreature(player, 0, 29);
+        
         intro = new Timer[2];
         intro[0] = new Timer();
         intro[0].scheduleTask(new Timer.Task() {
