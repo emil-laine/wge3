@@ -15,6 +15,7 @@ import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
 import wge3.entity.ground.Grass;
+import wge3.entity.ground.Lava;
 import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
 import wge3.entity.items.Bomb;
@@ -68,6 +69,7 @@ public final class Area implements Drawable {
                     case 1: ground = new Grass(); break;
                     case 2: ground = new WoodenFloor(); break;
                     case 3: ground = new Water(); break;
+                    case 4: ground = new Lava(); break;
                     default:ground = new Grass(); break;
                 }
                 Tile newtile = new Tile();

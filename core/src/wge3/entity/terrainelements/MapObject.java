@@ -11,7 +11,7 @@ public abstract class MapObject extends TerrainElement {
         HP = 100;
         passable = true;
         blocksVision = true;
-        drainsHealth = false;
+        drainsHP = false;
     }
 
     public void dealDamage(int amount) {

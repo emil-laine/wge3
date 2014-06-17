@@ -19,8 +19,8 @@ public abstract class TerrainElement implements Drawable {
     
     protected boolean passable;
     protected boolean blocksVision;
-    protected boolean drainsHealth;
-    protected int healthDrainAmount;
+    protected boolean drainsHP;
+    protected int HPDrainAmount;
     protected float movementModifier;
     // Effects of movementModifier's values:
     // ]1, inf[ -> speeds up movement
@@ -68,11 +68,11 @@ public abstract class TerrainElement implements Drawable {
     }
 
     public boolean drainsHealth() {
-        return drainsHealth;
+        return drainsHP;
     }
 
     public int getHealthDrainAmount() {
-        return healthDrainAmount;
+        return HPDrainAmount;
     }
     
     public float getMovementModifier() {
