@@ -21,6 +21,14 @@ public abstract class Bullet implements Drawable {
     public Bullet() {
         exists = true;
     }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
     
     public void setArea(Area area) {
         this.area = area;
