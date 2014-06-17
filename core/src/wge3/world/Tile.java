@@ -125,15 +125,26 @@ public class Tile implements Drawable {
         }
     }
     
-    public boolean canBeSeenBy(Creature c) {
-        float dx = c.getX() - bounds.x;
-        float dy = c.getY() - bounds.y;
-        // If dx < 0, the tile is to the right of c.
-        // If dx > 0, the tile is to the left of c.
-        // If dy < 0, the tile is above c.
-        // If dy > 0, the tile is below c.
+    public boolean canBeSeenBy(Creature creature) {
+        int tileX = getX()*Tile.size + Tile.size/2;
+        int tileY = getY()*Tile.size + Tile.size/2;
+        float creatureX = creature.getX();
+        float creatureY = creature.getY();
+        float dx = creatureX - tileX;
+        float dy = creatureY - tileY;
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
-        return distance <= c.getSight() * Tile.size;
+        if (distance > creature.getSight() * Tile.size) {
+            return false;
+        }
+        distance /= Tile.size;
+        
+        for (int i = 1; i <= distance; i++) {
+            if (area.getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance)).blocksVision()) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     public boolean hasObject() {
