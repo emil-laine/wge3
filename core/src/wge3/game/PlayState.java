@@ -2,6 +2,7 @@ package wge3.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.utils.Timer;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ public final class PlayState extends GameState {
     
     private Area area;
     private Player player;
+    private Timer intro[];
     
     public static MessageStream mStream;
 
@@ -38,7 +40,27 @@ public final class PlayState extends GameState {
             Logger.getLogger(PlayState.class.getName()).log(Level.SEVERE, null, ex);
         }
         player = new Player();
-        area.addCreature(player);
+        area.addCreature(player, 1, 29);
+        intro = new Timer[2];
+        intro[0] = new Timer();
+        intro[0].scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                mStream.addMessage("Find your way through the maze.");
+                mStream.addMessage("Collect bombs and blow the");
+                mStream.addMessage("brickwalls in your way.");
+            }
+        }, 1);
+        intro[1] = new Timer();
+        intro[1].scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                mStream.addMessage("X changes weapon, Z uses the");
+                mStream.addMessage("current weapon. Good luck!");
+            }
+        }, 6);
     }
 
     @Override
@@ -70,7 +92,7 @@ public final class PlayState extends GameState {
         } else if (input.isPressed(5)) {
             player.changeItem();
         } else if (input.isPressed(6)) {
-            player.toggleCanSeeEverything();
+            //player.toggleCanSeeEverything();
         } else if (input.isPressed(7)) {
             player.toggleWalksThroughWalls();
             if (player.walksThroughWalls()) mStream.addMessage("Ghost Mode On");
