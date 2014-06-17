@@ -15,7 +15,7 @@ public class Tile implements Drawable {
     public static final int size = 24;
     
     private Area area;
-    private int x, y;
+    private int x, y; // in tiles
     private Rectangle bounds;
     
     private Ground ground;
@@ -126,14 +126,17 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
+        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight());
+    }
+    
+    public boolean canBeSeenFrom(float x, float y, int range) {
+        // range: in tiles
         int tileX = getX()*Tile.size + Tile.size/2;
         int tileY = getY()*Tile.size + Tile.size/2;
-        float creatureX = creature.getX();
-        float creatureY = creature.getY();
-        float dx = creatureX - tileX;
-        float dy = creatureY - tileY;
+        float dx = x - tileX;
+        float dy = y - tileY;
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
-        if (distance > creature.getSight() * Tile.size) {
+        if (distance > range * Tile.size) {
             return false;
         }
         distance /= Tile.size;
@@ -145,6 +148,12 @@ public class Tile implements Drawable {
         }
         
         return true;
+    }
+    
+    public float getDistanceTo(float x, float y) {
+        float dx = x - this.getX()*Tile.size + Tile.size/2;
+        float dy = y - this.getY()*Tile.size + Tile.size/2;
+        return (float) Math.sqrt(dx*dx + dy*dy);
     }
 
     public boolean hasObject() {

@@ -36,6 +36,10 @@ public class FusedBomb extends Bullet implements Explosive {
         };
     }
 
+    public int getRange() {
+        return range;
+    }
+
     @Override
     public void draw(Batch batch) {
         sprite.draw(batch);
@@ -49,15 +53,13 @@ public class FusedBomb extends Bullet implements Explosive {
     public void explode() {
         mStream.addMessage("*EXPLOSION*");
         
-        float x = this.x;
-        float y = this.y;
-        int range = this.range * Tile.size;
+        float x = this.getX();
+        float y = this.getY();
+        int range = this.getRange();
         for (Tile currentTile : area.getTiles()) {
-            float dx = x - currentTile.getX()*Tile.size + Tile.size/2;
-            float dy = y - currentTile.getY()*Tile.size + Tile.size/2;
-            float distance = (float) Math.sqrt(dx*dx + dy*dy);
-            if (distance <= range) {
-                float intensity = 1f-(distance-1)*(1f/range);
+            if (currentTile.canBeSeenFrom(x, y, range)) {
+                float distance = currentTile.getDistanceTo(x, y);
+                float intensity = 1f - (distance-1) * (1f / (range*Tile.size));
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
