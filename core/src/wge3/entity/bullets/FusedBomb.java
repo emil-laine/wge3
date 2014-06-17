@@ -10,7 +10,7 @@ import static wge3.game.PlayState.mStream;
 import wge3.interfaces.Explosive;
 import wge3.world.Tile;
 
-public class FusedBomb extends Bullet implements Explosive {
+public final class FusedBomb extends Bullet implements Explosive {
     
     private Timer timer;
     private Timer.Task task;
@@ -24,7 +24,6 @@ public class FusedBomb extends Bullet implements Explosive {
         
         range = 3;
         damage = 50;
-        
         time = 3;
         timer = new Timer();
         task = new Timer.Task() {
@@ -58,8 +57,9 @@ public class FusedBomb extends Bullet implements Explosive {
         int range = this.getRange();
         for (Tile currentTile : area.getTiles()) {
             if (currentTile.canBeSeenFrom(x, y, range)) {
-                float distance = currentTile.getDistanceTo(x, y);
-                float intensity = 1f - (distance-1) * (1f / (range*Tile.size));
+                float distance = currentTile.getDistanceTo(x, y) / Tile.size;
+                float intensity = 1f - Math.max(distance-1f, 0f) * (1f / range);
+                // intensity = 1, when distance = [0,1].
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
