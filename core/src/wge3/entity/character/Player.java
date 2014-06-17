@@ -22,6 +22,8 @@ public final class Player extends Creature {
         goingBackward = false;
         turningLeft = false;
         turningRight = false;
+        
+        defense = 5;
     }
     
     public void goForward(boolean truth) {
