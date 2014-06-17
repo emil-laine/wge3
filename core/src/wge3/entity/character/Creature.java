@@ -262,6 +262,12 @@ public abstract class Creature implements Drawable {
 
     public void dealDamage(int amount) {
         HP -= amount;
+        if (this.isDead()) {
+            area.getCreatures().remove(this);
+            if (this.isPlayer()) {
+                area.getPlayers().remove((Player) this);
+            }
+        }
     }
 
     public boolean isDead() {
@@ -286,7 +292,11 @@ public abstract class Creature implements Drawable {
         sprite.setRotation(direction*MathUtils.radiansToDegrees);
     }
 
-    private void punch() {
+    public void punch() {
         mStream.addMessage("*punch*");
+    }
+    
+    public boolean isPlayer() {
+        return this.getClass() == Player.class;
     }
 }
