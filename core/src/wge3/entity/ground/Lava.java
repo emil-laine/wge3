@@ -11,6 +11,6 @@ public final class Lava extends Ground {
         
         drainsHP = true;
         HPDrainAmount = 2;
-        movementModifier = 0.7f;
+        movementModifier = 0.5f;
     }
 }
