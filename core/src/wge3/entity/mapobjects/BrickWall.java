@@ -10,6 +10,7 @@ public final class BrickWall extends Wall {
         hasDestroyedSprite = true;
         maxHP = 150;
         HP = 150;
+        hardness = 8;
     }
     
     @Override
