@@ -53,8 +53,8 @@ public class FusedBomb extends Bullet implements Explosive {
         float y = this.y;
         int range = this.range * Tile.size;
         for (Tile currentTile : area.getTiles()) {
-            float dx = x - currentTile.getX() * Tile.size;
-            float dy = y - currentTile.getY() * Tile.size;
+            float dx = x - currentTile.getX()*Tile.size + Tile.size/2;
+            float dy = y - currentTile.getY()*Tile.size + Tile.size/2;
             float distance = (float) Math.sqrt(dx*dx + dy*dy);
             if (distance <= range) {
                 float intensity = 1f-(distance-1)*(1f/range);
