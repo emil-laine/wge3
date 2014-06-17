@@ -3,6 +3,7 @@ package wge3.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.utils.TimeUtils;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,6 +34,8 @@ public final class Area implements Drawable {
     private List<LightSource> lightSources;
     private List<Item> items;
     private List<Bullet> bullets;
+    
+    private long timeOfLastPassTime;
 
     public Area() {
         size = 31;
@@ -54,10 +57,6 @@ public final class Area implements Drawable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    public Tile[][] getMap() {
-        return map;
     }
     
     public List<Tile> getTiles() {
@@ -222,5 +221,19 @@ public final class Area implements Drawable {
     
     public void removeBullet(Bullet bullet) {
         bullets.remove(bullet);
+    }
+
+    public void passTime(float delta) {
+        long currentTime = TimeUtils.millis();
+        if (currentTime - timeOfLastPassTime > 100) {
+            for (Creature creature : creatures) {
+                Tile tileUnderCreature = getTileAt(creature.getX(), creature.getY());
+                if (tileUnderCreature.drainsHP()) {
+                    creature.dealDamage((int) (tileUnderCreature.getHPDrainAmount()));
+                }
+                creature.regenerateHP(currentTime);
+            }
+            timeOfLastPassTime = currentTime;
+        }
     }
 }

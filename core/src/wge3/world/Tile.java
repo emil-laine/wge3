@@ -221,4 +221,20 @@ public class Tile implements Drawable {
         }
         return true;
     }
+    
+    public boolean drainsHP() {
+        if (object == null) {
+            return ground.drainsHP();
+        } else {
+            return object.drainsHP();
+        }
+    }
+    
+    public int getHPDrainAmount() {
+        if (object == null) {
+            return ground.getHPDrainAmount();
+        } else {
+            return object.getHPDrainAmount();
+        }
+    }
 }

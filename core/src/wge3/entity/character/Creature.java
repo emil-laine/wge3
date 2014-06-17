@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.TimeUtils;
 import java.util.Random;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
@@ -31,6 +32,7 @@ public abstract class Creature implements Drawable {
     protected int maxHP;
     protected int HP;
     protected int HPRegenRate;
+    protected long timeOfLastRegen;
     
     protected boolean canSeeEverything;
     protected boolean walksThroughWalls;
@@ -54,6 +56,8 @@ public abstract class Creature implements Drawable {
         
         maxHP = 100;
         HP = maxHP;
+        HPRegenRate = 1;
+        timeOfLastRegen = TimeUtils.millis();
         
         canSeeEverything = false;
         walksThroughWalls = false;
@@ -264,10 +268,13 @@ public abstract class Creature implements Drawable {
         return HP <= 0;
     }
     
-    public void regenerateHP(float delta) {
-        if (HP < maxHP) {
-            HP += HPRegenRate * delta;
-            if (HP > maxHP) HP = maxHP;
+    public void regenerateHP(long currentTime) {
+        if (currentTime - timeOfLastRegen > 1000) {
+            if (HP < maxHP) {
+                HP += HPRegenRate;
+                if (HP > maxHP) HP = maxHP;
+            }
+            timeOfLastRegen = currentTime;
         }
     }
     

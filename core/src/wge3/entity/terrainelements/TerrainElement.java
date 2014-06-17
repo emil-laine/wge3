@@ -31,6 +31,7 @@ public abstract class TerrainElement implements Drawable {
     
     public TerrainElement() {
         // Default values:
+        drainsHP = false;
         movementModifier = 1f;
     }
 
@@ -67,11 +68,11 @@ public abstract class TerrainElement implements Drawable {
         return blocksVision;
     }
 
-    public boolean drainsHealth() {
+    public boolean drainsHP() {
         return drainsHP;
     }
 
-    public int getHealthDrainAmount() {
+    public int getHPDrainAmount() {
         return HPDrainAmount;
     }
     

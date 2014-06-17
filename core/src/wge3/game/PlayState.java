@@ -38,6 +38,7 @@ public final class PlayState extends GameState {
         input.updateKeyDowns();
         player.updatePosition(delta);
         area.calculateFOV();
+        area.passTime(delta);
     }
 
     @Override
