@@ -14,8 +14,6 @@ public abstract class TerrainElement implements Drawable {
     
     protected final static Texture texture = new Texture(Gdx.files.internal("graphics/terrain.png"));
     protected Sprite sprite;
-    protected int spriteX;
-    protected int spriteY;
     
     protected boolean passable;
     protected boolean blocksVision;
