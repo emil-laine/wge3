@@ -8,7 +8,7 @@ public final class BrickWall extends Wall {
     public BrickWall() {
         sprite = new Sprite(texture, 0, Tile.size, Tile.size, Tile.size);
         hasDestroyedSprite = true;
-        HP = 60;
+        HP = 50;
     }
     
     @Override
@@ -21,7 +21,7 @@ public final class BrickWall extends Wall {
             passable = true;
             blocksVision = false;
             movementModifier = 0.7f;
-        } else if (HP < 30) {
+        } else if (HP < maxHP/2) {
             // show damaged sprite
             sprite.setRegion(Tile.size, Tile.size, Tile.size, Tile.size);
             blocksVision = false;

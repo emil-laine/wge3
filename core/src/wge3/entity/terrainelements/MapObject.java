@@ -2,13 +2,15 @@ package wge3.entity.terrainelements;
 
 public abstract class MapObject extends TerrainElement {
     
+    protected int maxHP;
     protected int HP;
     protected boolean hasDestroyedSprite;
     
     public MapObject() {
         
         // Default values:
-        HP = 100;
+        maxHP = 50;
+        HP = maxHP;
         passable = true;
         blocksVision = true;
         drainsHP = false;
