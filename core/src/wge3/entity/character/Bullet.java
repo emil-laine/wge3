@@ -1,5 +1,6 @@
 package wge3.entity.character;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.interfaces.Drawable;
@@ -42,5 +43,13 @@ public abstract class Bullet implements Drawable {
     
     public boolean exists() {
         return exists;
+    }
+    
+    public boolean canBeSeenBy(Creature creature) {
+        return area.getTileAt(getX(), getY()).canBeSeenBy(creature);
+    }
+    
+    public void setLighting(Color color) {
+        sprite.setColor(color);
     }
 }

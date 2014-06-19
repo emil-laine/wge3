@@ -1,5 +1,6 @@
 package wge3.entity.character;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -47,10 +48,10 @@ public abstract class Creature implements Drawable {
     protected Texture texture;
     protected Sprite sprite;
     
-    private boolean goingForward;
-    private boolean goingBackward;
-    private boolean turningLeft;
-    private boolean turningRight;
+    protected boolean goingForward;
+    protected boolean goingBackward;
+    protected boolean turningLeft;
+    protected boolean turningRight;
 
     public Creature() {
         size = Tile.size;
@@ -271,12 +272,9 @@ public abstract class Creature implements Drawable {
     }
 
     public void dealDamage(int amount) {
-        HP -= Math.max(amount - defense, 0);
+        HP -= Math.max(amount - defense, 1);
         if (this.isDead()) {
-            area.getCreatures().remove(this);
-            if (this.isPlayer()) {
-                area.getPlayers().remove((Player) this);
-            }
+            area.removeCreature(this);
         }
     }
 
@@ -352,5 +350,9 @@ public abstract class Creature implements Drawable {
     
     public boolean canBeSeenBy(Creature creature) {
         return area.getTileAt(getX(), getY()).canBeSeenBy(creature);
+    }
+    
+    public void setLighting(Color color) {
+        sprite.setColor(color);
     }
 }

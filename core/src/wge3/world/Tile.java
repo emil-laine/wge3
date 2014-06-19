@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
+import wge3.entity.character.Bullet;
 import wge3.entity.character.Creature;
 import wge3.interfaces.Drawable;
 
@@ -93,6 +94,12 @@ public class Tile implements Drawable {
     public void setLighting(Color color) {
         ground.setLighting(color);
         if (object != null) object.setLighting(color);
+        for (Creature creature : getCreatures()) {
+            creature.setLighting(color);
+        }
+        for (Bullet bullet : getBullets()) {
+            bullet.setLighting(color);
+        }
     }
     
     public float getMovementModifier() {
@@ -177,6 +184,16 @@ public class Tile implements Drawable {
             }
         }
         return creatures;
+    }
+    
+    public List<Bullet> getBullets() {
+        List<Bullet> bullets = new LinkedList<Bullet>();
+        for (Bullet bullet : area.getBullets()) {
+            if (area.getTileAt(bullet.getX(), bullet.getY()).equals(this)) {
+                bullets.add(bullet);
+            }
+        }
+        return bullets;
     }
 
     public void dealDamage(int amount) {
