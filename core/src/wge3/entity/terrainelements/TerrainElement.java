@@ -12,7 +12,7 @@ public abstract class TerrainElement implements Drawable {
     
     protected Tile tile;
     
-    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/terrain.png"));
+    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
     protected Sprite sprite;
     
     protected boolean passable;
