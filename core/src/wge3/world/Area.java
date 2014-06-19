@@ -51,7 +51,7 @@ public final class Area implements Drawable {
         
         mapLoader = new MapLoader();
         try {
-            mapLoader.loadMap("1", this);
+            mapLoader.loadMap("Untitled", this);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -111,8 +111,12 @@ public final class Area implements Drawable {
     
     public void drawCreatures(Batch batch) {
         batch.enableBlending();
-        for (Creature creature : creatures) {
-            creature.draw(batch);
+        for (Player player : players) {
+            for (Creature creature : creatures) {
+                if (creature.canBeSeenBy(player)) {
+                    creature.draw(batch);
+                }
+            }
         }
         batch.disableBlending();
     }
@@ -149,18 +153,14 @@ public final class Area implements Drawable {
         for (Player player : players) {
             float x = player.getX();
             float y = player.getY();
-            int range = 12;
+            int range = player.getSight();
             for (Tile tile : allTiles) {
                 if (tile.canBeSeenBy(player)) {
-                    Color color = new Color(1,1,1,1);
+                    Color color = new Color(1, 1, 1, 1);
                     float distance = tile.getDistanceTo(x, y) / Tile.size;
-                    if (distance <= range) {
-                        float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
-                        color.mul(multiplier, multiplier, multiplier, 1f);
-                        tile.setLighting(color);
-                    } else {
-                        tile.setLighting(new Color(0, 0, 0, 1));
-                    }
+                    float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
+                    color.mul(multiplier, multiplier, multiplier, 1f);
+                    tile.setLighting(color);
                 }
             }
         }
