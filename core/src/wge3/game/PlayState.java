@@ -2,6 +2,7 @@ package wge3.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import wge3.entity.character.Creature;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.BrickWall;
 import wge3.world.Area;
@@ -36,10 +37,13 @@ public final class PlayState extends GameState {
     public void update(float delta) {
         handleInput();
         input.updateKeyDowns();
-        player.updatePosition(delta);
+        for (Creature creature : area.getCreatures()) {
+            creature.updatePosition(delta);
+        }
         area.calculateFOV();
         area.calculateLighting();
         area.passTime(delta);
+        doAI();
     }
 
     @Override
@@ -82,5 +86,9 @@ public final class PlayState extends GameState {
     @Override
     public void dispose() {
         // code...
+    }
+
+    private void doAI() {
+        
     }
 }

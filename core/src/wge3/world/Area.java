@@ -117,17 +117,18 @@ public final class Area implements Drawable {
                     creature.draw(batch);
                 }
             }
+            player.draw(batch);
         }
         batch.disableBlending();
     }
 
     public void drawBullets(Batch batch) {
         batch.enableBlending();
-        for (Bullet bullet : bullets) {
-            if (bullet.exists()) {
-                bullet.draw(batch);
-            } else {
-                removeBullet(bullet);
+        for (Player player : players) {
+            for (Bullet bullet : bullets) {
+                if (bullet.canBeSeenBy(player)) {
+                    bullet.draw(batch);
+                }
             }
         }
         batch.disableBlending();
@@ -188,6 +189,15 @@ public final class Area implements Drawable {
         }
     }
     
+    public void removeCreature(Creature creature) {
+        creatures.remove(creature);
+        if (!creature.isPlayer()) {
+            NPCs.remove((NonPlayer) creature);
+        } else {
+            players.remove((Player) creature);
+        }
+    }
+    
     public void addLightSource(LightSource light) {
         light.setArea(this);
         lightSources.add(light);
@@ -214,6 +224,10 @@ public final class Area implements Drawable {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
     }
     
     public void addBullet(Bullet bullet) {
