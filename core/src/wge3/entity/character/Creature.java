@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import static com.badlogic.gdx.math.MathUtils.PI;
+import static com.badlogic.gdx.math.MathUtils.PI2;
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import java.util.Random;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
 import static wge3.game.PlayState.mStream;
@@ -44,24 +46,23 @@ public abstract class Creature implements Drawable {
     
     protected Texture texture;
     protected Sprite sprite;
-    protected Random RNG;
+    
+    private boolean goingForward;
+    private boolean goingBackward;
+    private boolean turningLeft;
+    private boolean turningRight;
 
     public Creature() {
-        RNG = new Random();
         size = Tile.size;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
-        direction = RNG.nextFloat() * MathUtils.PI2;
+        direction = random() * PI2;
         turningSpeed = 3.5f;
         sight = 10;
-        FOV = MathUtils.PI/4*3;
+        FOV = PI/4*3;
         
-        maxHP = 100;
-        HP = maxHP;
         HPRegenRate = 1;
         timeOfLastRegen = TimeUtils.millis();
-        strength = 10;
-        defense = 0;
         
         canSeeEverything = false;
         walksThroughWalls = false;
@@ -72,6 +73,11 @@ public abstract class Creature implements Drawable {
         
         inventory = new Inventory();
         inventory.setOwner(this);
+        
+        goingForward = false;
+        goingBackward = false;
+        turningLeft = false;
+        turningRight = false;
     }
     
     public float getX() {
@@ -308,5 +314,43 @@ public abstract class Creature implements Drawable {
     
     public boolean isPlayer() {
         return this.getClass() == Player.class;
+    }
+    
+    public void goForward(boolean truth) {
+        goingForward = truth;
+    }
+    
+    public void goBackward(boolean truth) {
+        goingBackward = truth;
+    }
+    
+    public void turnLeft(boolean truth) {
+        turningLeft = truth;
+    }
+    
+    public void turnRight(boolean truth) {
+        turningRight = truth;
+    }
+
+    public void updatePosition(float delta) {
+        if (goingForward) {
+            float dx = MathUtils.cos(direction) * currentSpeed * delta;
+            float dy = MathUtils.sin(direction) * currentSpeed * delta;
+            move(dx, dy);
+        } else if (goingBackward) {
+            float dx = -(MathUtils.cos(direction) * currentSpeed/1.5f * delta);
+            float dy = -(MathUtils.sin(direction) * currentSpeed/1.5f * delta);
+            move(dx, dy);
+        }
+        
+        if (turningLeft) {
+            turnLeft(delta);
+        } else if (turningRight) {
+            turnRight(delta);
+        }
+    }
+    
+    public boolean canBeSeenBy(Creature creature) {
+        return area.getTileAt(getX(), getY()).canBeSeenBy(creature);
     }
 }
