@@ -237,4 +237,8 @@ public class Tile implements Drawable {
             return object.getHPDrainAmount();
         }
     }
+    
+    public void requestDraw() {
+        area.addToDrawList(this);
+    }
 }

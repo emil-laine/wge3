@@ -3,12 +3,12 @@ package wge3.world;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wge3.entity.character.Bullet;
@@ -22,7 +22,6 @@ import wge3.interfaces.Drawable;
 public final class Area implements Drawable {
     private Tile[][] map;
     private int size;
-    private Random RNG;
     private TiledMap tiledMap;
     private MapLoader mapLoader;
     
@@ -40,7 +39,6 @@ public final class Area implements Drawable {
     public Area() {
         size = 31;
         map = new Tile[size][size];
-        RNG = new Random();
         
         allTiles     = new LinkedList<Tile>();
         tilesToDraw  = new LinkedList<Tile>();
@@ -81,26 +79,6 @@ public final class Area implements Drawable {
         drawCreatures(batch);
     }
 
-    public void drawCreatures(Batch batch) {
-        batch.enableBlending();
-        for (Creature creature : creatures) {
-            creature.draw(batch);
-        }
-        batch.disableBlending();
-    }
-
-    public void drawBullets(Batch batch) {
-        batch.enableBlending();
-        for (Bullet bullet : bullets) {
-            if (bullet.exists()) {
-                bullet.draw(batch);
-            } else {
-                removeBullet(bullet);
-            }
-        }
-        batch.disableBlending();
-    }
-
     public void drawTiles(Batch batch) {
         for (Iterator<Tile> it = tilesToDraw.iterator(); it.hasNext();) {
             it.next().draw(batch);
@@ -126,13 +104,37 @@ public final class Area implements Drawable {
             return map[x][y];
         }
     }
+    
+    public void addToDrawList(Tile tile) {
+        tilesToDraw.add(tile);
+    }
+    
+    public void drawCreatures(Batch batch) {
+        batch.enableBlending();
+        for (Creature creature : creatures) {
+            creature.draw(batch);
+        }
+        batch.disableBlending();
+    }
+
+    public void drawBullets(Batch batch) {
+        batch.enableBlending();
+        for (Bullet bullet : bullets) {
+            if (bullet.exists()) {
+                bullet.draw(batch);
+            } else {
+                removeBullet(bullet);
+            }
+        }
+        batch.disableBlending();
+    }
 
     public void calculateFOV() {
         for (Player player : players) {
             if (!player.canSeeEverything()) {
                 for (Tile tile : allTiles) {
                     if (tile.canBeSeenBy(player)) {
-                        tilesToDraw.add(tile);
+                        tile.requestDraw();
                     }
                 }
             } else {
@@ -169,7 +171,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = map[RNG.nextInt(size)][RNG.nextInt(size)];
+            dest = map[MathUtils.random(size-1)][MathUtils.random(size-1)];
         } while (dest.hasObject());
         addCreature(guy, dest.getX(), dest.getY());
     }
@@ -201,7 +203,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = map[RNG.nextInt(size)][RNG.nextInt(size)];
+            dest = map[MathUtils.random(size-1)][MathUtils.random(size-1)];
         } while (dest.hasObject());
         addItem(item, dest.getX(), dest.getY());
     }
