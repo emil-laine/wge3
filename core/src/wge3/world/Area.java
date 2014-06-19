@@ -112,7 +112,7 @@ public final class Area implements Drawable {
     public void drawCreatures(Batch batch) {
         batch.enableBlending();
         for (Player player : players) {
-            for (Creature creature : creatures) {
+            for (Creature creature : NPCs) {
                 if (creature.canBeSeenBy(player)) {
                     creature.draw(batch);
                 }
