@@ -11,6 +11,7 @@ public final class Player extends Creature {
         sprite = new Sprite(texture);
         updateSpriteRotation();
         
+        size = 14;
         maxHP = 100;
         HP = maxHP;
         strength = 10;
