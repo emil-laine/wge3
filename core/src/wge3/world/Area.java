@@ -160,8 +160,9 @@ public final class Area implements Drawable {
     
     public void calculateLighting() {
         for (Player player : players) {
-            float x = player.getX();
-            float y = player.getY();
+            Tile srcTile = player.getTile();
+            int x = srcTile.getX() * Tile.size + Tile.size/2;
+            int y = srcTile.getY() * Tile.size + Tile.size/2;
             int range = player.getSight();
             for (Tile tile : allTiles) {
                 if (tile.canBeSeenBy(player)) {
