@@ -54,7 +54,7 @@ public abstract class Creature implements Drawable {
     protected boolean turningRight;
 
     public Creature() {
-        size = Tile.size;
+        size = Tile.size / 3;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
         direction = random() * PI2;
