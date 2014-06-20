@@ -1,5 +1,5 @@
 # WGE3
-A [WGE2](http://arisuonpaa.com/veryold/wge2.php) clone with additional features, such as rotational movement, field of vision and larger maps. Written in Java using the [libGDX](http://libgdx.badlogicgames.com/) game development framework.
+A 2D top-down action game currently in development, heavily influenced by the likes of [WGE2](http://arisuonpaa.com/veryold/wge2.php) and [Tapan Kaikki](http://news.bigdownload.com/2009/04/03/freeware-friday-tapan-kaikki-bloodshed/). Written in Java using the [libGDX](http://libgdx.badlogicgames.com/) game development framework.
 
 ![Which way should I go?](https://raw.githubusercontent.com/emlai/wge3/master/core/assets/screenshots/screenshot2.png)
 
