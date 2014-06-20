@@ -355,4 +355,8 @@ public abstract class Creature implements Drawable {
     public void setLighting(Color color) {
         sprite.setColor(color);
     }
+    
+    public Tile getTile() {
+        return area.getTileAt(getX(), getY());
+    }
 }
