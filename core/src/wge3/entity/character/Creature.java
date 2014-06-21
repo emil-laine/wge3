@@ -30,9 +30,8 @@ public abstract class Creature implements Drawable {
     protected Rectangle bounds;
     
     protected int team;
-    /* 0 = player team
-     * 1 = monster team
-     */
+    // 0 = player team
+    // 1 = monster team
     
     protected int size;
     protected int defaultSpeed;
@@ -42,6 +41,7 @@ public abstract class Creature implements Drawable {
     protected int sight;
     protected float FOV;
     
+    protected String name;
     protected int maxHP;
     protected int HP;
     protected int HPRegenRate; /* per second */
@@ -316,39 +316,43 @@ public abstract class Creature implements Drawable {
     public boolean isPlayer() {
         return this.getClass() == Player.class;
     }
-    
-    public void goingForward(boolean truth) {
-        goingForward = truth;
-    }
-    
-    public void goingBackward(boolean truth) {
-        goingBackward = truth;
-    }
-    
-    public void turningLeft(boolean truth) {
-        turningLeft = truth;
-    }
-    
-    public void turningRight(boolean truth) {
-        turningRight = truth;
-    }
 
     public void doMovement(float delta) {
         if (goingForward) {
+            goingForward = false;
             float dx = MathUtils.cos(direction) * currentSpeed * delta;
             float dy = MathUtils.sin(direction) * currentSpeed * delta;
             move(dx, dy);
         } else if (goingBackward) {
+            goingBackward = false;
             float dx = -(MathUtils.cos(direction) * currentSpeed/1.5f * delta);
             float dy = -(MathUtils.sin(direction) * currentSpeed/1.5f * delta);
             move(dx, dy);
         }
         
         if (turningLeft) {
+            turningLeft = false;
             turnLeft(delta);
         } else if (turningRight) {
+            turningRight = false;
             turnRight(delta);
         }
+    }
+    
+    public void goForward() {
+        goingForward = true;
+    }
+    
+    public void goBackward() {
+        goingBackward = true;
+    }
+    
+    public void turnLeft() {
+        turningLeft = true;
+    }
+    
+    public void turnRight() {
+        turningRight = true;
     }
     
     public boolean canBeSeenBy(Creature creature) {
@@ -367,16 +371,20 @@ public abstract class Creature implements Drawable {
         return team;
     }
     
-    public List<Tile> getTilesWithinFOV() {
+    public List<Tile> getPossibleMovementDestinations() {
         List<Tile> tiles = new LinkedList<Tile>();
         for (Tile tile : area.getTiles()) {
-            if (tile.canBeSeenBy(this)) tiles.add(tile);
+            if (tile.isAnOKMoveDestinationFor(this)) tiles.add(tile);
         }
         return tiles;
     }
     
-    public Tile getRandomTileWithinFOV() {
-        List<Tile> tiles = getTilesWithinFOV();
+    public Tile getNewMovementDestination() {
+        List<Tile> tiles = getPossibleMovementDestinations();
         return tiles.get(random(tiles.size() - 1));
+    }
+
+    public String getName() {
+        return name;
     }
 }

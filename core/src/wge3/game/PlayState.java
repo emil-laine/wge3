@@ -3,6 +3,7 @@ package wge3.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.entity.character.Creature;
+import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.BrickWall;
 import wge3.world.Area;
@@ -36,14 +37,16 @@ public final class PlayState extends GameState {
     @Override
     public void update(float delta) {
         handleInput();
-        input.updateKeyDowns();
+        for (NonPlayer NPC : area.getNPCs()) {
+            NPC.updateAI();
+        }
         for (Creature creature : area.getCreatures()) {
-            creature.updatePosition(delta);
+            creature.doMovement(delta);
         }
         area.calculateFOV();
         area.calculateLighting();
         area.passTime(delta);
-        doAI();
+        input.updateKeyDowns();
     }
 
     @Override
@@ -58,16 +61,18 @@ public final class PlayState extends GameState {
 
     @Override
     public void handleInput() {
-        player.goForward (input.isDown(0));
-        player.goBackward(input.isDown(1));
-        player.turnLeft  (input.isDown(2));
-        player.turnRight (input.isDown(3));
+        if (input.isDown(0)) player.goForward();
+        else if (input.isDown(1)) player.goBackward();
+        
+        if (input.isDown(2)) player.turnLeft();
+        else if (input.isDown(3)) player.turnRight();
+        
         if (input.isPressed(4)) {
             player.useItem();
         } else if (input.isPressed(5)) {
             player.changeItem();
         } else if (input.isPressed(6)) {
-            //player.toggleCanSeeEverything();
+            player.toggleCanSeeEverything();
         } else if (input.isPressed(7)) {
             player.toggleWalksThroughWalls();
             if (player.walksThroughWalls()) mStream.addMessage("Ghost Mode On");
@@ -86,9 +91,5 @@ public final class PlayState extends GameState {
     @Override
     public void dispose() {
         // code...
-    }
-
-    private void doAI() {
-        
     }
 }

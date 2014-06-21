@@ -18,4 +18,20 @@ public final class Player extends Creature {
         strength = 10;
         defense = 10;
     }
+    /*
+    public void goingForward(boolean truth) {
+        goingForward = truth;
+    }
+    
+    public void goingBackward(boolean truth) {
+        goingBackward = truth;
+    }
+    
+    public void turningLeft(boolean truth) {
+        turningLeft = truth;
+    }
+    
+    public void turningRight(boolean truth) {
+        turningRight = truth;
+    }*/
 }
