@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 import wge3.entity.terrainelements.Item;
@@ -208,25 +209,12 @@ public abstract class Creature implements Drawable {
     }
 
     public boolean canMoveTo(float x, float y) {
-        if (x >= area.getSize()*Tile.size || x < 0) {
-            return false;
-        } else if (y >= area.getSize()*Tile.size || y < 0) {
-            return false;
-        }
-        
-        if (this.walksThroughWalls()) {
-            return true;
-        } else {
-            return area.getTileAt(x, y).isPassable();
-        }
+        return area.hasLocation(x, y) && (area.getTileAt(x, y).isPassable() || this.walksThroughWalls());
     }
     
     public void useItem() {
-        if (selectedItem != null) {
-            selectedItem.use(this);
-        } else {
-            punch();
-        }
+        if (selectedItem == null) attackUnarmed();
+        else selectedItem.use(this);
     }
 
     public void changeItem() {
@@ -300,13 +288,19 @@ public abstract class Creature implements Drawable {
         sprite.setRotation(direction*MathUtils.radiansToDegrees);
     }
 
-    public void punch() {
-        mStream.addMessage("*punch*");
+    public void attackUnarmed() {
         float destX = getX() + MathUtils.cos(direction) * Tile.size/2;
         float destY = getY() + MathUtils.sin(direction) * Tile.size/2;
         Tile destTile = area.getTileAt(destX, destY);
         if (!destTile.getCreatures().contains(this)) {
-            destTile.dealDamage(strength);
+            if (randomBoolean(0.7f)) {
+                mStream.addMessage("*punch*");
+                destTile.dealDamage(strength);
+            } else {
+                mStream.addMessage("*kick*");
+                destTile.dealDamage((int) (strength * 1.2f));
+            }
+            
         }
     }
     
