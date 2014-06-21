@@ -1,14 +1,18 @@
 package wge3.world;
 
-import wge3.entity.terrainelements.MapObject;
-import wge3.entity.terrainelements.Ground;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import static com.badlogic.gdx.math.MathUtils.PI;
+import static com.badlogic.gdx.math.MathUtils.PI2;
+import static com.badlogic.gdx.math.MathUtils.atan2;
 import com.badlogic.gdx.math.Rectangle;
+import static java.lang.Math.abs;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.entity.character.Bullet;
 import wge3.entity.character.Creature;
+import wge3.entity.terrainelements.Ground;
+import wge3.entity.terrainelements.MapObject;
 import wge3.interfaces.Drawable;
 
 public class Tile implements Drawable {
@@ -133,15 +137,49 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight());
+        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.getDirection(), creature.getFOV());
     }
     
-    public boolean canBeSeenFrom(float x, float y, int range) {
-        // range: in tiles
+    /* With angle */
+    public boolean canBeSeenFrom(float x, float y, int range, float angle, float fov) {
+        /* range: in tiles */
+        if (area.getTileAt(x, y).equals(this)) return true;
+        
         int tileX = getX()*Tile.size + Tile.size/2;
         int tileY = getY()*Tile.size + Tile.size/2;
         float dx = x - tileX;
         float dy = y - tileY;
+        
+        /* Calculate the angle */
+        float atan2 = atan2(-dy, -dx);
+        if (atan2 < 0) atan2 += PI2;
+        float diff = abs(atan2 - angle);
+        if (diff > PI) diff = PI2 - diff; 
+        if (diff > fov/2) return false;
+        
+        float distance = (float) Math.sqrt(dx*dx + dy*dy);
+        if (distance > range * Tile.size) {
+            return false;
+        }
+        distance /= Tile.size;
+        
+        for (int i = 1; i <= distance; i++) {
+            if (area.getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance)).blocksVision()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    /* Without angle */
+    public boolean canBeSeenFrom(float x, float y, int range) {
+        /* range: in tiles */
+        int tileX = getX()*Tile.size + Tile.size/2;
+        int tileY = getY()*Tile.size + Tile.size/2;
+        float dx = x - tileX;
+        float dy = y - tileY;
+        
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
         if (distance > range * Tile.size) {
             return false;
