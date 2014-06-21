@@ -317,23 +317,23 @@ public abstract class Creature implements Drawable {
         return this.getClass() == Player.class;
     }
     
-    public void goForward(boolean truth) {
+    public void goingForward(boolean truth) {
         goingForward = truth;
     }
     
-    public void goBackward(boolean truth) {
+    public void goingBackward(boolean truth) {
         goingBackward = truth;
     }
     
-    public void turnLeft(boolean truth) {
+    public void turningLeft(boolean truth) {
         turningLeft = truth;
     }
     
-    public void turnRight(boolean truth) {
+    public void turningRight(boolean truth) {
         turningRight = truth;
     }
 
-    public void updatePosition(float delta) {
+    public void doMovement(float delta) {
         if (goingForward) {
             float dx = MathUtils.cos(direction) * currentSpeed * delta;
             float dy = MathUtils.sin(direction) * currentSpeed * delta;
