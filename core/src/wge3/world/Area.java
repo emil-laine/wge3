@@ -155,16 +155,23 @@ public final class Area implements Drawable {
     
     public void calculateLighting() {
         for (Player player : players) {
-            float x = player.getX();
-            float y = player.getY();
-            int range = player.getSight();
-            for (Tile tile : allTiles) {
-                if (tile.canBeSeenBy(player)) {
-                    Color color = new Color(1, 1, 1, 1);
-                    float distance = tile.getDistanceTo(x, y) / Tile.size;
-                    float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
-                    color.mul(multiplier, multiplier, multiplier, 1f);
+            if (player.canSeeEverything()) {
+                Color color = new Color(1, 1, 1, 1);
+                for (Tile tile : allTiles) {
                     tile.setLighting(color);
+                }
+            } else {
+                float x = player.getX();
+                float y = player.getY();
+                int range = player.getSight();
+                for (Tile tile : allTiles) {
+                    if (tile.canBeSeenBy(player)) {
+                        Color color = new Color(1, 1, 1, 1);
+                        float distance = tile.getDistanceTo(x, y) / Tile.size;
+                        float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
+                        color.mul(multiplier, multiplier, multiplier, 1f);
+                        tile.setLighting(color);
+                    }
                 }
             }
         }
@@ -227,6 +234,10 @@ public final class Area implements Drawable {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<NonPlayer> getNPCs() {
+        return NPCs;
     }
 
     public List<Bullet> getBullets() {
