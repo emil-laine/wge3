@@ -137,7 +137,7 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.getDirection(), creature.getFOV());
+        return creature.canSeeEverything() || canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight());
     }
     
     /* With angle */
@@ -154,7 +154,7 @@ public class Tile implements Drawable {
         float atan2 = atan2(-dy, -dx);
         if (atan2 < 0) atan2 += PI2;
         float diff = abs(atan2 - angle);
-        if (diff > PI) diff = PI2 - diff; 
+        if (diff > PI) diff = PI2 - diff;
         if (diff > fov/2) return false;
         
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
@@ -295,5 +295,29 @@ public class Tile implements Drawable {
     
     public void requestDraw() {
         area.addToDrawList(this);
+    }
+    
+    public boolean isAnOKMoveDestinationFor(Creature creature) {
+        if (!isPassable() || drainsHP()) return false;
+        
+        int tileX = getX()*Tile.size + Tile.size/2;
+        int tileY = getY()*Tile.size + Tile.size/2;
+        float dx = creature.getX() - tileX;
+        float dy = creature.getY() - tileY;
+        
+        float distance = (float) Math.sqrt(dx*dx + dy*dy);
+        if (distance > creature.getSight() * Tile.size) {
+            return false;
+        }
+        distance /= Tile.size;
+        
+        for (int i = 1; i <= distance; i++) {
+            Tile currentTile = area.getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance));
+            if (currentTile.blocksVision() || currentTile.drainsHP()) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
