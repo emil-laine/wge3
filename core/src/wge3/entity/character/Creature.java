@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
+import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.TimeUtils;
+import static com.badlogic.gdx.utils.TimeUtils.millis;
+import static java.lang.Math.max;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.entity.terrainelements.Item;
@@ -42,7 +44,7 @@ public abstract class Creature implements Drawable {
     
     protected int maxHP;
     protected int HP;
-    protected int HPRegenRate;
+    protected int HPRegenRate; /* per second */
     protected long timeOfLastRegen;
     protected int strength;
     protected int defense;
@@ -68,10 +70,10 @@ public abstract class Creature implements Drawable {
         direction = random() * PI2;
         turningSpeed = 3.5f;
         sight = 10;
-        FOV = PI/4*3;
+        FOV = PI;
         
         HPRegenRate = 1;
-        timeOfLastRegen = TimeUtils.millis();
+        timeOfLastRegen = millis();
         
         canSeeEverything = false;
         walksThroughWalls = false;
@@ -173,13 +175,13 @@ public abstract class Creature implements Drawable {
 
     public void turnLeft(float delta) {
         direction += turningSpeed * delta;
-        if (direction >= MathUtils.PI2) direction -= MathUtils.PI2;
+        if (direction >= PI2) direction -= PI2;
         updateSpriteRotation();
     }
 
     public void turnRight(float delta) {
         direction -= turningSpeed * delta;
-        if (direction < 0) direction += MathUtils.PI2;
+        if (direction < 0) direction += PI2;
         updateSpriteRotation();
     }
 
@@ -267,7 +269,7 @@ public abstract class Creature implements Drawable {
     }
 
     public void dealDamage(int amount) {
-        HP -= Math.max(amount - defense, 1);
+        HP -= max(amount - defense, 1);
         if (this.isDead()) {
             area.removeCreature(this);
         }
@@ -292,7 +294,7 @@ public abstract class Creature implements Drawable {
     }
     
     public void updateSpriteRotation() {
-        sprite.setRotation(direction*MathUtils.radiansToDegrees);
+        sprite.setRotation(direction * radiansToDegrees);
     }
 
     public void attackUnarmed() {
