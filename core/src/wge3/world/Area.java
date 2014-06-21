@@ -51,7 +51,7 @@ public final class Area implements Drawable {
         
         mapLoader = new MapLoader();
         try {
-            mapLoader.loadMap("1", this);
+            mapLoader.loadMap("Untitled", this);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,11 +97,6 @@ public final class Area implements Drawable {
     public Tile getTileAt(float x, float y) {
         int x0 = (int) ((x - (x % Tile.size)) / Tile.size);
         int y0 = (int) ((y - (y % Tile.size)) / Tile.size);
-        
-        if (!this.hasLocation(x0, y0)) {
-            return null;
-        }
-        
         return map[x0][y0];
     }
     
@@ -160,9 +155,8 @@ public final class Area implements Drawable {
     
     public void calculateLighting() {
         for (Player player : players) {
-            Tile srcTile = player.getTile();
-            int x = srcTile.getX() * Tile.size + Tile.size/2;
-            int y = srcTile.getY() * Tile.size + Tile.size/2;
+            float x = player.getX();
+            float y = player.getY();
             int range = player.getSight();
             for (Tile tile : allTiles) {
                 if (tile.canBeSeenBy(player)) {
