@@ -11,6 +11,8 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import java.util.LinkedList;
+import java.util.List;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
 import static wge3.game.PlayState.mStream;
@@ -24,7 +26,12 @@ public abstract class Creature implements Drawable {
     protected float x;
     protected float y;
     protected Rectangle bounds;
-
+    
+    protected int team;
+    /* 0 = player team
+     * 1 = monster team
+     */
+    
     protected int size;
     protected int defaultSpeed;
     protected int currentSpeed;
@@ -352,5 +359,22 @@ public abstract class Creature implements Drawable {
     
     public Tile getTile() {
         return area.getTileAt(getX(), getY());
+    }
+
+    public int getTeam() {
+        return team;
+    }
+    
+    public List<Tile> getTilesWithinFOV() {
+        List<Tile> tiles = new LinkedList<Tile>();
+        for (Tile tile : area.getTiles()) {
+            if (tile.canBeSeenBy(this)) tiles.add(tile);
+        }
+        return tiles;
+    }
+    
+    public Tile getRandomTileWithinFOV() {
+        List<Tile> tiles = getTilesWithinFOV();
+        return tiles.get(random(tiles.size() - 1));
     }
 }
