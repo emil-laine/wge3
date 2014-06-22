@@ -2,6 +2,7 @@ package wge3.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import java.util.Iterator;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
@@ -40,8 +41,15 @@ public final class PlayState extends GameState {
         for (NonPlayer NPC : area.getNPCs()) {
             NPC.updateAI();
         }
-        for (Creature creature : area.getCreatures()) {
+        for (Iterator<Creature> it = area.getCreatures().iterator(); it.hasNext();) {
+            Creature creature = it.next();
             creature.doMovement(delta);
+            
+            /* Clean up dead creatures */
+            if (creature.isDead()) {
+                it.remove();
+                area.removeCreature(creature);
+            }
         }
         area.calculateFOV();
         area.calculateLighting();
