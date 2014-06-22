@@ -1,24 +1,20 @@
-package wge3.entity.character;
+package wge3.game.ai;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static wge3.game.PlayState.mStream;
-import wge3.game.ai.AITask;
-import wge3.game.ai.AttackTask;
-import wge3.game.ai.MoveTask;
-import wge3.game.ai.WaitTask;
-import wge3.world.Tile;
+import wge3.entity.character.NonPlayer;
 
-public abstract class NonPlayer extends Creature {
-    
+public final class AI {
+
+    protected NonPlayer creature; /* the controlled creature */
     protected AITask currentTask;
-    
-    public NonPlayer() {
-        team = 1;
-        currentTask = new WaitTask(1000);
+
+    public AI(NonPlayer creature) {
+        this.creature = creature;
+        currentTask = new WaitTask(0); /* dummy task */
     }
     
-    public void updateAI() {
+    public void update() {
         /*for (Creature creature : area.getCreatures()) {
             if (creature.canBeSeenBy(this) && creature.getTeam() != this.getTeam()) {
                 currentTask = new AttackTask(this, creature);
@@ -32,9 +28,9 @@ public abstract class NonPlayer extends Creature {
         }
         
         if (randomBoolean()) {
-            currentTask = new MoveTask(this, getNewMovementDestination());
+            currentTask = new MoveTask(creature, creature.getNewMovementDestination());
         } else {
-            currentTask = new WaitTask(2000);
+            currentTask = new WaitTask(random(5000));
         }
     }
 }
