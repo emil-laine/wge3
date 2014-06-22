@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.entity.character.NonPlayer;
-import static wge3.game.PlayState.mStream;
 import wge3.world.Tile;
 
 public class Zombie extends NonPlayer {
@@ -17,10 +16,10 @@ public class Zombie extends NonPlayer {
         name = "zombie";
         maxHP = 50;
         HP = 50;
-        strength = 8;
+        strength = 10;
         defense = 5;
-        defaultSpeed = 70;
-        currentSpeed = 70;
+        defaultSpeed = 100;
+        currentSpeed = 100;
     }
     
     @Override
