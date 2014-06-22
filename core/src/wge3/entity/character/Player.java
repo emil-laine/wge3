@@ -16,7 +16,7 @@ public final class Player extends Creature {
         maxHP = 100;
         HP = maxHP;
         strength = 10;
-        defense = 10;
+        defense = 5;
     }
     /*
     public void goingForward(boolean truth) {
