@@ -5,7 +5,6 @@ import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static java.lang.Math.abs;
 import wge3.entity.character.Creature;
-import static wge3.game.PlayState.mStream;
 import static wge3.game.ai.TurnTask.getDiff;
 import wge3.world.Tile;
 
@@ -51,5 +50,13 @@ public final class MoveTask extends AITask {
                 executor.goForward();
             }
         }
+    }
+
+    public Tile getDestination() {
+        return dest;
+    }
+
+    public void setDestination(Tile dest) {
+        this.dest = dest;
     }
 }
