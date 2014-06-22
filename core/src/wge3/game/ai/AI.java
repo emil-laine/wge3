@@ -4,7 +4,6 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
-import static wge3.game.PlayState.mStream;
 
 public final class AI {
 
@@ -17,10 +16,12 @@ public final class AI {
     }
     
     public void update() {
-        for (Creature dude : creature.getArea().getCreatures()) {
-            if (dude.canBeSeenBy(creature) && dude.getTeam() != creature.getTeam()) {
-                currentTask = new AttackTask(creature, dude);
-                return;
+        if (currentTask.getClass() != AttackTask.class) {
+            for (Creature dude : creature.getArea().getCreatures()) {
+                if (dude.getTile().isAnOKMoveDestinationFor(creature) && dude.getTeam() != creature.getTeam()) {
+                    currentTask = new AttackTask(creature, dude);
+                    return;
+                }
             }
         }
         
@@ -29,7 +30,7 @@ public final class AI {
             return;
         }
         
-        if (randomBoolean()) {
+        if (randomBoolean(2/3f)) {
             currentTask = new MoveTask(creature, creature.getNewMovementDestination());
         } else {
             currentTask = new WaitTask(random(2000));
