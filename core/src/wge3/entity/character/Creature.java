@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
@@ -270,9 +271,6 @@ public abstract class Creature implements Drawable {
 
     public void dealDamage(int amount) {
         HP -= max(amount - defense, 1);
-        if (this.isDead()) {
-            area.removeCreature(this);
-        }
     }
 
     public boolean isDead() {
@@ -298,18 +296,13 @@ public abstract class Creature implements Drawable {
     }
 
     public void attackUnarmed() {
-        float destX = getX() + MathUtils.cos(direction) * Tile.size/2;
-        float destY = getY() + MathUtils.sin(direction) * Tile.size/2;
-        Tile destTile = area.getTileAt(destX, destY);
-        if (!destTile.getCreatures().contains(this)) {
-            if (randomBoolean(0.7f)) {
-                mStream.addMessage("*punch*");
-                destTile.dealDamage(strength);
-            } else {
-                mStream.addMessage("*kick*");
-                destTile.dealDamage((int) (strength * 1.2f));
+        float destX = getX() + MathUtils.cos(direction) * Tile.size;
+        float destY = getY() + MathUtils.sin(direction) * Tile.size;
+        Circle dest = new Circle(destX, destY, Tile.size);
+        for (Creature creature : area.getCreatures()) {
+            if (dest.contains(creature.getX(), creature.getY())) {
+                creature.dealDamage(this.strength);
             }
-            
         }
     }
     
