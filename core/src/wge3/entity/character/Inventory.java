@@ -4,7 +4,6 @@ package wge3.entity.character;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import wge3.entity.terrainelements.Item;
 
@@ -12,11 +11,11 @@ public class Inventory {
     
     private Creature owner;
     private Map<Item, Integer> items;
-    private Iterator<Entry<Item, Integer>> iterator;
+    private Iterator<Item> iterator; // iterator points to current selectedItem of owner.
     
     public Inventory() {
         items = new LinkedHashMap<Item, Integer>();
-        iterator = items.entrySet().iterator();
+        iterator = items.keySet().iterator();
     }
 
     public Set<Item> getItems() {
@@ -30,6 +29,8 @@ public class Inventory {
     public void addItem(Item item, int amount) {
         if (!items.containsKey(item)) {
             items.put(item, amount);
+            iterator = items.keySet().iterator();
+            owner.setSelectedItem(getNextItem());
         } else {
             items.replace(item, items.get(item) + amount);
         }
@@ -41,7 +42,8 @@ public class Inventory {
     
     public void removeItem(Item item, int amount) {
         if (items.get(item) - amount <= 0) {
-            items.remove(item);
+            iterator.remove();
+            owner.setSelectedItem(getNextItem());
         } else {
             items.replace(item, items.get(item) - amount);
         }
@@ -55,10 +57,10 @@ public class Inventory {
         if (items.isEmpty()) {
             return null;
         } else if (!iterator.hasNext()) {
-            iterator = items.entrySet().iterator();
+            iterator = items.keySet().iterator();
             return null;
         } else {
-            return iterator.next().getKey();
+            return iterator.next();
         }
     }
 
