@@ -87,6 +87,6 @@ public abstract class TerrainElement implements Drawable {
     }
 
     public boolean isItem() {
-        return this.getClass().getSuperclass() == Item.class;
+        return Item.class.isAssignableFrom(this.getClass());
     }
 }
