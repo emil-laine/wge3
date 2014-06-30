@@ -27,8 +27,9 @@ public abstract class Gun extends Item {
     
     @Override
     public void use(Creature user) {
-        float angle = user.getDirection();
+        user.getInventory().removeItem(this);
         
+        float angle = user.getDirection();
         
         int tileX = getX()*Tile.size + Tile.size/2;
         int tileY = getY()*Tile.size + Tile.size/2;
@@ -41,7 +42,7 @@ public abstract class Gun extends Item {
         for (int i = 1; i <= distance; i++) {
             Tile currentTile = user.getArea().getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance));
             if (currentTile.hasCreature()) {
-                currentTile.getCreatures().get(0).dealDamage(9999999);
+                currentTile.getCreatures().get(0).dealDamage(999);
                 break;
             }
             else if (!currentTile.isPassable() && currentTile.blocksVision() ) {

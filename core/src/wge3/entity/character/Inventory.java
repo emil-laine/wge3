@@ -42,7 +42,6 @@ public class Inventory {
     public void removeItem(Item item, int amount) {
         if (items.get(item) - amount <= 0) {
             items.remove(item);
-            owner.setSelectedItem(getNextItem());
         } else {
             items.replace(item, items.get(item) - amount);
         }
