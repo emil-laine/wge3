@@ -16,7 +16,7 @@ public abstract class Bullet implements Drawable {
     protected Texture texture;
     protected Sprite sprite;
     
-    protected int speed;
+    
     protected boolean exists;
 
     public Bullet() {
