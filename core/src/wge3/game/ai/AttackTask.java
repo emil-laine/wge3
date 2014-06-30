@@ -21,6 +21,7 @@ public final class AttackTask extends AITask {
 
     @Override
     public void execute() {
+        // Check if target has moved to a new tile:
         if (subTask.getDestination() != target.getTile() && target.canBeSeenBy(executor)) {
             subTask.setDestination(target.getTile());
         }

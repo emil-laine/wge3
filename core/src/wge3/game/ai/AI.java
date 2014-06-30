@@ -16,6 +16,7 @@ public final class AI {
     }
     
     public void update() {
+        // Check if creature can see an enemy:
         if (currentTask.getClass() != AttackTask.class) {
             for (Creature dude : creature.getArea().getCreatures()) {
                 if (dude.getTile().isAnOKMoveDestinationFor(creature) && dude.getTeam() != creature.getTeam()) {
