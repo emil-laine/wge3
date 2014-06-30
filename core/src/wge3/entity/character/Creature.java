@@ -49,6 +49,7 @@ public abstract class Creature implements Drawable {
     protected long timeOfLastRegen;
     protected int strength;
     protected int defense;
+    protected int unarmedAttackSize; /* radius */
     
     protected boolean canSeeEverything;
     protected boolean walksThroughWalls;
@@ -72,6 +73,7 @@ public abstract class Creature implements Drawable {
         turningSpeed = 3.5f;
         sight = 10;
         FOV = PI;
+        unarmedAttackSize = Tile.size/2;
         
         HPRegenRate = 1;
         timeOfLastRegen = millis();
@@ -298,7 +300,7 @@ public abstract class Creature implements Drawable {
     public void attackUnarmed() {
         float destX = getX() + MathUtils.cos(direction) * Tile.size;
         float destY = getY() + MathUtils.sin(direction) * Tile.size;
-        Circle dest = new Circle(destX, destY, Tile.size);
+        Circle dest = new Circle(destX, destY, getUnarmedAttackSize());
         for (Creature creature : area.getCreatures()) {
             if (dest.contains(creature.getX(), creature.getY())) {
                 creature.dealDamage(this.strength);
@@ -379,5 +381,9 @@ public abstract class Creature implements Drawable {
 
     public String getName() {
         return name;
+    }
+
+    public int getUnarmedAttackSize() {
+        return unarmedAttackSize;
     }
 }
