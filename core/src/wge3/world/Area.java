@@ -51,7 +51,7 @@ public final class Area implements Drawable {
         
         mapLoader = new MapLoader();
         try {
-            mapLoader.loadMap("Untitled", this);
+            mapLoader.loadMap("PvP1", this);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
