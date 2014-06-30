@@ -10,7 +10,6 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.max;
@@ -18,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
-import static wge3.game.PlayState.mStream;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
@@ -87,6 +85,7 @@ public abstract class Creature implements Drawable {
         
         inventory = new Inventory();
         inventory.setOwner(this);
+        selectedItem = null;
         
         goingForward = false;
         goingBackward = false;
