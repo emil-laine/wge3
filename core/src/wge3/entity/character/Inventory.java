@@ -30,7 +30,6 @@ public class Inventory {
     public void addItem(Item item, int amount) {
         if (!items.containsKey(item)) {
             items.put(item, amount);
-            owner.setSelectedItem(getNextItem());
         } else {
             items.replace(item, items.get(item) + amount);
         }
