@@ -10,7 +10,7 @@ public final class Lava extends Ground {
         sprite = new Sprite(texture, 3*Tile.size, 0, Tile.size, Tile.size);
         
         drainsHP = true;
-        HPDrainAmount = 20;
+        HPDrainAmount = 15;
         movementModifier = 0.5f;
     }
 }
