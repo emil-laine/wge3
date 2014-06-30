@@ -32,8 +32,8 @@ public abstract class Gun extends Item {
         
         int tileX = getX()*Tile.size + Tile.size/2;
         int tileY = getY()*Tile.size + Tile.size/2;
-        float dx = user.getX() - tileX;
-        float dy = user.getY() - tileY;
+        float dx = tileX - user.getX();
+        float dy = tileY - user.getY();
         
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
         distance /= Tile.size;
@@ -41,7 +41,7 @@ public abstract class Gun extends Item {
         for (int i = 1; i <= distance; i++) {
             Tile currentTile = user.getArea().getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance));
             if (currentTile.hasCreature()) {
-                currentTile.getCreatures().get(0).dealDamage(getDamage());
+                currentTile.getCreatures().get(0).dealDamage(9999999);
                 break;
             }
             else if (!currentTile.isPassable() && currentTile.blocksVision() ) {
