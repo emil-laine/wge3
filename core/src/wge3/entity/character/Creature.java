@@ -385,4 +385,8 @@ public abstract class Creature implements Drawable {
     public int getUnarmedAttackSize() {
         return unarmedAttackSize;
     }
+    
+    public boolean isEnemyOf(Creature other) {
+        return this.getTeam() != other.getTeam();
+    }
 }
