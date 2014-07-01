@@ -22,9 +22,9 @@ public final class FusedBomb extends Bullet implements Explosive {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
         
-        range = 3;
+        range = 2;
         damage = 100;
-        time = 3;
+        time = 2;
         timer = new Timer();
         task = new Timer.Task() {
 
