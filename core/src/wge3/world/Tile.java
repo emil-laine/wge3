@@ -274,11 +274,7 @@ public class Tile implements Drawable {
         float dx = creature.getX() - tileX;
         float dy = creature.getY() - tileY;
         
-        float distance = (float) Math.sqrt(dx*dx + dy*dy);
-        if (distance > creature.getSight() * Tile.size) {
-            return false;
-        }
-        distance /= Tile.size;
+        float distance = (float) Math.sqrt(dx*dx + dy*dy) / Tile.size;
         
         for (int i = 1; i <= distance; i++) {
             Tile currentTile = area.getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance));

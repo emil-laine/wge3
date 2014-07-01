@@ -368,7 +368,7 @@ public abstract class Creature implements Drawable {
     public List<Tile> getPossibleMovementDestinations() {
         List<Tile> tiles = new LinkedList<Tile>();
         for (Tile tile : area.getTiles()) {
-            if (tile.isAnOKMoveDestinationFor(this)) tiles.add(tile);
+            if (tile.canBeSeenBy(this) && tile.isAnOKMoveDestinationFor(this)) tiles.add(tile);
         }
         return tiles;
     }
