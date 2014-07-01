@@ -3,6 +3,7 @@ package wge3.game.ai;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
+import wge3.world.Tile;
 
 public final class AttackTask extends AITask {
     
@@ -22,8 +23,9 @@ public final class AttackTask extends AITask {
     @Override
     public void execute() {
         // Check if target has moved to a new tile:
-        if (subTask.getDestination() != target.getTile() && target.canBeSeenBy(executor)) {
-            subTask.setDestination(target.getTile());
+        Tile targetTile = target.getTile();
+        if (subTask.getDestination() != targetTile && target.canBeSeenBy(executor) && targetTile.isAnOKMoveDestinationFor(executor)) {
+            subTask.setDestination(targetTile);
         }
         if (!subTask.isFinished()) subTask.execute();
         else if (target.getTile() == executor.getTile() && canAttack()) {
