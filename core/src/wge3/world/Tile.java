@@ -2,11 +2,7 @@ package wge3.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import static com.badlogic.gdx.math.MathUtils.PI;
-import static com.badlogic.gdx.math.MathUtils.PI2;
-import static com.badlogic.gdx.math.MathUtils.atan2;
 import com.badlogic.gdx.math.Rectangle;
-import static java.lang.Math.abs;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.entity.character.Bullet;
@@ -275,13 +271,20 @@ public class Tile implements Drawable {
         
         int tileX = getX()*Tile.size + Tile.size/2;
         int tileY = getY()*Tile.size + Tile.size/2;
-        float dx = creature.getX() - tileX;
-        float dy = creature.getY() - tileY;
+        float dx = tileX - startX;
+        float dy = tileY - startY;
         
         float distance = (float) Math.sqrt(dx*dx + dy*dy) / Tile.size;
         
         for (int i = 1; i <= distance; i++) {
-            Tile currentTile = area.getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance));
+            // Calculate the position of the next tile:
+            float currentX = startX + i * (dx/distance);
+            float currentY = startY + i * (dy/distance);
+            
+            if (!area.hasLocation(currentX, currentY)) return false;
+            
+            Tile currentTile = area.getTileAt(currentX, currentY);
+            
             if (currentTile.blocksVision() || currentTile.drainsHP()) {
                 return false;
             }
