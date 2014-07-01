@@ -154,9 +154,11 @@ public class Tile implements Drawable {
         distance /= Tile.size;
         
         for (int i = 1; i <= distance; i++) {
-            if (area.getTileAt(tileX + i*(dx/distance), tileY + i*(dy/distance)).blocksVision()) {
-                return false;
-            }
+            // Calculate the position of the next tile:
+            float currentX = tileX + i * (dx/distance);
+            float currentY = tileY + i * (dy/distance);
+            
+            if (area.getTileAt(currentX, currentY).blocksVision()) return false;
         }
         
         return true;
