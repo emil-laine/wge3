@@ -267,6 +267,10 @@ public class Tile implements Drawable {
     }
     
     public boolean isAnOKMoveDestinationFor(Creature creature) {
+        return isAnOKMoveDestinationFrom(creature.getX(), creature.getY());
+    }
+    
+    public boolean isAnOKMoveDestinationFrom(float startX, float startY) {
         if (!isPassable() || drainsHP()) return false;
         
         int tileX = getX()*Tile.size + Tile.size/2;
