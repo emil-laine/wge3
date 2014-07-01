@@ -163,8 +163,8 @@ public class Tile implements Drawable {
     }
     
     public float getDistanceTo(float x, float y) {
-        float dx = x - this.getX()*Tile.size + Tile.size/2;
-        float dy = y - this.getY()*Tile.size + Tile.size/2;
+        float dx = x - (this.getX()*Tile.size + Tile.size/2);
+        float dy = y - (this.getY()*Tile.size + Tile.size/2);
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
 
