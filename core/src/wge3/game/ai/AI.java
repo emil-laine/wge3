@@ -10,12 +10,12 @@ import wge3.world.Tile;
 
 public final class AI {
 
-    protected NonPlayer creature; /* the controlled creature */
+    protected NonPlayer NPC; // the controlled creature
     protected AITask currentTask;
 
     public AI(NonPlayer creature) {
-        this.creature = creature;
-        currentTask = new WaitTask(0); /* dummy task */
+        this.NPC = creature;
+        currentTask = new WaitTask(0); // dummy task
     }
     
     public void update() {
@@ -53,6 +53,7 @@ public final class AI {
         
         if (randomBoolean(2/3f)) {
             currentTask = new MoveTask(creature, creature.getNewMovementDestination());
+            currentTask = new MoveTask(NPC, NPC.getNewMovementDestination());
         } else {
             currentTask = new WaitTask(random(2000));
         }
@@ -83,6 +84,6 @@ public final class AI {
         float dx = MathUtils.cos(angle);
         float dy = MathUtils.sin(angle);
         
-        return creature.getArea().getTileAt(i*dx*Tile.size, i*dy*Tile.size);
+        return NPC.getArea().getTileAt(i*dx*Tile.size, i*dy*Tile.size);
     }
 }
