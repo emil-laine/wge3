@@ -58,6 +58,10 @@ public final class AI {
             currentTask = new WaitTask(random(3000));
         }
     }
+
+    public boolean isAttacking() {
+        return currentTask.getClass() == AttackTask.class;
+    }
     
     public Tile getTileBeforeObstacle(Creature enemy) {
         float startX = creature.getX();
