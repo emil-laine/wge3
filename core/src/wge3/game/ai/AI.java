@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
+import static java.lang.Integer.signum;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.world.Tile;
@@ -19,31 +20,8 @@ public final class AI {
     }
     
     public void update() {
-        // Check if creature can see an enemy:
-        if (currentTask.getClass() != AttackTask.class) {
-            for (Creature dude : creature.getArea().getCreatures()) {
-                if (dude.getTeam() != creature.getTeam() && dude.canBeSeenBy(creature)) {
-                    Tile tile = getTileBeforeObstacle(dude);
-                    if (tile == null) return;
-                    
-                    if (tile != creature.getTile()) {
-                        currentTask = new MoveTask(creature, tile);
-                        return;
-                    } else {
-                        for (int i = 0; i < 31; i++) {
-                            for (int j = 1; j > -2; j -= 2) {
-                                Tile newtile = getAlternativeDestinationTile(j, i);
-                                currentTask = new MoveTask(creature, newtile);
-                            }
-                        }
-                    }
-                }
-                
-                if (dude.getTile().isAnOKMoveDestinationFor(creature) && dude.getTeam() != creature.getTeam()) {
-                    currentTask = new AttackTask(creature, dude);
-                    return;
-                }
-            }
+        if (!isAttacking()) {
+            checkForEnemies();
         }
         
         if (!currentTask.isFinished()) {
@@ -52,10 +30,33 @@ public final class AI {
         }
         
         if (randomBoolean(2/3f)) {
-            currentTask = new MoveTask(creature, creature.getNewMovementDestination());
             currentTask = new MoveTask(NPC, NPC.getNewMovementDestination());
         } else {
             currentTask = new WaitTask(random(3000));
+        }
+    }
+
+    public void checkForEnemies() {
+        for (Creature dude : NPC.getArea().getCreatures()) {
+            // If dude is not an enemy, or cannot be seen, skip it:
+            if (!dude.isEnemyOf(NPC) || !dude.canBeSeenBy(NPC)) {
+                continue;
+            }
+            
+            // If dude is located in an OK move destination, attack:
+            if (dude.getTile().isAnOKMoveDestinationFor(NPC)) {
+                currentTask = new AttackTask(NPC, dude);
+                return;
+            }
+            
+            // Else, dude is in a not-OK move destination,
+            // so try to find nearest OK move destination:
+            Tile nearestOKTile = getNearestOKMoveDestination(dude);
+            if (nearestOKTile != null) {
+                currentTask = new MoveTask(NPC, nearestOKTile);
+            }
+            
+            // If nearestOKTile was null, ignore enemy.
         }
     }
 
@@ -64,30 +65,54 @@ public final class AI {
     }
     
     public Tile getTileBeforeObstacle(Creature enemy) {
-        float startX = creature.getX();
-        float startY = creature.getY();
+        float startX = NPC.getX();
+        float startY = NPC.getY();
         float dx = enemy.getX() - startX;
         float dy = enemy.getY() - startY;
-        float distance = (float) Math.sqrt(dx*dx + dy*dy);
-        distance /= Tile.size;
+        float distance = (float) (Math.sqrt(dx*dx + dy*dy) / Tile.size);
         
         for (int i = 1; i <= distance; i++) {
-            if (creature.getArea().hasLocation(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size))) {
-                Tile currentTile = creature.getArea().getTileAt(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size));
+            if (NPC.getArea().hasLocation(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size))) {
+                Tile currentTile = NPC.getArea().getTileAt(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size));
                 if (!currentTile.isPassable() || currentTile.drainsHP()) {
-                    return creature.getArea().getTileAt(startX + (i-1)*(dx*Tile.size), startY + (i-1)*(dy*Tile.size));
+                    return NPC.getArea().getTileAt(startX + (i-1)*(dx*Tile.size), startY + (i-1)*(dy*Tile.size));
                 }
             }
         }
         return null;
     }
 
-    public Tile getAlternativeDestinationTile(int posneg, int i) {
-        float angle = creature.getDirection();
-        angle += PI/2*posneg;
+    public Tile getAlternativeDestinationTile(int i) {
+        float angle = NPC.getDirection();
+        angle += PI/2 * signum(i);
         float dx = MathUtils.cos(angle);
         float dy = MathUtils.sin(angle);
         
-        return NPC.getArea().getTileAt(i*dx*Tile.size, i*dy*Tile.size);
+        float tileX = i*dx*Tile.size;
+        float tileY = i*dy*Tile.size;
+        
+        if (NPC.getArea().hasLocation(tileX, tileY)) {
+            return NPC.getArea().getTileAt(tileX, tileY);
+        }
+        
+        return null;
+    }
+
+    public Tile getNearestOKMoveDestination(Creature dude) {
+        for (int i = 0; i < 31; i++) {
+            for (int j = 1; j > -2; j -= 2) {
+                Tile newtile = getAlternativeDestinationTile(j*i);
+                
+                if (newtile == null) {
+                    continue;
+                }
+                
+                if (newtile.isAnOKMoveDestinationFor(NPC)) {
+                    return newtile;
+                }
+            }
+        }
+        
+        return null;
     }
 }
