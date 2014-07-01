@@ -55,7 +55,7 @@ public final class AI {
             currentTask = new MoveTask(creature, creature.getNewMovementDestination());
             currentTask = new MoveTask(NPC, NPC.getNewMovementDestination());
         } else {
-            currentTask = new WaitTask(random(2000));
+            currentTask = new WaitTask(random(3000));
         }
     }
     
