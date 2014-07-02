@@ -97,6 +97,8 @@ public final class PlayState extends GameState {
 
     @Override
     public void dispose() {
-        // code...
+        mStream = null;
+        area = null;
+        player = null;
     }
 }
