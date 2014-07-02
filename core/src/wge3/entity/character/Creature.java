@@ -223,6 +223,9 @@ public abstract class Creature implements Drawable {
     }
 
     public boolean canMoveTo(float x, float y) {
+        if (!area.hasLocation(x, y)) {
+            return false;
+        }
         
         if (this.walksThroughWalls()) {
             return true;
@@ -244,7 +247,7 @@ public abstract class Creature implements Drawable {
             }
         } 
         
-        return area.hasLocation(x, y) && (area.getTileAt(x, y).isPassable());
+        return (area.getTileAt(x, y).isPassable());
         
         
     }
