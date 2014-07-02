@@ -5,8 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import wge3.entity.character.Player;
 import wge3.entity.creatures.Zombie;
+import wge3.entity.ground.Direction;
 import wge3.entity.ground.Grass;
 import wge3.entity.ground.Lava;
+import wge3.entity.ground.OneWayTile;
 import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
 import wge3.entity.items.Bomb;
@@ -37,6 +39,12 @@ public final class MapLoader {
                     case 2: ground = new WoodenFloor(); break;
                     case 3: ground = new Water(); break;
                     case 4: ground = new Lava(); break;
+                        
+                    case 5: ground = new OneWayTile(Direction.UP); break;
+                    case 6: ground = new OneWayTile(Direction.RIGHT); break;
+                    case 7: ground = new OneWayTile(Direction.DOWN); break;
+                    case 8: ground = new OneWayTile(Direction.LEFT); break;
+                                    
                     default:ground = new Grass(); break;
                 }
                 Tile newtile = new Tile();
