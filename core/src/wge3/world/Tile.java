@@ -281,8 +281,6 @@ public class Tile implements Drawable {
             float currentX = startX + i * (dx/distance);
             float currentY = startY + i * (dy/distance);
             
-            if (!area.hasLocation(currentX, currentY)) return false;
-            
             Tile currentTile = area.getTileAt(currentX, currentY);
             
             if (currentTile.blocksVision() || currentTile.drainsHP()) {
