@@ -6,7 +6,9 @@
 
 package wge3.entity.ground;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.entity.terrainelements.Ground;
+import wge3.world.Tile;
 
 /**
  *
@@ -18,6 +20,15 @@ public class OneWayTile extends Ground {
     
     public OneWayTile(Direction direction) {
         this.direction = direction;
+        
+        int i;
+        switch (direction) {
+            case UP:    i = 4; break;
+            case RIGHT: i = 5; break;
+            case DOWN:  i = 6; break;
+            default:    i = 7; break;
+        }
+        sprite = new Sprite(texture, i*Tile.size, 0, Tile.size, Tile.size);
     }
     
     public Direction getDirection() {
