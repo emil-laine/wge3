@@ -323,7 +323,7 @@ public abstract class Creature implements Drawable {
     }
     
     public void updateSpritePosition() {
-        sprite.setPosition(getX()-Tile.size/3, getY()-Tile.size/2);
+        sprite.setPosition(getX() - Tile.size/2, getY() - Tile.size/2);
     }
     
     public void updateSpriteRotation() {
