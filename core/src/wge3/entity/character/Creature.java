@@ -52,6 +52,8 @@ public abstract class Creature implements Drawable {
     protected int defense;
     protected int unarmedAttackSize; /* radius */
     
+    protected boolean picksUpItems;
+    
     protected boolean canSeeEverything;
     protected boolean walksThroughWalls;
     
@@ -214,6 +216,7 @@ public abstract class Creature implements Drawable {
         
         // Pick up any items in the new tile:
         // Could this be optimized by using the same tile as in the beginning of this method?
+        if (!picksUpItems()) return;
         Tile newTile = area.getTileAt(getX(), getY());
         MapObject object = newTile.getObject();
         if (object != null && object.isItem()) {
@@ -419,5 +422,9 @@ public abstract class Creature implements Drawable {
     
     public boolean isEnemyOf(Creature other) {
         return this.getTeam() != other.getTeam();
+    }
+    
+    public boolean picksUpItems() {
+        return picksUpItems;
     }
 }

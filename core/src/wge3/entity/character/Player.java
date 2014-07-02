@@ -17,5 +17,7 @@ public final class Player extends Creature {
         HP = maxHP;
         strength = 10;
         defense = 5;
+        
+        picksUpItems = true;
     }
 }
