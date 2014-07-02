@@ -1,5 +1,6 @@
 package wge3.entity.character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -69,6 +70,7 @@ public abstract class Creature implements Drawable {
     protected boolean turningRight;
 
     public Creature() {
+        texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         size = Tile.size / 3;
         defaultSpeed = 100;
         currentSpeed = defaultSpeed;
