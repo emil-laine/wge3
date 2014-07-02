@@ -2,11 +2,12 @@ package wge3.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.Iterator;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
-import wge3.entity.mapobjects.BrickWall;
+import wge3.entity.mapobjects.StoneWall;
 import wge3.world.Area;
 
 public final class PlayState extends GameState {
@@ -45,7 +46,7 @@ public final class PlayState extends GameState {
             Creature creature = it.next();
             creature.doMovement(delta);
             
-            /* Clean up dead creatures */
+            // Clean up the dead:
             if (creature.isDead()) {
                 it.remove();
                 area.removeCreature(creature);
@@ -87,9 +88,9 @@ public final class PlayState extends GameState {
             else mStream.addMessage("Ghost Mode Off");
         } else if (input.isPressed(8)) {
             mStream.toggleShowInventory();
-        } else if (input.isDown(9)) {
-            area.getTileAt(player.getX(), player.getY()).setObject(new BrickWall());
-        } else if (input.isDown(10)) {
+        } else if (input.isPressed(9)) {
+            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
+        } else if (input.isPressed(10)) {
             area.getTileAt(player.getX(), player.getY()).removeObject();
         } else if (input.isPressed(11)) {
             mStream.toggleShowFPS();
