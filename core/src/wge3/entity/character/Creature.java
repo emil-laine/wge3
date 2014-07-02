@@ -10,11 +10,14 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.max;
 import java.util.LinkedList;
 import java.util.List;
+import static wge3.entity.ground.Direction.*;
+import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
 import wge3.interfaces.Drawable;
@@ -220,7 +223,30 @@ public abstract class Creature implements Drawable {
     }
 
     public boolean canMoveTo(float x, float y) {
-        return area.hasLocation(x, y) && (area.getTileAt(x, y).isPassable() || this.walksThroughWalls());
+        
+        if (this.walksThroughWalls()) {
+            return true;
+        }
+        
+        if (area.getTileAt(x, y).getGround().getClass() == OneWayTile.class) {
+            OneWayTile oneWayTile = (OneWayTile) area.getTileAt(x, y).getGround();
+            if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
+                return false;
+            }
+            if (oneWayTile.getDirection() == RIGHT && x - getX() < 0) {
+                return false;
+            }
+            if (oneWayTile.getDirection() == UP && y - getY() < 0) {
+                return false;
+            }
+            if (oneWayTile.getDirection() == DOWN && y - getY() > 0) {
+                return false;
+            }
+        } 
+        
+        return area.hasLocation(x, y) && (area.getTileAt(x, y).isPassable());
+        
+        
     }
     
     public void useItem() {
