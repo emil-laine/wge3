@@ -72,7 +72,7 @@ public abstract class Creature implements Drawable {
         currentSpeed = defaultSpeed;
         direction = random() * PI2;
         turningSpeed = 3.5f;
-        sight = 10;
+        sight = 12;
         FOV = PI;
         unarmedAttackSize = Tile.size/2;
         
