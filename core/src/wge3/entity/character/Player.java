@@ -1,14 +1,12 @@
 package wge3.entity.character;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import wge3.world.Tile;
 
 public final class Player extends Creature {
     
     public Player() {
-        texture = new Texture(Gdx.files.internal("graphics/player.png"));
-        sprite = new Sprite(texture);
+        sprite = new Sprite(texture, 4*Tile.size, 3*Tile.size, Tile.size, Tile.size);
         updateSpriteRotation();
         
         team = 0;
