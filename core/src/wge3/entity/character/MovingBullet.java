@@ -6,7 +6,6 @@
 
 package wge3.entity.character;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
