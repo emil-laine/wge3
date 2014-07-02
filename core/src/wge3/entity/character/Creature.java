@@ -21,6 +21,7 @@ import static wge3.entity.ground.Direction.*;
 import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Item;
 import wge3.entity.terrainelements.MapObject;
+import static wge3.game.PlayState.mStream;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
@@ -296,6 +297,8 @@ public abstract class Creature implements Drawable {
     
     public void toggleWalksThroughWalls() {
         walksThroughWalls = walksThroughWalls == false;
+        if (walksThroughWalls()) mStream.addMessage("Ghost Mode On");
+        else mStream.addMessage("Ghost Mode Off");
     }
 
     private boolean isInCenterOfATile() {
