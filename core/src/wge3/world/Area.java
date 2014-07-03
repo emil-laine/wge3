@@ -262,4 +262,8 @@ public final class Area implements Drawable {
             timeOfLastPassTime = currentTime;
         }
     }
+    
+    public static int floatPosToTilePos(float pos) {
+        return (int) ((pos - (pos % Tile.size)) / Tile.size);
+    }
 }
