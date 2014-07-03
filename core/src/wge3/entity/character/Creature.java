@@ -217,14 +217,15 @@ public abstract class Creature implements Drawable {
             updateSpritePosition();
         }
         
-        // Pick up any items in the new tile:
-        // Could this be optimized by using the same tile as in the beginning of this method?
-        if (!picksUpItems()) return;
-        Tile newTile = area.getTileAt(getX(), getY());
-        MapObject object = newTile.getObject();
-        if (object != null && object.isItem()) {
-            inventory.addItem((Item) object);
-            newTile.removeObject();
+        // Should be optimized to pick up items only when current tile != previous tile.
+        if (picksUpItems()) pickUpItems();
+    }
+
+    public void pickUpItems() {
+        Tile currentTile = getTile();
+        if (currentTile.hasItem()) {
+            inventory.addItem((Item) currentTile.getObject());
+            currentTile.removeObject();
         }
     }
 
