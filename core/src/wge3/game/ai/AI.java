@@ -37,12 +37,7 @@ public final class AI {
     }
 
     public void checkForEnemies() {
-        for (Creature dude : NPC.getArea().getCreatures()) {
-            // If dude is not an enemy, or cannot be seen, skip it:
-            if (!dude.isEnemyOf(NPC) || !dude.canBeSeenBy(NPC)) {
-                continue;
-            }
-            
+        for (Creature dude : NPC.getEnemiesWithinFOV()) {
             // If dude is located in an OK move destination, attack:
             if (dude.getTile().isAnOKMoveDestinationFor(NPC)) {
                 currentTask = new AttackTask(NPC, dude);

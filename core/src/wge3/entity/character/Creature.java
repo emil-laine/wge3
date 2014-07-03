@@ -432,4 +432,14 @@ public abstract class Creature implements Drawable {
     public boolean picksUpItems() {
         return picksUpItems;
     }
+    
+    public List<Creature> getEnemiesWithinFOV() {
+        List<Creature> enemiesWithinFOV = new LinkedList<Creature>();
+        for (Creature creature : getArea().getCreatures()) {
+            if (creature.isEnemyOf(this) && creature.canBeSeenBy(this)) {
+                enemiesWithinFOV.add(creature);
+            }
+        }
+        return enemiesWithinFOV;
+    }
 }
