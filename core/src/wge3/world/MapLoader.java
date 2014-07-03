@@ -25,9 +25,8 @@ public final class MapLoader {
     public void loadMap(String mapName, Area area) throws FileNotFoundException {
         int size = area.getSize();
         String newline = System.getProperty("line.separator");
-        System.out.println(newline);
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
-        mapLoader.useDelimiter("[,\n]");
+        mapLoader.useDelimiter("[," + newline + "]");
         for (int i = 0; i < 7; i++) mapLoader.nextLine();
         
         // Create tiles and load grounds:
