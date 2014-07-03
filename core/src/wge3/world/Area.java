@@ -97,15 +97,11 @@ public final class Area implements Drawable {
     public Tile getTileAt(float x, float y) {
         int x0 = (int) ((x - (x % Tile.size)) / Tile.size);
         int y0 = (int) ((y - (y % Tile.size)) / Tile.size);
-        return map[x0][y0];
+        return getTileAt(x0, y0);
     }
     
     public Tile getTileAt(int x, int y) {
-        if (!this.hasLocation(x, y)) {
-            return null;
-        } else {
-            return map[x][y];
-        }
+        return map[x][y];
     }
     
     public void addToDrawList(Tile tile) {
