@@ -19,7 +19,7 @@ public final class GameStateManager {
         
         switch (newState) {
             case 0:
-                // menu
+                currentState = new MenuState(this);
                 break;
                 
             case 1:
@@ -27,7 +27,7 @@ public final class GameStateManager {
                 break;
                 
             case 2:
-                // preferences
+                // currentState = new PreferencesState(this);
                 break;
         }
     }
