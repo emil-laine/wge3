@@ -1,9 +1,10 @@
 package wge3.game.ai;
 
-import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
+import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
+import static com.badlogic.gdx.math.MathUtils.sin;
 import static java.lang.Integer.signum;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
@@ -80,8 +81,8 @@ public class AI {
     public Tile getAlternativeDestinationTile(int i) {
         float angle = NPC.getDirection();
         angle += PI/2 * signum(i);
-        float dx = MathUtils.cos(angle);
-        float dy = MathUtils.sin(angle);
+        float dx = cos(angle);
+        float dy = sin(angle);
         
         float tileX = i*dx*Tile.size;
         float tileY = i*dy*Tile.size;
