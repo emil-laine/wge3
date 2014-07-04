@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.floor;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.io.FileNotFoundException;
@@ -269,14 +270,7 @@ public final class Area implements Drawable {
     }
     
     public static int floatPosToTilePos(float pos) {
-        int i = 0;
-        while (pos >= Tile.size) {
-            pos -= Tile.size;
-            i++;
-        }
-        return i;
-        // This can (?) also be calculated as follows:
-        // return (int) ((pos - (pos % Tile.size)) / Tile.size);
+        return floor(pos)/Tile.size;
     }
     
     List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
