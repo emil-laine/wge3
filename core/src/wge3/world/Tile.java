@@ -253,13 +253,7 @@ public class Tile implements Drawable {
     }
     
     public boolean isAnOKMoveDestinationFor(Creature creature) {
-        float creatureX = creature.getX();
-        float creatureY = creature.getY();
-        
-        if (getDistanceTo(creatureX, creatureY) > creature.getSight() * Tile.size)
-            return false;
-        
-        return isAnOKMoveDestinationFrom(creatureX, creatureY);
+        return isAnOKMoveDestinationFrom(creature.getX(), creature.getY());
     }
     
     public boolean isAnOKMoveDestinationFrom(float startX, float startY) {
