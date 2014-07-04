@@ -94,7 +94,10 @@ public final class Area implements Drawable {
     }
     
     public boolean hasLocation(int x, int y) {
-        return x >= 0 && x < size && y >= 0 && y < size;
+        return x >= 0
+            && x < this.getSize()
+            && y >= 0
+            && y < this.getSize();
     }
     
     public Tile getTileAt(float x, float y) {
