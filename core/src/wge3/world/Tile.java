@@ -137,8 +137,7 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenFrom(float x, float y, int range) {
-        if (x < 0 || y < 0 || x >= area.getSize()*Tile.size || y >= area.getSize()*Tile.size)
-            throw new IllegalArgumentException();
+        if (!getArea().hasLocation(x, y)) throw new IllegalArgumentException();
         
         if (getDistanceTo(x, y) > range * Tile.size) return false;
         
@@ -150,8 +149,8 @@ public class Tile implements Drawable {
     }
     
     public float getDistanceTo(float x, float y) {
-        float dx = x - (this.getX()*Tile.size + Tile.size/2);
-        float dy = y - (this.getY()*Tile.size + Tile.size/2);
+        float dx = x - this.getMiddleX();
+        float dy = y - this.getMiddleY();
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
 
