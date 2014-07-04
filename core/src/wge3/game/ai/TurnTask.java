@@ -2,10 +2,8 @@ package wge3.game.ai;
 
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
-import static com.badlogic.gdx.math.MathUtils.isEqual;
 import static java.lang.Math.abs;
 import wge3.entity.character.Creature;
-import static wge3.game.PlayState.mStream;
 
 public final class TurnTask extends AITask {
     
