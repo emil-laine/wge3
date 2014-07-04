@@ -141,6 +141,8 @@ public class Tile implements Drawable {
         int tileY = getY()*Tile.size + Tile.size/2;
         float dx = x - tileX;
         float dy = y - tileY;
+        if (x < 0 || y < 0 || x >= area.getSize()*Tile.size || y >= area.getSize()*Tile.size)
+            throw new IllegalArgumentException();
         
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
         if (distance > range * Tile.size) return false;
