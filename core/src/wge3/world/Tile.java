@@ -282,4 +282,28 @@ public class Tile implements Drawable {
         
         return true;
     }
+    
+    public int getLeftX() {
+        return getX() * Tile.size;
+    }
+    
+    public int getRightX() {
+        return (getX() + 1) * Tile.size;
+    }
+    
+    public int getBottomY() {
+        return getY() * Tile.size;
+    }
+    
+    public int getTopY() {
+        return (getY() + 1) * Tile.size;
+    }
+    
+    public int getMiddleX() {
+        return getX()*Tile.size + Tile.size/2;
+    }
+    
+    public int getMiddleY() {
+        return getY()*Tile.size + Tile.size/2;
+    }
 }
