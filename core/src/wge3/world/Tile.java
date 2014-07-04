@@ -255,18 +255,18 @@ public class Tile implements Drawable {
     }
     
     public boolean isAnOKMoveDestinationFor(Creature creature) {
-        return isAnOKMoveDestinationFrom(creature.getX(), creature.getY());
+        float creatureX = creature.getX();
+        float creatureY = creature.getY();
+        
+        if (getDistanceTo(creatureX, creatureY) > creature.getSight() * Tile.size)
+            return false;
+        
+        return isAnOKMoveDestinationFrom(creatureX, creatureY);
     }
     
     public boolean isAnOKMoveDestinationFrom(float startX, float startY) {
         if (!isPassable() || drainsHP()) return false;
         
-        int tileX = getX()*Tile.size + Tile.size/2;
-        int tileY = getY()*Tile.size + Tile.size/2;
-        float dx = tileX - startX;
-        float dy = tileY - startY;
-        
-        float distance = (float) Math.sqrt(dx*dx + dy*dy) / Tile.size;
         for (Tile tile : getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())) {
             if (tile.blocksVision() || tile.drainsHP()) return false;
         }
