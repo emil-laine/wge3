@@ -143,9 +143,8 @@ public class Tile implements Drawable {
         float dy = y - tileY;
         if (x < 0 || y < 0 || x >= area.getSize()*Tile.size || y >= area.getSize()*Tile.size)
             throw new IllegalArgumentException();
+        if (getDistanceTo(x, y) > range * Tile.size) return false;
         
-        float distance = (float) Math.sqrt(dx*dx + dy*dy);
-        if (distance > range * Tile.size) return false;
         
         for (Tile tile : area.getTilesOnLine(x, y, tileX, tileY)) {
             if (tile.blocksVision()) return false;
