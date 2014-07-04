@@ -267,17 +267,8 @@ public class Tile implements Drawable {
         float dy = tileY - startY;
         
         float distance = (float) Math.sqrt(dx*dx + dy*dy) / Tile.size;
-        
-        for (int i = 1; i <= distance; i++) {
-            // Calculate the position of the next tile:
-            float currentX = startX + i * (dx/distance);
-            float currentY = startY + i * (dy/distance);
-            
-            Tile currentTile = area.getTileAt(currentX, currentY);
-            
-            if (currentTile.blocksVision() || currentTile.drainsHP()) {
-                return false;
-            }
+        for (Tile tile : getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())) {
+            if (tile.blocksVision() || tile.drainsHP()) return false;
         }
         
         return true;
