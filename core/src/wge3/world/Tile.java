@@ -148,6 +148,7 @@ public class Tile implements Drawable {
         return true;
     }
     
+    // Calculates distance to middlepoint of tile
     public float getDistanceTo(float x, float y) {
         float dx = x - this.getMiddleX();
         float dy = y - this.getMiddleY();
