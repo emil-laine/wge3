@@ -266,7 +266,14 @@ public final class Area implements Drawable {
     }
     
     public static int floatPosToTilePos(float pos) {
-        return (int) ((pos - (pos % Tile.size)) / Tile.size);
+        int i = 0;
+        while (pos >= Tile.size) {
+            pos -= Tile.size;
+            i++;
+        }
+        return i;
+        // This can (?) also be calculated as follows:
+        // return (int) ((pos - (pos % Tile.size)) / Tile.size);
     }
     
     List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
