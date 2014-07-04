@@ -98,12 +98,16 @@ public final class Area implements Drawable {
     }
     
     public Tile getTileAt(float x, float y) {
+        if (x < 0 || y < 0 || x >= getSize()*Tile.size || y >= getSize()*Tile.size)
+            throw new IllegalArgumentException();
         int x0 = (int) ((x - (x % Tile.size)) / Tile.size);
         int y0 = (int) ((y - (y % Tile.size)) / Tile.size);
         return getTileAt(x0, y0);
     }
     
     public Tile getTileAt(int x, int y) {
+        if (x < 0 || y < 0 || x >= getSize() || y >= getSize())
+            throw new IllegalArgumentException();
         return map[x][y];
     }
     
