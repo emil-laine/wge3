@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import wge3.entity.character.Bullet;
 import wge3.entity.character.Creature;
+import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.MapObject;
 import wge3.interfaces.Drawable;
@@ -293,5 +294,9 @@ public class Tile implements Drawable {
     
     public int getMiddleY() {
         return getY()*Tile.size + Tile.size/2;
+    }
+    
+    public boolean isOneWay() {
+        return getGround().getClass() == OneWayTile.class;
     }
 }

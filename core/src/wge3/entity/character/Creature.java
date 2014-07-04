@@ -236,7 +236,7 @@ public abstract class Creature implements Drawable {
             return true;
         }
         
-        if (area.getTileAt(x, y).getGround().getClass() == OneWayTile.class) {
+        if (area.getTileAt(x, y).isOneWay()) {
             OneWayTile oneWayTile = (OneWayTile) area.getTileAt(x, y).getGround();
             if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
                 return false;
