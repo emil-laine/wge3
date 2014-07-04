@@ -137,10 +137,10 @@ public class Tile implements Drawable {
         return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight()) || creature.canSeeEverything();
     }
     
-    public boolean canBeSeenFrom(float x, float y, int range) {
+    public boolean canBeSeenFrom(float x, float y, int sight) {
         if (!getArea().hasLocation(x, y)) throw new IllegalArgumentException();
         
-        if (getDistanceTo(x, y) > range * Tile.size) return false;
+        if (getDistanceTo(x, y) > sight * Tile.size) return false;
         
         for (Tile tile : area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())) {
             if (tile.blocksVision()) return false;
