@@ -9,7 +9,7 @@ import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.world.Tile;
 
-public final class AI {
+public class AI {
 
     protected NonPlayer NPC; // the controlled creature
     protected AITask currentTask;
