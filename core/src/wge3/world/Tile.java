@@ -137,24 +137,16 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenFrom(float x, float y, int range) {
-        /* range: in tiles */
         int tileX = getX()*Tile.size + Tile.size/2;
         int tileY = getY()*Tile.size + Tile.size/2;
         float dx = x - tileX;
         float dy = y - tileY;
         
         float distance = (float) Math.sqrt(dx*dx + dy*dy);
-        if (distance > range * Tile.size) {
-            return false;
-        }
-        distance /= Tile.size;
+        if (distance > range * Tile.size) return false;
         
-        for (int i = 1; i <= distance; i++) {
-            // Calculate the position of the next tile:
-            float currentX = tileX + i * (dx/distance);
-            float currentY = tileY + i * (dy/distance);
-            
-            if (area.getTileAt(currentX, currentY).blocksVision()) return false;
+        for (Tile tile : area.getTilesOnLine(x, y, tileX, tileY)) {
+            if (tile.blocksVision()) return false;
         }
         
         return true;
