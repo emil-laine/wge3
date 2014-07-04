@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
+import static com.badlogic.gdx.math.MathUtils.atan2;
+import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.sin;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
@@ -265,5 +268,42 @@ public final class Area implements Drawable {
     
     public static int floatPosToTilePos(float pos) {
         return (int) ((pos - (pos % Tile.size)) / Tile.size);
+    }
+    
+    List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
+        float angle = atan2(finalY-startY, finalX-startX);
+        float xUnit = cos(angle);
+        float yUnit = sin(angle);
+        
+        int startTileX = floatPosToTilePos(startX);
+        int startTileY = floatPosToTilePos(startY);
+        int finalTileX = floatPosToTilePos(finalX);
+        int finalTileY = floatPosToTilePos(finalY);
+        
+        List<Tile> tiles = new LinkedList<Tile>();
+        if (startTileX == finalTileX && startTileY == finalTileY) return tiles;
+        
+        int i = 0;
+        int currentTileX;
+        int currentTileY;
+        int previousTileX = startTileX;
+        int previousTileY = startTileY;
+        
+        while (true) {
+            do {
+                i++;
+                currentTileX = floatPosToTilePos(startX + i * xUnit);
+                currentTileY = floatPosToTilePos(startY + i * yUnit);
+            } while (currentTileX == previousTileX && currentTileY == previousTileY);
+            
+            if (currentTileX == finalTileX && currentTileY == finalTileY) break;
+            
+            tiles.add(getTileAt(currentTileX, currentTileY));
+
+            previousTileX = currentTileX;
+            previousTileY = currentTileY;
+        }
+        
+        return tiles;
     }
 }
