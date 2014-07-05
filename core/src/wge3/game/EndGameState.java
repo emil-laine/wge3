@@ -61,7 +61,7 @@ public final class EndGameState extends GameState {
 
     @Override
     public void dispose() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        font.dispose();
     }
     
 }
