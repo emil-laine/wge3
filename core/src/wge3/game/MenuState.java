@@ -19,7 +19,7 @@ public final class MenuState extends GameState {
     private Skin skin;
     
     private TextField mapNameField;
-    TextButton newGameButton;
+    private TextButton newGameButton;
     
     public MenuState(GameStateManager gsm) {
         super(gsm);
