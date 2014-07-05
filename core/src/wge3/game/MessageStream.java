@@ -1,5 +1,6 @@
 package wge3.game;
 
+import wge3.game.gamestates.PlayState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

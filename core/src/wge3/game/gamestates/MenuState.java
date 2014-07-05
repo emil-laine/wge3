@@ -1,4 +1,4 @@
-package wge3.game;
+package wge3.game.gamestates;
 
 import com.badlogic.gdx.Gdx;
 import static com.badlogic.gdx.Input.Keys.ENTER;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import wge3.game.GameStateManager;
 
 public final class MenuState extends GameState {
     

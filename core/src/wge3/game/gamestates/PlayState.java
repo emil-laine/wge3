@@ -1,4 +1,4 @@
-package wge3.game;
+package wge3.game.gamestates;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -8,6 +8,9 @@ import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.StoneWall;
+import wge3.game.GameStateManager;
+import wge3.game.InputHandler;
+import wge3.game.MessageStream;
 import wge3.world.Area;
 
 public final class PlayState extends GameState {

@@ -1,7 +1,9 @@
-package wge3.game;
+package wge3.game.gamestates;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import wge3.game.GameStateManager;
+import wge3.game.InputHandler;
 import wge3.interfaces.Drawable;
 
 public abstract class GameState implements Drawable {

@@ -4,7 +4,7 @@ package wge3.entity.items;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import wge3.entity.character.Creature;
-import static wge3.game.PlayState.mStream;
+import static wge3.game.gamestates.PlayState.mStream;
 import wge3.world.Tile;
 
 public final class Handgun extends Gun {

@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 
-package wge3.game;
+package wge3.game.gamestates;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import wge3.game.GameStateManager;
 
 /**
  *

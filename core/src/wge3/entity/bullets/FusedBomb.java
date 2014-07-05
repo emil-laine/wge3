@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;
 import wge3.entity.character.Bullet;
-import static wge3.game.PlayState.mStream;
+import static wge3.game.gamestates.PlayState.mStream;
 import wge3.interfaces.Explosive;
 import wge3.world.Tile;
 

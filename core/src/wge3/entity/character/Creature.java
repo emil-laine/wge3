@@ -19,7 +19,7 @@ import java.util.List;
 import static wge3.entity.ground.Direction.*;
 import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Item;
-import static wge3.game.PlayState.mStream;
+import static wge3.game.gamestates.PlayState.mStream;
 import wge3.interfaces.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
