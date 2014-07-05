@@ -42,6 +42,7 @@ public final class EndGameState extends GameState {
 
     @Override
     public void draw(Batch batch) {
+        batch.begin();
         int maxX = Gdx.graphics.getWidth(); 
         int maxY = Gdx.graphics.getHeight();
         if (result) {
@@ -50,7 +51,7 @@ public final class EndGameState extends GameState {
         else {
             font.draw(batch, "You lost!", maxX / 2, maxY / 2);
         }
-        
+        batch.end();
     }
 
     @Override
