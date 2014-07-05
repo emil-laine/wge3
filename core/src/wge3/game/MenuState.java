@@ -1,6 +1,7 @@
 package wge3.game;
 
 import com.badlogic.gdx.Gdx;
+import static com.badlogic.gdx.Input.Keys.ENTER;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -79,6 +80,7 @@ public final class MenuState extends GameState {
     @Override
     public void update(float delta) {
         stage.act(delta);
+        handleInput();
     }
 
     @Override
@@ -88,6 +90,9 @@ public final class MenuState extends GameState {
 
     @Override
     public void handleInput() {
+        if (Gdx.input.isKeyPressed(ENTER)) {
+            startGame();
+        }
     }
 
     @Override
