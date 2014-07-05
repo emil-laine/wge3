@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.Iterator;
+import wge3.entity.character.Bomb;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
@@ -119,6 +120,9 @@ public final class PlayState extends GameState {
 
     @Override
     public void dispose() {
+        for (Bomb bomb : area.getBombs()) {
+            bomb.cancelTimer();
+        }
         mStream = null;
         area = null;
         player = null;

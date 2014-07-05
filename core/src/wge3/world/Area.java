@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import wge3.entity.character.Bullet;
+import wge3.entity.character.Bomb;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
@@ -38,7 +38,7 @@ public final class Area implements Drawable {
     private List<NonPlayer> NPCs;
     private List<LightSource> lightSources;
     private List<Item> items;
-    private List<Bullet> bullets;
+    private List<Bomb> bombs;
     
     private long timeOfLastPassTime;
 
@@ -53,7 +53,7 @@ public final class Area implements Drawable {
         NPCs         = new LinkedList<NonPlayer>();
         lightSources = new LinkedList<LightSource>();
         items        = new LinkedList<Item>();
-        bullets      = new LinkedList<Bullet>();
+        bombs        = new LinkedList<Bomb>();
         
         mapLoader = new MapLoader();
         try {
@@ -81,7 +81,7 @@ public final class Area implements Drawable {
     @Override
     public void draw(Batch batch) {
         drawTiles(batch);
-        drawBullets(batch);
+        drawBombs(batch);
         drawCreatures(batch);
     }
 
@@ -129,12 +129,12 @@ public final class Area implements Drawable {
         batch.disableBlending();
     }
 
-    public void drawBullets(Batch batch) {
+    public void drawBombs(Batch batch) {
         batch.enableBlending();
         for (Player player : players) {
-            for (Bullet bullet : bullets) {
-                if (bullet.canBeSeenBy(player)) {
-                    bullet.draw(batch);
+            for (Bomb bomb : bombs) {
+                if (bomb.canBeSeenBy(player)) {
+                    bomb.draw(batch);
                 }
             }
         }
@@ -244,17 +244,17 @@ public final class Area implements Drawable {
         return NPCs;
     }
 
-    public List<Bullet> getBullets() {
-        return bullets;
+    public List<Bomb> getBombs() {
+        return bombs;
     }
     
-    public void addBullet(Bullet bullet) {
-        bullet.setArea(this);
-        bullets.add(bullet);
+    public void addBomb(Bomb bomb) {
+        bomb.setArea(this);
+        bombs.add(bomb);
     }
     
-    public void removeBullet(Bullet bullet) {
-        bullets.remove(bullet);
+    public void removeBomb(Bomb bomb) {
+        bombs.remove(bomb);
     }
 
     public void passTime(float delta) {

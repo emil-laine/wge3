@@ -32,6 +32,6 @@ public final class FusedBomb extends Bomb {
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
-        area.removeBullet(this);
+        area.removeBomb(this);
     }
 }

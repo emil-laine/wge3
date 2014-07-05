@@ -10,6 +10,7 @@ import wge3.world.Tile;
 public class GreenSlime extends MapObject {
 
     private int damage;
+    public static float expansionProbability = 1/16f;
     
     public GreenSlime() {
         sprite = new Sprite(texture, Tile.size, 4*Tile.size, Tile.size, Tile.size);

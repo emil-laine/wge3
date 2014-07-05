@@ -28,6 +28,6 @@ public class GreenSlimeBomb extends Bomb {
                 currentTile.setObject(new GreenSlime());
             }
         }
-        area.removeBullet(this);
+        area.removeBomb(this);
     }
 }

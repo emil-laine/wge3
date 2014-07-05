@@ -18,7 +18,7 @@ public final class Bomb extends Item {
         FusedBomb bomb = new FusedBomb();
         bomb.setPosition(user.getX(), user.getY());
         user.getInventory().removeItem(this);
-        user.getArea().addBullet(bomb);
+        user.getArea().addBomb(bomb);
         bomb.startTimer();
     }
 }

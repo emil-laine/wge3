@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
  *
  * @author root
  */
-public abstract class MovingBullet extends Bullet {
+public abstract class MovingBullet extends Bomb {
     private float speed;
     private float angle;
     

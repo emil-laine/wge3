@@ -18,7 +18,7 @@ public class GreenPotion extends Item {
         GreenSlimeBomb bomb = new GreenSlimeBomb();
         bomb.setPosition(user.getX(), user.getY());
         user.getInventory().removeItem(this);
-        user.getArea().addBullet(bomb);
+        user.getArea().addBomb(bomb);
         bomb.startTimer();
     }
 }

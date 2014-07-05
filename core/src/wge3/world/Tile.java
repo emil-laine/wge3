@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
-import wge3.entity.character.Bullet;
+import wge3.entity.character.Bomb;
 import wge3.entity.character.Creature;
 import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Ground;
@@ -99,8 +99,8 @@ public class Tile implements Drawable {
         for (Creature creature : getCreatures()) {
             creature.setLighting(color);
         }
-        for (Bullet bullet : getBullets()) {
-            bullet.setLighting(color);
+        for (Bomb bomb : getBombs()) {
+            bomb.setLighting(color);
         }
     }
     
@@ -181,14 +181,14 @@ public class Tile implements Drawable {
         return creatures;
     }
     
-    public List<Bullet> getBullets() {
-        List<Bullet> bullets = new LinkedList<Bullet>();
-        for (Bullet bullet : area.getBullets()) {
-            if (area.getTileAt(bullet.getX(), bullet.getY()).equals(this)) {
-                bullets.add(bullet);
+    public List<Bomb> getBombs() {
+        List<Bomb> bombs = new LinkedList<Bomb>();
+        for (Bomb bomb : area.getBombs()) {
+            if (area.getTileAt(bomb.getX(), bomb.getY()).equals(this)) {
+                bombs.add(bomb);
             }
         }
-        return bullets;
+        return bombs;
     }
 
     public void dealDamage(int amount) {
