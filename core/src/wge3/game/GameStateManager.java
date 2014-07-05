@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public final class GameStateManager {
     
     private GameState currentState;
-    //true means win, false means lose
-    private boolean gameResult;
     private SpriteBatch batch;
+    
+    private String nextMap;
+    private boolean gameResult; // true means win, false means lose
 
     public GameStateManager() {
         batch = new SpriteBatch();
@@ -20,18 +21,21 @@ public final class GameStateManager {
         
         switch (newState) {
             case 0:
-                // menu
+                currentState = new MenuState(this);
                 break;
                 
             case 1:
-                currentState = new PlayState(this);
+                currentState = new PlayState(this, nextMap);
                 break;
                 
             case 2:
-                // preferences
                 currentState = new EndGameState(this, gameResult);
                 break;
         }
+    }
+
+    public void setNextMap(String nextMap) {
+        this.nextMap = nextMap;
     }
     
     public void update(float delta) {

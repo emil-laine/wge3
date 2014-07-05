@@ -11,7 +11,7 @@ public final class WGE3 extends Game {
     @Override
     public void create () {
         gsm = new GameStateManager();
-        gsm.setState(1);
+        gsm.setState(0);
         
         Gdx.gl.glClearColor(0, 0, 0, 1);
     }

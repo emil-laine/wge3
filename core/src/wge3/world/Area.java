@@ -40,7 +40,7 @@ public final class Area implements Drawable {
     
     private long timeOfLastPassTime;
 
-    public Area() {
+    public Area(String mapName) {
         size = 31;
         map = new Tile[size][size];
         
@@ -55,7 +55,7 @@ public final class Area implements Drawable {
         
         mapLoader = new MapLoader();
         try {
-            mapLoader.loadMap("PvP1", this);
+            mapLoader.loadMap(mapName, this);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
