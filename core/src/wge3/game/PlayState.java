@@ -16,7 +16,6 @@ public final class PlayState extends GameState {
     
     private Area area;
     private Player player;
-    private List<Player> alivePlayers;
     public static MessageStream mStream;
 
     public PlayState(GameStateManager gsm) {
@@ -36,7 +35,7 @@ public final class PlayState extends GameState {
         mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
         area = new Area();
         player = area.getPlayers().get(0);
-        this.alivePlayers = area.getPlayers();
+        
     }
 
     @Override
@@ -50,18 +49,16 @@ public final class PlayState extends GameState {
             creature.doMovement(delta);
             
             // Clean up the dead:
-            //Shady code by Chang, might not work?
             if (creature.isDead()) {
-                if (creature.isPlayer()) {
-                    alivePlayers.remove((Player) creature);
-                }
                 it.remove();
                 area.removeCreature(creature);
+                
+                if (area.getPlayers().isEmpty()) {
+                    gsm.setGameEnd(false);
+                    gsm.setState(2);
+                }
             }
-            if (alivePlayers.isEmpty()) {
-                gsm.setGameEnd(false);
-                gsm.setState(2);
-            }
+            
             
         }
         area.calculateFOV();
