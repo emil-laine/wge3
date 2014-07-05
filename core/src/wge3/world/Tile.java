@@ -11,6 +11,7 @@ import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.MapObject;
 import wge3.interfaces.Drawable;
+import static wge3.world.Area.floatPosToTilePos;
 
 public class Tile implements Drawable {
     
@@ -172,7 +173,8 @@ public class Tile implements Drawable {
     public List<Creature> getCreatures() {
         List<Creature> creatures = new LinkedList<Creature>();
         for (Creature creature : area.getCreatures()) {
-            if (creature.getTile().equals(this)) {
+            if (floatPosToTilePos(creature.getX()) == this.getX()
+                    && floatPosToTilePos(creature.getY()) == this.getY()) {
                 creatures.add(creature);
             }
         }
