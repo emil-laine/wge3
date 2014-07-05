@@ -17,8 +17,10 @@ public final class MenuState extends GameState {
     
     private Stage stage;
     private Skin skin;
+    
     private TextField mapNameField;
-
+    TextButton newGameButton;
+    
     public MenuState(GameStateManager gsm) {
         super(gsm);
         init();
@@ -49,7 +51,7 @@ public final class MenuState extends GameState {
         mapNameField.setMessageText("Enter map name");
         stage.addActor(mapNameField);
         
-        TextButton newGameButton = new TextButton("NEW GAME", skin);
+        newGameButton = new TextButton("NEW GAME", skin);
         newGameButton.setPosition(x, y - buttonHeight*4);
         newGameButton.setSize(buttonWidth, buttonHeight);
         newGameButton.addListener(new ClickListener() {
