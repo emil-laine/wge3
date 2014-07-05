@@ -1,5 +1,6 @@
 package wge3.entity.character;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -20,6 +21,7 @@ public abstract class Bullet implements Drawable {
     protected boolean exists;
 
     public Bullet() {
+        texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         exists = true;
     }
 

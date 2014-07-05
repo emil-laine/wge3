@@ -19,7 +19,6 @@ public final class FusedBomb extends Bullet implements Explosive {
     private int damage;
     
     public FusedBomb() {
-        texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
         
         range = 2;
