@@ -41,6 +41,12 @@ public final class MenuState extends GameState {
         TextButton newGameButton = new TextButton("NEW GAME", skin);
         newGameButton.setPosition(x, y - buttonHeight*4);
         newGameButton.setSize(buttonWidth, buttonHeight);
+        newGameButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                startGame();
+            }
+        });
         stage.addActor(newGameButton);
         
         TextButton exitButton = new TextButton("EXIT", skin);
