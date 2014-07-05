@@ -34,6 +34,10 @@ public final class GameStateManager {
         }
     }
 
+    public String getNextMap() {
+        return nextMap;
+    }
+
     public void setNextMap(String nextMap) {
         this.nextMap = nextMap;
     }
