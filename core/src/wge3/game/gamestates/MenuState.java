@@ -85,6 +85,10 @@ public final class MenuState extends GameState {
         gsm.setNextMap(mapNameField.getText());
         gsm.setState(1);
     }
+    
+    public void exitGame() {
+        Gdx.app.exit();
+    }
 
     @Override
     public void update(float delta) {
@@ -100,7 +104,7 @@ public final class MenuState extends GameState {
     @Override
     public void handleInput() {
         if (Gdx.input.isKeyPressed(ENTER)) startGame();
-        else if (Gdx.input.isKeyPressed(ESCAPE)) Gdx.app.exit();
+        else if (Gdx.input.isKeyPressed(ESCAPE)) exitGame();
     }
 
     @Override
