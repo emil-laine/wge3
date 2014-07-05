@@ -296,4 +296,9 @@ public class Tile implements Drawable {
     public boolean isOneWay() {
         return getGround().getClass() == OneWayTile.class;
     }
+    
+    public boolean hasSlime() {
+        if (object == null) return false;
+        return object.isSlime();
+    }
 }
