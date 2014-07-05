@@ -46,6 +46,12 @@ public final class MenuState extends GameState {
         TextButton exitButton = new TextButton("EXIT", skin);
         exitButton.setPosition(x, y - buttonHeight*6);
         exitButton.setSize(buttonWidth, buttonHeight);
+        exitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeListener.ChangeEvent ce, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
         stage.addActor(exitButton);
     }
     
