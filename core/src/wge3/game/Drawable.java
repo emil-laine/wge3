@@ -1,4 +1,4 @@
-package wge3.interfaces;
+package wge3.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 

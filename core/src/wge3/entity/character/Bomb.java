@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;
-import wge3.interfaces.Drawable;
+import wge3.game.Drawable;
 import wge3.world.Area;
 import wge3.world.Tile;
 

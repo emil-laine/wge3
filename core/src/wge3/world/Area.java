@@ -23,7 +23,7 @@ import wge3.entity.character.Player;
 import wge3.entity.mapobjects.GreenSlime;
 import wge3.entity.mapobjects.LightSource;
 import wge3.entity.terrainelements.Item;
-import wge3.interfaces.Drawable;
+import wge3.game.Drawable;
 
 public final class Area implements Drawable {
     private Tile[][] map;

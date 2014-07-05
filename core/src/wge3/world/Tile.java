@@ -10,7 +10,7 @@ import wge3.entity.character.Creature;
 import wge3.entity.ground.OneWayTile;
 import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.MapObject;
-import wge3.interfaces.Drawable;
+import wge3.game.Drawable;
 import static wge3.world.Area.floatPosToTilePos;
 
 public class Tile implements Drawable {

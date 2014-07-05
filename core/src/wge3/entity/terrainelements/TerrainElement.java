@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import wge3.interfaces.Drawable;
+import wge3.game.Drawable;
 import wge3.world.Tile;
 
 public abstract class TerrainElement implements Drawable {

@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import wge3.entity.terrainelements.Item;
-import wge3.interfaces.Drawable;
 
 public final class MessageStream implements Drawable {
 
