@@ -1,5 +1,7 @@
 package wge3.entity.terrainelements;
 
+import wge3.entity.mapobjects.GreenSlime;
+
 public abstract class MapObject extends TerrainElement {
     
     protected int maxHP;
@@ -28,5 +30,9 @@ public abstract class MapObject extends TerrainElement {
 
     public boolean hasDestroyedSprite() {
         return hasDestroyedSprite;
+    }
+
+    public boolean isSlime() {
+        return this.getClass() == GreenSlime.class;
     }
 }
