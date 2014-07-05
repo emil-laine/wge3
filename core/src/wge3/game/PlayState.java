@@ -16,9 +16,11 @@ public final class PlayState extends GameState {
     private Player player;
     
     public static MessageStream mStream;
+    private String map;
 
-    public PlayState(GameStateManager gsm) {
+    public PlayState(GameStateManager gsm, String map) {
         super(gsm);
+        this.map = map;
         init();
     }
 
