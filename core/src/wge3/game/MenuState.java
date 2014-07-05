@@ -22,6 +22,7 @@ public final class MenuState extends GameState {
     @Override
     public void init() {
         stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         
         int buttonWidth = 200;
