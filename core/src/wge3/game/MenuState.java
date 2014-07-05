@@ -75,6 +75,11 @@ public final class MenuState extends GameState {
     }
     
     public void startGame() {
+        if (!Gdx.files.internal("maps/" + mapNameField.getText() + ".tmx").exists()) {
+            gsm.setState(0);
+            return;
+        }
+        
         gsm.setNextMap(mapNameField.getText());
         gsm.setState(1);
     }
