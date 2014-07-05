@@ -13,7 +13,8 @@ public class GreenSlime extends MapObject {
     public GreenSlime() {
         sprite = new Sprite(texture, Tile.size, 4*Tile.size, Tile.size, Tile.size);
         
-        passable = false;
+        passable = true;
+        movementModifier = 0.02f;
         blocksVision = false;
         HP = 1000;
         hardness = 50;
