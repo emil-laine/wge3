@@ -105,7 +105,7 @@ public final class PlayState extends GameState {
         } else if (input.isPressed(7)) {
             player.toggleCanSeeEverything();
         } else if (input.isPressed(8)) {
-            player.toggleWalksThroughWalls();
+            player.toggleGhostMode();
         } else if (input.isPressed(9)) {
             mStream.toggleShowInventory();
         } else if (input.isPressed(10)) {

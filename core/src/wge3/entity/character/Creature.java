@@ -55,7 +55,7 @@ public abstract class Creature implements Drawable {
     protected boolean picksUpItems;
     
     protected boolean canSeeEverything;
-    protected boolean walksThroughWalls;
+    protected boolean isGhost;
     
     protected Inventory inventory;
     protected Item selectedItem;
@@ -83,7 +83,7 @@ public abstract class Creature implements Drawable {
         timeOfLastRegen = millis();
         
         canSeeEverything = false;
-        walksThroughWalls = false;
+        isGhost = false;
         
         bounds = new Rectangle();
         bounds.height = 0.75f*Tile.size;
@@ -232,7 +232,7 @@ public abstract class Creature implements Drawable {
             return false;
         }
         
-        if (this.walksThroughWalls()) {
+        if (this.isGhost()) {
             return true;
         }
         
@@ -290,13 +290,13 @@ public abstract class Creature implements Drawable {
         canSeeEverything = canSeeEverything == false;
     }
     
-    public boolean walksThroughWalls() {
-        return walksThroughWalls;
+    public boolean isGhost() {
+        return isGhost;
     }
     
-    public void toggleWalksThroughWalls() {
-        walksThroughWalls = walksThroughWalls == false;
-        if (walksThroughWalls()) mStream.addMessage("Ghost Mode On");
+    public void toggleGhostMode() {
+        isGhost = isGhost == false;
+        if (isGhost()) mStream.addMessage("Ghost Mode On");
         else mStream.addMessage("Ghost Mode Off");
     }
 
