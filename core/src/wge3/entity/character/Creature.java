@@ -441,4 +441,9 @@ public abstract class Creature implements Drawable {
         }
         return enemiesWithinFOV;
     }
+    
+    public void addHP(int amount) {
+        HP += amount;
+        if (HP > maxHP) HP = maxHP;
+    }
 }

@@ -13,6 +13,7 @@ import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
 import wge3.entity.items.Bomb;
 import wge3.entity.items.Handgun;
+import wge3.entity.items.HealthPack;
 import wge3.entity.mapobjects.BrickWall;
 import wge3.entity.mapobjects.StoneWall;
 import wge3.entity.terrainelements.Ground;
@@ -67,6 +68,7 @@ public final class MapLoader {
                         
                     case 17: object = new Bomb(); break;
                     case 18: object = new Handgun(); break;
+                    case 20: object = new HealthPack(); break;
                     case 23: object = null; area.addCreature(new Zombie(), x, y); break;
                         
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
