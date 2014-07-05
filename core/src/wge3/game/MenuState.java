@@ -12,6 +12,7 @@ public final class MenuState extends GameState {
     
     Stage stage;
     Skin skin;
+    private TextField mapNameField;
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
