@@ -57,11 +57,13 @@ public final class PlayState extends GameState {
                 if (area.getPlayers().isEmpty()) {
                     gsm.setGameEnd(false);
                     gsm.setState(2);
+                    return;
                 }
                 
                 if (area.getNPCs().isEmpty()) {
                     gsm.setGameEnd(true);
                     gsm.setState(2);
+                    return;
                 }
             }
             
