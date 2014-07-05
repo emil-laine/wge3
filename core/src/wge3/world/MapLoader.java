@@ -22,8 +22,6 @@ import wge3.entity.terrainelements.MapObject;
 
 public final class MapLoader {
     
-    private Scanner mapFileReader;
-    
     public void loadMap(String mapName, Area area) throws FileNotFoundException {
         int size = area.getSize();
         String newline = System.getProperty("line.separator");

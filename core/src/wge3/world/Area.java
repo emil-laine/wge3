@@ -2,7 +2,6 @@ package wge3.world;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
@@ -28,7 +27,6 @@ import wge3.game.Drawable;
 public final class Area implements Drawable {
     private Tile[][] map;
     private int size;
-    private TiledMap tiledMap;
     private MapLoader mapLoader;
     
     private List<Tile> allTiles;
