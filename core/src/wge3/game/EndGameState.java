@@ -32,12 +32,11 @@ public final class EndGameState extends GameState {
 
     @Override
     public void init() {
-        
     }
 
     @Override
     public void update(float delta) {
-        
+        handleInput();
     }
 
     @Override
@@ -56,12 +55,13 @@ public final class EndGameState extends GameState {
 
     @Override
     public void handleInput() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (Gdx.input.isTouched()) {
+            gsm.setState(0);
+        }
     }
 
     @Override
     public void dispose() {
         font.dispose();
     }
-    
 }
