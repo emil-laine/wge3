@@ -33,7 +33,7 @@ public final class PlayState extends GameState {
     @Override
     public void init() {
         mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
-        area = new Area();
+        area = new Area(map);
         player = area.getPlayers().get(0);
     }
 
