@@ -12,6 +12,7 @@ import wge3.entity.ground.OneWayTile;
 import wge3.entity.ground.Water;
 import wge3.entity.ground.WoodenFloor;
 import wge3.entity.items.Bomb;
+import wge3.entity.items.GreenPotion;
 import wge3.entity.items.Handgun;
 import wge3.entity.items.HealthPack;
 import wge3.entity.mapobjects.BrickWall;
@@ -72,6 +73,8 @@ public final class MapLoader {
                     case 23: object = null; area.addCreature(new Zombie(), x, y); break;
                         
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
+                        
+                    case 33: object = new GreenPotion(); break;
                     default: object = null; break;
                 }
                 if (object != null) {
