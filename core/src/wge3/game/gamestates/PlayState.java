@@ -120,9 +120,7 @@ public final class PlayState extends GameState {
 
     @Override
     public void dispose() {
-        for (Bomb bomb : area.getBombs()) {
-            bomb.cancelTimer();
-        }
+        area.dispose();
         mStream = null;
         area = null;
         player = null;

@@ -321,4 +321,10 @@ public final class Area implements Drawable {
         
         return tiles;
     }
+    
+    public void dispose() {
+        for (Bomb bomb : getBombs()) {
+            bomb.cancelTimer();
+        }
+    }
 }
