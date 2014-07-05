@@ -262,7 +262,7 @@ public final class Area implements Drawable {
         if (currentTime - timeOfLastPassTime > 100) {
             for (Creature creature : creatures) {
                 Tile tileUnderCreature = getTileAt(creature.getX(), creature.getY());
-                if (tileUnderCreature.drainsHP()) {
+                if (tileUnderCreature.drainsHP() && !creature.isGhost()) {
                     creature.dealDamage((int) (tileUnderCreature.getHPDrainAmount()));
                 }
                 creature.regenerateHP(currentTime);
