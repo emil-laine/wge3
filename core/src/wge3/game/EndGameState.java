@@ -18,7 +18,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 //Remember to implement statistics
 
 
-public class EndGameState extends GameState {
+public final class EndGameState extends GameState {
 
     private BitmapFont font;
     private boolean result;
@@ -27,6 +27,7 @@ public class EndGameState extends GameState {
         super(gsm);
         font = new BitmapFont();
         this.result = result;
+        init();
     }
 
     @Override
