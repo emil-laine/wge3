@@ -2,6 +2,7 @@ package wge3.entity.mapobjects;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import static com.badlogic.gdx.math.MathUtils.random;
+import java.util.Iterator;
 import java.util.List;
 import wge3.entity.terrainelements.MapObject;
 import wge3.world.Tile;
@@ -22,10 +23,21 @@ public class GreenSlime extends MapObject {
     }
     
     public void expand() {
+        Tile target = getExpansionTarget();
+        if (target == null) return;
+        
+        if (target.hasObject() && !target.isPassable()) target.dealDamage(damage);
+        else target.setObject(new GreenSlime());
+    }
+    
+    public Tile getExpansionTarget() {
         List<Tile> tiles = tile.getNearbyTiles();
-        Tile target = tiles.get(random(tiles.size()-1));
-        if (!target.hasObject()  && !tile.hasCreature()) target.setObject(new GreenSlime());
-        if (target.hasSlime()) return;
-        else target.dealDamage(damage);
+        for (Iterator<Tile> it = tiles.iterator(); it.hasNext();) {
+            Tile tile = it.next();
+            if (tile.hasCreature() || tile.hasSlime())
+                it.remove();
+        }
+        if (tiles.isEmpty()) return null;
+        return tiles.get(random(tiles.size()-1));
     }
 }
