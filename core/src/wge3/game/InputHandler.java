@@ -83,7 +83,7 @@ public final class InputHandler extends InputAdapter {
                 
             case shoot: keysDown[4] = false; break;
             case changeWeapon: keysDown[5] = false; break;
-                case exit: keysDown[6] = false; break;
+            case exit: keysDown[6] = false; break;
                 
             case toggleFOV: keysDown[7] = false; break;
             case toggleGhostMode: keysDown[8] = false; break;
