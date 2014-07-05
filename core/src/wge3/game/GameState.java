@@ -13,8 +13,6 @@ public abstract class GameState implements Drawable {
         this.gsm = gsm;
         input = new InputHandler();
         Gdx.input.setInputProcessor(input);
-        
-        init();
     }
     
     public abstract void init();

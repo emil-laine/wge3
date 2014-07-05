@@ -15,6 +15,7 @@ public final class MenuState extends GameState {
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
+        init();
     }
 
     @Override

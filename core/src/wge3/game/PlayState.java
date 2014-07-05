@@ -19,6 +19,7 @@ public final class PlayState extends GameState {
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
+        init();
     }
 
     public InputHandler getInput() {
