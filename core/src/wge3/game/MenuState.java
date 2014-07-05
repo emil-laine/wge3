@@ -32,9 +32,10 @@ public final class MenuState extends GameState {
         menuLabel.setPosition(x, y);
         stage.addActor(menuLabel);
         
-        TextField mapNameField = new TextField("Enter map name", skin);
+        mapNameField = new TextField("", skin);
         mapNameField.setPosition(x, y - buttonHeight*2);
         mapNameField.setSize(buttonWidth, buttonHeight);
+        mapNameField.setMessageText("Enter map name");
         stage.addActor(mapNameField);
         
         TextButton newGameButton = new TextButton("NEW GAME", skin);
