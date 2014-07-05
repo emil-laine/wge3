@@ -13,7 +13,7 @@ public final class WGE3 extends Game {
         gsm = new GameStateManager();
         gsm.setState(0);
         
-        Gdx.gl.glClearColor(1/8f, 1/9f, 1/10f, 1);
+        Gdx.gl.glClearColor(1/12f, 1/12f, 1/12f, 1);
     }
 
     @Override
