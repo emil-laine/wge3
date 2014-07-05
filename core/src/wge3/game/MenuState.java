@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public final class MenuState extends GameState {
     
-    Stage stage;
-    Skin skin;
+    private Stage stage;
+    private Skin skin;
     private TextField mapNameField;
 
     public MenuState(GameStateManager gsm) {
