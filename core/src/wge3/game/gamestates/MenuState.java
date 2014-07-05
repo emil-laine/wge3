@@ -1,8 +1,7 @@
 package wge3.game.gamestates;
 
 import com.badlogic.gdx.Gdx;
-import static com.badlogic.gdx.Input.Keys.ENTER;
-import static com.badlogic.gdx.Input.Keys.ESCAPE;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -70,7 +69,7 @@ public final class MenuState extends GameState {
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent ce, Actor actor) {
-                Gdx.app.exit();
+                exitGame();
             }
         });
         stage.addActor(exitButton);
@@ -103,8 +102,8 @@ public final class MenuState extends GameState {
 
     @Override
     public void handleInput() {
-        if (Gdx.input.isKeyPressed(ENTER)) startGame();
-        else if (Gdx.input.isKeyPressed(ESCAPE)) exitGame();
+        if (Gdx.input.isKeyPressed(Keys.ENTER)) startGame();
+        else if (Gdx.input.isKeyPressed(Keys.Q)) exitGame();
     }
 
     @Override
