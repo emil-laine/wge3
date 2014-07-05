@@ -47,6 +47,11 @@ public final class MenuState extends GameState {
         exitButton.setSize(buttonWidth, buttonHeight);
         stage.addActor(exitButton);
     }
+    
+    public void startGame() {
+        gsm.setNextMap(mapNameField.getText());
+        gsm.setState(1);
+    }
 
     @Override
     public void update(float delta) {
