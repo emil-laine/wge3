@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public final class GameStateManager {
     
     private GameState currentState;
-    
+    //true means win, false means lose
+    private boolean gameResult;
     private SpriteBatch batch;
 
     public GameStateManager() {
@@ -28,6 +29,7 @@ public final class GameStateManager {
                 
             case 2:
                 // preferences
+                currentState = new EndGameState(this, gameResult);
                 break;
         }
     }
@@ -38,5 +40,9 @@ public final class GameStateManager {
     
     public void draw() {
         currentState.draw(batch);
+    }
+    //true means win, false means lose
+    public void setGameEnd(boolean result) {
+        this.gameResult = result;
     }
 }
