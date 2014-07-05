@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.floor;
+import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import com.badlogic.gdx.utils.TimeUtils;
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ import wge3.entity.character.Bullet;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
+import wge3.entity.mapobjects.GreenSlime;
 import wge3.entity.mapobjects.LightSource;
 import wge3.entity.terrainelements.Item;
 import wge3.interfaces.Drawable;
@@ -266,6 +268,13 @@ public final class Area implements Drawable {
                 creature.regenerateHP(currentTime);
             }
             timeOfLastPassTime = currentTime;
+            
+            for (Tile tile : getTiles()) {
+                if (tile.hasSlime() && randomBoolean(1/12f)) {
+                    GreenSlime slime = (GreenSlime) tile.getObject();
+                    slime.expand();
+                }
+            }
         }
     }
     
