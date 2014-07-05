@@ -270,7 +270,7 @@ public final class Area implements Drawable {
             timeOfLastPassTime = currentTime;
             
             for (Tile tile : getTiles()) {
-                if (tile.hasSlime() && randomBoolean(1/12f)) {
+                if (tile.hasSlime() && randomBoolean(GreenSlime.expansionProbability)) {
                     GreenSlime slime = (GreenSlime) tile.getObject();
                     slime.expand();
                 }
