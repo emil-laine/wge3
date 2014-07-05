@@ -41,7 +41,6 @@ public final class PlayState extends GameState {
 
     @Override
     public void update(float delta) {
-        handleInput();
         for (NonPlayer NPC : area.getNPCs()) {
             NPC.updateAI();
         }
@@ -72,6 +71,7 @@ public final class PlayState extends GameState {
         area.calculateFOV();
         area.calculateLighting();
         area.passTime(delta);
+        handleInput();
         input.updateKeyDowns();
     }
 
@@ -98,16 +98,18 @@ public final class PlayState extends GameState {
         } else if (input.isPressed(5)) {
             player.changeItem();
         } else if (input.isPressed(6)) {
-            player.toggleCanSeeEverything();
+            gsm.setState(0);
         } else if (input.isPressed(7)) {
-            player.toggleWalksThroughWalls();
+            player.toggleCanSeeEverything();
         } else if (input.isPressed(8)) {
-            mStream.toggleShowInventory();
+            player.toggleWalksThroughWalls();
         } else if (input.isPressed(9)) {
-            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
+            mStream.toggleShowInventory();
         } else if (input.isPressed(10)) {
-            area.getTileAt(player.getX(), player.getY()).removeObject();
+            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
         } else if (input.isPressed(11)) {
+            area.getTileAt(player.getX(), player.getY()).removeObject();
+        } else if (input.isPressed(12)) {
             mStream.toggleShowFPS();
         }
     }
