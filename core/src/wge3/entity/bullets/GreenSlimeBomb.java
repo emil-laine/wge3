@@ -3,17 +3,12 @@ package wge3.entity.bullets;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;
-import wge3.entity.character.Bullet;
+import wge3.entity.character.Bomb;
 import wge3.entity.mapobjects.GreenSlime;
-import wge3.interfaces.Explosive;
 import wge3.world.Tile;
 
-public class GreenSlimeBomb extends Bullet implements Explosive {
-    
-    private Timer timer;
-    private Timer.Task task;
-    private int time; // in seconds
-    private int range;
+public class GreenSlimeBomb extends Bomb {
+
     private int damage;
     
     public GreenSlimeBomb() {
@@ -21,27 +16,6 @@ public class GreenSlimeBomb extends Bullet implements Explosive {
         
         range = 2;
         time = 2;
-        timer = new Timer();
-        task = new Timer.Task() {
-
-            @Override
-            public void run() {
-                explode();
-            }
-        };
-    }
-
-    public int getRange() {
-        return range;
-    }
-
-    @Override
-    public void draw(Batch batch) {
-        sprite.draw(batch);
-    }
-    
-    public void startTimer() {
-        timer.scheduleTask(task, time);
     }
 
     @Override
