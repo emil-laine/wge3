@@ -17,6 +17,7 @@ public class GreenSlime extends MapObject {
         
         passable = false;
         blocksVision = false;
+        coversWholeTile = false;
         HP = 1000;
         hardness = 50;
         damage = 20;
