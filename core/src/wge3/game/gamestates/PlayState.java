@@ -1,6 +1,7 @@
 package wge3.game.gamestates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.Iterator;
@@ -14,6 +15,8 @@ import wge3.game.MessageStream;
 import wge3.world.Area;
 
 public final class PlayState extends GameState {
+    
+    private OrthographicCamera camera;
     
     private Area area;
     private Player player;
@@ -36,10 +39,14 @@ public final class PlayState extends GameState {
 
     @Override
     public void init() {
+        camera = new OrthographicCamera(512, 512);
+        
         mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
         area = new Area(map);
         player = area.getPlayers().get(0);
+        player.setCamera(camera);
         
+        camera.translate(player.getX(), player.getY());
     }
 
     @Override
@@ -80,6 +87,9 @@ public final class PlayState extends GameState {
 
     @Override
     public void draw(Batch batch) {
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
+        
         batch.begin();
         batch.disableBlending();
         area.draw(batch);
