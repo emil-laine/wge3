@@ -17,6 +17,7 @@ import wge3.entity.items.Handgun;
 import wge3.entity.items.HealthPack;
 import wge3.entity.mapobjects.BrickWall;
 import wge3.entity.mapobjects.StoneWall;
+import wge3.entity.mapobjects.Tree;
 import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.MapObject;
 
@@ -64,6 +65,7 @@ public final class MapLoader {
                     case 12: object = new StoneWall(0); break;
                     case 13: object = new StoneWall(1); break;
                     case 14: object = new StoneWall(2); break;
+                    case 15: object = new Tree(); break;
                         
                     case 17: object = new Bomb(); break;
                     case 18: object = new Handgun(); break;
