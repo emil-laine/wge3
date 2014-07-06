@@ -8,8 +8,9 @@ public abstract class Item extends MapObject {
     protected int value;
 
     public Item() {
-        
+        // default values
         blocksVision = false;
+        coversWholeTile = false;
     }
 
     public String getName() {

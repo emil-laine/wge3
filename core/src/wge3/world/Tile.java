@@ -124,7 +124,7 @@ public class Tile implements Drawable {
     public void draw(Batch batch) {
         if (object == null) {
             ground.draw(batch);
-        } else if (object.blocksVision()) {
+        } else if (object.coversWholeTile()) {
             object.draw(batch);
         } else {
             ground.draw(batch);
@@ -311,5 +311,10 @@ public class Tile implements Drawable {
         if (area.hasLocation(x, y-1)) tiles.add(area.getTileAt(x, y-1));
         if (area.hasLocation(x, y+1)) tiles.add(area.getTileAt(x, y+1));
         return tiles;
+    }
+    
+    public boolean castsShadows() {
+        if (object == null) return false;
+        return object.castsShadows();
     }
 }

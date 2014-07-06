@@ -8,6 +8,9 @@ public abstract class MapObject extends TerrainElement {
     protected int HP;
     protected boolean hasDestroyedSprite;
     protected int hardness;
+    protected boolean coversWholeTile;
+    protected boolean castsShadows;
+    protected float shadowDepth;
     
     public MapObject() {
         
@@ -18,6 +21,8 @@ public abstract class MapObject extends TerrainElement {
         blocksVision = true;
         drainsHP = false;
         hardness = 9;
+        coversWholeTile = true;
+        castsShadows = false;
     }
 
     public void dealDamage(int amount) {
@@ -34,5 +39,17 @@ public abstract class MapObject extends TerrainElement {
 
     public boolean isSlime() {
         return this.getClass() == GreenSlime.class;
+    }
+    
+    public boolean coversWholeTile() {
+        return coversWholeTile;
+    }
+    
+    public boolean castsShadows() {
+        return castsShadows;
+    }
+
+    public float getShadowDepth() {
+        return shadowDepth;
     }
 }

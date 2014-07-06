@@ -171,6 +171,8 @@ public final class Area implements Drawable {
                         Color color = new Color(1, 1, 1, 1);
                         float distance = tile.getDistanceTo(x, y) / Tile.size;
                         float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
+                        for (Tile tile2 : getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY()))
+                            if (tile2.castsShadows()) multiplier *= tile2.getObject().getShadowDepth();
                         color.mul(multiplier, multiplier, multiplier, 1f);
                         tile.setLighting(color);
                     }
