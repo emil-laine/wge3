@@ -290,7 +290,7 @@ public final class Area implements Drawable {
         return floor(pos)/Tile.size;
     }
     
-    List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
+    public List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
         if (!this.hasLocation(startX, startY) || !this.hasLocation(finalY, finalY))
             throw new IllegalArgumentException();
         
