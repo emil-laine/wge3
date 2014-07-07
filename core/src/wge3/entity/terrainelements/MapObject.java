@@ -1,6 +1,7 @@
 package wge3.entity.terrainelements;
 
 import wge3.entity.mapobjects.GreenSlime;
+import wge3.entity.mapobjects.Tree;
 
 public abstract class MapObject extends TerrainElement {
     
@@ -39,6 +40,10 @@ public abstract class MapObject extends TerrainElement {
 
     public boolean isSlime() {
         return this.getClass() == GreenSlime.class;
+    }
+    
+    public boolean isTree() {
+        return this.getClass() == Tree.class;
     }
     
     public boolean coversWholeTile() {
