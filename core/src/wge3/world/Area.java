@@ -40,9 +40,6 @@ public final class Area implements Drawable {
     private long timeOfLastPassTime;
 
     public Area(String mapName) {
-        size = 31;
-        map = new Tile[size][size];
-        
         allTiles     = new LinkedList<Tile>();
         tilesToDraw  = new LinkedList<Tile>();
         creatures    = new LinkedList<Creature>();
