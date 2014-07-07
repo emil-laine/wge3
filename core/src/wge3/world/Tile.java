@@ -8,6 +8,7 @@ import java.util.List;
 import wge3.entity.character.Bomb;
 import wge3.entity.character.Creature;
 import wge3.entity.ground.OneWayTile;
+import wge3.entity.mapobjects.Tree;
 import wge3.entity.terrainelements.Ground;
 import wge3.entity.terrainelements.MapObject;
 import wge3.game.Drawable;
@@ -122,7 +123,7 @@ public class Tile implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        if (object == null) {
+        if (!hasObject() || object.isTree()) {
             ground.draw(batch);
         } else if (object.coversWholeTile()) {
             object.draw(batch);
@@ -251,7 +252,9 @@ public class Tile implements Drawable {
     }
     
     public void requestDraw() {
-        area.addToDrawList(this);
+        area.addTileToDraw(this);
+        if (hasTree())
+            area.addTreeToDraw((Tree) object);
     }
     
     public boolean isAnOKMoveDestinationFor(Creature creature) {

@@ -21,6 +21,7 @@ import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.GreenSlime;
 import wge3.entity.mapobjects.LightSource;
+import wge3.entity.mapobjects.Tree;
 import wge3.entity.terrainelements.Item;
 import wge3.game.Drawable;
 
@@ -37,6 +38,7 @@ public final class Area implements Drawable {
     private List<LightSource> lightSources;
     private List<Item> items;
     private List<Bomb> bombs;
+    private List<Tree> treesToDraw;
     
     private long timeOfLastPassTime;
 
@@ -52,6 +54,7 @@ public final class Area implements Drawable {
         lightSources = new LinkedList<LightSource>();
         items        = new LinkedList<Item>();
         bombs        = new LinkedList<Bomb>();
+        treesToDraw  = new LinkedList<Tree>();
         
         mapLoader = new MapLoader();
         try {
@@ -81,6 +84,7 @@ public final class Area implements Drawable {
         drawTiles(batch);
         drawBombs(batch);
         drawCreatures(batch);
+        drawTrees(batch);
     }
 
     public void drawTiles(Batch batch) {
@@ -110,7 +114,7 @@ public final class Area implements Drawable {
         return map[x][y];
     }
     
-    public void addToDrawList(Tile tile) {
+    public void addTileToDraw(Tile tile) {
         tilesToDraw.add(tile);
     }
     
@@ -149,7 +153,7 @@ public final class Area implements Drawable {
                 }
             } else {
                 for (Tile tile : allTiles) {
-                    tilesToDraw.add(tile);
+                    tile.requestDraw();
                 }
             }
         }
@@ -326,5 +330,20 @@ public final class Area implements Drawable {
         for (Bomb bomb : getBombs()) {
             bomb.cancelTimer();
         }
+        // ...
+    }
+    
+    public void addTreeToDraw(Tree tree) {
+        treesToDraw.add(tree);
+    }
+    
+    public void drawTrees(Batch batch) {
+        batch.enableBlending();
+        for (Iterator<Tree> it = treesToDraw.iterator(); it.hasNext();) {
+            Tree tree = it.next();
+            tree.draw(batch);
+            it.remove();
+        }
+        batch.disableBlending();
     }
 }
