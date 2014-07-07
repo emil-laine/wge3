@@ -33,9 +33,9 @@ public final class MapLoader {
         Element mapData = xmlReader.parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
         
         int size = area.getSize();
-        String newline = System.getProperty("line.separator");
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
-        mapLoader.useDelimiter("[," + newline + "]");
+        mapLoader.useDelimiter("[," + getLineSeparator() + "]");
+        
         for (int i = 0; i < 7; i++) mapLoader.nextLine();
         
         // Create tiles and load grounds:
@@ -93,5 +93,9 @@ public final class MapLoader {
             mapLoader.nextLine();
         }
         mapLoader.close();
+    }
+    
+    public String getLineSeparator() {
+        return System.getProperty("line.separator");
     }
 }
