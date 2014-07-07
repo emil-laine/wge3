@@ -88,14 +88,14 @@ public class Tile implements Drawable {
         bounds.x = x * Tile.size;
         bounds.y = y * Tile.size;
         ground.setPosition(x * Tile.size, y * Tile.size);
-        if (object != null) {
+        if (hasObject()) {
             object.setPosition(x * Tile.size, y * Tile.size);
         }
     }
 
     public void setLighting(Color color) {
         ground.setLighting(color);
-        if (object != null) object.setLighting(color);
+        if (hasObject()) object.setLighting(color);
         for (Creature creature : getCreatures()) {
             creature.setLighting(color);
         }
@@ -105,7 +105,7 @@ public class Tile implements Drawable {
     }
     
     public float getMovementModifier() {
-        if (object == null) {
+        if (!hasObject()) {
             return ground.getMovementModifier();
         } else {
             return ground.getMovementModifier() * object.getMovementModifier();
@@ -300,7 +300,7 @@ public class Tile implements Drawable {
     }
     
     public boolean hasSlime() {
-        if (object == null) return false;
+        if (!hasObject()) return false;
         return object.isSlime();
     }
     
@@ -314,7 +314,7 @@ public class Tile implements Drawable {
     }
     
     public boolean castsShadows() {
-        if (object == null) return false;
+        if (!hasObject()) return false;
         return object.castsShadows();
     }
 }
