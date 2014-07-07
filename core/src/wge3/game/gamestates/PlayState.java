@@ -47,6 +47,7 @@ public final class PlayState extends GameState {
         player.setCamera(camera);
         
         camera.translate(player.getX(), player.getY());
+        camera.update();
     }
 
     @Override
@@ -87,7 +88,6 @@ public final class PlayState extends GameState {
 
     @Override
     public void draw(Batch batch) {
-        camera.update();
         batch.setProjectionMatrix(camera.combined);
         
         batch.begin();

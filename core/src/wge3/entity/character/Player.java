@@ -32,5 +32,6 @@ public final class Player extends Creature {
         float oldY = getY();
         super.move(dx, dy);
         camera.translate(getX() - oldX, getY() - oldY);
+        camera.update();
     }
 }
