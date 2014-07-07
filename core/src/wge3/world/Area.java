@@ -25,7 +25,7 @@ import wge3.entity.terrainelements.Item;
 import wge3.game.Drawable;
 
 public final class Area implements Drawable {
-    private Tile[][] map;
+    private Tile[][] tiles;
     private int size;
     
     private List<Tile> allTiles;
@@ -65,14 +65,14 @@ public final class Area implements Drawable {
     }
     
     public void createMap(int size) {
-        map = new Tile[size][size];
+        tiles = new Tile[size][size];
     }
     
     public void addTile(Tile tile, int x, int y) {
         tile.setArea(this);
         tile.setPosition(x, y);
         allTiles.add(tile);
-        map[x][y] = tile;
+        tiles[x][y] = tile;
     }
 
     public int getSize() {
@@ -114,7 +114,7 @@ public final class Area implements Drawable {
     
     public Tile getTileAt(int x, int y) {
         if (!hasLocation(x, y)) throw new IllegalArgumentException();
-        return map[x][y];
+        return tiles[x][y];
     }
     
     public void addToDrawList(Tile tile) {
@@ -193,7 +193,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = map[MathUtils.random(size-1)][MathUtils.random(size-1)];
+            dest = tiles[MathUtils.random(size-1)][MathUtils.random(size-1)];
         } while (dest.hasObject());
         addCreature(guy, dest.getX(), dest.getY());
     }
@@ -226,7 +226,7 @@ public final class Area implements Drawable {
     
     public void addItem(Item item, int x, int y) {
         items.add(item);
-        map[x][y].setObject(item);
+        tiles[x][y].setObject(item);
     }
     
     public void addItem(Item item) {
@@ -234,7 +234,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = map[MathUtils.random(size-1)][MathUtils.random(size-1)];
+            dest = tiles[MathUtils.random(size-1)][MathUtils.random(size-1)];
         } while (dest.hasObject());
         addItem(item, dest.getX(), dest.getY());
     }
