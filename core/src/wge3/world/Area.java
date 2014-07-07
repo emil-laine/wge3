@@ -65,6 +65,10 @@ public final class Area implements Drawable {
         return allTiles;
     }
     
+    public void createMap(int size) {
+        map = new Tile[size][size];
+    }
+    
     public void addTile(Tile tile, int x, int y) {
         tile.setArea(this);
         tile.setPosition(x, y);
