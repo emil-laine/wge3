@@ -1,7 +1,11 @@
 package wge3.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import wge3.entity.character.Player;
 import wge3.entity.creatures.Zombie;
@@ -16,6 +20,7 @@ import wge3.entity.items.GreenPotion;
 import wge3.entity.items.Handgun;
 import wge3.entity.items.HealthPack;
 import wge3.entity.mapobjects.BrickWall;
+import wge3.entity.mapobjects.GreenSlime;
 import wge3.entity.mapobjects.StoneWall;
 import wge3.entity.mapobjects.Tree;
 import wge3.entity.terrainelements.Ground;
@@ -23,11 +28,13 @@ import wge3.entity.terrainelements.MapObject;
 
 public final class MapLoader {
     
-    public void loadMap(String mapName, Area area) throws FileNotFoundException {
-        int size = area.getSize();
-        String newline = System.getProperty("line.separator");
+    public void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
+        int size = getSize(mapName);
+        area.createTiles(size);
+
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
-        mapLoader.useDelimiter("[," + newline + "]");
+        mapLoader.useDelimiter("[," + getLineSeparator() + "]");
+        
         for (int i = 0; i < 7; i++) mapLoader.nextLine();
         
         // Create tiles and load grounds:
@@ -75,6 +82,7 @@ public final class MapLoader {
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
                         
                     case 33: object = new GreenPotion(); break;
+                    case 34: object = new GreenSlime(); break;
                     default: object = null; break;
                 }
                 if (object != null) {
@@ -84,5 +92,15 @@ public final class MapLoader {
             mapLoader.nextLine();
         }
         mapLoader.close();
+    }
+    
+    public int getSize(String mapName) throws IOException {
+        Element mapData = new XmlReader().parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
+        return Integer.parseInt(mapData.getAttribute("width"));
+        // "width" because WGE3 doesn't support non-square maps yet.
+    }
+    
+    public String getLineSeparator() {
+        return System.getProperty("line.separator");
     }
 }

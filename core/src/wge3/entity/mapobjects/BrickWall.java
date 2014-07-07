@@ -23,10 +23,12 @@ public final class BrickWall extends Wall {
             passable = true;
             blocksVision = false;
             movementModifier = 0.7f;
+            coversWholeTile = false;
         } else if (HP < maxHP/2) {
             // show damaged sprite
             sprite.setRegion(Tile.size, Tile.size, Tile.size, Tile.size);
             blocksVision = false;
+            coversWholeTile = false;
         }
     }
 }

@@ -1,5 +1,6 @@
 package wge3.game;
 
+import com.badlogic.gdx.Gdx;
 import wge3.game.gamestates.MenuState;
 import wge3.game.gamestates.GameState;
 import wge3.game.gamestates.EndGameState;
@@ -7,6 +8,9 @@ import wge3.game.gamestates.PlayState;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public final class GameStateManager {
+    
+    public static int WIDTH = Gdx.graphics.getWidth();
+    public static int HEIGHT = Gdx.graphics.getHeight();
     
     private GameState currentState;
     private SpriteBatch batch;

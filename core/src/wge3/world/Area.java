@@ -9,7 +9,7 @@ import static com.badlogic.gdx.math.MathUtils.floor;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import com.badlogic.gdx.utils.TimeUtils;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,9 +26,8 @@ import wge3.entity.terrainelements.Item;
 import wge3.game.Drawable;
 
 public final class Area implements Drawable {
-    private Tile[][] map;
+    private Tile[][] tiles;
     private int size;
-    private MapLoader mapLoader;
     
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
@@ -43,9 +42,6 @@ public final class Area implements Drawable {
     private long timeOfLastPassTime;
 
     public Area(String mapName) {
-        size = 31;
-        map = new Tile[size][size];
-        
         allTiles     = new LinkedList<Tile>();
         tilesToDraw  = new LinkedList<Tile>();
         creatures    = new LinkedList<Creature>();
@@ -56,10 +52,13 @@ public final class Area implements Drawable {
         bombs        = new LinkedList<Bomb>();
         treesToDraw  = new LinkedList<Tree>();
         
-        mapLoader = new MapLoader();
+        loadMap(mapName);
+    }
+    
+    public void loadMap(String mapFileName) {
         try {
-            mapLoader.loadMap(mapName, this);
-        } catch (FileNotFoundException ex) {
+            new MapLoader().loadMap(mapFileName, this);
+        } catch (IOException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -68,17 +67,22 @@ public final class Area implements Drawable {
         return allTiles;
     }
     
+    public void createTiles(int size) {
+        this.size = size;
+        tiles = new Tile[size][size];
+    }
+    
     public void addTile(Tile tile, int x, int y) {
         tile.setArea(this);
         tile.setPosition(x, y);
         allTiles.add(tile);
-        map[x][y] = tile;
+        tiles[x][y] = tile;
     }
 
     public int getSize() {
         return size;
     }
-    
+
     @Override
     public void draw(Batch batch) {
         drawTiles(batch);
@@ -111,7 +115,7 @@ public final class Area implements Drawable {
     
     public Tile getTileAt(int x, int y) {
         if (!hasLocation(x, y)) throw new IllegalArgumentException();
-        return map[x][y];
+        return tiles[x][y];
     }
     
     public void addTileToDraw(Tile tile) {
@@ -190,7 +194,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = map[MathUtils.random(size-1)][MathUtils.random(size-1)];
+            dest = tiles[MathUtils.random(size-1)][MathUtils.random(size-1)];
         } while (dest.hasObject());
         addCreature(guy, dest.getX(), dest.getY());
     }
@@ -223,7 +227,7 @@ public final class Area implements Drawable {
     
     public void addItem(Item item, int x, int y) {
         items.add(item);
-        map[x][y].setObject(item);
+        tiles[x][y].setObject(item);
     }
     
     public void addItem(Item item) {
@@ -231,7 +235,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = map[MathUtils.random(size-1)][MathUtils.random(size-1)];
+            dest = tiles[MathUtils.random(size-1)][MathUtils.random(size-1)];
         } while (dest.hasObject());
         addItem(item, dest.getX(), dest.getY());
     }
