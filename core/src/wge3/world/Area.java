@@ -27,7 +27,6 @@ import wge3.game.Drawable;
 public final class Area implements Drawable {
     private Tile[][] map;
     private int size;
-    private MapLoader mapLoader;
     
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
@@ -41,9 +40,6 @@ public final class Area implements Drawable {
     private long timeOfLastPassTime;
 
     public Area(String mapName) {
-        size = 31;
-        map = new Tile[size][size];
-        
         allTiles     = new LinkedList<Tile>();
         tilesToDraw  = new LinkedList<Tile>();
         creatures    = new LinkedList<Creature>();
@@ -53,16 +49,23 @@ public final class Area implements Drawable {
         items        = new LinkedList<Item>();
         bombs        = new LinkedList<Bomb>();
         
-        mapLoader = new MapLoader();
+        loadMap(mapName);
+    }
+    
+    public void loadMap(String mapFileName) {
         try {
-            mapLoader.loadMap(mapName, this);
-        } catch (FileNotFoundException ex) {
+            new MapLoader().loadMap(mapFileName, this);
+        } catch (IOException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public List<Tile> getTiles() {
         return allTiles;
+    }
+    
+    public void createMap(int size) {
+        map = new Tile[size][size];
     }
     
     public void addTile(Tile tile, int x, int y) {
@@ -74,6 +77,10 @@ public final class Area implements Drawable {
 
     public int getSize() {
         return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
     
     @Override
