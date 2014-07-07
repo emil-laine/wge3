@@ -9,8 +9,8 @@ public class DesktopLauncher {
     public static void main (String[] arg) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         
-        cfg.width = 512;
-        cfg.height = 512;
+        cfg.width = 1280;
+        cfg.height = 720;
         //cfg.fullscreen = true;
         cfg.resizable = false;
         cfg.title = "WGE3";
