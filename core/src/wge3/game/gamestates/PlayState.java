@@ -11,6 +11,8 @@ import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.StoneWall;
 import wge3.game.GameStateManager;
+import static wge3.game.GameStateManager.HEIGHT;
+import static wge3.game.GameStateManager.WIDTH;
 import wge3.game.HUD;
 import wge3.game.InputHandler;
 import wge3.game.MessageStream;
@@ -47,7 +49,7 @@ public final class PlayState extends GameState {
         camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
         hud = new HUD();
         
-        mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
+        mStream = new MessageStream(WIDTH - 280, HEIGHT - 60, this);
         area = new Area(map);
         player = area.getPlayers().get(0);
         player.setCamera(camera);
