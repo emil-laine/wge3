@@ -304,6 +304,11 @@ public class Tile implements Drawable {
         return object.isSlime();
     }
     
+    public boolean hasTree() {
+        if (!hasObject()) return false;
+        return object.isTree();
+    }
+    
     public List<Tile> getNearbyTiles() {
         List<Tile> tiles = new LinkedList<Tile>();
         if (area.hasLocation(x-1, y)) tiles.add(area.getTileAt(x-1, y));
