@@ -79,6 +79,10 @@ public final class Area implements Drawable {
     public int getSize() {
         return size;
     }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
     
     @Override
     public void draw(Batch batch) {
