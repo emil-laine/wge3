@@ -29,10 +29,9 @@ import wge3.entity.terrainelements.MapObject;
 public final class MapLoader {
     
     public void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
-        XmlReader xmlReader = new XmlReader();
-        Element mapData = xmlReader.parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
-        
-        int size = area.getSize();
+        int size = getSize(mapName);
+        area.setSize(size);
+
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
         mapLoader.useDelimiter("[," + getLineSeparator() + "]");
         
@@ -93,6 +92,12 @@ public final class MapLoader {
             mapLoader.nextLine();
         }
         mapLoader.close();
+    }
+    
+    public int getSize(String mapName) throws IOException {
+        Element mapData = new XmlReader().parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
+        return Integer.parseInt(mapData.getAttribute("width"));
+        // "width" because WGE3 doesn't support non-square maps yet.
     }
     
     public String getLineSeparator() {
