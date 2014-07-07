@@ -23,7 +23,7 @@ public class Inventory {
     }
     
     public void addItem(Item item) {
-        addItem(item, 1);
+        addItem(item, item.getDefaultAmount());
     }
     
     public void addItem(Item item, int amount) {

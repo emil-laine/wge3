@@ -7,7 +7,9 @@ public abstract class Gun extends Item {
     private int range;
     private int damage;
     
-    public Gun() {}
+    public Gun() {
+        defaultAmount = 20;
+    }
     
     public void setRange(int range) {
         this.range = range;
