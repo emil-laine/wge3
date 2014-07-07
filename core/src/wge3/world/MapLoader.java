@@ -16,6 +16,7 @@ import wge3.entity.items.GreenPotion;
 import wge3.entity.items.Handgun;
 import wge3.entity.items.HealthPack;
 import wge3.entity.mapobjects.BrickWall;
+import wge3.entity.mapobjects.GreenSlime;
 import wge3.entity.mapobjects.StoneWall;
 import wge3.entity.mapobjects.Tree;
 import wge3.entity.terrainelements.Ground;
@@ -75,6 +76,7 @@ public final class MapLoader {
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
                         
                     case 33: object = new GreenPotion(); break;
+                    case 34: object = new GreenSlime(); break;
                     default: object = null; break;
                 }
                 if (object != null) {
