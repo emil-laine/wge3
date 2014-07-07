@@ -1,7 +1,11 @@
 package wge3.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 import wge3.entity.character.Player;
 import wge3.entity.creatures.Zombie;
@@ -24,7 +28,10 @@ import wge3.entity.terrainelements.MapObject;
 
 public final class MapLoader {
     
-    public void loadMap(String mapName, Area area) throws FileNotFoundException {
+    public void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
+        XmlReader xmlReader = new XmlReader();
+        Element mapData = xmlReader.parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
+        
         int size = area.getSize();
         String newline = System.getProperty("line.separator");
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
