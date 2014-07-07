@@ -27,7 +27,6 @@ import wge3.game.Drawable;
 public final class Area implements Drawable {
     private Tile[][] map;
     private int size;
-    private MapLoader mapLoader;
     
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
@@ -53,10 +52,13 @@ public final class Area implements Drawable {
         items        = new LinkedList<Item>();
         bombs        = new LinkedList<Bomb>();
         
-        mapLoader = new MapLoader();
+        loadMap(mapName);
+    }
+    
+    public void loadMap(String mapFileName) {
         try {
-            mapLoader.loadMap(mapName, this);
-        } catch (FileNotFoundException ex) {
+            new MapLoader().loadMap(mapFileName, this);
+        } catch (IOException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
