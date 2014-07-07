@@ -30,7 +30,7 @@ public final class MapLoader {
     
     public void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
         int size = getSize(mapName);
-        area.setSize(size);
+        area.createTiles(size);
 
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
         mapLoader.useDelimiter("[," + getLineSeparator() + "]");
