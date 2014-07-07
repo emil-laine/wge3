@@ -2,13 +2,16 @@
 package wge3.entity.items;
 
 import wge3.entity.terrainelements.Item;
+import wge3.world.Tile;
 
 public abstract class Gun extends Item {
-    private int range;
-    private int damage;
+    protected int range;
+    protected int damage;
+    protected int lineOfFireWidth;
     
     public Gun() {
         defaultAmount = 20;
+        lineOfFireWidth = Tile.size / 2;
     }
     
     public void setRange(int range) {
@@ -25,6 +28,10 @@ public abstract class Gun extends Item {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getLineOfFireWidth() {
+        return lineOfFireWidth;
     }
 }
      
