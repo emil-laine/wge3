@@ -4,19 +4,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.random;
+import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
 import wge3.entity.character.Creature;
 import wge3.entity.character.NonPlayer;
 import wge3.entity.character.Player;
 import wge3.entity.mapobjects.StoneWall;
 import wge3.game.GameStateManager;
+import wge3.game.HUD;
 import wge3.game.InputHandler;
 import wge3.game.MessageStream;
 import wge3.world.Area;
 
 public final class PlayState extends GameState {
     
+    private HUD hud;
     private OrthographicCamera camera;
+    private Rectangle playerViewport;
     
     private Area area;
     private Player player;
@@ -39,7 +43,9 @@ public final class PlayState extends GameState {
 
     @Override
     public void init() {
-        camera = new OrthographicCamera(512, 512);
+        playerViewport = new Rectangle(340, 60, 600, 600);
+        camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
+        hud = new HUD();
         
         mStream = new MessageStream(Gdx.graphics.getWidth() - 250, Gdx.graphics.getHeight() - 10, this);
         area = new Area(map);
@@ -88,12 +94,17 @@ public final class PlayState extends GameState {
 
     @Override
     public void draw(Batch batch) {
+        Gdx.graphics.getGL20().glViewport(
+                (int) playerViewport.x,
+                (int) playerViewport.y,
+                (int) playerViewport.width,
+                (int) playerViewport.height);
         batch.setProjectionMatrix(camera.combined);
-        
         batch.begin();
         batch.disableBlending();
         area.draw(batch);
         batch.enableBlending();
+        hud.draw(batch);
         mStream.draw(batch);
         batch.end();
     }
