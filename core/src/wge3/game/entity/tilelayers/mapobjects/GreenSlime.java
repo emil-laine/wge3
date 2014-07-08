@@ -34,7 +34,6 @@ public class GreenSlime extends MapObject {
         }
         
         target.dealDamage(damage);
-        System.out.println("dealdamage: "+damage);
         return null;
     }
     

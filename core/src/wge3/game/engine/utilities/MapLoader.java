@@ -28,6 +28,7 @@ import wge3.game.entity.tilelayers.mapobjects.Tree;
 import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.tilelayers.grounds.Abyss;
+import wge3.game.entity.tilelayers.mapobjects.Door;
 
 public final class MapLoader {
     
@@ -80,7 +81,12 @@ public final class MapLoader {
                     case 17: object = new Bomb(); break;
                     case 18: object = new Handgun(); break;
                     case 20: object = new HealthPack(); break;
-                    case 30: object = null; area.addCreature(new Zombie(), x, y); break;
+                    case 23: object = null; area.addCreature(new Zombie(), x, y); break;
+                        
+                    case 31: object = new Door(false, true); break;
+                    case 32: object = new Door(true, true); break;
+                    case 39: object = new Door(false, false); break;
+                    case 40: object = new Door(true, false); break;
                         
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
                         

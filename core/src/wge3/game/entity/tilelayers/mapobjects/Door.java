@@ -1,19 +1,23 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import wge3.game.entity.bombs.FusedBomb;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import wge3.game.entity.Tile;
 
 public final class Door extends Wall {
     
     private boolean closed;
     private boolean hasLock;
     private boolean locked;
-    private int destroyTreshold;
+    private int destroyThreshold;
     
-    // private KeyType keytype;
+    // private KeyType keytype; -> door with lock
     
-    public Door() {
-        destroyTreshold = 50;
+    public Door(boolean horizontal, boolean closed) {
+        sprite = new Sprite(texture, (horizontal? 7:6)*Tile.size, (closed? 3:4)*Tile.size, Tile.size, Tile.size);
+        destroyThreshold = 50;
+        this.closed = closed;
+        locked = false;
+        coversWholeTile = false;
     }
     
     @Override
@@ -23,11 +27,13 @@ public final class Door extends Wall {
     
     public void close() {
         closed = true;
+        changeSprite();
     }
     
     public void open() {
         if (!locked) {
             closed = false;
+            changeSprite();
         }
     }
     
@@ -50,7 +56,7 @@ public final class Door extends Wall {
 
     @Override
     public void dealDamage(int amount) {
-        if (amount >= destroyTreshold) {
+        if (amount >= destroyThreshold) {
             HP = 0;
         }
         if (closed) {
@@ -58,17 +64,9 @@ public final class Door extends Wall {
             return;
         }
         close();
-        
     }
     
-    
-    
-    @Override
-    public void draw(Batch batch) {
-        if (closed) {
-            // draw closed door
-        } else {
-            // draw open door
-        }
+    public void changeSprite() {
+        sprite.setRegionY((closed? 3:4)*Tile.size);
     }
 }
