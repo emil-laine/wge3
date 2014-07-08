@@ -1,25 +1,28 @@
 
 package wge3.game.entity.creatures;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
 public class Inventory {
     
     private Creature owner;
-    private Map<Item, Integer> items;
-    private Iterator<Item> iterator; // iterator points to current selectedItem of owner.
+    private List<InventoryEntry> items;
+    private int selectedItem;
     
-    public Inventory() {
-        items = new LinkedHashMap<Item, Integer>();
-        iterator = items.keySet().iterator();
+    public Inventory(Creature owner) {
+        this.owner = owner;
+        items = new ArrayList<InventoryEntry>();
+        selectedItem = 0;
     }
 
-    public Set<Item> getItems() {
-        return items.keySet();
+    public List<Item> getItems() {
+        List<Item> newList = new ArrayList<Item>();
+        for (InventoryEntry item : items) {
+            newList.add(item.getItem());
+        }
+        return newList;
+        
     }
     
     public void addItem(Item item) {
@@ -27,13 +30,15 @@ public class Inventory {
     }
     
     public void addItem(Item item, int amount) {
-        if (!items.containsKey(item)) {
-            items.put(item, amount);
-            iterator = items.keySet().iterator();
-            owner.setSelectedItem(getNextItem());
-        } else {
-            items.replace(item, items.get(item) + amount);
+        
+        for (InventoryEntry itemEntry : items) {
+            if (itemEntry.getItem().equals(item)) {
+                    itemEntry.addAmount(amount);
+                    return;
+            }
         }
+        items.add(new InventoryEntry(item, amount));
+        
     }
     
     public void removeItem(Item item) {
@@ -41,27 +46,41 @@ public class Inventory {
     }
     
     public void removeItem(Item item, int amount) {
-        if (items.get(item) - amount <= 0) {
-            iterator.remove();
-            owner.setSelectedItem(getNextItem());
-        } else {
-            items.replace(item, items.get(item) - amount);
+        for (InventoryEntry entry : items) {
+            if (entry.getItem().equals(item)) {
+                if (entry.getAmount() - amount <= 0) {
+                    items.remove(entry);
+                    return;
+                }
+                entry.removeAmount(amount);
+            }
         }
     }
     
     public int getAmount(Item item) {
-        return items.get(item);
+        for (InventoryEntry entry : items) {
+            if (entry.getItem().equals(item)) {
+                return entry.getAmount();
+            }
+        }
+        return 0;
     }
     
     public Item getNextItem() {
         if (items.isEmpty()) {
+            selectedItem = 0;
             return null;
-        } else if (!iterator.hasNext()) {
-            iterator = items.keySet().iterator();
-            return null;
-        } else {
-            return iterator.next();
         }
+        
+        if (selectedItem < items.size()) {
+            Item item = items.get(selectedItem).getItem();
+            selectedItem++;
+            return item;
+        }
+        selectedItem = 0;
+        return null;
+        
+        
     }
 
     public void setOwner(Creature owner) {

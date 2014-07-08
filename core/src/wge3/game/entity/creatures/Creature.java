@@ -89,8 +89,7 @@ public abstract class Creature implements Drawable {
         bounds.height = 0.75f*Tile.size;
         bounds.width = 0.75f*Tile.size;
         
-        inventory = new Inventory();
-        inventory.setOwner(this);
+        inventory = new Inventory(this);
         selectedItem = null;
         
         goingForward = false;
