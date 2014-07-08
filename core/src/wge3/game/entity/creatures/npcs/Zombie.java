@@ -15,8 +15,8 @@ public class Zombie extends NonPlayer {
         HP = 50;
         strength = 10;
         defense = 5;
-        defaultSpeed = 100;
-        currentSpeed = 100;
+        defaultSpeed = 30;
+        currentSpeed = 30;
     }
     
     @Override
