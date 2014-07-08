@@ -395,6 +395,7 @@ public abstract class Creature implements Drawable {
                 creature.dealDamage(this.strength);
             }
         }
+        area.getTileAt(destX, destY).dealDamage(this.strength);
     }
     
     public boolean isPlayer() {
