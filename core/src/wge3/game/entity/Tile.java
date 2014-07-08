@@ -13,6 +13,7 @@ import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.engine.gui.Drawable;
 import static wge3.game.entity.Area.floatPosToTilePos;
+import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 
 public class Tile implements Drawable {
     
@@ -200,7 +201,7 @@ public class Tile implements Drawable {
             }
         }
         if (hasItem()) {
-            object = null;
+            object = null; // Items don't take damage, at least for now.
         } else if (hasObject()) {
             object.dealDamage(amount);
             if (object.isDestroyed() & !object.hasDestroyedSprite()) {
@@ -323,5 +324,11 @@ public class Tile implements Drawable {
     public boolean castsShadows() {
         if (!hasObject()) return false;
         return object.castsShadows();
+    }
+    
+    public void addSlime() {
+        GreenSlime newSlime = new GreenSlime();
+        this.setObject(newSlime);
+        area.addSlime(newSlime);
     }
 }

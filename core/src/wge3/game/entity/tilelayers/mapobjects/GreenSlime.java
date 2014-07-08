@@ -18,17 +18,24 @@ public class GreenSlime extends MapObject {
         passable = false;
         blocksVision = false;
         coversWholeTile = false;
-        HP = 1000;
-        hardness = 50;
+        HP = 100;
+        hardness = 10;
         damage = 20;
     }
     
-    public void expand() {
+    public GreenSlime expand() {
         Tile target = getExpansionTarget();
-        if (target == null) return;
+        if (target == null) return null;
         
-        if (target.hasObject() && !target.isPassable()) target.dealDamage(damage);
-        else target.setObject(new GreenSlime());
+        if (!target.hasObject() && !target.hasCreature()) {
+            GreenSlime newSlime = new GreenSlime();
+            target.setObject(newSlime);
+            return newSlime;
+        }
+        
+        target.dealDamage(damage);
+        System.out.println("dealdamage: "+damage);
+        return null;
     }
     
     public Tile getExpansionTarget() {

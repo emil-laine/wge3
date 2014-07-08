@@ -85,7 +85,7 @@ public final class MapLoader {
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
                         
                     case 33: object = new GreenPotion(); break;
-                    case 34: object = new GreenSlime(); break;
+                    case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
                     default: object = null; break;
                 }
                 if (object != null) {

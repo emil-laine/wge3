@@ -9,7 +9,7 @@ import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.floor;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
-import com.badlogic.gdx.utils.TimeUtils;
+import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -37,6 +37,7 @@ public final class Area implements Drawable {
     private List<Item> items;
     private List<Bomb> bombs;
     private List<Tree> treesToDraw;
+    private List<GreenSlime> slimes;
     
     private long timeOfLastPassTime;
 
@@ -49,6 +50,7 @@ public final class Area implements Drawable {
         items        = new LinkedList<Item>();
         bombs        = new LinkedList<Bomb>();
         treesToDraw  = new LinkedList<Tree>();
+        slimes       = new LinkedList<GreenSlime>();
         
         loadMap(mapName);
     }
@@ -259,7 +261,7 @@ public final class Area implements Drawable {
     }
 
     public void passTime(float delta) {
-        long currentTime = TimeUtils.millis();
+        long currentTime = millis();
         if (currentTime - timeOfLastPassTime > 100) {
             for (Creature creature : creatures) {
                 Tile tileUnderCreature = getTileAt(creature.getX(), creature.getY());
@@ -270,12 +272,7 @@ public final class Area implements Drawable {
             }
             timeOfLastPassTime = currentTime;
             
-            for (Tile tile : getTiles()) {
-                if (tile.hasSlime() && randomBoolean(GreenSlime.expansionProbability)) {
-                    GreenSlime slime = (GreenSlime) tile.getObject();
-                    slime.expand();
-                }
-            }
+            expandSlimes();
         }
     }
     
@@ -342,5 +339,23 @@ public final class Area implements Drawable {
             it.remove();
         }
         batch.disableBlending();
+    }
+    
+    public void addSlime(GreenSlime slime) {
+        slimes.add(slime);
+    }
+    
+    public void expandSlimes() {
+        List<GreenSlime> newSlimes = new LinkedList<GreenSlime>();
+        
+        for (GreenSlime slime : slimes) {
+            if (randomBoolean(GreenSlime.expansionProbability)) {
+                GreenSlime newSlime = slime.expand();
+                if (newSlime != null)
+                    newSlimes.add(newSlime);
+            }
+        }
+        
+        slimes.addAll(newSlimes);
     }
 }
