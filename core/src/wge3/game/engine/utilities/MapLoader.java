@@ -80,7 +80,7 @@ public final class MapLoader {
                     case 17: object = new Bomb(); break;
                     case 18: object = new Handgun(); break;
                     case 20: object = new HealthPack(); break;
-                    case 23: object = null; area.addCreature(new Zombie(), x, y); break;
+                    case 30: object = null; area.addCreature(new Zombie(), x, y); break;
                         
                     case 25: object = null; area.addCreature(new Player(), x, y); break;
                         
