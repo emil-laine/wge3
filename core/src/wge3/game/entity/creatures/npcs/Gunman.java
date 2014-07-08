@@ -31,6 +31,7 @@ public class Gunman extends NonPlayer{
         
     }
     
+    @Override
     public void dealDamage(int amount) {
         super.dealDamage(amount);
     }

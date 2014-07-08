@@ -6,10 +6,16 @@
 
 package wge3.game.engine.ai;
 
+import wge3.game.entity.creatures.NonPlayer;
+
 /**
  *
  * @author chang
  */
-public class RangedAI {
+public class RangedAI extends AI {
+
+    public RangedAI(NonPlayer creature) {
+        super(creature);
+    }
     
 }
