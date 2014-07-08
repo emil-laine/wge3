@@ -50,6 +50,7 @@ public class Inventory {
             if (entry.getItem().equals(item)) {
                 if (entry.getAmount() - amount <= 0) {
                     items.remove(entry);
+                    owner.setSelectedItem(getNextItem());
                     return;
                 }
                 entry.removeAmount(amount);
