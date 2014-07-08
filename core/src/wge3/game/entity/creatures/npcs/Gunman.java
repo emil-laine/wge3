@@ -26,8 +26,8 @@ public class Gunman extends NonPlayer{
         HP = 60;
         strength = 10;
         defense = 5;
-        defaultSpeed = 80;
-        currentSpeed = 80;
+        defaultSpeed = 70;
+        currentSpeed = 70;
         
     }
     
