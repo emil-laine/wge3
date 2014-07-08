@@ -27,6 +27,7 @@ import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
 import wge3.game.entity.tilelayers.mapobjects.Tree;
 import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
+import wge3.game.entity.tilelayers.grounds.Abyss;
 
 public final class MapLoader {
     
@@ -54,7 +55,7 @@ public final class MapLoader {
                     case 7: ground = new OneWayFloor(Direction.DOWN); break;
                     case 8: ground = new OneWayFloor(Direction.LEFT); break;
                                     
-                    default:ground = new Grass(); break;
+                    default:ground = new Abyss(); break;
                 }
                 Tile newtile = new Tile();
                 newtile.setGround(ground);
