@@ -2,7 +2,7 @@ package wge3.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import wge3.game.WGE3;
+import wge3.game.engine.WGE3;
 
 public class DesktopLauncher {
     
