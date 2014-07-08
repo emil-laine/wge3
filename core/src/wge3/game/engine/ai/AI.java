@@ -51,10 +51,14 @@ public class AI {
             
             // Else, dude is in a not-OK move destination,
             // so try to find nearest OK move destination:
-            Tile nearestOKTile = getNearestOKMoveDestination(dude);
-            if (nearestOKTile != null) {
-                currentTask = new MoveTask(NPC, nearestOKTile);
-            }
+            
+            /* getNearestOKMoveDestination makes NPCs freeze atm */
+            /* It should be rewritten. */
+            
+            //Tile nearestOKTile = getNearestOKMoveDestination(dude);
+            //if (nearestOKTile != null) {
+            //    currentTask = new MoveTask(NPC, nearestOKTile);
+            //}
             
             // If nearestOKTile was null, ignore enemy.
         }
