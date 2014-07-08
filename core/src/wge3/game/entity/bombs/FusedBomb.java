@@ -15,7 +15,7 @@ public final class FusedBomb extends Bomb {
         damage = 100;
         time = 2;
     }
-
+    
     @Override
     public void explode() {
         mStream.addMessage("*EXPLOSION*");
