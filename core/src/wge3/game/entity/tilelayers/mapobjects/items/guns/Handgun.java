@@ -15,7 +15,7 @@ public final class Handgun extends Gun {
     public Handgun() {
         sprite = new Sprite(texture, Tile.size, 2*Tile.size, Tile.size, Tile.size);
         name = "handgun";
-        range = 31;
+        range = 12;
         damage = 99;
     }
     
@@ -28,10 +28,12 @@ public final class Handgun extends Gun {
         float dx = cos(angle);
         float dy = sin(angle);
         int range = getRange();
-        float targetX = dx * range;
-        float targetY = dy * range;
+        float originX = user.getX();
+        float originY = user.getY();
+        float targetX = originX + dx * range * Tile.size;
+        float targetY = originY + dy * range * Tile.size;
         
-        Line2D lineOfFire = new Line2D.Float(user.getX(), user.getY(), targetX, targetY);
+        Line2D lineOfFire = new Line2D.Float(originX, originY, targetX, targetY);
         
         for (Creature creature : user.getArea().getCreatures()) {
             if (creature.equals(user)) continue;
