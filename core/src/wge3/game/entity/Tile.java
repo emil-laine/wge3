@@ -265,10 +265,9 @@ public class Tile implements Drawable {
         if (!isPassable() || drainsHP()) return false;
         
         for (Tile tile : getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())) {
-            // Don't call tile.blocksVision() here. It's called
-            // in Creature.getPossibleMovementDestinations()
-            // (which calls this method.
-            if (tile.drainsHP()) return false;
+            // Don't call tile.blocksVision() here;
+            // it must be called before calling this method.
+            if (tile.drainsHP() || !tile.isPassable()) return false;
         }
         
         return true;
