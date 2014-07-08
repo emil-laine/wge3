@@ -448,4 +448,14 @@ public abstract class Creature implements Drawable {
         HP += amount;
         if (HP > maxHP) HP = maxHP;
     }
+    
+    public float getDistanceTo(float x, float y) {
+        float dx = x - this.x;
+        float dy = y - this.y;
+        return (float) Math.sqrt(dx*dx + dy*dy);
+    }
+    
+    public float getDistanceTo(Creature other) {
+        return getDistanceTo(other.getX(), other.getY());
+    }
 }
