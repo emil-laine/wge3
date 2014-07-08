@@ -1,22 +1,25 @@
 package wge3.game.entity.creatures.npcs;
 
+import static com.badlogic.gdx.Gdx.files;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import static com.badlogic.gdx.math.MathUtils.random;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.Tile;
 
 public class Zombie extends NonPlayer {
 
     public Zombie() {
-        sprite = new Sprite(texture, 6*Tile.size, 2*Tile.size, Tile.size, Tile.size);
+        sprite = new Sprite(new Texture(files.internal("graphics/creatures.png")), random(10)*Tile.size, 0, Tile.size, Tile.size);
         updateSpriteRotation();
         
         name = "zombie";
-        maxHP = 50;
-        HP = 50;
-        strength = 10;
-        defense = 5;
-        defaultSpeed = 30;
-        currentSpeed = 30;
+        maxHP = random(30, 60);
+        HP = maxHP;
+        strength = random(5, 12);
+        defense = random(0, 7);
+        defaultSpeed = random(20, 35);
+        currentSpeed = defaultSpeed;
     }
     
     @Override
