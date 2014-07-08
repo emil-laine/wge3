@@ -8,15 +8,18 @@ public final class InputHandler extends InputAdapter {
     private final boolean[] keysDown;
     private final boolean[] previousKeysDown;
     
-    private final int keys = 13;
+    private final int keys = 14;
     
+    // Movement keys:
     private final int up = Keys.UP;
     private final int down = Keys.DOWN;
     private final int left = Keys.LEFT;
     private final int right = Keys.RIGHT;
     
+    // Action keys:
     private final int shoot = Keys.Z;
     private final int changeWeapon = Keys.X;
+    private final int run = Keys.A;
     private final int exit = Keys.ESCAPE;
     
     // Development tools:
@@ -59,16 +62,17 @@ public final class InputHandler extends InputAdapter {
                 
             case shoot: keysDown[4] = true; break;
             case changeWeapon: keysDown[5] = true; break;
-            case exit: keysDown[6] = true; break;
+            case run:   keysDown[6] = true; break;
+            case exit:  keysDown[7] = true; break;
                 
-            case toggleFOV: keysDown[7] = true; break;
-            case toggleGhostMode: keysDown[8] = true; break;
-            case toggleInventory: keysDown[9] = true; break;
-            case createWall: keysDown[10] = true; break;
-            case destroyObject: keysDown[11] = true; break;
-            case toggleFPS: keysDown[12] = true; break;
+            case toggleFOV: keysDown[8] = true; break;
+            case toggleGhostMode: keysDown[9] = true; break;
+            case toggleInventory: keysDown[10] = true; break;
+            case createWall: keysDown[11] = true; break;
+            case destroyObject: keysDown[12] = true; break;
+            case toggleFPS: keysDown[13] = true; break;
                 
-            default: break;
+            default: return false;
         }
         return true;
     }
@@ -83,16 +87,17 @@ public final class InputHandler extends InputAdapter {
                 
             case shoot: keysDown[4] = false; break;
             case changeWeapon: keysDown[5] = false; break;
-            case exit: keysDown[6] = false; break;
+            case run:   keysDown[6] = false; break;
+            case exit:  keysDown[7] = false; break;
                 
-            case toggleFOV: keysDown[7] = false; break;
-            case toggleGhostMode: keysDown[8] = false; break;
-            case toggleInventory: keysDown[9] = false; break;
-            case createWall: keysDown[10] = false; break;
-            case destroyObject: keysDown[11] = false; break;
-            case toggleFPS: keysDown[12] = false; break;
+            case toggleFOV: keysDown[8] = false; break;
+            case toggleGhostMode: keysDown[9] = false; break;
+            case toggleInventory: keysDown[10] = false; break;
+            case createWall: keysDown[11] = false; break;
+            case destroyObject: keysDown[12] = false; break;
+            case toggleFPS: keysDown[13] = false; break;
                 
-            default: break;
+            default: return false;
         }
         return true;
     }

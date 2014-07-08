@@ -266,7 +266,7 @@ public final class Area implements Drawable {
                 if (tileUnderCreature.drainsHP() && !creature.isGhost()) {
                     creature.dealDamage((int) (tileUnderCreature.getHPDrainAmount()));
                 }
-                creature.regenerateHP(currentTime);
+                creature.regenerate(currentTime);
             }
             timeOfLastPassTime = currentTime;
             

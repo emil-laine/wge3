@@ -38,6 +38,7 @@ public abstract class Creature implements Drawable {
     protected int size;
     protected int defaultSpeed;
     protected int currentSpeed;
+    protected float walkToRunMultiplier;
     protected float direction;
     protected float turningSpeed;
     protected int sight;
@@ -46,11 +47,19 @@ public abstract class Creature implements Drawable {
     protected String name;
     protected int maxHP;
     protected int HP;
-    protected int HPRegenRate; /* per second */
-    protected long timeOfLastRegen;
     protected int strength;
     protected int defense;
-    protected int unarmedAttackSize; /* radius */
+    protected int unarmedAttackSize; // radius
+    protected int maxEnergy;
+    protected int energy;
+    // Regen rates: the amount of milliseconds between regenerating 1 unit.
+    protected int HPRegenRate;
+    protected int energyRegenRate;
+    protected int energyConsumptionRate;
+    protected long lastHPRegen;
+    protected long lastEnergyRegen;
+    protected long lastEnergyConsumption;
+    protected boolean isRunning;
     
     protected boolean picksUpItems;
     
@@ -71,16 +80,19 @@ public abstract class Creature implements Drawable {
     public Creature() {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         size = Tile.size / 3;
-        defaultSpeed = 100;
+        defaultSpeed = 80;
         currentSpeed = defaultSpeed;
+        walkToRunMultiplier = 1.5f;
         direction = random() * PI2;
         turningSpeed = 3.5f;
         sight = 12;
         FOV = PI;
         unarmedAttackSize = Tile.size/2;
         
-        HPRegenRate = 1;
-        timeOfLastRegen = millis();
+        HPRegenRate = 1000;
+        lastHPRegen = millis();
+        lastEnergyRegen = millis();
+        lastEnergyConsumption = millis();
         
         canSeeEverything = false;
         isGhost = false;
@@ -96,6 +108,12 @@ public abstract class Creature implements Drawable {
         goingBackward = false;
         turningLeft = false;
         turningRight = false;
+        
+        maxEnergy = 100;
+        energy = 100;
+        energyRegenRate = 500;
+        energyConsumptionRate = 80;
+        isRunning = false;
     }
     
     public float getX() {
@@ -155,6 +173,14 @@ public abstract class Creature implements Drawable {
         this.maxHP = newMaxHP;
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getMaxEnergy() {
+        return maxEnergy;
+    }
+
     public int getHP() {
         return HP;
     }
@@ -198,6 +224,24 @@ public abstract class Creature implements Drawable {
             float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
             dx *= movementModifier;
             dy *= movementModifier;
+        }
+        
+        if (isRunning()) {
+            long currentTime = millis();
+            boolean consumeOrTakeDamage = currentTime - lastEnergyConsumption > energyConsumptionRate;
+            if (canRun()) {
+                dx *= walkToRunMultiplier;
+                dy *= walkToRunMultiplier;
+                if (consumeOrTakeDamage) {
+                    consumeEnergy();
+                    lastEnergyConsumption = currentTime;
+                }
+            } else {
+                if (consumeOrTakeDamage) {
+                    this.dealDamage(1);
+                    lastEnergyConsumption = currentTime;
+                }
+            }
         }
         
         // Calculate actual movement:
@@ -315,14 +359,23 @@ public abstract class Creature implements Drawable {
         return HP <= 0;
     }
     
-    public void regenerateHP(long currentTime) {
-        if (currentTime - timeOfLastRegen > 1000) {
-            if (HP < maxHP) {
-                HP += HPRegenRate;
-                if (HP > maxHP) HP = maxHP;
-            }
-            timeOfLastRegen = currentTime;
+    public void regenerate(long currentTime) {
+        if (currentTime - lastHPRegen > HPRegenRate) {
+            regenerateHP();
+            lastHPRegen = currentTime;
         }
+        if (!isRunning && currentTime - lastEnergyRegen > energyRegenRate) {
+            regenerateEnergy();
+            lastEnergyRegen = currentTime;
+        }
+    }
+
+    public void regenerateEnergy() {
+        if (energy < maxEnergy) energy++;
+    }
+
+    public void regenerateHP() {
+        if (HP < maxHP) HP++;
     }
     
     public void updateSpritePosition() {
@@ -448,6 +501,11 @@ public abstract class Creature implements Drawable {
         if (HP > maxHP) HP = maxHP;
     }
     
+    public void addEnergy(int amount) {
+        energy += amount;
+        if (energy > maxEnergy) energy = maxEnergy;
+    }
+    
     public float getDistanceTo(float x, float y) {
         float dx = x - this.x;
         float dy = y - this.y;
@@ -456,5 +514,25 @@ public abstract class Creature implements Drawable {
     
     public float getDistanceTo(Creature other) {
         return getDistanceTo(other.getX(), other.getY());
+    }
+    
+    public void startRunning() {
+        isRunning = true;
+    }
+    
+    public void stopRunning() {
+        isRunning = false;
+    }
+    
+    public boolean isRunning() {
+        return isRunning;
+    }
+    
+    public void consumeEnergy() {
+        energy -= 1;
+    }
+    
+    public boolean canRun() {
+        return energy > 0;
     }
 }

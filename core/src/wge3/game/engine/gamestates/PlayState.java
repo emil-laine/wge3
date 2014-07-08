@@ -114,6 +114,12 @@ public final class PlayState extends GameState {
 
     @Override
     public void handleInput() {
+        if (input.isDown(6)) {
+            player.startRunning();
+        } else if (!input.isDown(6)) {
+            player.stopRunning();
+        } 
+        
         if (input.isDown(0)) player.goForward();
         else if (input.isDown(1)) player.goBackward();
         
@@ -122,21 +128,23 @@ public final class PlayState extends GameState {
         
         if (input.isPressed(4)) {
             player.useItem();
-        } else if (input.isPressed(5)) {
+        }
+        
+        if (input.isPressed(5)) {
             player.changeItem();
-        } else if (input.isPressed(6)) {
-            gsm.setState(0);
         } else if (input.isPressed(7)) {
-            player.toggleCanSeeEverything();
+            gsm.setState(0);
         } else if (input.isPressed(8)) {
-            player.toggleGhostMode();
+            player.toggleCanSeeEverything();
         } else if (input.isPressed(9)) {
-            mStream.toggleShowInventory();
+            player.toggleGhostMode();
         } else if (input.isPressed(10)) {
-            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
+            mStream.toggleShowInventory();
         } else if (input.isPressed(11)) {
-            area.getTileAt(player.getX(), player.getY()).removeObject();
+            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
         } else if (input.isPressed(12)) {
+            area.getTileAt(player.getX(), player.getY()).removeObject();
+        } else if (input.isPressed(13)) {
             mStream.toggleShowFPS();
         }
     }
