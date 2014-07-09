@@ -100,7 +100,8 @@ public class Tile implements Drawable {
         ground.setLighting(color);
         if (hasObject()) object.setLighting(color);
         for (Creature creature : getCreatures()) {
-            creature.setLighting(color);
+            if (!creature.isInvisible())
+                    creature.setLighting(color);
         }
         for (Bomb bomb : getBombs()) {
             bomb.setLighting(color);

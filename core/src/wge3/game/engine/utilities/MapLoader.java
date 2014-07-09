@@ -33,6 +33,7 @@ import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.tilelayers.grounds.Abyss;
 import wge3.game.entity.tilelayers.mapobjects.Door;
+import wge3.game.entity.tilelayers.mapobjects.InvisibilityPotion;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
 
 public final class MapLoader {
@@ -112,6 +113,8 @@ public final class MapLoader {
                     case 36: object = new Teleport(Color.BLUE); break;
                     case 37: object = new Teleport(Color.GREEN); break;
                     case 38: object = new Teleport(Color.BLACK); break;
+                        
+                    case 44: object = new InvisibilityPotion(); break;
                         
                     default: object = null; break;
                 }

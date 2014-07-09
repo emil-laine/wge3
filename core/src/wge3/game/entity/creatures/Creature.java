@@ -64,6 +64,7 @@ public abstract class Creature implements Drawable {
     protected long lastEnergyRegen;
     protected long lastEnergyConsumption;
     protected boolean isRunning;
+    protected boolean isInvisible;
     
     protected boolean picksUpItems;
     
@@ -118,6 +119,7 @@ public abstract class Creature implements Drawable {
         energyRegenRate = 500;
         energyConsumptionRate = 80;
         isRunning = false;
+        isInvisible = false;
     }
     
     public float getX() {
@@ -467,7 +469,7 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return area.getTileAt(getX(), getY()).canBeSeenBy(creature);
+        return getTile().canBeSeenBy(creature) && !this.isInvisible();
     }
     
     public void setLighting(Color color) {
@@ -582,5 +584,19 @@ public abstract class Creature implements Drawable {
     public boolean isInSameTileAs(Creature other) {
         return this.getTileX() == other.getTileX()
             && this.getTileY() == other.getTileY();
+    }
+    
+    public void setInvisibility(boolean truth) {
+        if (truth) sprite.setAlpha(0.3f);
+        else sprite.setAlpha(1);
+        isInvisible = truth;
+    }
+    
+    public boolean isInvisible() {
+        return isInvisible;
+    }
+    
+    public void removeItem(Item item) {
+        inventory.removeItem(item);
     }
 }

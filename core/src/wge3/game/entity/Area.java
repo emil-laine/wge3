@@ -126,7 +126,7 @@ public final class Area implements Drawable {
         batch.enableBlending();
         for (Player player : players) {
             for (Creature creature : NPCs) {
-                if (creature.canBeSeenBy(player)) {
+                if (creature.canBeSeenBy(player) || creature.isPlayer()) {
                     creature.draw(batch);
                 }
             }
