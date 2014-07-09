@@ -18,7 +18,7 @@ public class Gunman extends NonPlayer{
     
     public Gunman() {
         
-        sprite = new Sprite(texture, 6*Tile.size, 2*Tile.size, Tile.size, Tile.size);
+        sprite = new Sprite(texture, 4*Tile.size, 3*Tile.size, Tile.size, Tile.size);
         updateSpriteRotation();
         
         name = "Gunman";
