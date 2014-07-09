@@ -611,7 +611,8 @@ public abstract class Creature implements Drawable {
     
     public void removeItem(Item item) {
         inventory.removeItem(item);
-
+    }
+        
     public boolean isFacingTarget(Creature target) {
         return abs(TurnTask.getDiff(this.getDirection(), target.direction)) < PI/48;
     }
