@@ -27,7 +27,8 @@ public class GreenSlime extends MapObject {
         Tile target = getExpansionTarget();
         if (target == null) return null;
         
-        if (!target.hasObject() && !target.hasCreature()) {
+        if ((!target.hasObject() && !target.hasCreature())
+                || (target.hasObject() && target.isPassable())) {
             GreenSlime newSlime = new GreenSlime();
             target.setObject(newSlime);
             return newSlime;
