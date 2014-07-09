@@ -19,7 +19,7 @@ public final class Handgun extends Gun {
         sprite = new Sprite(texture, Tile.size, 2*Tile.size, Tile.size, Tile.size);
         name = "handgun";
         range = 12;
-        damage = 99;
+        damage = 20;
     }
     
     @Override
