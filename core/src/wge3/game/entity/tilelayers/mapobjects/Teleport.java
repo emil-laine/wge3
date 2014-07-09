@@ -22,7 +22,10 @@ public class Teleport extends MapObject {
         this.color = color;
         int x;
         switch (color) {
-            default: x = 2;
+            case RED:   x = 2; break;
+            case BLUE:  x = 3; break;
+            case GREEN: x = 4; break;
+            default:    x = 5; break;
         }
         sprite = new Sprite(texture, x*Tile.size, 4*Tile.size, Tile.size, Tile.size);
     }

@@ -95,6 +95,9 @@ public final class MapLoader {
                     case 33: object = new GreenPotion(); break;
                     case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
                     case 35: object = new Teleport(Color.RED); break;
+                    case 36: object = new Teleport(Color.BLUE); break;
+                    case 37: object = new Teleport(Color.GREEN); break;
+                    case 38: object = new Teleport(Color.BLACK); break;
                         
                     default: object = null; break;
                 }
