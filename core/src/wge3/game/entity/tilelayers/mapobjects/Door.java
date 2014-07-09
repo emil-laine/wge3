@@ -9,6 +9,7 @@ public final class Door extends Wall {
     private boolean hasLock;
     private boolean locked;
     private int destroyThreshold;
+    private boolean horizontal;
     
     // private KeyType keytype; -> door with lock
     
@@ -17,6 +18,7 @@ public final class Door extends Wall {
         destroyThreshold = 50;
         this.closed = closed;
         locked = false;
+        this.horizontal = horizontal;
         coversWholeTile = false;
     }
     
@@ -67,6 +69,6 @@ public final class Door extends Wall {
     }
     
     public void changeSprite() {
-        sprite.setRegionY((closed? 3:4)*Tile.size);
+        sprite.setRegion((horizontal? 7:6)*Tile.size, (closed? 3:4)*Tile.size, Tile.size, Tile.size);
     }
 }
