@@ -276,8 +276,8 @@ public abstract class Creature implements Drawable {
                 Teleport tele = (Teleport) getTile().getObject();
                 tele.teleport(this);
             }
-            previousTileX = floatPosToTilePos(getX());
-            previousTileY = floatPosToTilePos(getY());
+            previousTileX = getTileX();
+            previousTileY = getTileY();
             if (picksUpItems()) pickUpItems();
         }
         
