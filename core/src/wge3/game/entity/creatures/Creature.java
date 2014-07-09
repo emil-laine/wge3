@@ -1,5 +1,6 @@
 package wge3.game.entity.creatures;
 
+import wge3.game.entity.creatures.utilities.Inventory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

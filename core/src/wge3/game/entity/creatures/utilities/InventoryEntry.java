@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package wge3.game.entity.creatures;
+package wge3.game.entity.creatures.utilities;
 
 import wge3.game.entity.tilelayers.mapobjects.Item;
 

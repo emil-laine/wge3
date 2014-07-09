@@ -1,7 +1,8 @@
 
-package wge3.game.entity.creatures;
+package wge3.game.entity.creatures.utilities;
 
 import java.util.*;
+import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
 public class Inventory {
