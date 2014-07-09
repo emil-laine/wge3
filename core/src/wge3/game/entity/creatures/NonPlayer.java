@@ -1,6 +1,7 @@
 package wge3.game.entity.creatures;
 
 import wge3.game.engine.ai.AI;
+import static wge3.game.engine.constants.Team.MonsterTeam;
 
 public abstract class NonPlayer extends Creature {
     
@@ -8,7 +9,7 @@ public abstract class NonPlayer extends Creature {
     protected int attackSpeed; // How many times the creature attacks in 5 seconds.
     
     public NonPlayer() {
-        team = 1;
+        team = MonsterTeam;
         ai = new AI(this);
         attackSpeed = 10;
         picksUpItems = false;

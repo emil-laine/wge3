@@ -2,6 +2,7 @@ package wge3.game.entity.creatures;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import static wge3.game.engine.constants.Team.PlayerTeam;
 import wge3.game.entity.Tile;
 
 public final class Player extends Creature {
@@ -12,7 +13,7 @@ public final class Player extends Creature {
         sprite = new Sprite(texture, 4*Tile.size, 3*Tile.size, Tile.size, Tile.size);
         updateSpriteRotation();
         
-        team = 0;
+        team = PlayerTeam;
         size = 14;
         maxHP = 100;
         HP = maxHP;

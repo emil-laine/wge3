@@ -17,6 +17,7 @@ import static java.lang.Math.max;
 import java.util.LinkedList;
 import java.util.List;
 import static wge3.game.engine.constants.Direction.*;
+import wge3.game.engine.constants.Team;
 import wge3.game.entity.tilelayers.grounds.OneWayFloor;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 import static wge3.game.engine.gamestates.PlayState.mStream;
@@ -35,9 +36,7 @@ public abstract class Creature implements Drawable {
     protected int previousTileY;
     protected Rectangle bounds;
     
-    protected int team;
-    // 0 = player team
-    // 1 = monster team
+    protected Team team;
     
     protected int size;
     protected int defaultSpeed;
@@ -482,7 +481,7 @@ public abstract class Creature implements Drawable {
         return area.getTileAt(previousTileX, previousTileY);
     }
 
-    public int getTeam() {
+    public Team getTeam() {
         return team;
     }
     
@@ -573,6 +572,10 @@ public abstract class Creature implements Drawable {
     
     public int getTileY() {
         return floatPosToTilePos(y);
+    }
+    
+    public void setTeam(Team team) {
+        this.team = team;
     }
     
     public boolean isInSameTileAs(Creature other) {
