@@ -1,6 +1,7 @@
 package wge3.game.entity.tilelayers;
 
 import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
+import wge3.game.entity.tilelayers.mapobjects.Teleport;
 import wge3.game.entity.tilelayers.mapobjects.Tree;
 
 public abstract class MapObject extends TileLayer {
@@ -43,6 +44,10 @@ public abstract class MapObject extends TileLayer {
     
     public boolean isTree() {
         return this.getClass() == Tree.class;
+    }
+
+    public boolean isTeleport() {
+        return this.getClass() == Teleport.class;
     }
     
     public boolean coversWholeTile() {

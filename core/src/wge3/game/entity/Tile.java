@@ -14,6 +14,7 @@ import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.engine.gui.Drawable;
 import static wge3.game.entity.Area.floatPosToTilePos;
 import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
+import wge3.game.entity.tilelayers.mapobjects.Teleport;
 
 public class Tile implements Drawable {
     
@@ -330,5 +331,14 @@ public class Tile implements Drawable {
         GreenSlime newSlime = new GreenSlime();
         this.setObject(newSlime);
         area.addSlime(newSlime);
+    }
+    
+    public boolean hasTeleport() {
+        if (!hasObject()) return false;
+        return object.isTeleport();
+    }
+    
+    public Teleport getTeleport() {
+        return (Teleport) object;
     }
 }

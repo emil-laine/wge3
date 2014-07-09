@@ -272,6 +272,10 @@ public abstract class Creature implements Drawable {
         
         // These should be optimized to be checked less than FPS times per second:
         if (hasMovedToANewTile()) {
+            if (getTile().hasTeleport() && !getPreviousTile().hasTeleport()) {
+                Teleport tele = (Teleport) getTile().getObject();
+                tele.teleport(this);
+            }
             previousTileX = floatPosToTilePos(getX());
             previousTileY = floatPosToTilePos(getY());
             if (picksUpItems()) pickUpItems();

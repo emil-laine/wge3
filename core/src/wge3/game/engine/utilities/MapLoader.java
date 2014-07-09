@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import wge3.game.engine.constants.Color;
 import wge3.game.entity.creatures.Player;
 import wge3.game.entity.creatures.npcs.Zombie;
 import wge3.game.entity.Area;
@@ -29,6 +30,7 @@ import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.tilelayers.grounds.Abyss;
 import wge3.game.entity.tilelayers.mapobjects.Door;
+import wge3.game.entity.tilelayers.mapobjects.Teleport;
 
 public final class MapLoader {
     
@@ -92,6 +94,8 @@ public final class MapLoader {
                         
                     case 33: object = new GreenPotion(); break;
                     case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
+                    case 35: object = new Teleport(Color.RED); break;
+                        
                     default: object = null; break;
                 }
                 if (object != null) {
