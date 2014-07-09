@@ -11,31 +11,23 @@ import wge3.game.entity.tilelayers.mapobjects.Item;
 public class InvisibilityPotion extends Item {
 
     private int duration; // seconds
-    private Creature user;
     
     public InvisibilityPotion() {
         sprite = new Sprite(texture, 3*Tile.size, 5*Tile.size, Tile.size, Tile.size);
         name = "invisibility potion";
         duration = 10;
-        
     }
     
     @Override
-    public void use(Creature user) {
-        this.user = user;
+    public void use(final Creature user) {
         mStream.addMessage("*glug*");
         user.removeItem(this);
         user.setInvisibility(true);
         new Timer().scheduleTask(new Task() {
-
             @Override
             public void run() {
-                endInvisibility();
+                user.setInvisibility(false);
             }
         }, duration);
-    }
-    
-    public void endInvisibility() {
-        user.setInvisibility(false);
     }
 }
