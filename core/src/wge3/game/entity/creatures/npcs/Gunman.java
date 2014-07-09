@@ -7,8 +7,10 @@
 package wge3.game.entity.creatures.npcs;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import wge3.game.engine.ai.RangedAI;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.NonPlayer;
+import wge3.game.entity.tilelayers.mapobjects.items.guns.Handgun;
 
 /**
  *
@@ -28,7 +30,9 @@ public class Gunman extends NonPlayer{
         defense = 5;
         defaultSpeed = 70;
         currentSpeed = 70;
-        
+        inventory.addItem(new Handgun(), 60);
+        this.changeItem();
+        ai = new RangedAI(this);
     }
     
     @Override

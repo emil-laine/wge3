@@ -2,7 +2,9 @@ package wge3.game.engine.ai.tasks;
 
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
+import static com.badlogic.gdx.math.MathUtils.atan2;
 import static java.lang.Math.abs;
+import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 
 public final class TurnTask extends AITask {
@@ -16,6 +18,21 @@ public final class TurnTask extends AITask {
         this.targetDirection = targetDirection;
         
         diff = getDiff(executor.getDirection(), targetDirection);
+    }
+    
+    public TurnTask(Creature executor, Creature target) {
+        this.executor = executor;
+        
+        float destX = target.getX();
+        float destY = target.getY();
+        
+        float dx = destX - executor.getX();
+        float dy = destY - executor.getY();
+        float angle = atan2(dy, dx);
+        if (angle < 0) angle += PI2; /* angle = [0, PI2[ */
+        diff = getDiff(executor.getDirection(), angle);
+        
+        this.targetDirection = angle;
     }
 
     public static float getDiff(float src, float dest) {

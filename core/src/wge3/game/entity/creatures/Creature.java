@@ -1,6 +1,5 @@
 package wge3.game.entity.creatures;
 
-import wge3.game.entity.creatures.utilities.Inventory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,20 +11,25 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
+import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.LinkedList;
 import java.util.List;
+import wge3.game.engine.ai.tasks.TurnTask;
+import static wge3.game.engine.ai.tasks.TurnTask.getDiff;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.Team;
-import wge3.game.entity.tilelayers.grounds.OneWayFloor;
-import wge3.game.entity.tilelayers.mapobjects.Item;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.engine.gui.Drawable;
 import wge3.game.entity.Area;
 import static wge3.game.entity.Area.floatPosToTilePos;
 import wge3.game.entity.Tile;
+import wge3.game.entity.creatures.utilities.Inventory;
+import wge3.game.entity.tilelayers.grounds.OneWayFloor;
+import wge3.game.entity.tilelayers.mapobjects.Item;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
 
 public abstract class Creature implements Drawable {
@@ -521,6 +525,7 @@ public abstract class Creature implements Drawable {
         return picksUpItems;
     }
     
+    //SORT THIS, make comparator
     public List<Creature> getEnemiesWithinFOV() {
         List<Creature> enemiesWithinFOV = new LinkedList<Creature>();
         for (Creature creature : getArea().getCreatures()) {
@@ -545,6 +550,10 @@ public abstract class Creature implements Drawable {
         float dx = x - this.x;
         float dy = y - this.y;
         return (float) Math.sqrt(dx*dx + dy*dy);
+    }
+    
+    public int getDistanceTo(int x, int y) {
+        return getDistanceTo(x, y) / Tile.size;
     }
     
     public float getDistanceTo(Creature other) {
@@ -586,5 +595,9 @@ public abstract class Creature implements Drawable {
     public boolean isInSameTileAs(Creature other) {
         return this.getTileX() == other.getTileX()
             && this.getTileY() == other.getTileY();
+    }
+    
+    public boolean isFacingTarget(Creature target) {
+        return abs(TurnTask.getDiff(this.getDirection(), target.direction)) < PI/48;
     }
 }
