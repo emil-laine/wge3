@@ -13,6 +13,9 @@ import wge3.game.entity.creatures.npcs.Zombie;
 import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
 import wge3.game.engine.constants.Direction;
+import static wge3.game.engine.constants.Team.PlayerTeam;
+import wge3.game.entity.creatures.Creature;
+import wge3.game.entity.creatures.npcs.Gunman;
 import wge3.game.entity.tilelayers.grounds.Grass;
 import wge3.game.entity.tilelayers.grounds.Lava;
 import wge3.game.entity.tilelayers.grounds.OneWayFloor;
@@ -96,6 +99,11 @@ public final class MapLoader {
                         object = null;
                         area.addCreature(new Player(), x, y);
                         playersAdded++;
+                        break;
+                        
+                    case 26:
+                        object = null;
+                        area.addCreature(new Gunman(), x, y);
                         break;
                         
                     case 33: object = new GreenPotion(); break;
