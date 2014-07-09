@@ -2,7 +2,7 @@ package wge3.game.engine.ai;
 
 import wge3.game.engine.ai.tasks.WaitTask;
 import wge3.game.engine.ai.tasks.AITask;
-import wge3.game.engine.ai.tasks.AttackTask;
+import wge3.game.engine.ai.tasks.MeleeAttackTask;
 import wge3.game.engine.ai.tasks.MoveTask;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.cos;
@@ -45,7 +45,7 @@ public class AI {
         for (Creature dude : NPC.getEnemiesWithinFOV()) {
             // If dude is located in an OK move destination, attack:
             if (dude.getTile().isAnOKMoveDestinationFor(NPC)) {
-                currentTask = new AttackTask(NPC, dude);
+                currentTask = new MeleeAttackTask(NPC, dude);
                 return;
             }
             
@@ -65,7 +65,7 @@ public class AI {
     }
 
     public boolean isAttacking() {
-        return currentTask.getClass() == AttackTask.class;
+        return currentTask.getClass() == MeleeAttackTask.class;
     }
     
     public Tile getTileBeforeObstacle(Creature enemy) {

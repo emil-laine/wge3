@@ -14,3 +14,5 @@ hs_err_pid*
 # Hidden files and folders
 .*
 *.MF
+/core/build/
+/desktop/build/

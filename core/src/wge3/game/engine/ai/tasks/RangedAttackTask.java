@@ -1,37 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package wge3.game.engine.ai.tasks;
 
 import static com.badlogic.gdx.utils.TimeUtils.millis;
+import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
-import wge3.game.entity.Tile;
+import wge3.game.entity.tilelayers.mapobjects.items.Gun;
 
-public final class AttackTask extends AITask {
+/**
+ *
+ * @author Chang
+ */
+public class RangedAttackTask extends AITask {
     
     private NonPlayer executor;
     private Creature target;
     private MoveTask subTask;
     private long timeOfLastAttack;
+    
 
-    public AttackTask(NonPlayer executor, Creature target) {
+    public RangedAttackTask(NonPlayer executor, Creature target) {
         this.executor = executor;
         this.target = target;
         
         subTask = new MoveTask(executor, target.getTile());
         timeOfLastAttack = millis();
     }
-
+    
+    
+    
     @Override
     public void execute() {
         // Check if target has moved to a new tile:
         Tile targetTile = target.getTile();
-        if (subTask.getDestination() != targetTile && target.canBeSeenBy(executor) && targetTile.isAnOKMoveDestinationFor(executor)) {
+        
+        if (!isWithinGunRange(target)) {
             subTask.setDestination(targetTile);
+            return;
+        }
+        if (!executor.isFacingTarget(target)) {
+            subTask = new MoveTask(executor, target.getTile());
+            subTask.execute();
+            return;
         }
         if (!subTask.isFinished()) subTask.execute();
-        else if (executor.isInSameTileAs(target) && canAttack()) {
+        
+        if (canAttack()) {
             executor.useItem();
             timeOfLastAttack = millis();
         }
+            
+        
     }
 
     @Override
@@ -41,5 +65,11 @@ public final class AttackTask extends AITask {
     
     public boolean canAttack() {
         return millis() - timeOfLastAttack > 5000/executor.getAttackSpeed();
+    }
+
+    public boolean isWithinGunRange(Creature enemy) {
+        Gun gun = (Gun) executor.getSelectedItem();
+        
+        return executor.getDistanceTo(enemy) / Tile.size <= gun.getRange();
     }
 }
