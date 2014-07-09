@@ -201,7 +201,7 @@ public final class Area implements Drawable {
     
     public void addCreature(Creature guy, int x, int y) {
         guy.setArea(this);
-        guy.setPosition(x*Tile.size+Tile.size/2, y*Tile.size+Tile.size/2);
+        guy.setPosition(x, y);
         guy.updateSpritePosition();
         creatures.add(guy);
         if (guy.getClass() == Player.class) {

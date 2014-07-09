@@ -132,9 +132,16 @@ public abstract class Creature implements Drawable {
         this.y = y;
     }
     
-    public void setPosition(int x, int y) {
+    public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
+        updateSpritePosition();
+    }
+    
+    public void setPosition(int x, int y) {
+        this.x = x * Tile.size + Tile.size/2;
+        this.y = y * Tile.size + Tile.size/2;
+        updateSpritePosition();
     }
 
     public Area getArea() {
