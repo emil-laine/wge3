@@ -250,6 +250,8 @@ public abstract class Creature implements Drawable {
                     lastEnergyConsumption = currentTime;
                 }
             } else {
+                dx *= walkToRunMultiplier * ((float)HP/maxHP);
+                dy *= walkToRunMultiplier * ((float)HP/maxHP);
                 if (consumeOrTakeDamage) {
                     this.dealDamage(1);
                     lastEnergyConsumption = currentTime;
