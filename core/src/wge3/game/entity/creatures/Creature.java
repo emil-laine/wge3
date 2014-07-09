@@ -284,8 +284,8 @@ public abstract class Creature implements Drawable {
         
     }
     public boolean hasMovedToANewTile() {
-        return floatPosToTilePos(getX()) != previousTileX
-            || floatPosToTilePos(getY()) != previousTileY;
+        return getTileX() != previousTileX
+            || getTileY() != previousTileY;
     }
 
     public void pickUpItems() {
