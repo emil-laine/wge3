@@ -22,13 +22,17 @@ import wge3.game.entity.tilelayers.mapobjects.Item;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.engine.gui.Drawable;
 import wge3.game.entity.Area;
+import static wge3.game.entity.Area.floatPosToTilePos;
 import wge3.game.entity.Tile;
+import wge3.game.entity.tilelayers.mapobjects.Teleport;
 
 public abstract class Creature implements Drawable {
 
     protected Area area;
     protected float x;
     protected float y;
+    protected int previousTileX;
+    protected int previousTileY;
     protected Rectangle bounds;
     
     protected int team;
@@ -122,6 +126,7 @@ public abstract class Creature implements Drawable {
 
     public void setX(float x) {
         this.x = x;
+        updateSpritePosition();
     }
 
     public float getY() {
@@ -130,6 +135,7 @@ public abstract class Creature implements Drawable {
 
     public void setY(float y) {
         this.y = y;
+        updateSpritePosition();
     }
     
     public void setPosition(float x, float y) {
@@ -258,17 +264,24 @@ public abstract class Creature implements Drawable {
         if (canMoveTo(destX, destY)) {
             setX(destX);
             setY(destY);
-            updateSpritePosition();
         } else if (canMoveTo(getX(), destY)) {
             setY(destY);
-            updateSpritePosition();
         } else if (canMoveTo(destX, getY())) {
             setX(destX);
-            updateSpritePosition();
         }
         
-        // Should be optimized to pick up items only when current tile != previous tile.
-        if (picksUpItems()) pickUpItems();
+        // These should be optimized to be checked less than FPS times per second:
+        if (hasMovedToANewTile()) {
+            previousTileX = floatPosToTilePos(getX());
+            previousTileY = floatPosToTilePos(getY());
+            if (picksUpItems()) pickUpItems();
+        }
+        
+        
+    }
+    public boolean hasMovedToANewTile() {
+        return floatPosToTilePos(getX()) != previousTileX
+            || floatPosToTilePos(getY()) != previousTileY;
     }
 
     public void pickUpItems() {
@@ -457,6 +470,10 @@ public abstract class Creature implements Drawable {
     
     public Tile getTile() {
         return area.getTileAt(getX(), getY());
+    }
+    
+    public Tile getPreviousTile() {
+        return area.getTileAt(previousTileX, previousTileY);
     }
 
     public int getTeam() {
