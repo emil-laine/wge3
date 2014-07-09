@@ -165,6 +165,10 @@ public abstract class Creature implements Drawable {
     public void setDefaultSpeed(int defaultSpeed) {
         this.defaultSpeed = defaultSpeed;
     }
+    
+    public void setCurrentSpeed(int speed) {
+        this.currentSpeed = speed;
+    }
 
     public float getDirection() {
         return direction;
