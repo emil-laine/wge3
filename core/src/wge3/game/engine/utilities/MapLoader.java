@@ -68,6 +68,8 @@ public final class MapLoader {
         }
         for (int i = 0; i < 4; i++) mapLoader.nextLine();
         
+        int playersAdded = 0;
+        
         // Load objects:
         for (int y = size-1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
@@ -90,7 +92,11 @@ public final class MapLoader {
                     case 39: object = new Door(false, false); break;
                     case 40: object = new Door(true, false); break;
                         
-                    case 25: object = null; area.addCreature(new Player(), x, y); break;
+                    case 25:
+                        object = null;
+                        area.addCreature(new Player(), x, y);
+                        playersAdded++;
+                        break;
                         
                     case 33: object = new GreenPotion(); break;
                     case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
@@ -107,6 +113,11 @@ public final class MapLoader {
             }
             mapLoader.nextLine();
         }
+        
+        if (playersAdded == 0) {
+            area.addCreature(new Player());
+        }
+        
         mapLoader.close();
     }
     
