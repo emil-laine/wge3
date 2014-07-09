@@ -564,4 +564,17 @@ public abstract class Creature implements Drawable {
     public boolean canRun() {
         return energy > 0;
     }
+    
+    public int getTileX() {
+        return floatPosToTilePos(x);
+    }
+    
+    public int getTileY() {
+        return floatPosToTilePos(y);
+    }
+    
+    public boolean isInSameTileAs(Creature other) {
+        return this.getTileX() == other.getTileX()
+            && this.getTileY() == other.getTileY();
+    }
 }

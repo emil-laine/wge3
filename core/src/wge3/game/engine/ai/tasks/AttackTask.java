@@ -28,7 +28,7 @@ public final class AttackTask extends AITask {
             subTask.setDestination(targetTile);
         }
         if (!subTask.isFinished()) subTask.execute();
-        else if (target.getTile() == executor.getTile() && canAttack()) {
+        else if (executor.isInSameTileAs(target) && canAttack()) {
             executor.useItem();
             timeOfLastAttack = millis();
         }
