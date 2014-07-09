@@ -43,7 +43,7 @@ public class RangedAttackTask extends AITask {
             subTask.setDestination(targetTile);
             return;
         }
-        if (!executor.isFacingTarget(target)) {
+        if (!executor.isFacing(target)) {
             subTask = new MoveTask(executor, target.getTile());
             subTask.execute();
             return;

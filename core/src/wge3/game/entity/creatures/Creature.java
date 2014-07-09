@@ -11,14 +11,12 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.LinkedList;
 import java.util.List;
-import wge3.game.engine.ai.tasks.TurnTask;
 import static wge3.game.engine.ai.tasks.TurnTask.getDiff;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.Team;
@@ -613,7 +611,7 @@ public abstract class Creature implements Drawable {
         inventory.removeItem(item);
     }
         
-    public boolean isFacingTarget(Creature target) {
-        return abs(TurnTask.getDiff(this.getDirection(), target.direction)) < PI/48;
+    public boolean isFacing(Creature target) {
+        return abs(getDiff(this.getDirection(), target.direction)) < PI/48;
     }
 }
