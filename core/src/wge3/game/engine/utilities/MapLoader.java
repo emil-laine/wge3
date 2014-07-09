@@ -13,8 +13,6 @@ import wge3.game.entity.creatures.npcs.Zombie;
 import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
 import wge3.game.engine.constants.Direction;
-import static wge3.game.engine.constants.Team.PlayerTeam;
-import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.npcs.Gunman;
 import wge3.game.entity.tilelayers.grounds.Grass;
 import wge3.game.entity.tilelayers.grounds.Lava;
@@ -35,6 +33,7 @@ import wge3.game.entity.tilelayers.grounds.Abyss;
 import wge3.game.entity.tilelayers.mapobjects.Door;
 import wge3.game.entity.tilelayers.mapobjects.items.InvisibilityPotion;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
+import wge3.game.entity.tilelayers.mapobjects.items.SpeedPotion;
 
 public final class MapLoader {
     
@@ -74,7 +73,7 @@ public final class MapLoader {
         
         int playersAdded = 0;
         
-        // Load objects:
+        // Load objects, items and creatures:
         for (int y = size-1; y >= 0; y--) {
             for (int x = 0; x < size; x++) {
                 MapObject object;
@@ -89,7 +88,11 @@ public final class MapLoader {
                     case 17: object = new Bomb(); break;
                     case 18: object = new Handgun(); break;
                     case 20: object = new HealthPack(); break;
-                    case 23: object = null; area.addCreature(new Zombie(), x, y); break;
+                    
+                    case 23:
+                        object = null;
+                        area.addCreature(new Zombie(), x, y);
+                        break;
                         
                     case 31: object = new Door(false, true); break;
                     case 32: object = new Door(true, true); break;
@@ -114,6 +117,9 @@ public final class MapLoader {
                     case 37: object = new Teleport(Color.GREEN); break;
                     case 38: object = new Teleport(Color.BLACK); break;
                         
+                    case 41: object = new SpeedPotion(); break;
+                    case 42:
+                    case 43:
                     case 44: object = new InvisibilityPotion(); break;
                         
                     default: object = null; break;
