@@ -32,6 +32,7 @@ public class Teleport extends MapObject {
     
     public void teleport(Creature teleporter) {
         List<Teleport> destinations = getTeleportDestinations();
+        if (destinations.isEmpty()) return;
         Teleport destination = destinations.get(random(destinations.size()-1));
         teleporter.setPosition(destination.getX(), destination.getY());
     }
