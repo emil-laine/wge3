@@ -33,7 +33,7 @@ import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.tilelayers.grounds.Abyss;
 import wge3.game.entity.tilelayers.mapobjects.Door;
-import wge3.game.entity.tilelayers.mapobjects.InvisibilityPotion;
+import wge3.game.entity.tilelayers.mapobjects.items.InvisibilityPotion;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
 
 public final class MapLoader {
