@@ -15,8 +15,7 @@ public final class Player extends Creature {
         
         team = PlayerTeam;
         size = 14;
-        maxHP = 100;
-        HP = maxHP;
+        HP.setMaximum(100);
         strength = 10;
         defense = 5;
         

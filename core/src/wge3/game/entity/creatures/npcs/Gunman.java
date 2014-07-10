@@ -24,8 +24,7 @@ public class Gunman extends NonPlayer{
         updateSpriteRotation();
         
         name = "Gunman";
-        maxHP = 60;
-        HP = 60;
+        HP.setMaximum(60);
         strength = 10;
         defense = 5;
         defaultSpeed = 70;
