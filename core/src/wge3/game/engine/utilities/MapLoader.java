@@ -33,6 +33,7 @@ import wge3.game.entity.tilelayers.mapobjects.items.HealthPack;
 import wge3.game.entity.tilelayers.mapobjects.items.InvisibilityPotion;
 import wge3.game.entity.tilelayers.mapobjects.items.SpeedPotion;
 import wge3.game.entity.tilelayers.mapobjects.items.guns.Handgun;
+import wge3.game.entity.tilelayers.mapobjects.items.LevitationPotion;
 import wge3.game.entity.tilelayers.mapobjects.walls.BrickWall;
 import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
 
@@ -121,7 +122,7 @@ public final class MapLoader {
                     case 38: object = new Teleport(Color.BLACK); break;
                         
                     case 41: object = new SpeedPotion(); break;
-                    case 42:
+                    case 42: object = new LevitationPotion(); break;
                     case 43:
                     case 44: object = new InvisibilityPotion(); break;
                         
