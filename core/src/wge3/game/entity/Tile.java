@@ -342,4 +342,8 @@ public class Tile implements Drawable {
     public Teleport getTeleport() {
         return (Teleport) object;
     }
+    
+    public boolean isIndoors() {
+        return ground.isIndoors();
+    }
 }

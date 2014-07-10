@@ -71,6 +71,7 @@ public abstract class Creature implements Drawable {
     
     protected boolean canSeeEverything;
     protected boolean isGhost;
+    protected boolean isFlying;
     
     protected Inventory inventory;
     protected Item selectedItem;
@@ -315,8 +316,14 @@ public abstract class Creature implements Drawable {
             return true;
         }
         
-        if (area.getTileAt(x, y).isOneWay()) {
-            OneWayFloor oneWayTile = (OneWayFloor) area.getTileAt(x, y).getGround();
+        Tile destination = area.getTileAt(x, y);
+        
+        if (this.isFlying()) {
+            return destination.isPassable() || !destination.isIndoors();
+        }
+        
+        if (destination.isOneWay()) {
+            OneWayFloor oneWayTile = (OneWayFloor) destination.getGround();
             if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
                 return false;
             }
@@ -331,9 +338,7 @@ public abstract class Creature implements Drawable {
             }
         } 
         
-        return (area.getTileAt(x, y).isPassable());
-        
-        
+        return (destination.isPassable());
     }
     
     public void useItem() {
@@ -613,8 +618,16 @@ public abstract class Creature implements Drawable {
     public void removeItem(Item item) {
         inventory.removeItem(item);
     }
-        
+    
     public boolean isFacing(Creature target) {
         return abs(getDiff(this.getDirection(), target.direction)) < PI/48;
+    }
+    
+    public boolean isFlying() {
+        return isFlying;
+    }
+    
+    public void setFlying(boolean truth) {
+        isFlying = truth;
     }
 }

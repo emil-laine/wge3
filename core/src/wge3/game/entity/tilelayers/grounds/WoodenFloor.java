@@ -8,5 +8,6 @@ public final class WoodenFloor extends Ground {
     
     public WoodenFloor() {
         sprite = new Sprite(texture, Tile.size, 0, Tile.size, Tile.size);
+        isIndoors = true;
     }
 }
