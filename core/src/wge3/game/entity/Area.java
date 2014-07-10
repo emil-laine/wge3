@@ -87,8 +87,9 @@ public final class Area implements Drawable {
     public void draw(Batch batch) {
         drawTiles(batch);
         drawBombs(batch);
-        drawCreatures(batch);
+        drawNonFlyingCreatures(batch);
         drawTrees(batch);
+        drawFlyingCreatures(batch);
     }
 
     public void drawTiles(Batch batch) {
@@ -122,15 +123,28 @@ public final class Area implements Drawable {
         tilesToDraw.add(tile);
     }
     
-    public void drawCreatures(Batch batch) {
+    public void drawNonFlyingCreatures(Batch batch) {
         batch.enableBlending();
         for (Player player : players) {
-            for (Creature creature : NPCs) {
-                if (creature.canBeSeenBy(player) || creature.isPlayer()) {
-                    creature.draw(batch);
+            for (Creature NPC : NPCs) {
+                if ((NPC.canBeSeenBy(player)) && !NPC.isFlying()) {
+                    NPC.draw(batch);
                 }
             }
-            player.draw(batch);
+            if (!player.isFlying()) player.draw(batch);
+        }
+        batch.disableBlending();
+    }
+    
+    public void drawFlyingCreatures(Batch batch) {
+        batch.enableBlending();
+        for (Player player : players) {
+            for (Creature NPC : NPCs) {
+                if (NPC.canBeSeenBy(player) && NPC.isFlying()) {
+                    NPC.draw(batch);
+                }
+            }
+            if (player.isFlying()) player.draw(batch);
         }
         batch.disableBlending();
     }
