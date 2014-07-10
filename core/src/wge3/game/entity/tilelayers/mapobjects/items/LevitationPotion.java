@@ -13,6 +13,7 @@ public final class LevitationPotion extends Item {
 
     public LevitationPotion() {
         sprite = new Sprite(texture, Tile.size, 5*Tile.size, Tile.size, Tile.size);
+        name = "levitation potion";
         duration = 10;
     }
 
