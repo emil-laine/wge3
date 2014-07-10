@@ -8,32 +8,33 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import wge3.game.engine.constants.Color;
-import wge3.game.entity.creatures.Player;
-import wge3.game.entity.creatures.npcs.Zombie;
+import wge3.game.engine.constants.Direction;
 import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
-import wge3.game.engine.constants.Direction;
+import wge3.game.entity.creatures.Player;
 import wge3.game.entity.creatures.npcs.Gunman;
-import wge3.game.entity.tilelayers.grounds.Grass;
-import wge3.game.entity.tilelayers.grounds.Lava;
-import wge3.game.entity.tilelayers.grounds.OneWayFloor;
-import wge3.game.entity.tilelayers.grounds.Water;
-import wge3.game.entity.tilelayers.grounds.WoodenFloor;
-import wge3.game.entity.tilelayers.mapobjects.items.Bomb;
-import wge3.game.entity.tilelayers.mapobjects.items.GreenPotion;
-import wge3.game.entity.tilelayers.mapobjects.items.guns.Handgun;
-import wge3.game.entity.tilelayers.mapobjects.items.HealthPack;
-import wge3.game.entity.tilelayers.mapobjects.walls.BrickWall;
-import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
-import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
-import wge3.game.entity.tilelayers.mapobjects.Tree;
+import wge3.game.entity.creatures.npcs.Zombie;
 import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.tilelayers.grounds.Abyss;
+import wge3.game.entity.tilelayers.grounds.Grass;
+import wge3.game.entity.tilelayers.grounds.Lava;
+import wge3.game.entity.tilelayers.grounds.OneWayFloor;
+import wge3.game.entity.tilelayers.grounds.Stone;
+import wge3.game.entity.tilelayers.grounds.Water;
+import wge3.game.entity.tilelayers.grounds.WoodenFloor;
 import wge3.game.entity.tilelayers.mapobjects.Door;
-import wge3.game.entity.tilelayers.mapobjects.items.InvisibilityPotion;
+import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
+import wge3.game.entity.tilelayers.mapobjects.Tree;
+import wge3.game.entity.tilelayers.mapobjects.items.Bomb;
+import wge3.game.entity.tilelayers.mapobjects.items.GreenPotion;
+import wge3.game.entity.tilelayers.mapobjects.items.HealthPack;
+import wge3.game.entity.tilelayers.mapobjects.items.InvisibilityPotion;
 import wge3.game.entity.tilelayers.mapobjects.items.SpeedPotion;
+import wge3.game.entity.tilelayers.mapobjects.items.guns.Handgun;
+import wge3.game.entity.tilelayers.mapobjects.walls.BrickWall;
+import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
 
 public final class MapLoader {
     
@@ -60,6 +61,8 @@ public final class MapLoader {
                     case 6: ground = new OneWayFloor(Direction.RIGHT); break;
                     case 7: ground = new OneWayFloor(Direction.DOWN); break;
                     case 8: ground = new OneWayFloor(Direction.LEFT); break;
+                        
+                    case 21: ground = new Stone(); break;
                                     
                     default:ground = new Abyss(); break;
                 }
