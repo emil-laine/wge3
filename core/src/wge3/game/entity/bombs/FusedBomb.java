@@ -1,6 +1,5 @@
 package wge3.game.entity.bombs;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.entity.Tile;
 
@@ -9,8 +8,7 @@ public final class FusedBomb extends Bomb {
     private int damage;
     
     public FusedBomb() {
-        sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
-        
+        setSprite(0, 2);
         range = 2;
         damage = 100;
         time = 2;

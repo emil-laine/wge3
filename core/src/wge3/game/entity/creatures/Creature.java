@@ -630,4 +630,9 @@ public abstract class Creature implements Drawable {
     public void setFlying(boolean truth) {
         isFlying = truth;
     }
+    
+    public void setSprite(int x, int y) {
+        sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
+        //updateSpriteRotation();
+    }
 }

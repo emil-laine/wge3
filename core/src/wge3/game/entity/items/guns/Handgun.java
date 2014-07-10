@@ -1,7 +1,6 @@
 
 package wge3.game.entity.items.guns;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import java.awt.geom.Line2D;
@@ -16,7 +15,7 @@ import wge3.game.entity.Tile;
 public final class Handgun extends Gun {
     
     public Handgun() {
-        sprite = new Sprite(texture, Tile.size, 2*Tile.size, Tile.size, Tile.size);
+        setSprite(1, 2);
         name = "handgun";
         range = 12;
         damage = 20;

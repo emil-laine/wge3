@@ -88,4 +88,8 @@ public abstract class Bomb implements Drawable {
     public void draw(Batch batch) {
         sprite.draw(batch);
     }
+    
+    public void setSprite(int x, int y) {
+        sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
+    }
 }

@@ -7,9 +7,7 @@
 package wge3.game.entity.tilelayers.grounds;
 
 import wge3.game.engine.constants.Direction;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.game.entity.tilelayers.Ground;
-import wge3.game.entity.Tile;
 
 /**
  *
@@ -22,14 +20,14 @@ public final class OneWayFloor extends Ground {
     public OneWayFloor(Direction direction) {
         this.direction = direction;
         
-        int i;
+        int x;
         switch (direction) {
-            case UP:    i = 4; break;
-            case RIGHT: i = 5; break;
-            case DOWN:  i = 6; break;
-            default:    i = 7; break;
+            case UP:    x = 4; break;
+            case RIGHT: x = 5; break;
+            case DOWN:  x = 6; break;
+            default:    x = 7; break;
         }
-        sprite = new Sprite(texture, i*Tile.size, 0, Tile.size, Tile.size);
+        setSprite(x, 0);
     }
     
     public Direction getDirection() {

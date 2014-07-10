@@ -6,9 +6,7 @@
 
 package wge3.game.entity.creatures.npcs;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.game.engine.ai.RangedAI;
-import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.items.guns.Handgun;
 
@@ -19,10 +17,7 @@ import wge3.game.entity.items.guns.Handgun;
 public final class Gunman extends NonPlayer{
     
     public Gunman() {
-        
-        sprite = new Sprite(texture, 4*Tile.size, 3*Tile.size, Tile.size, Tile.size);
-        updateSpriteRotation();
-        
+        setSprite(4, 3);
         name = "Gunman";
         HP.setMaximum(60);
         strength = 10;

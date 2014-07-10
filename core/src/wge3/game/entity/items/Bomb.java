@@ -1,15 +1,13 @@
 package wge3.game.entity.items;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.game.entity.bombs.FusedBomb;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
-import wge3.game.entity.Tile;
 
 public final class Bomb extends Item {
     
     public Bomb() {
-        sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
+        setSprite(0, 2);
         name = "bomb";
     }
 

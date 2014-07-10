@@ -90,4 +90,8 @@ public abstract class TileLayer implements Drawable {
     public boolean isItem() {
         return Item.class.isAssignableFrom(this.getClass());
     }
+    
+    public void setSprite(int x, int y) {
+        sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
+    }
 }

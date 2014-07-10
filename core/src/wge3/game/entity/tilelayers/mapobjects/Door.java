@@ -1,8 +1,5 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import wge3.game.entity.Tile;
-
 public final class Door extends Wall {
     
     private boolean closed;
@@ -14,7 +11,7 @@ public final class Door extends Wall {
     // private KeyType keytype; -> door with lock
     
     public Door(boolean horizontal, boolean closed) {
-        sprite = new Sprite(texture, (horizontal? 7:6)*Tile.size, (closed? 3:4)*Tile.size, Tile.size, Tile.size);
+        setSprite(horizontal? 7:6, closed? 3:4);
         destroyThreshold = 50;
         this.closed = closed;
         locked = false;
@@ -69,6 +66,6 @@ public final class Door extends Wall {
     }
     
     public void changeSprite() {
-        sprite.setRegion((horizontal? 7:6)*Tile.size, (closed? 3:4)*Tile.size, Tile.size, Tile.size);
+        setSprite(horizontal? 7:6, closed? 3:4);
     }
 }

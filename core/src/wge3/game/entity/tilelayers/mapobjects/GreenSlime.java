@@ -1,6 +1,5 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +12,7 @@ public class GreenSlime extends MapObject {
     public static float expansionProbability = 1f/64f;
     
     public GreenSlime() {
-        sprite = new Sprite(texture, Tile.size, 4*Tile.size, Tile.size, Tile.size);
-        
+        setSprite(1, 4);
         passable = false;
         blocksVision = false;
         coversWholeTile = false;

@@ -1,6 +1,5 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class Teleport extends MapObject {
             case GREEN: x = 4; break;
             default:    x = 5; break;
         }
-        sprite = new Sprite(texture, x*Tile.size, 4*Tile.size, Tile.size, Tile.size);
+        setSprite(x, 4);
     }
     
     public void teleport(Creature teleporter) {
