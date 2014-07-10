@@ -5,7 +5,7 @@ import java.util.*;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
-public class Inventory {
+public final class Inventory {
     
     private Creature owner;
     private List<InventoryEntry> items;

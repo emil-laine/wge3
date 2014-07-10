@@ -8,7 +8,7 @@ import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
-public class InvisibilityPotion extends Item {
+public final class InvisibilityPotion extends Item {
 
     private int duration; // seconds
     

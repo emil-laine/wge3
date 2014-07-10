@@ -7,7 +7,7 @@ import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
-public class SpeedPotion extends Item {
+public final class SpeedPotion extends Item {
     private float speedBoostMultiplier;
     private int duration; // seconds
     

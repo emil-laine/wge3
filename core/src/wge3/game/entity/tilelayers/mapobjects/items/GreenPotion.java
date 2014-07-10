@@ -6,7 +6,7 @@ import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 import wge3.game.entity.Tile;
 
-public class GreenPotion extends Item {
+public final class GreenPotion extends Item {
     
     public GreenPotion() {
         sprite = new Sprite(texture, 0, 4*Tile.size, Tile.size, Tile.size);

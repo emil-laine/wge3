@@ -16,7 +16,7 @@ import wge3.game.entity.tilelayers.mapobjects.items.guns.Handgun;
  *
  * @author chang
  */
-public class Gunman extends NonPlayer{
+public final class Gunman extends NonPlayer{
     
     public Gunman() {
         

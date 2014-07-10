@@ -14,7 +14,7 @@ import wge3.game.entity.tilelayers.mapobjects.Item;
  */
 
 
-public class InventoryEntry {
+public final class InventoryEntry {
     private int amount;
     private Item item;
     

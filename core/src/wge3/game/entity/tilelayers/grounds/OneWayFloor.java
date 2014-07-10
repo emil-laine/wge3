@@ -15,7 +15,7 @@ import wge3.game.entity.Tile;
  *
  * @author chang
  */
-public class OneWayFloor extends Ground {
+public final class OneWayFloor extends Ground {
     
     private Direction direction;
     
