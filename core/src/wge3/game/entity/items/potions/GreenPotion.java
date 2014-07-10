@@ -1,21 +1,21 @@
-package wge3.game.entity.tilelayers.mapobjects.items;
+package wge3.game.entity.items.potions;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import wge3.game.entity.bombs.FusedBomb;
+import wge3.game.entity.bombs.GreenSlimeBomb;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 import wge3.game.entity.Tile;
 
-public final class Bomb extends Item {
+public final class GreenPotion extends Item {
     
-    public Bomb() {
-        sprite = new Sprite(texture, 0, 2*Tile.size, Tile.size, Tile.size);
-        name = "bomb";
+    public GreenPotion() {
+        sprite = new Sprite(texture, 0, 4*Tile.size, Tile.size, Tile.size);
+        name = "green potion";
     }
-
+    
     @Override
     public void use(Creature user) {
-        FusedBomb bomb = new FusedBomb();
+        GreenSlimeBomb bomb = new GreenSlimeBomb();
         bomb.setPosition(user.getX(), user.getY());
         user.getInventory().removeItem(this);
         user.getArea().addBomb(bomb);

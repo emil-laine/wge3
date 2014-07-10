@@ -19,7 +19,7 @@ import wge3.game.engine.ai.tasks.RangedAttackTask;
 import wge3.game.engine.ai.tasks.WaitTask;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
-import wge3.game.entity.tilelayers.mapobjects.items.Gun;
+import wge3.game.entity.items.Gun;
 
 /**
  *

@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.game.engine.ai.RangedAI;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.NonPlayer;
-import wge3.game.entity.tilelayers.mapobjects.items.guns.Handgun;
+import wge3.game.entity.items.guns.Handgun;
 
 /**
  *

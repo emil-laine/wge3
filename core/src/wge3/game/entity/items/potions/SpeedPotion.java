@@ -1,32 +1,32 @@
-package wge3.game.entity.tilelayers.mapobjects.items;
+package wge3.game.entity.items.potions;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
-public final class InvisibilityPotion extends Item {
-
+public final class SpeedPotion extends Item {
+    private float speedBoostMultiplier;
     private int duration; // seconds
     
-    public InvisibilityPotion() {
-        sprite = new Sprite(texture, 3*Tile.size, 5*Tile.size, Tile.size, Tile.size);
-        name = "invisibility potion";
+    public SpeedPotion() {
+        sprite = new Sprite(texture, 0, 5*Tile.size, Tile.size, Tile.size);
+        name = "speed potion";
+        speedBoostMultiplier = 2;
         duration = 10;
     }
-    
+
     @Override
     public void use(final Creature user) {
         mStream.addMessage("*glug*");
         user.removeItem(this);
-        user.setInvisibility(true);
-        new Timer().scheduleTask(new Task() {
+        user.setCurrentSpeed((int) (user.getCurrentSpeed() * speedBoostMultiplier));
+        new Timer().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                user.setInvisibility(false);
+                user.setCurrentSpeed(user.getDefaultSpeed());
             }
         }, duration);
     }

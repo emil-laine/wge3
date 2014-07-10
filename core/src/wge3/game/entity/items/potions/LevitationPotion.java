@@ -1,4 +1,4 @@
-package wge3.game.entity.tilelayers.mapobjects.items;
+package wge3.game.entity.items.potions;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Timer;

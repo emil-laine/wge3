@@ -1,4 +1,4 @@
-package wge3.game.entity.tilelayers.mapobjects.items;
+package wge3.game.entity.items;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import wge3.game.entity.creatures.Creature;

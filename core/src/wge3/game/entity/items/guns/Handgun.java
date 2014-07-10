@@ -1,5 +1,5 @@
 
-package wge3.game.entity.tilelayers.mapobjects.items.guns;
+package wge3.game.entity.items.guns;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import static com.badlogic.gdx.math.MathUtils.cos;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.game.entity.creatures.Creature;
-import wge3.game.entity.tilelayers.mapobjects.items.Gun;
+import wge3.game.entity.items.Gun;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.entity.Tile;
 

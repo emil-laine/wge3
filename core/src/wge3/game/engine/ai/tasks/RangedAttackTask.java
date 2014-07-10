@@ -10,7 +10,7 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
-import wge3.game.entity.tilelayers.mapobjects.items.Gun;
+import wge3.game.entity.items.Gun;
 
 /**
  *

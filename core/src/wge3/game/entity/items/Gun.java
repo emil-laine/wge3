@@ -1,5 +1,5 @@
 
-package wge3.game.entity.tilelayers.mapobjects.items;
+package wge3.game.entity.items;
 
 import wge3.game.entity.tilelayers.mapobjects.Item;
 import wge3.game.entity.Tile;
