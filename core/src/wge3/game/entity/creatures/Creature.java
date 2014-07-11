@@ -633,6 +633,14 @@ public abstract class Creature implements Drawable {
     
     public void setSprite(int x, int y) {
         sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
-        //updateSpriteRotation();
+        updateSpriteRotation();
+    }
+    
+    public float getHPAsFraction() {
+        return HP.getFraction();
+    }
+    
+    public float getEnergyAsFraction() {
+        return energy.getFraction();
     }
 }

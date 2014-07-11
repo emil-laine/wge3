@@ -48,12 +48,12 @@ public final class PlayState extends GameState {
     public void init() {
         playerViewport = new Rectangle(340, 60, 600, 600);
         camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
-        hud = new HUD();
         
         mStream = new MessageStream(WIDTH - 280, HEIGHT - 60, this);
         area = new Area(map);
         player = area.getPlayers().get(0);
         player.setCamera(camera);
+        hud = new HUD(player);
         
         camera.translate(player.getX(), player.getY());
         camera.update();

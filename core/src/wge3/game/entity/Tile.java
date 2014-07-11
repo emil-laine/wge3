@@ -139,19 +139,26 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight()) || creature.canSeeEverything();
+        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.isFlying()) || creature.canSeeEverything();
     }
     
-    public boolean canBeSeenFrom(float x, float y, int sight) {
+    public boolean canBeSeenFrom(float x, float y, int sight, boolean aerial) {
         if (!getArea().hasLocation(x, y)) throw new IllegalArgumentException();
         
         if (getDistanceTo(x, y) > sight * Tile.size) return false;
         
         for (Tile tile : area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())) {
-            if (tile.blocksVision()) return false;
+            if (tile.blocksVision()) {
+                if (!aerial) return false;
+                else if (tile.isIndoors()) return false;
+            }
         }
         
         return true;
+    }
+    
+    public boolean canBeSeenFrom(float x, float y, int range) {
+        return canBeSeenFrom(x, y, range, false);
     }
     
     // Calculates distance to middlepoint of tile

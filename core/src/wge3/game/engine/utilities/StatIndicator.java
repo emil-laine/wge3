@@ -7,8 +7,7 @@ public final class StatIndicator {
     public StatIndicator() {}
     
     public StatIndicator(int maximumValue) {
-        this.maximumValue = maximumValue;
-        currentValue = maximumValue;
+        setMaximum(maximumValue);
     }
     
     public void decrease(int amount) {

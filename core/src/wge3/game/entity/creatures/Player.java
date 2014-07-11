@@ -1,11 +1,15 @@
 package wge3.game.entity.creatures;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import static wge3.game.engine.constants.Team.PlayerTeam;
 
 public final class Player extends Creature {
     
     private OrthographicCamera camera;
+    private ShapeRenderer shapeRenderer;
+    private boolean showHP;
     
     public Player() {
         setSprite(4, 3);
@@ -16,6 +20,8 @@ public final class Player extends Creature {
         defense = 5;
         
         picksUpItems = true;
+        showHP = true;
+        shapeRenderer = new ShapeRenderer();
     }
 
     public void setCamera(OrthographicCamera camera) {
@@ -29,5 +35,10 @@ public final class Player extends Creature {
         super.move(dx, dy);
         camera.translate(getX() - oldX, getY() - oldY);
         camera.update();
+    }
+    
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
     }
 }

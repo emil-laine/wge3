@@ -37,9 +37,7 @@ public final class MessageStream implements Drawable {
     @Override
     public void draw(Batch batch) {
         int line = 0;
-        font.draw(batch, "HP: " + game.getPlayer().getHP() + "/" + game.getPlayer().getMaxHP(), x, y - line*lineSpacing);
         line++;
-        font.draw(batch, "Energy: " + game.getPlayer().getEnergy() + "/" + game.getPlayer().getMaxEnergy(), x, y - line*lineSpacing);
         line++;
         font.draw(batch, "Running: " + (game.getPlayer().isRunning() ? "on" : "off"), x, y - line*lineSpacing);
         line++;
