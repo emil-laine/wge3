@@ -1,10 +1,13 @@
 package wge3.game.engine.gamestates;
 
-import wge3.game.engine.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import wge3.game.engine.GameState;
 import wge3.game.engine.GameStateManager;
+import wge3.game.engine.constants.Statistic;
+import wge3.game.engine.utilities.Statistics;
+import wge3.game.entity.creatures.Creature;
 
 // Remember to implement statistics
 
@@ -12,6 +15,7 @@ public final class EndGameState extends GameState {
 
     private BitmapFont font;
     private boolean result;
+    private Statistics statistics;
     
     public EndGameState(GameStateManager gsm, boolean result) {
         super(gsm);
@@ -39,6 +43,10 @@ public final class EndGameState extends GameState {
         }
         else {
             font.draw(batch, "You lost!", maxX / 2, maxY / 2);
+            String player = statistics.getPlayers().get(0);
+            font.draw(batch, "You took " + statistics.getStatFromPlayer(player, Statistic.DAMAGETAKEN) + " damage", maxX / 2, maxY / 4);
+            
+            font.draw(batch, "You dealt " + statistics.getStatFromPlayer(player, Statistic.DAMAGEDEALT) + " damage", maxX / 2, maxY / 3);
         }
         batch.end();
     }
@@ -53,5 +61,9 @@ public final class EndGameState extends GameState {
     @Override
     public void dispose() {
         font.dispose();
+    }
+    
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
     }
 }

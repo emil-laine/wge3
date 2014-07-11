@@ -115,7 +115,7 @@ public final class Area implements Drawable {
     }
     
     public Tile getTileAt(int x, int y) {
-        if (!hasLocation(x, y)) throw new IllegalArgumentException();
+        if (!hasLocation(x, y)) throw new IllegalArgumentException("Not a valid location!");
         return tiles[x][y];
     }
     
@@ -301,7 +301,7 @@ public final class Area implements Drawable {
         float angle = atan2(finalY-startY, finalX-startX);
         float xUnit = cos(angle);
         float yUnit = sin(angle);
-        
+  
         int startTileX = floatPosToTilePos(startX);
         int startTileY = floatPosToTilePos(startY);
         int finalTileX = floatPosToTilePos(finalX);

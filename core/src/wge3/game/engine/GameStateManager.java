@@ -1,10 +1,11 @@
 package wge3.game.engine;
 
 import com.badlogic.gdx.Gdx;
-import wge3.game.engine.gamestates.MenuState;
-import wge3.game.engine.gamestates.EndGameState;
-import wge3.game.engine.gamestates.PlayState;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import wge3.game.engine.gamestates.EndGameState;
+import wge3.game.engine.gamestates.MenuState;
+import wge3.game.engine.gamestates.PlayState;
+import wge3.game.engine.utilities.Statistics;
 
 public final class GameStateManager {
     
@@ -13,6 +14,7 @@ public final class GameStateManager {
     
     private GameState currentState;
     private SpriteBatch batch;
+    private Statistics statistics;
     
     private String nextMap;
     private boolean gameResult; // true means win, false means lose
@@ -36,7 +38,9 @@ public final class GameStateManager {
                 break;
                 
             case 2:
-                currentState = new EndGameState(this, gameResult);
+                EndGameState endgamestate = new EndGameState(this, gameResult);
+                endgamestate.setStatistics(statistics);
+                currentState = endgamestate;
                 break;
         }
     }
@@ -59,5 +63,9 @@ public final class GameStateManager {
     //true means win, false means lose
     public void setGameEnd(boolean result) {
         this.gameResult = result;
+    }
+    
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
     }
 }

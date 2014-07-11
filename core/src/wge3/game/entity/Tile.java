@@ -3,18 +3,19 @@ package wge3.game.entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import wge3.game.entity.bombs.Bomb;
-import wge3.game.entity.creatures.Creature;
-import wge3.game.entity.tilelayers.grounds.OneWayFloor;
-import wge3.game.entity.tilelayers.mapobjects.Tree;
-import wge3.game.entity.tilelayers.Ground;
-import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.engine.gui.Drawable;
 import static wge3.game.entity.Area.floatPosToTilePos;
+import wge3.game.entity.bombs.Bomb;
+import wge3.game.entity.creatures.Creature;
+import wge3.game.entity.tilelayers.Ground;
+import wge3.game.entity.tilelayers.MapObject;
+import wge3.game.entity.tilelayers.grounds.OneWayFloor;
 import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
+import wge3.game.entity.tilelayers.mapobjects.Tree;
 
 public class Tile implements Drawable {
     
@@ -143,7 +144,7 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenFrom(float x, float y, int sight, boolean aerial) {
-        if (!getArea().hasLocation(x, y)) throw new IllegalArgumentException();
+        if (!getArea().hasLocation(x, y)) throw new IllegalArgumentException("Not a valid location!");
         
         if (getDistanceTo(x, y) > sight * Tile.size) return false;
         
@@ -306,7 +307,7 @@ public class Tile implements Drawable {
     public int getMiddleY() {
         return getY()*Tile.size + Tile.size/2;
     }
-    
+                   
     public boolean isOneWay() {
         return getGround().getClass() == OneWayFloor.class;
     }

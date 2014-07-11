@@ -4,9 +4,11 @@ package wge3.game.entity.items.guns;
 import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import java.awt.geom.Line2D;
+import static java.lang.Math.max;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import wge3.game.engine.constants.Statistic;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.items.Gun;
 import static wge3.game.engine.gamestates.PlayState.mStream;
@@ -69,6 +71,8 @@ public final class Handgun extends Gun {
         
         // Always deals the same amount of damage, no matter what ptSegDist was.
         // This should be changed: lower ptSegDist -> greater damage.
+        // Remember to change statistics counting if you do this ^!!
         target.dealDamage(getDamage());
+        user.getStatistics().addStatToPlayer(user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefence(), 1));
     }
 }

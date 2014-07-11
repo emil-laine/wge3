@@ -11,18 +11,22 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
+import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.LinkedList;
 import java.util.List;
 import static wge3.game.engine.ai.tasks.TurnTask.getDiff;
 import static wge3.game.engine.constants.Direction.*;
+import wge3.game.engine.constants.Statistic;
 import wge3.game.engine.constants.Team;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.engine.gui.Drawable;
 import wge3.game.engine.utilities.StatIndicator;
+import wge3.game.engine.utilities.Statistics;
 import wge3.game.entity.Area;
 import static wge3.game.entity.Area.floatPosToTilePos;
 import wge3.game.entity.Tile;
@@ -34,6 +38,7 @@ import wge3.game.entity.tilelayers.mapobjects.Teleport;
 public abstract class Creature implements Drawable {
 
     protected Area area;
+    protected Statistics statistics;
     protected float x;
     protected float y;
     protected int previousTileX;
@@ -304,6 +309,10 @@ public abstract class Creature implements Drawable {
         if (currentTile.hasItem()) {
             inventory.addItem((Item) currentTile.getObject());
             currentTile.removeObject();
+            if (this.isPlayer()) {
+                statistics.addStatToPlayer(this, Statistic.ITEMSPICKEDUP, 1);
+            }
+            
         }
     }
 
@@ -343,7 +352,13 @@ public abstract class Creature implements Drawable {
     
     public void useItem() {
         if (selectedItem == null) attackUnarmed();
-        else selectedItem.use(this);
+        else { 
+            selectedItem.use(this);
+            if (this.isPlayer()) {
+                statistics.addStatToPlayer(this, Statistic.ITEMSUSED, 1);
+            }
+            
+        }
     }
 
     public void changeItem() {
@@ -391,7 +406,11 @@ public abstract class Creature implements Drawable {
     }
 
     public void dealDamage(int amount) {
-        HP.decrease(max(amount - defense, 1));
+        int decreaseAmount = max(amount - defense, 1);
+        HP.decrease(decreaseAmount);
+        if (this.isPlayer()) {
+            statistics.addStatToPlayer(this, Statistic.DAMAGETAKEN, decreaseAmount);
+        }
     }
 
     public boolean isDead() {
@@ -415,6 +434,9 @@ public abstract class Creature implements Drawable {
 
     public void regenerateHP() {
         HP.increase();
+        if (this.isPlayer()) {
+            statistics.addStatToPlayer(this, Statistic.HEALTHREGAINED, 1);
+        } 
     }
     
     public void updateSpritePosition() {
@@ -432,6 +454,10 @@ public abstract class Creature implements Drawable {
         for (Creature creature : area.getCreatures()) {
             if (dest.contains(creature.getX(), creature.getY())) {
                 creature.dealDamage(this.strength);
+                if (this.isPlayer()) {
+                    statistics.addStatToPlayer(this, Statistic.DAMAGEDEALT, strength);
+                }
+                
             }
         }
         area.getTileAt(destX, destY).dealDamage(this.strength);
@@ -543,6 +569,10 @@ public abstract class Creature implements Drawable {
     
     public void addHP(int amount) {
         HP.increase(amount);
+        if (this.isPlayer()) {
+            statistics.addStatToPlayer(this, Statistic.HEALTHREGAINED, amount);
+        }
+        
     }
     
     public void addEnergy(int amount) {
@@ -642,5 +672,17 @@ public abstract class Creature implements Drawable {
     
     public float getEnergyAsFraction() {
         return energy.getFraction();
+    }
+    
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
+    }
+    
+    public Statistics getStatistics() {
+        return statistics;
+    }
+    
+    public int getDefence() {
+        return this.defense;
     }
 }

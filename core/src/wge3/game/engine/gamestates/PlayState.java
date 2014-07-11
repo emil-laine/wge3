@@ -1,29 +1,32 @@
 package wge3.game.engine.gamestates;
 
-import wge3.game.engine.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
+import wge3.game.engine.GameState;
+import wge3.game.engine.GameStateManager;
+import static wge3.game.engine.GameStateManager.HEIGHT;
+import static wge3.game.engine.GameStateManager.WIDTH;
+import wge3.game.engine.InputHandler;
+import wge3.game.engine.gui.HUD;
+import wge3.game.engine.gui.MessageStream;
+import wge3.game.engine.utilities.Statistics;
+import wge3.game.entity.Area;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.creatures.Player;
 import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
-import wge3.game.engine.GameStateManager;
-import static wge3.game.engine.GameStateManager.HEIGHT;
-import static wge3.game.engine.GameStateManager.WIDTH;
-import wge3.game.engine.gui.HUD;
-import wge3.game.engine.InputHandler;
-import wge3.game.engine.gui.MessageStream;
-import wge3.game.entity.Area;
 
 public final class PlayState extends GameState {
     
     private HUD hud;
     private OrthographicCamera camera;
     private Rectangle playerViewport;
+    private Statistics statistics;
     
     private Area area;
     private Player player;
@@ -32,6 +35,7 @@ public final class PlayState extends GameState {
 
     public PlayState(GameStateManager gsm, String map) {
         super(gsm);
+        this.statistics = new Statistics();
         this.map = map;
         init();
     }
@@ -52,6 +56,7 @@ public final class PlayState extends GameState {
         mStream = new MessageStream(WIDTH - 280, HEIGHT - 60, this);
         area = new Area(map);
         player = area.getPlayers().get(0);
+        player.setStatistics(statistics);
         player.setCamera(camera);
         hud = new HUD(player);
         
@@ -75,6 +80,7 @@ public final class PlayState extends GameState {
                 
                 if (area.getPlayers().isEmpty()) {
                     gsm.setGameEnd(false);
+                    gsm.setStatistics(statistics);
                     gsm.setState(2);
                     return;
                 }
