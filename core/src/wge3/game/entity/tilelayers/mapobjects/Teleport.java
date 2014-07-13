@@ -4,6 +4,7 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.ArrayList;
 import java.util.List;
 import wge3.game.engine.constants.Color;
+import wge3.game.engine.constants.Statistic;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.MapObject;
@@ -34,6 +35,10 @@ public class Teleport extends MapObject {
         if (destinations.isEmpty()) return;
         Teleport destination = destinations.get(random(destinations.size()-1));
         teleporter.setPosition(destination.getX(), destination.getY());
+        
+        if (teleporter.isPlayer()) {
+            teleporter.getStatistics().addStatToPlayer(teleporter, Statistic.TELEPORTERSUSED, 1);
+        }
     }
 
     public Color getColor() {

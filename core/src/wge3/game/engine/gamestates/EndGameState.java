@@ -49,6 +49,10 @@ public final class EndGameState extends GameState {
             font.draw(batch, "You dealt " + statistics.getStatFromPlayer(player, Statistic.DAMAGEDEALT) + " damage", maxX / 2, maxY / 3);
             
             font.draw(batch, "You regained " + statistics.getStatFromPlayer(player, Statistic.HEALTHREGAINED) + " health", maxX / 2, maxY / 5);
+            
+            font.draw(batch, "You fired " + statistics.getStatFromPlayer(player, Statistic.GUNSHOTSFIRED) + " shots", maxX / 2, maxY / 6);
+            
+            font.draw(batch, "You used " + statistics.getStatFromPlayer(player, Statistic.TELEPORTERSUSED) + " teleporters", maxX / 2, maxY / 7);
         }
         batch.end();
     }

@@ -73,6 +73,10 @@ public final class Handgun extends Gun {
         // This should be changed: lower ptSegDist -> greater damage.
         // Remember to change statistics counting if you do this ^!!
         target.dealDamage(getDamage());
-        user.getStatistics().addStatToPlayer(user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefence(), 1));
+        if (user.isPlayer()) {
+            user.getStatistics().addStatToPlayer(user, Statistic.GUNSHOTSFIRED, 1);
+            user.getStatistics().addStatToPlayer(user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefence(), 1));
+        }
+        
     }
 }
