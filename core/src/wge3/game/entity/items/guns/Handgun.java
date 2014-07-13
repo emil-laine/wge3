@@ -74,5 +74,6 @@ public final class Handgun extends Gun {
         // Remember to change statistics counting if you do this ^!!
         target.dealDamage(getDamage());
         user.getStatistics().addStatToPlayer(user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefence(), 1));
+        user.getStatistics().addStatToPlayer(user, Statistic.GUNSHOTSFIRED, 1);
     }
 }
