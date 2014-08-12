@@ -23,7 +23,7 @@ public final class LevitationPotion extends Item {
         new Timer().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                user.setFlying(false);
+                    user.setFlying(false);
             }
         }, duration);
     }

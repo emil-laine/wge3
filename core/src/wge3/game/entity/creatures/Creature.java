@@ -347,6 +347,9 @@ public abstract class Creature implements Drawable {
             }
         } 
         
+        if (!this.isOnPassableObject() && !this.getTile().isIndoors()) {
+            return true;
+        }
         return (destination.isPassable());
     }
     
@@ -686,5 +689,9 @@ public abstract class Creature implements Drawable {
     
     public int getDefence() {
         return this.defense;
+    }
+    
+    public boolean isOnPassableObject() {
+        return (this.getTile().isPassable());
     }
 }
