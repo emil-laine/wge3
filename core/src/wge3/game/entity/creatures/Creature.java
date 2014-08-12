@@ -355,7 +355,10 @@ public abstract class Creature implements Drawable {
     
     public void useItem() {
         if (this.isInvisible()) {
-            this.setInvisibility(false);
+            if (!selectedItem.isPotion()) {
+                this.setInvisibility(false);
+            }
+            
         }
         if (selectedItem == null) attackUnarmed();
         else { 
