@@ -13,7 +13,15 @@ import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Player;
 import wge3.game.entity.creatures.npcs.Gunman;
+import wge3.game.entity.creatures.npcs.Thief;
 import wge3.game.entity.creatures.npcs.Zombie;
+import wge3.game.entity.items.Bomb;
+import wge3.game.entity.items.HealthPack;
+import wge3.game.entity.items.guns.Handgun;
+import wge3.game.entity.items.potions.GreenPotion;
+import wge3.game.entity.items.potions.InvisibilityPotion;
+import wge3.game.entity.items.potions.LevitationPotion;
+import wge3.game.entity.items.potions.SpeedPotion;
 import wge3.game.entity.tilelayers.Ground;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.tilelayers.grounds.Abyss;
@@ -27,13 +35,6 @@ import wge3.game.entity.tilelayers.mapobjects.Door;
 import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
 import wge3.game.entity.tilelayers.mapobjects.Tree;
-import wge3.game.entity.items.Bomb;
-import wge3.game.entity.items.potions.GreenPotion;
-import wge3.game.entity.items.HealthPack;
-import wge3.game.entity.items.potions.InvisibilityPotion;
-import wge3.game.entity.items.potions.SpeedPotion;
-import wge3.game.entity.items.guns.Handgun;
-import wge3.game.entity.items.potions.LevitationPotion;
 import wge3.game.entity.tilelayers.mapobjects.walls.BrickWall;
 import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
 
@@ -123,7 +124,9 @@ public final class MapLoader {
                         
                     case 41: object = new SpeedPotion(); break;
                     case 42: object = new LevitationPotion(); break;
-                    case 43:
+                    case 43: object = object = null;
+                        area.addCreature(new Thief(), x, y);
+                        break;
                     case 44: object = new InvisibilityPotion(); break;
                         
                     default: object = null; break;

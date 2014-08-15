@@ -273,15 +273,19 @@ public class Tile implements Drawable {
     }
     
     public boolean isAnOKMoveDestinationFrom(float startX, float startY) {
-        if (!isPassable() || drainsHP()) return false;
+        if (isGoodMoveDest()) return false;
         
         for (Tile tile : getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())) {
             // Don't call tile.blocksVision() here;
             // it must be called before calling this method.
-            if (tile.drainsHP() || !tile.isPassable()) return false;
+            if (isGoodMoveDest()) return false;
         }
         
         return true;
+    }
+
+    public boolean isGoodMoveDest() {
+        return !isPassable() || drainsHP();
     }
     
     public int getLeftX() {
