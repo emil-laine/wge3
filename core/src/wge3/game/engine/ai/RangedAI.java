@@ -67,11 +67,7 @@ public class RangedAI extends AI {
         public boolean isWithinGunRange(Creature enemy) {
             Gun gun = (Gun) NPC.getSelectedItem();
             
-            if (super.NPC.getDistanceTo(enemy) <= gun.getRange()) {
-                return true;
-            }
-            
-            return false;
+            return super.NPC.getDistanceTo(enemy) <= gun.getRange();
         }
         
 }

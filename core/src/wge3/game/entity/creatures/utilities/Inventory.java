@@ -16,7 +16,32 @@ public final class Inventory {
         items = new ArrayList<InventoryEntry>();
         selectedItem = 0;
     }
-
+    
+    public Item getItem(Item item) {
+        for (InventoryEntry inventoryEntry : items) {
+            if (inventoryEntry.getItem().equals(item)) {
+                return inventoryEntry.getItem();
+            }
+        }
+        return null;
+    }
+    
+    //gets random item, not #0
+    public Item getRandomItem() {
+        if (items.size() == 1 || items.isEmpty()) {
+            return null;
+        }
+        if (items.size() == 2) {
+            return items.get(1).getItem();
+        }
+        
+        Random random = new Random();
+        int randNumber = random.nextInt(items.size()-1)+1;
+        
+        return items.get(randNumber).getItem();
+        
+    }
+    
     public List<Item> getItems() {
         List<Item> newList = new ArrayList<Item>();
         for (InventoryEntry item : items) {
@@ -57,6 +82,10 @@ public final class Inventory {
                 entry.removeAmount(amount);
             }
         }
+    }
+    
+    public void removeAllOfAKind(Item item) {
+        removeItem(item, getAmount(item));
     }
     
     public int getAmount(Item item) {

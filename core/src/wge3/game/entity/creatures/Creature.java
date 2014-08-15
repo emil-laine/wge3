@@ -18,7 +18,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import static wge3.game.engine.ai.tasks.TurnTask.getDiff;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.Statistic;
@@ -576,6 +576,17 @@ public abstract class Creature implements Drawable {
             }
         }
         return enemiesWithinFOV;
+    }
+    
+    public List<Creature> getFriendliesWithinFOV() {
+        List<Creature> friendlies = new ArrayList<Creature>();
+        for (Creature creature : getArea().getCreatures()) {
+            if (!creature.isEnemyOf(this) && creature.canBeSeenBy(this)) {
+                friendlies.add(creature);
+            }
+        }
+        return friendlies;
+        
     }
     
     public void addHP(int amount) {
