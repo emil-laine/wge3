@@ -3,7 +3,6 @@ package wge3.game.entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.game.engine.gui.Drawable;

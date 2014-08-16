@@ -1,22 +1,12 @@
 package wge3.game.engine.ai;
 
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import java.util.List;
 import wge3.game.engine.ai.tasks.*;
-import wge3.game.engine.utilities.pathfinding.PathFinder;
 import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
-import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.creatures.npcs.Thief;
 
 /**

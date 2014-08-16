@@ -9,7 +9,6 @@ package wge3.game.engine.utilities;
 import java.util.*;
 import wge3.game.engine.constants.Statistic;
 import wge3.game.entity.creatures.Creature;
-import wge3.game.entity.creatures.Player;
 /**
  *
  * @author chang

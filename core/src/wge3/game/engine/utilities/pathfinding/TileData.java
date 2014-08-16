@@ -1,11 +1,6 @@
 
 package wge3.game.engine.utilities.pathfinding;
 
-import java.util.LinkedList;
-import java.util.List;
-import wge3.game.entity.Area;
-import wge3.game.entity.Tile;
-
 /**
  *
  * @author chang

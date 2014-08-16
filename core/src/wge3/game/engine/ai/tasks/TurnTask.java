@@ -4,7 +4,6 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static java.lang.Math.abs;
-import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 
 public final class TurnTask extends AITask {

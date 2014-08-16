@@ -7,7 +7,6 @@ import wge3.game.engine.GameState;
 import wge3.game.engine.GameStateManager;
 import wge3.game.engine.constants.Statistic;
 import wge3.game.engine.utilities.Statistics;
-import wge3.game.entity.creatures.Creature;
 
 // Remember to implement statistics
 

@@ -7,12 +7,7 @@
 package wge3.game.engine.ai;
 
 import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
-import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import java.util.concurrent.Executor;
 import wge3.game.engine.ai.tasks.MeleeAttackTask;
 import wge3.game.engine.ai.tasks.MoveTask;
 import wge3.game.engine.ai.tasks.RangedAttackTask;
