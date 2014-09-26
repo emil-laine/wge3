@@ -27,7 +27,8 @@ import wge3.game.engine.gui.Drawable;
 
 public final class Area implements Drawable {
     private Tile[][] tiles;
-    private int size;
+    private int width;
+    private int height;
     
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
@@ -67,9 +68,10 @@ public final class Area implements Drawable {
         return allTiles;
     }
     
-    public void createTiles(int size) {
-        this.size = size;
-        tiles = new Tile[size][size];
+    public void createTiles(int width, int height) {
+        this.width = width;
+        this.height = height;
+        tiles = new Tile[width][height];
     }
     
     public void addTile(Tile tile, int x, int y) {
@@ -79,8 +81,12 @@ public final class Area implements Drawable {
         tiles[x][y] = tile;
     }
 
-    public int getSize() {
-        return size;
+    public int getWidth() {
+        return width;
+    }
+    
+    public int getHeight() {
+        return height;
     }
 
     @Override
@@ -105,9 +111,9 @@ public final class Area implements Drawable {
     
     public boolean hasLocation(int x, int y) {
         return x >= 0
-            && x < this.getSize()
+            && x < this.getWidth()
             && y >= 0
-            && y < this.getSize();
+            && y < this.getHeight();
     }
     
     public Tile getTileAt(float x, float y) {
@@ -208,7 +214,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = tiles[MathUtils.random(size-1)][MathUtils.random(size-1)];
+            dest = tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
         } while (dest.hasObject());
         addCreature(guy, dest.getX(), dest.getY());
     }
@@ -244,7 +250,7 @@ public final class Area implements Drawable {
         // If every tile has an object, this will loop infinitely.
         Tile dest;
         do {
-            dest = tiles[MathUtils.random(size-1)][MathUtils.random(size-1)];
+            dest = tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
         } while (dest.hasObject());
         addItem(item, dest.getX(), dest.getY());
     }

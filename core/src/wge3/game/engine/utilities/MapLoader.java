@@ -41,8 +41,9 @@ import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
 public final class MapLoader {
     
     public void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
-        int size = getSize(mapName);
-        area.createTiles(size);
+        int w = getWidth(mapName);
+        int h = getHeight(mapName);
+        area.createTiles(w, h);
 
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
         mapLoader.useDelimiter("[," + getLineSeparator() + "]");
@@ -50,8 +51,8 @@ public final class MapLoader {
         for (int i = 0; i < 7; i++) mapLoader.nextLine();
         
         // Create tiles and load grounds:
-        for (int y = size-1; y >= 0; y--) {
-            for (int x = 0; x < size; x++) {
+        for (int y = h-1; y >= 0; y--) {
+            for (int x = 0; x < w; x++) {
                 Ground ground;
                 switch (mapLoader.nextInt()) {
                     case 1: ground = new Grass(); break;
@@ -79,8 +80,8 @@ public final class MapLoader {
         int playersAdded = 0;
         
         // Load objects, items and creatures:
-        for (int y = size-1; y >= 0; y--) {
-            for (int x = 0; x < size; x++) {
+        for (int y = h-1; y >= 0; y--) {
+            for (int x = 0; x < w; x++) {
                 MapObject object;
                 switch (mapLoader.nextInt()) {
                     case 0:  object = null; break;
@@ -145,10 +146,14 @@ public final class MapLoader {
         mapLoader.close();
     }
     
-    public int getSize(String mapName) throws IOException {
+    public int getWidth(String mapName) throws IOException {
         Element mapData = new XmlReader().parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
         return Integer.parseInt(mapData.getAttribute("width"));
-        // "width" because WGE3 doesn't support non-square maps yet.
+    }
+    
+    public int getHeight(String mapName) throws IOException {
+        Element mapData = new XmlReader().parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
+        return Integer.parseInt(mapData.getAttribute("height"));
     }
     
     public String getLineSeparator() {
