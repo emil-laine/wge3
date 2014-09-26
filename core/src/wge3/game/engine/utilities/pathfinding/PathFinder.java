@@ -11,94 +11,136 @@ import wge3.game.entity.Tile;
 
 
 public class PathFinder {
-    
-    
-    public static List<Tile> findPath(Tile startingTile, Tile endTile) {
-        
-        
-        
-        List<TileData> tiles = new ArrayList<TileData>();
-        Area area = endTile.getArea();
-        //THIS IS THE QUEUE
-        List<TileData> queue = new ArrayList<TileData>();
-        queue.add(new TileData(endTile.getX(), endTile.getY(), endTile.isGoodMoveDest()));
-        
-        //THIS IS THE LOOP FOR THE QUEUE
-        for (ListIterator<TileData> it = queue.listIterator(); it.hasNext();) {
 
-            TileData nextTile = it.next();
-            
-            if (nextTile.getX() == startingTile.getX() && nextTile.getY() == startingTile.getY() ) {
-                break;
-            }
-            
-            int x = nextTile.getX();
-            int y = nextTile.getY();
-            int counter = nextTile.getCounter()+1;
-            
-            //create shortlist for eliminating walls
-            TileData[] list = new TileData[4];
-            if (area.hasLocation(x, y+1))
-                list[0] = new TileData(x, y+1, counter, area.getTileAt(x, y+1).isGoodMoveDest());
-            if (area.hasLocation(x+1, y))
-                list[1] = new TileData(x+1, y, counter, area.getTileAt(x+1, y).isGoodMoveDest());
-            if (area.hasLocation(x, y-1))
-                list[2] = new TileData(x, y-1, counter, area.getTileAt(x, y-1).isGoodMoveDest());
-            if (area.hasLocation(x-1, y))
-                list[3] = new TileData(x-1, y, counter, area.getTileAt(x-1, y).isGoodMoveDest());
-            
-            //add only passable objects
-            for (int i = 0; i < 4; i++) {
-                if (list[i] != null && list[i].isPassable()) {
-                    it.add(list[i]);
-                }
-            } 
-        }
-        int lastCounter = queue.get(queue.size()-1).getCounter();
-        
-        List<TileData> moveList = new ArrayList<TileData>();
-        TileData currentTileData = new TileData(endTile.getX(), endTile.getY(), true);
-        
-        for (int i = lastCounter; i > 0; i--) {
-            List<TileData> shortlist = new ArrayList<TileData>();
-            for (TileData tile : queue) {
-                
-                
-                int nextCounter = tile.getCounter();
-                
-                if (nextCounter == i && currentTileData.isNextTo(tile)) {
-                    shortlist.add(tile);
-                }
-            } 
-            moveList.add(shortlist.get(random(shortlist.size()-1)));
-          
-            
+    public static List<Tile> findPath(Tile start, Tile dest) {
+        if (!start.isPassable() || !dest.isPassable()) {
+            throw new IllegalArgumentException("error: start or dest not passable");
         }
         
-        List<Tile> finalList = new ArrayList<Tile>();
-        Tile currentTile = endTile;
-        
-        for (int i = 1; i < moveList.size(); i++) {
-            
-            Tile tile = area.getTileAt(moveList.get(i).getX(), moveList.get(i).getY());
-            
-            
-            if (!tile.isAnOKMoveDestinationFrom(currentTile.getX(), currentTile.getY())) {
-                finalList.add(area.getTileAt(moveList.get(i-1).getX(), moveList.get(i-1).getY()));
-                
-                currentTile = area.getTileAt(moveList.get(i-1).getX(), moveList.get(i-1).getY());
-            }
+        if (start.equals(dest)) {
+            throw new IllegalArgumentException("start == dest");
         }
-        finalList.add(startingTile);
         
-        for (Tile tile : finalList) {
-            System.out.println("x: " + tile.getX() + " y: " + tile.getY());
-            
-        }
-        System.out.println("asdasdasdasdasdasdasdasdasdasd");
-        return finalList;
+        List<TileData> allTiles = calculateTileData(dest);
+        List<TileData> route = calculateRoute(allTiles, start);
+        List<Tile> waypoints = calculateWaypoints(route, dest.getArea());
+        return waypoints;
     }
     
+    private static List<TileData> calculateTileData(Tile origin) {
+        Area area = origin.getArea();
+        int c = 0;
+        List<TileData> tileData = new ArrayList<TileData>();
+        List<TileData> queue = new ArrayList<TileData>();
+        queue.add(new TileData(origin.getX(), origin.getY(), true));
+        
+        int dataAdded;
+        
+        do {
+            c++;
+            
+            List<TileData> toAdd = getNearbyTileData(c, queue, area);
+            queue.clear();
+            
+            // add new tiledata to queue if it isn't already there:
+            dataAdded = 0;
+            for (TileData newData : toAdd) {
+                boolean alreadyExists = false;
+                for (TileData oldData : tileData) {
+                    if (oldData.getX() == newData.getX() && oldData.getY() == newData.getY()) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+                if (!alreadyExists) {
+                    tileData.add(newData);
+                    queue.add(newData);
+                    dataAdded++;
+                }
+            }
+            // when there's no new data left to add:
+        } while (dataAdded != 0);
+        
+        return tileData;
+    }
     
+    private static List<TileData> getNearbyTileData(int counter, List<TileData> tiles, Area area){
+        List<TileData> newTiles = new ArrayList<TileData>();
+        
+        for (TileData tile : tiles) {
+            int x = tile.getX();
+            int y = tile.getY();
+            if (area.hasLocation(x+1, y) && area.getTileAt(x+1, y).isGoodMoveDest()) {
+                newTiles.add(new TileData(x+1, y, counter));
+            }
+            if (area.hasLocation(x-1, y) && area.getTileAt(x-1, y).isGoodMoveDest()) {
+                newTiles.add(new TileData(x-1, y, counter));
+            }
+            if (area.hasLocation(x, y+1) && area.getTileAt(x, y+1).isGoodMoveDest()) {
+                newTiles.add(new TileData(x, y+1, counter));
+            }
+            if (area.hasLocation(x, y-1) && area.getTileAt(x, y-1).isGoodMoveDest()) {
+                newTiles.add(new TileData(x, y-1, counter));
+            }
+        }
+        
+        return newTiles;
+    }
     
+    private static List<TileData> calculateRoute(List<TileData> tileData, Tile start) {
+        List<TileData> route = new ArrayList<TileData>();
+        
+        int startX = start.getX();
+        int startY = start.getY();
+        int c = 0;
+        
+        // find starting point
+        for (TileData tile : tileData) {
+            if (tile.getX() == startX && tile.getY() == startY) {
+                c = tile.getCounter() - 1;
+                route.add(tile);
+            }
+        }
+        
+        TileData last;
+        
+        do {
+            last = route.get(route.size() - 1);
+            List<TileData> alternatives = new ArrayList<TileData>();
+            
+            // this loop is redundant, because the elements in tileData
+            // are ordered by their counter variable in ascending order
+            for (TileData next : tileData) {
+                if (next.getCounter() == c && next.isNextTo(last)) {
+                    alternatives.add(next);
+                }
+            }
+            route.add(alternatives.get(random(alternatives.size() - 1)));
+            c--;
+        } while (c > 0);
+        
+        route.add(tileData.get(0)); // add the last one
+        
+        return route;
+    }
+    
+    private static List<Tile> calculateWaypoints(List<TileData> route, Area area) {
+        List<Tile> waypoints = new ArrayList<Tile>();
+        
+        Tile current = area.getTileAt(route.get(0).getX(), route.get(0).getY());
+        
+        for (int i = 1; i < route.size(); i++) {
+            Tile next = area.getTileAt(route.get(i).getX(), route.get(i).getY());
+            
+            if (!next.isAnOKMoveDestinationFrom(current.getMiddleX(), current.getMiddleY())) {
+                // add the previous tile
+                waypoints.add(area.getTileAt(route.get(i-1).getX(), route.get(i-1).getY()));
+                current = area.getTileAt(route.get(i-1).getX(), route.get(i-1).getY());
+            }
+        }
+        
+        waypoints.add(area.getTileAt(route.get(route.size()-1).getX(), route.get(route.size()-1).getY()));
+        
+        return waypoints;
+    }
 }

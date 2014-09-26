@@ -13,10 +13,11 @@ public class TileData {
     private boolean passable;
 
     public TileData(int x, int y, boolean passable) {
-        this.x = x;
-        this.y = y;
-        this.passable = passable;
-        this.counter = 0;
+        this(x, y, 0, passable);
+    }
+    
+    public TileData(int x, int y, int counter) {
+        this(x, y, counter, true);
     }
 
     public TileData(int x, int y, int counter, boolean passable) {
@@ -78,6 +79,6 @@ public class TileData {
             return true;
         }
         
-       return false;
+        return false;
     }
 }
