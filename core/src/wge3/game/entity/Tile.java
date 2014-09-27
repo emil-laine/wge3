@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.game.engine.gui.Drawable;
-import static wge3.game.entity.Area.floatPosToTilePos;
+import static wge3.game.engine.utilities.Math.floatPosToTilePos;
 import wge3.game.entity.bombs.Bomb;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.Ground;

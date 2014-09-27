@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
-import static com.badlogic.gdx.math.MathUtils.floor;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
@@ -24,6 +23,7 @@ import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 import wge3.game.entity.tilelayers.mapobjects.Tree;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 import wge3.game.engine.gui.Drawable;
+import static wge3.game.engine.utilities.Math.floatPosToTilePos;
 
 public final class Area implements Drawable {
     private Tile[][] tiles;
@@ -294,10 +294,6 @@ public final class Area implements Drawable {
             
             expandSlimes();
         }
-    }
-    
-    public static int floatPosToTilePos(float pos) {
-        return floor(pos)/Tile.size;
     }
     
     public List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {

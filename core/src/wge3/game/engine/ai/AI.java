@@ -10,8 +10,6 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static java.lang.Integer.signum;
-import wge3.game.engine.ai.tasks.MultipleMoveTask;
-import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.Tile;
@@ -46,12 +44,8 @@ public class AI {
     public void checkForEnemies() {
         for (Creature enemy : NPC.getEnemiesWithinFOV()) {
             // If dude is located in an OK move destination, attack:
-            if (enemy.getTile().isAnOKMoveDestinationFor(NPC)) {
-                currentTask = new MeleeAttackTask(NPC, enemy);
-                return;
-            } else {
-                currentTask = new MultipleMoveTask(NPC, findPath(NPC.getTile(), enemy.getTile()));
-            }
+            currentTask = new MeleeAttackTask(NPC, enemy);
+            return;
             
             // Else, dude is in a not-OK move destination,
             // so try to find nearest OK move destination:

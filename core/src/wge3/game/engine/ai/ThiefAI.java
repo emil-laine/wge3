@@ -2,9 +2,7 @@ package wge3.game.engine.ai;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import java.util.List;
 import wge3.game.engine.ai.tasks.*;
-import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.npcs.Thief;
@@ -54,12 +52,12 @@ public class ThiefAI extends AI {
     
         @Override
         public void checkForEnemies() {
-        for (Creature dude : NPC.getEnemiesWithinFOV()) {
-            if (!enoughFriendliesNearby() || !NPC.getInventory().getItems().isEmpty() || dude.getInventory().getItems().isEmpty()) {
-                currentTask = new MultipleMoveTask(NPC, whereToRun(dude));
+        for (Creature enemy : NPC.getEnemiesWithinFOV()) {
+            if (!enoughFriendliesNearby() || !NPC.getInventory().getItems().isEmpty() || enemy.getInventory().getItems().isEmpty()) {
+                currentTask = new MoveTask(NPC, whereToRun(enemy));
                 return;
             }
-            currentTask = new StealTask((Thief) NPC, dude);
+            currentTask = new StealTask((Thief) NPC, enemy);
             
         }
     }
@@ -74,9 +72,7 @@ public class ThiefAI extends AI {
     }
     
     //plots a place to run away from enemy
-    private List<Tile> whereToRun(Creature enemy) {
-        
-        
-        return findPath(enemy.getArea().getTiles().get(3), NPC.getTile());
+    private Tile whereToRun(Creature enemy) {
+        return enemy.getArea().getTiles().get(3);
     }
 }
