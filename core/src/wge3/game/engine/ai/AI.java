@@ -44,8 +44,10 @@ public class AI {
     public void checkForEnemies() {
         for (Creature enemy : NPC.getEnemiesWithinFOV()) {
             // If dude is located in an OK move destination, attack:
-            currentTask = new MeleeAttackTask(NPC, enemy);
-            return;
+            if (enemy.getTile().isGoodMoveDest()) {
+                currentTask = new MeleeAttackTask(NPC, enemy);
+                return;
+            }
             
             // Else, dude is in a not-OK move destination,
             // so try to find nearest OK move destination:
