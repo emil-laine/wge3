@@ -278,7 +278,7 @@ public class Tile implements Drawable {
         for (Tile tile : getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())) {
             // Don't call tile.blocksVision() here;
             // it must be called before calling this method.
-            if (!isGoodMoveDest()) return false;
+            if (!tile.isGoodMoveDest()) return false;
         }
         
         return true;
