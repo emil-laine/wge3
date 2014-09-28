@@ -3,6 +3,7 @@ package wge3.game.entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.game.engine.gui.Drawable;
@@ -326,7 +327,7 @@ public class Tile implements Drawable {
     }
     
     public List<Tile> getNearbyTiles() {
-        List<Tile> tiles = new LinkedList<Tile>();
+        List<Tile> tiles = new ArrayList<Tile>();
         if (area.hasLocation(x-1, y)) tiles.add(area.getTileAt(x-1, y));
         if (area.hasLocation(x+1, y)) tiles.add(area.getTileAt(x+1, y));
         if (area.hasLocation(x, y-1)) tiles.add(area.getTileAt(x, y-1));
