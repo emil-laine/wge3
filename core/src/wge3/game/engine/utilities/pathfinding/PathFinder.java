@@ -13,16 +13,13 @@ import wge3.game.entity.Tile;
 public class PathFinder {
 
     public static List<Tile> findPath(Tile start, Tile dest) {
-        if (!start.isPassable() || !dest.isPassable()) {
-            throw new IllegalArgumentException("error: start or dest not passable");
-        }
-        
-        if (start.equals(dest)) {
-            throw new IllegalArgumentException("start == dest");
+        if (!dest.isGoodMoveDest()) {
+            return null;
         }
         
         List<TileData> allTiles = calculateTileData(dest);
         List<TileData> route = calculateRoute(allTiles, start);
+        if (route == null) return null;
         List<Tile> waypoints = calculateWaypoints(route, dest.getArea());
         return waypoints;
     }
@@ -101,6 +98,8 @@ public class PathFinder {
                 route.add(tile);
             }
         }
+        
+        if (route.isEmpty()) return null;
         
         TileData last;
         

@@ -9,6 +9,7 @@ import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
+import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Integer.signum;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
@@ -18,14 +19,16 @@ public class AI {
 
     protected NonPlayer NPC; // the controlled creature
     protected AITask currentTask;
+    long lastTimeOfEnemyCheck;
 
     public AI(NonPlayer creature) {
         this.NPC = creature;
         currentTask = new WaitTask(0); // dummy task
+        lastTimeOfEnemyCheck = millis();
     }
     
     public void update() {
-        if (!isAttacking()) {
+        if (!isAttacking() && canCheckForEnemies()) {
             checkForEnemies();
         }
         
@@ -42,9 +45,10 @@ public class AI {
     }
 
     public void checkForEnemies() {
+        lastTimeOfEnemyCheck = millis();
         for (Creature enemy : NPC.getEnemiesWithinFOV()) {
             // If dude is located in an OK move destination, attack:
-            if (enemy.getTile().isAnOKMoveDestinationFor(NPC)) {
+            if (NPC.canMoveTo(enemy.getTile())) {
                 currentTask = new MeleeAttackTask(NPC, enemy);
                 return;
             }
@@ -118,5 +122,9 @@ public class AI {
         }
         
         return null;
+    }
+    
+    private boolean canCheckForEnemies() {
+        return millis() - lastTimeOfEnemyCheck > 500;
     }
 }

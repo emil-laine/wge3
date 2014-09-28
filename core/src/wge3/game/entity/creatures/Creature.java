@@ -15,8 +15,9 @@ import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
+import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.*;
+import java.util.List;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.Statistic;
 import wge3.game.engine.constants.Team;
@@ -26,6 +27,7 @@ import static wge3.game.engine.utilities.Math.floatPosToTilePos;
 import static wge3.game.engine.utilities.Math.getDiff;
 import wge3.game.engine.utilities.StatIndicator;
 import wge3.game.engine.utilities.Statistics;
+import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.utilities.Inventory;
@@ -349,6 +351,10 @@ public abstract class Creature implements Drawable {
             return true;
         }
         return (destination.isPassable());
+    }
+    
+    public boolean canMoveTo(Tile dest) {
+        return findPath(this.getTile(), dest) != null;
     }
     
     public void useItem() {
