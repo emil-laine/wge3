@@ -102,19 +102,24 @@ public class PathFinder {
         if (route.isEmpty()) return null;
         
         TileData last;
+        List<TileData> alternatives = new ArrayList<TileData>();
+        int i = tileData.size() - 1;
         
         do {
             last = route.get(route.size() - 1);
-            List<TileData> alternatives = new ArrayList<TileData>();
             
-            // this loop is redundant, because the elements in tileData
-            // are ordered by their counter variable in ascending order
-            for (TileData next : tileData) {
-                if (next.getCounter() == c && next.isNextTo(last)) {
+            for (; i >= 0; i--) {
+                TileData next = tileData.get(i);
+                if (next.getCounter() < c) break;
+                if (next.getCounter() > c) continue;
+                if (next.isNextTo(last)) {
                     alternatives.add(next);
                 }
             }
+            
+            if (alternatives.isEmpty()) break;
             route.add(alternatives.get(random(alternatives.size() - 1)));
+            alternatives.clear();
             c--;
         } while (c > 0);
         
