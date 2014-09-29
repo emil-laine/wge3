@@ -17,7 +17,7 @@ public class StealTask extends AITask{
     private Creature target;
     private MoveTask subTask;
     
-        public StealTask(Thief executor, Creature target) {
+    public StealTask(Thief executor, Creature target) {
         this.executor = executor;
         this.target = target;
         
