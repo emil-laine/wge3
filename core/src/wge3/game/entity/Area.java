@@ -33,6 +33,7 @@ public final class Area implements Drawable {
     private List<Tile> allTiles;
     private List<Tile> tilesToDraw;
     private List<Creature> creatures;
+    private List<Creature> flyingCreatures;
     private List<Player> players;
     private List<NonPlayer> NPCs;
     private List<Item> items;
@@ -46,6 +47,7 @@ public final class Area implements Drawable {
         allTiles     = new LinkedList<Tile>();
         tilesToDraw  = new LinkedList<Tile>();
         creatures    = new LinkedList<Creature>();
+        flyingCreatures = new LinkedList<Creature>();
         players      = new LinkedList<Player>();
         NPCs         = new LinkedList<NonPlayer>();
         items        = new LinkedList<Item>();
@@ -92,10 +94,12 @@ public final class Area implements Drawable {
     @Override
     public void draw(Batch batch) {
         drawTiles(batch);
+        batch.enableBlending();
         drawBombs(batch);
         drawNonFlyingCreatures(batch);
         drawTrees(batch);
         drawFlyingCreatures(batch);
+        batch.disableBlending();
     }
 
     public void drawTiles(Batch batch) {
@@ -121,7 +125,6 @@ public final class Area implements Drawable {
     }
     
     public Tile getTileAt(int x, int y) {
-        if (!hasLocation(x, y)) throw new IllegalArgumentException("Not a valid location!");
         return tiles[x][y];
     }
     
@@ -130,33 +133,25 @@ public final class Area implements Drawable {
     }
     
     public void drawNonFlyingCreatures(Batch batch) {
-        batch.enableBlending();
-        for (Player player : players) {
+        for (Creature player : players) {
             for (Creature NPC : NPCs) {
-                if ((NPC.canBeSeenBy(player)) && !NPC.isFlying()) {
-                    NPC.draw(batch);
+                if ((NPC.canBeSeenBy(player))) {
+                    if (!NPC.isFlying()) NPC.draw(batch);
+                    else flyingCreatures.add(NPC);
                 }
             }
             if (!player.isFlying()) player.draw(batch);
+            else flyingCreatures.add(player);
         }
-        batch.disableBlending();
     }
     
     public void drawFlyingCreatures(Batch batch) {
-        batch.enableBlending();
-        for (Player player : players) {
-            for (Creature NPC : NPCs) {
-                if (NPC.canBeSeenBy(player) && NPC.isFlying()) {
-                    NPC.draw(batch);
-                }
-            }
-            if (player.isFlying()) player.draw(batch);
+        for (Creature creature : flyingCreatures) {
+            creature.draw(batch);
         }
-        batch.disableBlending();
     }
 
     public void drawBombs(Batch batch) {
-        batch.enableBlending();
         for (Player player : players) {
             for (Bomb bomb : bombs) {
                 if (bomb.canBeSeenBy(player)) {
@@ -164,7 +159,6 @@ public final class Area implements Drawable {
                 }
             }
         }
-        batch.disableBlending();
     }
 
     public void calculateFOV() {
