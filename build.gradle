@@ -48,21 +48,3 @@ project(":desktop") {
 tasks.eclipse.doLast {
     delete ".project"
 }
-
-buildscript {
-    repositories {
-        maven {
-            url('http://openbakery.org/repository/')
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'org.openbakery', name: 'xcodePlugin', version: '0.9.+'
-    }
-}
-
-apply plugin: 'xcode'
-
-xcodebuild {
-    target = 'wge3'
-}
