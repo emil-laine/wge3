@@ -22,6 +22,7 @@ public final class MoveTask extends AITask {
             path.add(dest);
         } else {
             path = findPath(executor.getTile(), dest);
+            if (path == null) return;
         }
         
         position = 0;
@@ -31,28 +32,32 @@ public final class MoveTask extends AITask {
 
     @Override
     public boolean isFinished() {
-        return executor.getTile().equals(getDestination());
+        return path == null || (executor.getTile().equals(getDestination()) && executor.isInCenterOfATile());
     }
 
     @Override
     public void execute() {
         if (!turnTask.isFinished()) {
             turnTask.execute();
+            return;
         }
-        else if (!this.isFinished()) {
-            if (!executor.getTile().equals(path.get(position))) {
-                executor.goForward();
-            }
-            else {
-                position++;
-                float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
-                turnTask = new TurnTask(executor, angle);
-            }
+        
+        if (!executor.getTile().equals(path.get(position)) || !executor.isInCenterOfATile()) {
+            executor.goForward();
+            return;
+        }
+        
+        //if (executor.getTile().equals(getDestination())) executor.goForward();
+        
+        if (executor.getTile().equals(path.get(position)) && executor.isInCenterOfATile()) {
+            position++;
+            float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
+            turnTask = new TurnTask(executor, angle);
         }
     }
 
     public Tile getDestination() {
-        return path.get(path.size()-1);
+        return path == null ? null : path.get(path.size()-1);
     }
 
     public void setDestination(Tile dest) {

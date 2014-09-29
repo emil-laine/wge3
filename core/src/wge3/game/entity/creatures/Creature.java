@@ -412,7 +412,7 @@ public abstract class Creature implements Drawable {
         else mStream.addMessage("Ghost Mode Off");
     }
 
-    private boolean isInCenterOfATile() {
+    public boolean isInCenterOfATile() {
         float x = (getX() % Tile.size) / Tile.size;
         float y = (getY() % Tile.size) / Tile.size;
         return (x >= 0.25f && x <= 0.75f) && (y >= 0.25f && y <= 0.75f);
