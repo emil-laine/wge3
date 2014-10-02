@@ -368,4 +368,8 @@ public final class Area implements Drawable {
         
         slimes.addAll(newSlimes);
     }
+    
+    public Tile getRandomTile() {
+        return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
+    }
 }
