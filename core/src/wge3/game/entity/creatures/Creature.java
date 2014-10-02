@@ -11,7 +11,6 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
-import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -43,7 +42,7 @@ public abstract class Creature implements Drawable {
     protected float y;
     protected int previousTileX;
     protected int previousTileY;
-    protected Rectangle bounds;
+    protected Circle bounds;
     
     protected Team team;
     
@@ -114,9 +113,7 @@ public abstract class Creature implements Drawable {
         canSeeEverything = false;
         isGhost = false;
         
-        bounds = new Rectangle();
-        bounds.height = 0.75f*Tile.size;
-        bounds.width = 0.75f*Tile.size;
+        bounds = new Circle(new Vector2(), size);
         
         inventory = new Inventory(this);
         selectedItem = null;
@@ -714,5 +711,9 @@ public abstract class Creature implements Drawable {
     
     public boolean isOnPassableObject() {
         return (this.getTile().isPassable());
+    }
+    
+    public Circle getBounds() {
+        return bounds;
     }
 }
