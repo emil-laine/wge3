@@ -61,6 +61,6 @@ public final class MoveTask extends AITask {
     }
 
     public void setDestination(Tile dest) {
-        path.set(path.size()-1, dest);
+        if (path != null) path.set(path.size()-1, dest);
     }
 }
