@@ -11,6 +11,7 @@ import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
+import com.badlogic.gdx.math.Vector2;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -38,8 +39,6 @@ public abstract class Creature implements Drawable {
 
     protected Area area;
     protected Statistics statistics;
-    protected float x;
-    protected float y;
     protected int previousTileX;
     protected int previousTileY;
     protected Circle bounds;
@@ -128,32 +127,30 @@ public abstract class Creature implements Drawable {
     }
     
     public float getX() {
-        return x;
+        return bounds.x;
     }
 
     public void setX(float x) {
-        this.x = x;
+        bounds.setX(x);
         updateSpritePosition();
     }
 
     public float getY() {
-        return y;
+        return bounds.y;
     }
 
     public void setY(float y) {
-        this.y = y;
+        bounds.setY(y);
         updateSpritePosition();
     }
     
     public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
+        bounds.setPosition(x, y);
         updateSpritePosition();
     }
     
     public void setPosition(int x, int y) {
-        this.x = x * Tile.size + Tile.size/2;
-        this.y = y * Tile.size + Tile.size/2;
+        bounds.setPosition(x * Tile.size + Tile.size/2, y * Tile.size + Tile.size/2);
         updateSpritePosition();
     }
 
@@ -603,8 +600,8 @@ public abstract class Creature implements Drawable {
     }
     
     public float getDistanceTo(float x, float y) {
-        float dx = x - this.x;
-        float dy = y - this.y;
+        float dx = x - getX();
+        float dy = y - getY();
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
     
@@ -642,11 +639,11 @@ public abstract class Creature implements Drawable {
     }
     
     public int getTileX() {
-        return floatPosToTilePos(x);
+        return floatPosToTilePos(getX());
     }
     
     public int getTileY() {
-        return floatPosToTilePos(y);
+        return floatPosToTilePos(getY());
     }
     
     public void setTeam(Team team) {
