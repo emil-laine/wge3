@@ -90,7 +90,7 @@ public abstract class Creature implements Drawable {
 
     public Creature() {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
-        size = Tile.size / 3;
+        size = Tile.size / 2;
         defaultSpeed = 75;
         currentSpeed = defaultSpeed;
         walkToRunMultiplier = 1.35f;
