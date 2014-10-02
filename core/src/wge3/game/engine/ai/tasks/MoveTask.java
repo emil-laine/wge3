@@ -42,17 +42,12 @@ public final class MoveTask extends AITask {
             return;
         }
         
-        if (!executor.getTile().equals(path.get(position)) || !executor.isInCenterOfATile()) {
-            executor.goForward();
-            return;
-        }
-        
-        //if (executor.getTile().equals(getDestination())) executor.goForward();
-        
         if (executor.getTile().equals(path.get(position)) && executor.isInCenterOfATile()) {
             position++;
             float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
             turnTask = new TurnTask(executor, angle);
+        } else {
+            executor.goForward();
         }
     }
 
