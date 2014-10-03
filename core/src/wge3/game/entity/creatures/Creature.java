@@ -460,13 +460,12 @@ public abstract class Creature implements Drawable {
         Circle dest = new Circle(destX, destY, getUnarmedAttackSize());
         for (Creature creature : area.getCreatures()) {
             if (dest.contains(creature.getX(), creature.getY())) {
-                if (creature.getTeam() != this.getTeam()) {
-                    creature.dealDamage(this.strength);
+                if (creature.getTeam() != getTeam()) {
+                    creature.dealDamage(strength);
+                    if (this.isPlayer()) {
+                        statistics.addStatToPlayer(this, Statistic.DAMAGEDEALT, strength);
+                    }
                 }
-                if (this.isPlayer()) {
-                    statistics.addStatToPlayer(this, Statistic.DAMAGEDEALT, strength);
-                }
-                
             }
         }
         area.getTileAt(destX, destY).dealDamage(this.strength);
