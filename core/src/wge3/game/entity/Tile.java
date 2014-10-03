@@ -183,10 +183,9 @@ public class Tile implements Drawable {
     }
 
     public List<Creature> getCreatures() {
-        List<Creature> creatures = new LinkedList<Creature>();
+        List<Creature> creatures = new ArrayList<Creature>();
         for (Creature creature : area.getCreatures()) {
-            if (floatPosToTilePos(creature.getX()) == this.getX()
-                    && floatPosToTilePos(creature.getY()) == this.getY()) {
+            if (creature.getTileX() == this.getX() && creature.getTileY() == this.getY()) {
                 creatures.add(creature);
             }
         }
