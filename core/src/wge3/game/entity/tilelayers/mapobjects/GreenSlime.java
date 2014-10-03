@@ -9,7 +9,7 @@ import wge3.game.entity.Tile;
 public class GreenSlime extends MapObject {
 
     private int damage;
-    public static float expansionProbability = 1f/64f;
+    public static float expansionProbability = 0.01f;
     
     public GreenSlime() {
         setSprite(1, 4);
