@@ -718,6 +718,8 @@ public abstract class Creature implements Drawable {
         for (Tile tile : getNearbyTiles(true)) {
             creatures.addAll(tile.getCreatures());
         }
+        creatures.addAll(getTile().getCreatures());
+        creatures.remove(this);
         return creatures;
     }
     
