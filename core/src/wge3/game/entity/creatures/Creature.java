@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import static com.badlogic.gdx.math.Intersector.overlaps;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
@@ -89,7 +90,7 @@ public abstract class Creature implements Drawable {
 
     public Creature() {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
-        size = Tile.size / 2;
+        size = Tile.size / 3;
         defaultSpeed = 75;
         currentSpeed = defaultSpeed;
         walkToRunMultiplier = 1.35f;
@@ -240,7 +241,6 @@ public abstract class Creature implements Drawable {
     }
 
     public void move(float dx, float dy) {
-        // Apply movement modifiers:
         if (!this.isGhost) {
             float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
             dx *= movementModifier;
@@ -280,7 +280,7 @@ public abstract class Creature implements Drawable {
             setX(destX);
         }
         
-        // These should be optimized to be checked less than FPS times per second:
+        // These could be optimized to be checked less than FPS times per second:
         if (hasMovedToANewTile()) {
             if (getTile().hasTeleport() && !getPreviousTile().hasTeleport()) {
                 Teleport tele = (Teleport) getTile().getObject();
@@ -339,7 +339,11 @@ public abstract class Creature implements Drawable {
             if (oneWayTile.getDirection() == DOWN && y - getY() > 0) {
                 return false;
             }
-        } 
+        }
+        
+        if (collisionDetected(x, y)) {
+            return false;
+        }
         
         if (!this.isOnPassableObject() && !this.getTile().isIndoors()) {
             return true;
@@ -711,6 +715,18 @@ public abstract class Creature implements Drawable {
     
     public Circle getBounds() {
         return bounds;
+    }
+
+    private boolean collisionDetected(float x, float y) {
+        Circle newBounds = new Circle(x, y, getSize());
+        List<Creature> creatures = area.getCreaturesNear(x, y);
+        creatures.remove(this);
+        for (Creature other : creatures) {
+            if (overlaps(newBounds, other.getBounds())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Creature> getNearbyCreatures() {
