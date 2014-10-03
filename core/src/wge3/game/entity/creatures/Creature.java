@@ -712,4 +712,16 @@ public abstract class Creature implements Drawable {
     public Circle getBounds() {
         return bounds;
     }
+
+    public List<Creature> getNearbyCreatures() {
+        List<Creature> creatures = new ArrayList<Creature>();
+        for (Tile tile : getNearbyTiles(true)) {
+            creatures.addAll(tile.getCreatures());
+        }
+        return creatures;
+    }
+    
+    public List<Tile> getNearbyTiles(boolean checkForDiagonal) {
+        return getTile().getNearbyTiles(checkForDiagonal);
+    }
 }
