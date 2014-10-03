@@ -326,12 +326,18 @@ public class Tile implements Drawable {
         return object.isTree();
     }
     
-    public List<Tile> getNearbyTiles() {
+    public List<Tile> getNearbyTiles(boolean checkForDiagonal) {
         List<Tile> tiles = new ArrayList<Tile>();
         if (area.hasLocation(x-1, y)) tiles.add(area.getTileAt(x-1, y));
         if (area.hasLocation(x+1, y)) tiles.add(area.getTileAt(x+1, y));
         if (area.hasLocation(x, y-1)) tiles.add(area.getTileAt(x, y-1));
         if (area.hasLocation(x, y+1)) tiles.add(area.getTileAt(x, y+1));
+        if (checkForDiagonal) {
+            if (area.hasLocation(x-1, y-1)) tiles.add(area.getTileAt(x-1, y-1));
+            if (area.hasLocation(x+1, y+1)) tiles.add(area.getTileAt(x+1, y+1));
+            if (area.hasLocation(x+1, y-1)) tiles.add(area.getTileAt(x+1, y-1));
+            if (area.hasLocation(x-1, y+1)) tiles.add(area.getTileAt(x-1, y+1));
+        }
         return tiles;
     }
     
