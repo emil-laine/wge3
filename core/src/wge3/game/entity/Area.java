@@ -10,6 +10,7 @@ import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -371,5 +372,13 @@ public final class Area implements Drawable {
     
     public Tile getRandomTile() {
         return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
+    }
+    
+    public List<Creature> getCreaturesNear(float x, float y) {
+        List<Creature> creatures = new ArrayList<Creature>();
+        for (Tile tile : getTileAt(x, y).getNearbyTiles(true)) {
+            creatures.addAll(tile.getCreatures());
+        }
+        return creatures;
     }
 }
