@@ -12,7 +12,6 @@ public abstract class NonPlayer extends Creature {
         team = MonsterTeam;
         ai = new AI(this);
         attackSpeed = 10;
-        picksUpItems = false;
     }
     
     public void updateAI() {

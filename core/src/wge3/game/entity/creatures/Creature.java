@@ -16,9 +16,11 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 import static wge3.game.engine.constants.Direction.*;
+import wge3.game.engine.constants.StateFlag;
 import wge3.game.engine.constants.Statistic;
 import wge3.game.engine.constants.Team;
 import static wge3.game.engine.gamestates.PlayState.mStream;
@@ -69,14 +71,6 @@ public abstract class Creature implements Drawable {
     protected long lastHPRegen;
     protected long lastEnergyRegen;
     protected long lastEnergyConsumption;
-    protected boolean isRunning;
-    protected boolean isInvisible;
-    
-    protected boolean picksUpItems;
-    
-    protected boolean canSeeEverything;
-    protected boolean isGhost;
-    protected boolean isFlying;
     
     protected Inventory inventory;
     protected Item selectedItem;
@@ -84,11 +78,8 @@ public abstract class Creature implements Drawable {
     protected Texture texture;
     protected Sprite sprite;
     
-    protected boolean goingForward;
-    protected boolean goingBackward;
-    protected boolean turningLeft;
-    protected boolean turningRight;
-
+    protected EnumSet<StateFlag> stateFlags;
+    
     public Creature() {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         size = Tile.size / 3;
@@ -111,9 +102,6 @@ public abstract class Creature implements Drawable {
         energyRegenRate = 500;
         energyConsumptionRate = 80;
         
-        canSeeEverything = false;
-        isGhost = false;
-        
         bounds = new Rectangle();
         bounds.height = 0.75f*Tile.size;
         bounds.width = 0.75f*Tile.size;
@@ -121,13 +109,7 @@ public abstract class Creature implements Drawable {
         inventory = new Inventory(this);
         selectedItem = null;
         
-        goingForward = false;
-        goingBackward = false;
-        turningLeft = false;
-        turningRight = false;
-        
-        isRunning = false;
-        isInvisible = false;
+        stateFlags = EnumSet.noneOf(StateFlag.class);
     }
     
     public float getX() {
@@ -247,7 +229,7 @@ public abstract class Creature implements Drawable {
 
     public void move(float dx, float dy) {
         // Apply movement modifiers:
-        if (!this.isGhost) {
+        if (!isGhost()) {
             float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
             dx *= movementModifier;
             dy *= movementModifier;
@@ -303,7 +285,7 @@ public abstract class Creature implements Drawable {
         return getTileX() != previousTileX
             || getTileY() != previousTileY;
     }
-
+    
     public void pickUpItems() {
         Tile currentTile = getTile();
         if (currentTile.hasItem()) {
@@ -394,28 +376,36 @@ public abstract class Creature implements Drawable {
         return FOV;
     }
 
-    public boolean canSeeEverything() {
-        return canSeeEverything;
+    public boolean seesEverything() {
+        return stateFlags.contains(StateFlag.SEES_EVERYTHING);
     }
     
-    public void toggleCanSeeEverything() {
-        canSeeEverything = canSeeEverything == false;
+    public void toggleSeeEverything() {
+        if (stateFlags.contains(StateFlag.SEES_EVERYTHING))
+            stateFlags.remove(StateFlag.SEES_EVERYTHING);
+        else
+            stateFlags.add(StateFlag.SEES_EVERYTHING);
     }
     
     public boolean isGhost() {
-        return isGhost;
+        return stateFlags.contains(StateFlag.IS_GHOST);
     }
     
     public void toggleGhostMode() {
-        isGhost = isGhost == false;
-        if (isGhost()) mStream.addMessage("Ghost Mode On");
-        else mStream.addMessage("Ghost Mode Off");
+        if (stateFlags.contains(StateFlag.IS_GHOST)) {
+            stateFlags.remove(StateFlag.IS_GHOST);
+            mStream.addMessage("Ghost Mode Off");
+        }
+        else {
+            stateFlags.add(StateFlag.IS_GHOST);
+            mStream.addMessage("Ghost Mode On");
+        }
     }
 
     public boolean isInCenterOfATile() {
         float x = (getX() % Tile.size) / Tile.size;
         float y = (getY() % Tile.size) / Tile.size;
-        return (x >= 0.25f && x <= 0.75f) && (y >= 0.25f && y <= 0.75f);
+        return (x >= 0.25f && x < 0.75f) && (y >= 0.25f && y < 0.75f);
     }
 
     public void dealDamage(int amount) {
@@ -435,7 +425,7 @@ public abstract class Creature implements Drawable {
             regenerateHP();
             lastHPRegen = currentTime;
         }
-        if (!isRunning && currentTime - lastEnergyRegen > energyRegenRate) {
+        if (!isRunning() && currentTime - lastEnergyRegen > energyRegenRate) {
             regenerateEnergy();
             lastEnergyRegen = currentTime;
         }
@@ -483,41 +473,73 @@ public abstract class Creature implements Drawable {
     }
 
     public void doMovement(float delta) {
-        if (goingForward) {
-            goingForward = false;
+        if (isGoingForward()) {
+            stopGoingForward();
             float dx = MathUtils.cos(direction) * currentSpeed * delta;
             float dy = MathUtils.sin(direction) * currentSpeed * delta;
             move(dx, dy);
-        } else if (goingBackward) {
-            goingBackward = false;
+        } else if (isGoingBackward()) {
+            stopGoingBackward();
             float dx = -(MathUtils.cos(direction) * currentSpeed/1.5f * delta);
             float dy = -(MathUtils.sin(direction) * currentSpeed/1.5f * delta);
             move(dx, dy);
         }
         
-        if (turningLeft) {
-            turningLeft = false;
+        if (isTurningLeft()) {
+            stopTurningLeft();
             turnLeft(delta);
-        } else if (turningRight) {
-            turningRight = false;
+        } else if (isTurningRight()) {
+            stopTurningRight();
             turnRight(delta);
         }
     }
     
+    public boolean isGoingForward() {
+        return stateFlags.contains(StateFlag.GOING_FORWARD);
+    }
+    
     public void goForward() {
-        goingForward = true;
+        stateFlags.add(StateFlag.GOING_FORWARD);
+    }
+    
+    public void stopGoingForward() {
+        stateFlags.remove(StateFlag.GOING_FORWARD);
+    }
+    
+    public boolean isGoingBackward() {
+        return stateFlags.contains(StateFlag.GOING_BACKWARD);
     }
     
     public void goBackward() {
-        goingBackward = true;
+        stateFlags.add(StateFlag.GOING_BACKWARD);
+    }
+    
+    public void stopGoingBackward() {
+        stateFlags.remove(StateFlag.GOING_BACKWARD);
+    }
+    
+    public boolean isTurningLeft() {
+        return stateFlags.contains(StateFlag.TURNING_LEFT);
     }
     
     public void turnLeft() {
-        turningLeft = true;
+        stateFlags.add(StateFlag.TURNING_LEFT);
+    }
+    
+    public void stopTurningLeft() {
+        stateFlags.remove(StateFlag.TURNING_LEFT);
+    }
+    
+    public boolean isTurningRight() {
+        return stateFlags.contains(StateFlag.TURNING_RIGHT);
     }
     
     public void turnRight() {
-        turningRight = true;
+        stateFlags.add(StateFlag.TURNING_RIGHT);
+    }
+    
+    public void stopTurningRight() {
+        stateFlags.remove(StateFlag.TURNING_RIGHT);
     }
     
     public boolean canBeSeenBy(Creature creature) {
@@ -568,7 +590,7 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean picksUpItems() {
-        return picksUpItems;
+        return stateFlags.contains(StateFlag.PICKS_UP_ITEMS);
     }
     
     //SORT THIS, make comparator
@@ -625,15 +647,15 @@ public abstract class Creature implements Drawable {
     }
     
     public void startRunning() {
-        isRunning = true;
+        stateFlags.add(StateFlag.IS_RUNNING);
     }
     
     public void stopRunning() {
-        isRunning = false;
+        stateFlags.remove(StateFlag.IS_RUNNING);
     }
     
     public boolean isRunning() {
-        return isRunning;
+        return stateFlags.contains(StateFlag.IS_RUNNING);
     }
     
     public void consumeEnergy() {
@@ -664,11 +686,14 @@ public abstract class Creature implements Drawable {
     public void setInvisibility(boolean truth) {
         if (truth) sprite.setAlpha(0.3f);
         else sprite.setAlpha(1);
-        isInvisible = truth;
+        if (truth)
+            stateFlags.add(StateFlag.IS_INVISIBLE);
+        else
+            stateFlags.remove(StateFlag.IS_INVISIBLE);
     }
     
     public boolean isInvisible() {
-        return isInvisible;
+        return stateFlags.contains(StateFlag.IS_INVISIBLE);
     }
     
     public void removeItem(Item item) {
@@ -680,11 +705,14 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean isFlying() {
-        return isFlying;
+        return stateFlags.contains(StateFlag.IS_FLYING);
     }
     
     public void setFlying(boolean truth) {
-        isFlying = truth;
+        if (truth)
+            stateFlags.add(StateFlag.IS_FLYING);
+        else
+            stateFlags.remove(StateFlag.IS_FLYING);
     }
     
     public void setSprite(int x, int y) {
