@@ -2,7 +2,6 @@ package wge3.game.entity.tilelayers.mapobjects;
 
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.items.Gun;
-import wge3.game.entity.items.potions.*;
 import wge3.game.entity.tilelayers.MapObject;
 
 public abstract class Item extends MapObject {
