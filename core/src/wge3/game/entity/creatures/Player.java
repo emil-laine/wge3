@@ -3,7 +3,7 @@ package wge3.game.entity.creatures;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import static wge3.game.engine.constants.StateFlag.PICKS_UP_ITEMS;
+import wge3.game.engine.constants.StateFlag;
 import static wge3.game.engine.constants.Team.PlayerTeam;
 
 public final class Player extends Creature {
@@ -20,8 +20,7 @@ public final class Player extends Creature {
         strength = 10;
         defense = 5;
         
-        stateFlags.add(PICKS_UP_ITEMS);
-        System.out.println(stateFlags);
+        stateFlags.add(StateFlag.PICKS_UP_ITEMS);
         showHP = true;
         shapeRenderer = new ShapeRenderer();
     }
