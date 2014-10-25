@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.StateFlag;
 import wge3.game.engine.constants.Statistic;
@@ -78,7 +79,7 @@ public abstract class Creature implements Drawable {
     protected Texture texture;
     protected Sprite sprite;
     
-    protected EnumSet<StateFlag> stateFlags;
+    protected Set<StateFlag> stateFlags;
     
     public Creature() {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
