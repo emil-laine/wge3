@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import java.util.EnumSet;
+import java.util.Set;
+import wge3.game.engine.constants.TilePropertyFlag;
 import wge3.game.engine.gui.Drawable;
 import wge3.game.entity.Tile;
 
@@ -16,9 +19,8 @@ public abstract class TileLayer implements Drawable {
     protected final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
     protected Sprite sprite;
     
-    protected boolean passable;
-    protected boolean blocksVision;
-    protected boolean drainsHP;
+    protected Set<TilePropertyFlag> propertyFlags;
+    
     protected int HPDrainAmount;
     protected float movementModifier;
     // Effects of movementModifier's values:
@@ -30,7 +32,7 @@ public abstract class TileLayer implements Drawable {
     
     public TileLayer() {
         // Default values:
-        drainsHP = false;
+        propertyFlags = EnumSet.noneOf(TilePropertyFlag.class);
         movementModifier = 1f;
     }
 
@@ -60,15 +62,15 @@ public abstract class TileLayer implements Drawable {
     }
 
     public boolean isPassable() {
-        return passable;
+        return propertyFlags.contains(TilePropertyFlag.IS_PASSABLE);
     }
     
     public boolean blocksVision() {
-        return blocksVision;
+        return propertyFlags.contains(TilePropertyFlag.BLOCKS_VISION);
     }
 
     public boolean drainsHP() {
-        return drainsHP;
+        return propertyFlags.contains(TilePropertyFlag.DRAINS_HP);
     }
 
     public int getHPDrainAmount() {

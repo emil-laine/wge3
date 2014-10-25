@@ -1,5 +1,6 @@
 package wge3.game.entity.tilelayers;
 
+import wge3.game.engine.constants.TilePropertyFlag;
 import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
 import wge3.game.entity.tilelayers.mapobjects.Tree;
@@ -8,22 +9,18 @@ public abstract class MapObject extends TileLayer {
     
     protected int maxHP;
     protected int HP;
-    protected boolean hasDestroyedSprite;
     protected int hardness;
-    protected boolean coversWholeTile;
-    protected boolean castsShadows;
     protected float shadowDepth;
     
     public MapObject() {
         // Default values:
         maxHP = 100;
         HP = maxHP;
-        passable = true;
-        blocksVision = true;
-        drainsHP = false;
+        propertyFlags.add(TilePropertyFlag.IS_PASSABLE);
+        propertyFlags.add(TilePropertyFlag.BLOCKS_VISION);
+        propertyFlags.add(TilePropertyFlag.COVERS_WHOLE_TILE);
+        propertyFlags.add(TilePropertyFlag.CASTS_SHADOWS);
         hardness = 9;
-        coversWholeTile = true;
-        castsShadows = false;
     }
 
     public void dealDamage(int amount) {
@@ -35,7 +32,7 @@ public abstract class MapObject extends TileLayer {
     }
 
     public boolean hasDestroyedSprite() {
-        return hasDestroyedSprite;
+        return propertyFlags.contains(TilePropertyFlag.HAS_DESTROYED_SPRITE);
     }
 
     public boolean isSlime() {
@@ -51,11 +48,11 @@ public abstract class MapObject extends TileLayer {
     }
     
     public boolean coversWholeTile() {
-        return coversWholeTile;
+        return propertyFlags.contains(TilePropertyFlag.COVERS_WHOLE_TILE);
     }
     
     public boolean castsShadows() {
-        return castsShadows;
+        return propertyFlags.contains(TilePropertyFlag.CASTS_SHADOWS);
     }
 
     public float getShadowDepth() {

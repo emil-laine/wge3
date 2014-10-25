@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import wge3.game.engine.constants.Color;
 import wge3.game.engine.constants.Statistic;
+import wge3.game.engine.constants.TilePropertyFlag;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.MapObject;
@@ -14,10 +15,10 @@ public class Teleport extends MapObject {
     private Color color;
     
     public Teleport(Color color) {
-        coversWholeTile = false;
-        passable = true;
-        blocksVision = false;
-        castsShadows = true;
+        propertyFlags.add(TilePropertyFlag.IS_PASSABLE);
+        propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
+        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
+        propertyFlags.add(TilePropertyFlag.CASTS_SHADOWS);
         shadowDepth = 0.75f;
         this.color = color;
         int x;

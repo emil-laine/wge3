@@ -1,5 +1,7 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
+import wge3.game.engine.constants.TilePropertyFlag;
+
 public final class Door extends Wall {
     
     private boolean closed;
@@ -16,7 +18,7 @@ public final class Door extends Wall {
         this.closed = closed;
         locked = false;
         this.horizontal = horizontal;
-        coversWholeTile = false;
+        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
     }
     
     @Override
