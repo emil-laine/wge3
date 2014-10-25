@@ -10,6 +10,7 @@ import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,29 +32,31 @@ public final class Area implements Drawable {
     private int height;
     
     private List<Tile> allTiles;
-    private List<Tile> tilesToDraw;
     private List<Creature> creatures;
     private List<Creature> flyingCreatures;
     private List<Player> players;
     private List<NonPlayer> NPCs;
     private List<Item> items;
     private List<Bomb> bombs;
-    private List<Tree> treesToDraw;
     private List<GreenSlime> slimes;
+    
+    private List<Tile> tilesToDraw;
+    private List<Tree> treesToDraw;
     
     private long timeOfLastPassTime;
 
     public Area(String mapName) {
-        allTiles     = new LinkedList<Tile>();
+        allTiles     = new ArrayList<Tile>();
+        creatures    = new ArrayList<Creature>();
+        flyingCreatures = new ArrayList<Creature>();
+        players      = new ArrayList<Player>();
+        NPCs         = new ArrayList<NonPlayer>();
+        items        = new ArrayList<Item>();
+        bombs        = new ArrayList<Bomb>();
+        slimes       = new ArrayList<GreenSlime>();
+        
         tilesToDraw  = new LinkedList<Tile>();
-        creatures    = new LinkedList<Creature>();
-        flyingCreatures = new LinkedList<Creature>();
-        players      = new LinkedList<Player>();
-        NPCs         = new LinkedList<NonPlayer>();
-        items        = new LinkedList<Item>();
-        bombs        = new LinkedList<Bomb>();
         treesToDraw  = new LinkedList<Tree>();
-        slimes       = new LinkedList<GreenSlime>();
         
         loadMap(mapName);
     }
@@ -303,7 +306,7 @@ public final class Area implements Drawable {
         int finalTileX = floatPosToTilePos(finalX);
         int finalTileY = floatPosToTilePos(finalY);
         
-        List<Tile> tiles = new LinkedList<Tile>();
+        List<Tile> tiles = new ArrayList<Tile>();
         if (startTileX == finalTileX && startTileY == finalTileY) return tiles;
         
         int i = 0;
@@ -356,7 +359,7 @@ public final class Area implements Drawable {
     }
     
     public void expandSlimes() {
-        List<GreenSlime> newSlimes = new LinkedList<GreenSlime>();
+        List<GreenSlime> newSlimes = new ArrayList<GreenSlime>();
         
         for (GreenSlime slime : slimes) {
             if (randomBoolean(GreenSlime.expansionProbability)) {
