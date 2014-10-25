@@ -3,6 +3,7 @@ package wge3.game.entity.tilelayers.mapobjects;
 import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.Iterator;
 import java.util.List;
+import wge3.game.engine.constants.TilePropertyFlag;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.Tile;
 
@@ -13,9 +14,9 @@ public class GreenSlime extends MapObject {
     
     public GreenSlime() {
         setSprite(1, 4);
-        passable = false;
-        blocksVision = false;
-        coversWholeTile = false;
+        propertyFlags.remove(TilePropertyFlag.IS_PASSABLE);
+        propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
+        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
         HP = 100;
         hardness = 10;
         damage = 20;

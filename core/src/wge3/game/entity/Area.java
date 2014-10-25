@@ -166,7 +166,7 @@ public final class Area implements Drawable {
 
     public void calculateFOV() {
         for (Player player : players) {
-            if (!player.canSeeEverything()) {
+            if (!player.seesEverything()) {
                 for (Tile tile : allTiles) {
                     if (tile.canBeSeenBy(player)) {
                         tile.requestDraw();
@@ -182,7 +182,7 @@ public final class Area implements Drawable {
     
     public void calculateLighting() {
         for (Player player : players) {
-            if (player.canSeeEverything()) {
+            if (player.seesEverything()) {
                 Color color = new Color(1, 1, 1, 1);
                 for (Tile tile : allTiles) {
                     tile.setLighting(color);

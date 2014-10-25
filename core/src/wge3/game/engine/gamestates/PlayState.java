@@ -140,7 +140,7 @@ public final class PlayState extends GameState {
         } else if (input.isPressed(7)) {
             gsm.setState(0);
         } else if (input.isPressed(8)) {
-            player.toggleCanSeeEverything();
+            player.toggleSeeEverything();
         } else if (input.isPressed(9)) {
             player.toggleGhostMode();
         } else if (input.isPressed(10)) {

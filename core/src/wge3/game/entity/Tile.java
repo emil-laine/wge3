@@ -139,7 +139,7 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.isFlying()) || creature.canSeeEverything();
+        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.isFlying()) || creature.seesEverything();
     }
     
     public boolean canBeSeenFrom(float x, float y, int sight, boolean aerial) {
