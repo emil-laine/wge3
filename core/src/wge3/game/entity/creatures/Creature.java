@@ -16,7 +16,6 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.Statistic;
@@ -541,7 +540,7 @@ public abstract class Creature implements Drawable {
     }
     
     public List<Tile> getPossibleMovementDestinations() {
-        List<Tile> tiles = new LinkedList<Tile>();
+        List<Tile> tiles = new ArrayList<Tile>();
         for (Tile tile : area.getTiles()) {
             if (tile.canBeSeenBy(this) && tile.isAnOKMoveDestinationFor(this)) tiles.add(tile);
         }
@@ -573,7 +572,7 @@ public abstract class Creature implements Drawable {
     
     //SORT THIS, make comparator
     public List<Creature> getEnemiesWithinFOV() {
-        List<Creature> enemiesWithinFOV = new LinkedList<Creature>();
+        List<Creature> enemiesWithinFOV = new ArrayList<Creature>();
         for (Creature creature : getArea().getCreatures()) {
             if (creature.isEnemyOf(this) && creature.canBeSeenBy(this)) {
                 enemiesWithinFOV.add(creature);

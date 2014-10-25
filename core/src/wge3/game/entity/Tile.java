@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import wge3.game.engine.gui.Drawable;
 import static wge3.game.engine.utilities.Math.floatPosToTilePos;
@@ -183,7 +182,7 @@ public class Tile implements Drawable {
     }
 
     public List<Creature> getCreatures() {
-        List<Creature> creatures = new LinkedList<Creature>();
+        List<Creature> creatures = new ArrayList<Creature>();
         for (Creature creature : area.getCreatures()) {
             if (floatPosToTilePos(creature.getX()) == this.getX()
                     && floatPosToTilePos(creature.getY()) == this.getY()) {
@@ -194,7 +193,7 @@ public class Tile implements Drawable {
     }
     
     public List<Bomb> getBombs() {
-        List<Bomb> bombs = new LinkedList<Bomb>();
+        List<Bomb> bombs = new ArrayList<Bomb>();
         for (Bomb bomb : area.getBombs()) {
             if (area.getTileAt(bomb.getX(), bomb.getY()).equals(this)) {
                 bombs.add(bomb);
