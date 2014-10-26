@@ -2,7 +2,6 @@ package wge3.game.entity.tilelayers.mapobjects;
 
 import java.util.EnumSet;
 import static wge3.game.engine.constants.TilePropertyFlag.BLOCKS_VISION;
-import static wge3.game.engine.constants.TilePropertyFlag.IS_INDOORS;
 import static wge3.game.engine.constants.TilePropertyFlag.IS_PASSABLE;
 
 public final class Door extends Wall {
@@ -17,8 +16,7 @@ public final class Door extends Wall {
         setSprite(horizontal? 7:6, closed? 3:4);
         destroyThreshold = 50;
         this.horizontal = horizontal;
-        propertyFlags = EnumSet.of(IS_INDOORS,
-                closed? BLOCKS_VISION : IS_PASSABLE);
+        propertyFlags = EnumSet.of(closed ? BLOCKS_VISION : IS_PASSABLE);
     }
     
     public boolean isClosed() {

@@ -150,7 +150,6 @@ public class Tile implements Drawable {
         for (Tile tile : area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())) {
             if (tile.blocksVision()) {
                 if (!aerial) return false;
-                else if (tile.isIndoors()) return false;
             }
         }
         
@@ -358,9 +357,5 @@ public class Tile implements Drawable {
     
     public Teleport getTeleport() {
         return (Teleport) object;
-    }
-    
-    public boolean isIndoors() {
-        return ground.isIndoors();
     }
 }

@@ -7,7 +7,6 @@ public enum TilePropertyFlag {
     BLOCKS_VISION,
     COVERS_WHOLE_TILE,
     CASTS_SHADOWS,
-    IS_INDOORS,
     
     HAS_DESTROYED_SPRITE
 }

@@ -310,7 +310,7 @@ public abstract class Creature implements Drawable {
         Tile destination = area.getTileAt(x, y);
         
         if (this.isFlying()) {
-            return destination.isPassable() || !destination.isIndoors();
+            return destination.isPassable();
         }
         
         if (destination.isOneWay()) {
@@ -329,7 +329,7 @@ public abstract class Creature implements Drawable {
             }
         } 
         
-        if (!this.isOnPassableObject() && !this.getTile().isIndoors()) {
+        if (!this.isOnPassableObject()) {
             return true;
         }
         return (destination.isPassable());
