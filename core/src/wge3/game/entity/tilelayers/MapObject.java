@@ -26,7 +26,7 @@ public abstract class MapObject extends TileLayer {
     }
 
     public void dealDamage(int amount) {
-        HP -= Math.max(amount - hardness, 0);
+        if (amount > 0) HP -= amount;
     }
     
     public boolean isDestroyed() {
