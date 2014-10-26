@@ -167,6 +167,12 @@ public class Tile implements Drawable {
         float dy = y - this.getMiddleY();
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
+    
+    public float getDistance2To(float x, float y) {
+        float dx = x - this.getMiddleX();
+        float dy = y - this.getMiddleY();
+        return (dx * dx) + (dy * dy);
+    }
 
     public boolean hasObject() {
         return object != null;

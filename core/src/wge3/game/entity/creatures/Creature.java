@@ -633,17 +633,36 @@ public abstract class Creature implements Drawable {
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
     
+    public float getDistance2To(float x, float y) {
+        float dx = x - this.x;
+        float dy = y - this.y;
+        return (dx * dx) + (dy * dy);
+    }
+    
     public float getDistanceInTilesTo(float x, float y) {
         return getDistanceTo(x, y) / Tile.size;
+    }
+    
+    public float getDistance2InTilesTo(float x, float y) {
+        return getDistance2To(x, y) / Tile.size;
     }
     
     public float getDistanceTo(Creature other) {
         return getDistanceTo(other.getX(), other.getY());
     }
     
+    public float getDistance2To(Creature other) {
+        return getDistance2To(other.getX(), other.getY());
+    }
+    
     public float getDistanceTo(Tile tile) {
         // Returns distance to middle point of tile
         return getDistanceInTilesTo(tile.getMiddleX(), tile.getMiddleY());
+    }
+    
+    public float getDistance2To(Tile tile) {
+        // Returns squared distance to middle point of tile
+        return getDistance2InTilesTo(tile.getMiddleX(), tile.getMiddleY());
     }
     
     public void startRunning() {
