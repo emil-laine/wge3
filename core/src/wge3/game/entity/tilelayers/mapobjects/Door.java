@@ -1,73 +1,52 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
-import wge3.game.engine.constants.TilePropertyFlag;
+import java.util.EnumSet;
+import static wge3.game.engine.constants.TilePropertyFlag.BLOCKS_VISION;
+import static wge3.game.engine.constants.TilePropertyFlag.IS_INDOORS;
+import static wge3.game.engine.constants.TilePropertyFlag.IS_PASSABLE;
 
 public final class Door extends Wall {
     
-    private boolean closed;
-    private boolean hasLock;
-    private boolean locked;
     private int destroyThreshold;
     private boolean horizontal;
     
-    // private KeyType keytype; -> door with lock
+    // private boolean locked;  -> DoorWithLock class
+    // private KeyType keytype; -> DoorWithLock class
     
     public Door(boolean horizontal, boolean closed) {
         setSprite(horizontal? 7:6, closed? 3:4);
         destroyThreshold = 50;
-        this.closed = closed;
-        locked = false;
         this.horizontal = horizontal;
-        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
+        propertyFlags = EnumSet.of(IS_INDOORS,
+                closed? BLOCKS_VISION : IS_PASSABLE);
     }
     
-    @Override
-    public boolean isPassable() {
-        return !closed;
+    public boolean isClosed() {
+        return !propertyFlags.contains(IS_PASSABLE);
     }
     
     public void close() {
-        closed = true;
+        propertyFlags.remove(IS_PASSABLE);
+        propertyFlags.add(BLOCKS_VISION);
         changeSprite();
     }
     
     public void open() {
-        if (!locked) {
-            closed = false;
+        propertyFlags.add(IS_PASSABLE);
+            propertyFlags.remove(BLOCKS_VISION);
             changeSprite();
-        }
-    }
-    
-    public void lock() {
-        if (!closed) {
-            close();
-        }
-        
-        locked = true;
-    }
-    
-    public void unlock() {
-        locked = false;
-    }
-    
-    @Override
-    public boolean blocksVision() {
-        return closed;
     }
 
     @Override
     public void dealDamage(int amount) {
-        if (amount >= destroyThreshold) {
+        if (amount >= destroyThreshold)
             HP = 0;
-        }
-        if (closed) {
-            open();
-            return;
-        }
-        close();
+        else
+            if (isClosed()) open();
+            else close();
     }
     
     public void changeSprite() {
-        setSprite(horizontal? 7:6, closed? 3:4);
+        setSprite(horizontal? 7:6, isClosed()? 3:4);
     }
 }
