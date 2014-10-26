@@ -1,9 +1,10 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
 import static com.badlogic.gdx.math.MathUtils.random;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import wge3.game.engine.constants.TilePropertyFlag;
+import static wge3.game.engine.constants.TilePropertyFlag.DRAINS_HP;
 import wge3.game.entity.tilelayers.MapObject;
 import wge3.game.entity.Tile;
 
@@ -14,9 +15,7 @@ public class GreenSlime extends MapObject {
     
     public GreenSlime() {
         setSprite(1, 4);
-        propertyFlags.remove(TilePropertyFlag.IS_PASSABLE);
-        propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
-        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
+        propertyFlags = EnumSet.of(DRAINS_HP);
         HP = 100;
         hardness = 10;
         damage = 20;

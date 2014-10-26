@@ -1,6 +1,11 @@
 package wge3.game.entity.tilelayers.mapobjects.walls;
 
+import java.util.EnumSet;
 import wge3.game.engine.constants.TilePropertyFlag;
+import static wge3.game.engine.constants.TilePropertyFlag.BLOCKS_VISION;
+import static wge3.game.engine.constants.TilePropertyFlag.CASTS_SHADOWS;
+import static wge3.game.engine.constants.TilePropertyFlag.COVERS_WHOLE_TILE;
+import static wge3.game.engine.constants.TilePropertyFlag.HAS_DESTROYED_SPRITE;
 import wge3.game.entity.tilelayers.mapobjects.Wall;
 import wge3.game.entity.Tile;
 
@@ -8,7 +13,7 @@ public final class BrickWall extends Wall {
 
     public BrickWall() {
         setSprite(0, 1);
-        propertyFlags.add(TilePropertyFlag.HAS_DESTROYED_SPRITE);
+        propertyFlags = EnumSet.of(HAS_DESTROYED_SPRITE, BLOCKS_VISION, CASTS_SHADOWS, COVERS_WHOLE_TILE);
         maxHP = 150;
         HP = 150;
         hardness = 8;

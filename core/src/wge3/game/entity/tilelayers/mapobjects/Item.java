@@ -1,5 +1,6 @@
 package wge3.game.entity.tilelayers.mapobjects;
 
+import java.util.EnumSet;
 import wge3.game.engine.constants.TilePropertyFlag;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.items.Gun;
@@ -13,8 +14,7 @@ public abstract class Item extends MapObject {
 
     public Item() {
         // default values
-        propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
-        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
+        propertyFlags = EnumSet.of(TilePropertyFlag.IS_PASSABLE);
         defaultAmount = 1;
     }
 

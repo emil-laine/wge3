@@ -1,6 +1,11 @@
 package wge3.game.entity.tilelayers;
 
+import java.util.EnumSet;
 import wge3.game.engine.constants.TilePropertyFlag;
+import static wge3.game.engine.constants.TilePropertyFlag.BLOCKS_VISION;
+import static wge3.game.engine.constants.TilePropertyFlag.CASTS_SHADOWS;
+import static wge3.game.engine.constants.TilePropertyFlag.COVERS_WHOLE_TILE;
+import static wge3.game.engine.constants.TilePropertyFlag.IS_PASSABLE;
 import wge3.game.entity.tilelayers.mapobjects.GreenSlime;
 import wge3.game.entity.tilelayers.mapobjects.Teleport;
 import wge3.game.entity.tilelayers.mapobjects.Tree;
@@ -16,10 +21,7 @@ public abstract class MapObject extends TileLayer {
         // Default values:
         maxHP = 100;
         HP = maxHP;
-        propertyFlags.add(TilePropertyFlag.IS_PASSABLE);
-        propertyFlags.add(TilePropertyFlag.BLOCKS_VISION);
-        propertyFlags.add(TilePropertyFlag.COVERS_WHOLE_TILE);
-        propertyFlags.add(TilePropertyFlag.CASTS_SHADOWS);
+        propertyFlags = EnumSet.of(IS_PASSABLE, BLOCKS_VISION, COVERS_WHOLE_TILE, CASTS_SHADOWS);
         hardness = 9;
     }
 

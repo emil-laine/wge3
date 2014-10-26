@@ -2,10 +2,12 @@ package wge3.game.entity.tilelayers.mapobjects;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import wge3.game.engine.constants.Color;
 import wge3.game.engine.constants.Statistic;
-import wge3.game.engine.constants.TilePropertyFlag;
+import static wge3.game.engine.constants.TilePropertyFlag.CASTS_SHADOWS;
+import static wge3.game.engine.constants.TilePropertyFlag.IS_PASSABLE;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.MapObject;
@@ -15,10 +17,7 @@ public class Teleport extends MapObject {
     private Color color;
     
     public Teleport(Color color) {
-        propertyFlags.add(TilePropertyFlag.IS_PASSABLE);
-        propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
-        propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
-        propertyFlags.add(TilePropertyFlag.CASTS_SHADOWS);
+        propertyFlags = EnumSet.of(IS_PASSABLE, CASTS_SHADOWS);
         shadowDepth = 0.75f;
         this.color = color;
         int x;
