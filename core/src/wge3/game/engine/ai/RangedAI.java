@@ -45,24 +45,21 @@ public class RangedAI extends AI {
     }
     
     @Override
-        public void checkForEnemies() {
-        for (Creature dude : NPC.getEnemiesWithinFOV()) {
-            // If dude is within range, attack:
-            if (!NPC.getSelectedItem().isGun()) {
-                currentTask = new MeleeAttackTask(NPC, dude);
-                return;
+    public void checkForEnemies() {
+        if (NPC.getSelectedItem().isGun()) {
+            Gun gun = (Gun) NPC.getSelectedItem();
+            int gunRange2 = gun.getRange() * gun.getRange();
+            for (Creature dude : NPC.getEnemiesWithinFOV()) {
+                if (NPC.getDistance2To(dude) <= gunRange2) {
+                    currentTask = new RangedAttackTask(NPC, dude);
+                    return;
+                }
             }
-            if (isWithinGunRange(dude)) {
-                currentTask = new RangedAttackTask(NPC, dude);
+        } else {
+            for (Creature dude : NPC.getEnemiesWithinFOV()) {
+                currentTask = new MeleeAttackTask(NPC, dude);
                 return;
             }
         }
     }
-    
-        public boolean isWithinGunRange(Creature enemy) {
-            Gun gun = (Gun) NPC.getSelectedItem();
-            
-            return super.NPC.getDistanceTo(enemy) <= gun.getRange();
-        }
-        
 }
