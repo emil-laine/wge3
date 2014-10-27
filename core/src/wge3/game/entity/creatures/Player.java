@@ -9,8 +9,6 @@ import static wge3.game.engine.constants.Team.PlayerTeam;
 public final class Player extends Creature {
     
     private OrthographicCamera camera;
-    private ShapeRenderer shapeRenderer;
-    private boolean showHP;
     
     public Player() {
         setSprite(4, 3);
@@ -21,8 +19,6 @@ public final class Player extends Creature {
         defense = 5;
         
         stateFlags.add(StateFlag.PICKS_UP_ITEMS);
-        showHP = true;
-        shapeRenderer = new ShapeRenderer();
     }
 
     public void setCamera(OrthographicCamera camera) {
