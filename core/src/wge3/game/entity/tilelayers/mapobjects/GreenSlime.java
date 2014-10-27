@@ -11,7 +11,7 @@ import wge3.game.entity.Tile;
 public class GreenSlime extends MapObject {
 
     private int damage;
-    public static float expansionProbability = 1f/64f;
+    public static float expansionProbability = 0.01f;
     
     public GreenSlime() {
         setSprite(1, 4);
@@ -37,7 +37,7 @@ public class GreenSlime extends MapObject {
     }
     
     public Tile getExpansionTarget() {
-        List<Tile> tiles = tile.getNearbyTiles();
+        List<Tile> tiles = tile.getNearbyTiles(false);
         for (Iterator<Tile> it = tiles.iterator(); it.hasNext();) {
             Tile tile = it.next();
             if (tile.hasCreature() || tile.hasSlime())

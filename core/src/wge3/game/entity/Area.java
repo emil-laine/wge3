@@ -375,4 +375,12 @@ public final class Area implements Drawable {
     public Tile getRandomTile() {
         return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
     }
+    
+    public List<Creature> getCreaturesNear(float x, float y) {
+        List<Creature> creatures = new ArrayList<Creature>();
+        for (Tile tile : getTileAt(x, y).getNearbyTiles(true)) {
+            creatures.addAll(tile.getCreatures());
+        }
+        return creatures;
+    }
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import wge3.game.engine.gui.Drawable;
-import static wge3.game.engine.utilities.Math.floatPosToTilePos;
 import wge3.game.entity.bombs.Bomb;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.tilelayers.Ground;
@@ -189,8 +188,7 @@ public class Tile implements Drawable {
     public List<Creature> getCreatures() {
         List<Creature> creatures = new ArrayList<Creature>();
         for (Creature creature : area.getCreatures()) {
-            if (floatPosToTilePos(creature.getX()) == this.getX()
-                    && floatPosToTilePos(creature.getY()) == this.getY()) {
+            if (creature.getTileX() == this.getX() && creature.getTileY() == this.getY()) {
                 creatures.add(creature);
             }
         }
@@ -330,12 +328,18 @@ public class Tile implements Drawable {
         return object.isTree();
     }
     
-    public List<Tile> getNearbyTiles() {
+    public List<Tile> getNearbyTiles(boolean includeDiagonal) {
         List<Tile> tiles = new ArrayList<Tile>();
         if (area.hasLocation(x-1, y)) tiles.add(area.getTileAt(x-1, y));
         if (area.hasLocation(x+1, y)) tiles.add(area.getTileAt(x+1, y));
         if (area.hasLocation(x, y-1)) tiles.add(area.getTileAt(x, y-1));
         if (area.hasLocation(x, y+1)) tiles.add(area.getTileAt(x, y+1));
+        if (includeDiagonal) {
+            if (area.hasLocation(x-1, y-1)) tiles.add(area.getTileAt(x-1, y-1));
+            if (area.hasLocation(x+1, y+1)) tiles.add(area.getTileAt(x+1, y+1));
+            if (area.hasLocation(x+1, y-1)) tiles.add(area.getTileAt(x+1, y-1));
+            if (area.hasLocation(x-1, y+1)) tiles.add(area.getTileAt(x-1, y+1));
+        }
         return tiles;
     }
     

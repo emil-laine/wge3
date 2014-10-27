@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
+import static com.badlogic.gdx.math.Intersector.overlaps;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -41,11 +42,9 @@ public abstract class Creature implements Drawable {
 
     protected Area area;
     protected Statistics statistics;
-    protected float x;
-    protected float y;
     protected int previousTileX;
     protected int previousTileY;
-    protected Rectangle bounds;
+    protected Circle bounds;
     
     protected Team team;
     
@@ -102,9 +101,7 @@ public abstract class Creature implements Drawable {
         energyRegenRate = 500;
         energyConsumptionRate = 80;
         
-        bounds = new Rectangle();
-        bounds.height = 0.75f*Tile.size;
-        bounds.width = 0.75f*Tile.size;
+        bounds = new Circle(new Vector2(), size);
         
         inventory = new Inventory(this);
         selectedItem = null;
@@ -113,32 +110,30 @@ public abstract class Creature implements Drawable {
     }
     
     public float getX() {
-        return x;
+        return bounds.x;
     }
 
     public void setX(float x) {
-        this.x = x;
+        bounds.setX(x);
         updateSpritePosition();
     }
 
     public float getY() {
-        return y;
+        return bounds.y;
     }
 
     public void setY(float y) {
-        this.y = y;
+        bounds.setY(y);
         updateSpritePosition();
     }
     
     public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
+        bounds.setPosition(x, y);
         updateSpritePosition();
     }
     
     public void setPosition(int x, int y) {
-        this.x = x * Tile.size + Tile.size/2;
-        this.y = y * Tile.size + Tile.size/2;
+        bounds.setPosition(x * Tile.size + Tile.size/2, y * Tile.size + Tile.size/2);
         updateSpritePosition();
     }
 
@@ -268,7 +263,7 @@ public abstract class Creature implements Drawable {
             setX(destX);
         }
         
-        // These should be optimized to be checked less than FPS times per second:
+        // These could be optimized to be checked less than FPS times per second:
         if (hasMovedToANewTile()) {
             if (getTile().hasTeleport() && !getPreviousTile().hasTeleport()) {
                 Teleport tele = (Teleport) getTile().getObject();
@@ -327,7 +322,11 @@ public abstract class Creature implements Drawable {
             if (oneWayTile.getDirection() == DOWN && y - getY() > 0) {
                 return false;
             }
-        } 
+        }
+        
+        if (collisionDetected(x, y)) {
+            return false;
+        }
         
         if (!this.isOnPassableObject()) {
             return true;
@@ -456,13 +455,12 @@ public abstract class Creature implements Drawable {
         Circle dest = new Circle(destX, destY, getUnarmedAttackSize());
         for (Creature creature : area.getCreatures()) {
             if (dest.contains(creature.getX(), creature.getY())) {
-                if (creature.getTeam() != this.getTeam()) {
-                    creature.dealDamage(this.strength);
+                if (creature.getTeam() != getTeam()) {
+                    creature.dealDamage(strength);
+                    if (this.isPlayer()) {
+                        statistics.addStatToPlayer(this, Statistic.DAMAGEDEALT, strength);
+                    }
                 }
-                if (this.isPlayer()) {
-                    statistics.addStatToPlayer(this, Statistic.DAMAGEDEALT, strength);
-                }
-                
             }
         }
         area.getTileAt(destX, destY).dealDamage(this.strength);
@@ -628,8 +626,8 @@ public abstract class Creature implements Drawable {
     }
     
     public float getDistanceTo(float x, float y) {
-        float dx = x - this.x;
-        float dy = y - this.y;
+        float dx = x - getX();
+        float dy = y - getY();
         return (float) Math.sqrt(dx*dx + dy*dy);
     }
     
@@ -686,11 +684,11 @@ public abstract class Creature implements Drawable {
     }
     
     public int getTileX() {
-        return floatPosToTilePos(x);
+        return floatPosToTilePos(getX());
     }
     
     public int getTileY() {
-        return floatPosToTilePos(y);
+        return floatPosToTilePos(getY());
     }
     
     public void setTeam(Team team) {
@@ -761,5 +759,35 @@ public abstract class Creature implements Drawable {
     
     public boolean isOnPassableObject() {
         return (this.getTile().isPassable());
+    }
+    
+    public Circle getBounds() {
+        return bounds;
+    }
+
+    private boolean collisionDetected(float x, float y) {
+        Circle newBounds = new Circle(x, y, getSize());
+        List<Creature> creatures = area.getCreaturesNear(x, y);
+        creatures.remove(this);
+        for (Creature other : creatures) {
+            if (overlaps(newBounds, other.getBounds())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Creature> getNearbyCreatures() {
+        List<Creature> creatures = new ArrayList<Creature>();
+        for (Tile tile : getNearbyTiles(true)) {
+            creatures.addAll(tile.getCreatures());
+        }
+        creatures.addAll(getTile().getCreatures());
+        creatures.remove(this);
+        return creatures;
+    }
+    
+    public List<Tile> getNearbyTiles(boolean checkForDiagonal) {
+        return getTile().getNearbyTiles(checkForDiagonal);
     }
 }
