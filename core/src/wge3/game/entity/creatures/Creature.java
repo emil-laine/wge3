@@ -230,23 +230,13 @@ public abstract class Creature implements Drawable {
             dy *= movementModifier;
         }
         
-        if (isRunning()) {
+        if (isRunning() && canRun()) {
             long currentTime = millis();
-            boolean consumeOrTakeDamage = currentTime - lastEnergyConsumption > energyConsumptionRate;
-            if (canRun()) {
-                dx *= walkToRunMultiplier;
-                dy *= walkToRunMultiplier;
-                if (consumeOrTakeDamage) {
-                    consumeEnergy();
-                    lastEnergyConsumption = currentTime;
-                }
-            } else {
-                dx *= walkToRunMultiplier * HP.getFraction();
-                dy *= walkToRunMultiplier * HP.getFraction();
-                if (consumeOrTakeDamage) {
-                    this.dealDamage(1);
-                    lastEnergyConsumption = currentTime;
-                }
+            dx *= walkToRunMultiplier;
+            dy *= walkToRunMultiplier;
+            if (currentTime - lastEnergyConsumption > energyConsumptionRate) {
+                consumeEnergy();
+                lastEnergyConsumption = currentTime;
             }
         }
         
