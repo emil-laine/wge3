@@ -632,8 +632,8 @@ public abstract class Creature implements Drawable {
     }
     
     public float getDistance2To(float x, float y) {
-        float dx = x - this.x;
-        float dy = y - this.y;
+        float dx = x - getX();
+        float dy = y - getY();
         return (dx * dx) + (dy * dy);
     }
     
