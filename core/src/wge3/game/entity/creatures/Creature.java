@@ -544,6 +544,22 @@ public abstract class Creature implements Drawable {
         return getTile().canBeSeenBy(creature) && !this.isInvisible();
     }
     
+    public boolean canSee(int x, int y) {
+        if (!getArea().hasLocation(x/Tile.size, y/Tile.size)) {
+            throw new IllegalArgumentException("Not a valid location!");
+        }
+        
+        if (getDistanceTo(x, y) > sight * Tile.size) return false;
+        
+        for (Tile tile : area.getTilesOnLine(getX(), getY(), x, y)) {
+            if (tile.blocksVision()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     public void setLighting(Color color) {
         sprite.setColor(color);
     }
