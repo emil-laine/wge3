@@ -55,7 +55,7 @@ public final class PlayState extends GameState {
         mStream = new MessageStream(WIDTH - 280, HEIGHT - 60, this);
         area = new Area(map);
         player = area.getPlayers().get(0);
-        player.setStatistics(statistics);
+        player.setStats(statistics);
         player.setCamera(camera);
         hud = new HUD(player);
         

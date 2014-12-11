@@ -29,7 +29,6 @@ import wge3.game.engine.gui.Drawable;
 import static wge3.game.engine.utilities.Math.floatPosToTilePos;
 import static wge3.game.engine.utilities.Math.getDiff;
 import wge3.game.engine.utilities.StatIndicator;
-import wge3.game.engine.utilities.Statistics;
 import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
@@ -41,7 +40,6 @@ import wge3.game.entity.tilelayers.mapobjects.Teleport;
 public abstract class Creature implements Drawable {
 
     protected Area area;
-    protected Statistics statistics;
     protected int previousTileX;
     protected int previousTileY;
     protected Circle bounds;
@@ -273,7 +271,7 @@ public abstract class Creature implements Drawable {
             inventory.addItem((Item) currentTile.getObject());
             currentTile.removeObject();
             if (this.isPlayer()) {
-                statistics.addStatToPlayer((Player) this, Statistic.ITEMSPICKEDUP, 1);
+                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSPICKEDUP, 1);
             }
             
         }
@@ -331,7 +329,7 @@ public abstract class Creature implements Drawable {
         else { 
             selectedItem.use(this);
             if (this.isPlayer()) {
-                statistics.addStatToPlayer((Player) this, Statistic.ITEMSUSED, 1);
+                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSUSED, 1);
             }
             
         }
@@ -383,7 +381,7 @@ public abstract class Creature implements Drawable {
         int decreaseAmount = max(amount - defense, 1);
         HP.decrease(decreaseAmount);
         if (this.isPlayer()) {
-            statistics.addStatToPlayer((Player) this, Statistic.DAMAGETAKEN, decreaseAmount);
+            Player.getStats().addStatToPlayer((Player) this, Statistic.DAMAGETAKEN, decreaseAmount);
         }
     }
 
@@ -409,7 +407,7 @@ public abstract class Creature implements Drawable {
     private void regenerateHP() {
         HP.increase();
         if (this.isPlayer()) {
-            statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, 1);
+            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, 1);
         } 
     }
     
@@ -430,7 +428,7 @@ public abstract class Creature implements Drawable {
                 if (creature.getTeam() != getTeam()) {
                     creature.dealDamage(strength);
                     if (this.isPlayer()) {
-                        statistics.addStatToPlayer((Player) this, Statistic.DAMAGEDEALT, strength);
+                        Player.statistics.addStatToPlayer((Player) this, Statistic.DAMAGEDEALT, strength);
                     }
                 }
             }
@@ -585,7 +583,7 @@ public abstract class Creature implements Drawable {
     public void addHP(int amount) {
         HP.increase(amount);
         if (this.isPlayer()) {
-            statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
+            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
         }
         
     }
@@ -704,14 +702,6 @@ public abstract class Creature implements Drawable {
     public void setSprite(int x, int y) {
         sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
         updateSpriteRotation();
-    }
-    
-    public void setStatistics(Statistics statistics) {
-        this.statistics = statistics;
-    }
-    
-    public Statistics getStatistics() {
-        return statistics;
     }
     
     public int getDefense() {

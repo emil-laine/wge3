@@ -38,7 +38,7 @@ public class Teleport extends MapObject {
         teleporter.setPosition(destination.getX(), destination.getY());
         
         if (teleporter.isPlayer()) {
-            teleporter.getStatistics().addStatToPlayer((Player) teleporter, Statistic.TELEPORTERSUSED, 1);
+            Player.statistics.addStatToPlayer((Player) teleporter, Statistic.TELEPORTERSUSED, 1);
         }
     }
 
@@ -50,7 +50,7 @@ public class Teleport extends MapObject {
         List<Teleport> teleports = new ArrayList<Teleport>();
         // This only happens when somebody uses a teleport
         // so looping through every tile is not a problem.
-        for (Tile tile : tile.getArea().getTiles()) {
+        for (Tile tile : Tile.getArea().getTiles()) {
             if (tile.hasTeleport()) {
                 Teleport tele = (Teleport) tile.getObject();
                 if (tele.getColor() == this.color)
