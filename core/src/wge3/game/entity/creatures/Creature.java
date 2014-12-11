@@ -773,15 +773,11 @@ public abstract class Creature implements Drawable {
 
     public List<Creature> getNearbyCreatures() {
         List<Creature> creatures = new ArrayList<Creature>();
-        for (Tile tile : getNearbyTiles(true)) {
+        for (Tile tile : getTile().getNearbyTiles(true)) {
             creatures.addAll(tile.getCreatures());
         }
         creatures.addAll(getTile().getCreatures());
         creatures.remove(this);
         return creatures;
-    }
-    
-    public List<Tile> getNearbyTiles(boolean checkForDiagonal) {
-        return getTile().getNearbyTiles(checkForDiagonal);
     }
 }
