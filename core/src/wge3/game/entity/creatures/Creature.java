@@ -73,13 +73,12 @@ public abstract class Creature implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
-    protected Texture texture;
+    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
     protected Sprite sprite;
     
     protected Set<StateFlag> stateFlags;
     
     public Creature() {
-        texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         size = Tile.size / 3;
         defaultSpeed = 75;
         currentSpeed = defaultSpeed;
