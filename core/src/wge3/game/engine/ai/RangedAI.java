@@ -49,17 +49,30 @@ public class RangedAI extends AI {
         if (NPC.getSelectedItem().isGun()) {
             Gun gun = (Gun) NPC.getSelectedItem();
             int gunRange2 = gun.getRange() * gun.getRange();
-            for (Creature dude : NPC.getEnemiesWithinFOV()) {
-                if (NPC.getDistance2To(dude) <= gunRange2) {
-                    currentTask = new RangedAttackTask(NPC, dude);
-                    return;
-                }
-            }
+            
+            NPC.getEnemiesWithinFOV()
+                    .parallelStream()
+                    .filter(x -> NPC.getDistance2To(x) <= gunRange2)
+                    .findAny()
+                    .ifPresent(x -> currentTask = new RangedAttackTask(NPC, x));
+            
+//            for (Creature dude : NPC.getEnemiesWithinFOV()) {
+//                if (NPC.getDistance2To(dude) <= gunRange2) {
+//                    currentTask = new RangedAttackTask(NPC, dude);
+//                    return;
+//                }
+//            }
         } else {
-            for (Creature dude : NPC.getEnemiesWithinFOV()) {
-                currentTask = new MeleeAttackTask(NPC, dude);
-                return;
-            }
+            
+            NPC.getEnemiesWithinFOV()
+                    .parallelStream()
+                    .findAny()
+                    .ifPresent(x -> currentTask = new MeleeAttackTask(NPC, x));
+            
+//            for (Creature dude : NPC.getEnemiesWithinFOV()) {
+//                currentTask = new MeleeAttackTask(NPC, dude);
+//                return;
+//            }
         }
     }
 }

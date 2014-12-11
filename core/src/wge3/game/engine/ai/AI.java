@@ -11,9 +11,11 @@ import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Integer.signum;
+import java.util.Optional;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.Tile;
+import wge3.game.entity.creatures.Creature;
 
 public class AI {
 
@@ -46,26 +48,34 @@ public class AI {
 
     public void checkForEnemies() {
         lastTimeOfEnemyCheck = millis();
-        for (Creature enemy : NPC.getEnemiesWithinFOV()) {
-            // If dude is located in an OK move destination, attack:
-            if (NPC.canMoveTo(enemy.getTile())) {
-                currentTask = new MeleeAttackTask(NPC, enemy);
-                return;
-            }
-            
-            // Else, dude is in a not-OK move destination,
-            // so try to find nearest OK move destination:
-            
-            /* getNearestOKMoveDestination makes NPCs freeze atm */
-            /* It should be rewritten. */
-            
-            //Tile nearestOKTile = getNearestOKMoveDestination(dude);
-            //if (nearestOKTile != null) {
-            //    currentTask = new MoveTask(NPC, nearestOKTile);
-            //}
-            
-            // If nearestOKTile was null, ignore enemy.
-        }
+                NPC.getEnemiesWithinFOV()
+                .parallelStream()
+                .filter(x -> NPC.canMoveTo(x.getTile()))
+                .findFirst()
+                .ifPresent(x -> currentTask = new MeleeAttackTask(NPC, x));
+         
+                //does the same as the code below, except multithreaded
+                
+//        for (Creature enemy : NPC.getEnemiesWithinFOV()) {
+//            // If dude is located in an OK move destination, attack:
+//            if (NPC.canMoveTo(enemy.getTile())) {
+//                currentTask = new MeleeAttackTask(NPC, enemy);
+//                return;
+//            }
+//            
+//            // Else, dude is in a not-OK move destination,
+//            // so try to find nearest OK move destination:
+//            
+//            /* getNearestOKMoveDestination makes NPCs freeze atm */
+//            /* It should be rewritten. */
+//            
+//            //Tile nearestOKTile = getNearestOKMoveDestination(dude);
+//            //if (nearestOKTile != null) {
+//            //    currentTask = new MoveTask(NPC, nearestOKTile);
+//            //}
+//            
+//            // If nearestOKTile was null, ignore enemy.
+//        }
     }
 
     public boolean isAttacking() {
