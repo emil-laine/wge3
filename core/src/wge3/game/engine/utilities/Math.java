@@ -24,4 +24,15 @@ public final class Math {
     public static int floatPosToTilePos(float pos) {
         return floor(pos) / Tile.size;
     }
+    
+    public static boolean isInCenterOfATile(float x, float y) {
+        return isInCenterOfATile(x, y, 0.25f);
+    }
+
+    public static boolean isInCenterOfATile(float x, float y, float border) {
+        x = (x % Tile.size) / Tile.size;
+        y = (y % Tile.size) / Tile.size;
+        float opposite = 1f - border;
+        return (x >= border && x < opposite) && (y >= border && y < opposite);
+    }
 }

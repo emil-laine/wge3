@@ -387,12 +387,6 @@ public abstract class Creature implements Drawable {
         }
     }
 
-    public boolean isInCenterOfATile() {
-        float x = (getX() % Tile.size) / Tile.size;
-        float y = (getY() % Tile.size) / Tile.size;
-        return (x >= 0.25f && x < 0.75f) && (y >= 0.25f && y < 0.75f);
-    }
-
     public void dealDamage(int amount) {
         int decreaseAmount = max(amount - defense, 1);
         HP.decrease(decreaseAmount);
