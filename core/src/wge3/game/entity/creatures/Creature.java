@@ -55,7 +55,6 @@ public abstract class Creature implements Drawable {
     protected float direction;
     protected float turningSpeed;
     protected int sight;
-    protected float FOV;
     
     protected StatIndicator HP;
     protected StatIndicator energy;
@@ -86,7 +85,6 @@ public abstract class Creature implements Drawable {
         direction = random() * PI2;
         turningSpeed = 4;
         sight = 12;
-        FOV = PI;
         unarmedAttackSize = Tile.size/2;
         
         HP = new StatIndicator();
@@ -353,10 +351,6 @@ public abstract class Creature implements Drawable {
 
     public int getSight() {
         return sight;
-    }
-
-    public float getFOV() {
-        return FOV;
     }
 
     public boolean seesEverything() {
