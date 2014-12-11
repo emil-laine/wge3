@@ -410,11 +410,11 @@ public abstract class Creature implements Drawable {
         }
     }
 
-    public void regenerateEnergy() {
+    private void regenerateEnergy() {
         energy.increase();
     }
 
-    public void regenerateHP() {
+    private void regenerateHP() {
         HP.increase();
         if (this.isPlayer()) {
             statistics.addStatToPlayer(this, Statistic.HEALTHREGAINED, 1);
