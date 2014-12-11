@@ -170,7 +170,7 @@ public abstract class Creature implements Drawable {
     }
 
     public int getMaxHP() {
-        return HP.getMaximum();
+        return HP.getMax();
     }
 
     public void setMaxHP(int newMaxHP) {
@@ -182,7 +182,7 @@ public abstract class Creature implements Drawable {
     }
 
     public int getMaxEnergy() {
-        return energy.getMaximum();
+        return energy.getMax();
     }
 
     public int getHP() {

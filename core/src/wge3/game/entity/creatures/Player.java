@@ -14,7 +14,7 @@ public final class Player extends Creature {
         setSprite(4, 3);
         team = PlayerTeam;
         size = 14;
-        HP.setMaximum(100);
+        HP.setMax(100);
         strength = 10;
         defense = 5;
         

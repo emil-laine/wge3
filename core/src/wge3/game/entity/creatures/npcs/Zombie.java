@@ -14,7 +14,7 @@ public final class Zombie extends NonPlayer {
         updateSpriteRotation();
         
         name = "zombie";
-        HP.setMaximum(random(30, 60));
+        HP.setMax(random(30, 60));
         strength = random(5, 12);
         defense = random(0, 7);
         defaultSpeed = random(20, 35);

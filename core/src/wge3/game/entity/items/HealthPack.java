@@ -16,11 +16,11 @@ public final class HealthPack extends Item {
     @Override
     public void use(Creature user) {
         user.addHP(healedAmount);
-        if (user.getHP() - healedAmount >= 0) {
+        if (user.getCurrentHP() - healedAmount >= 0) {
             user.getStatistics().addStatToPlayer(user, Statistic.HEALTHREGAINED, healedAmount);
         }
         else {
-            user.getStatistics().addStatToPlayer(user, Statistic.HEALTHREGAINED, (user.getMaxHP() - user.getHP()));
+            user.getStatistics().addStatToPlayer(user, Statistic.HEALTHREGAINED, (user.getMaxHP() - user.getCurrentHP()));
         }
         
         user.getInventory().removeItem(this);

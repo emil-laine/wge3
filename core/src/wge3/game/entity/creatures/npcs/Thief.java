@@ -16,7 +16,7 @@ public class Thief extends NonPlayer{
     
         setSprite(6, 2);
         name = "thief";
-        HP.setMaximum(random(60, 90));
+        HP.setMax(random(60, 90));
         strength = random(5, 12);
         defense = random(3, 7);
         defaultSpeed = random(35, 40);
