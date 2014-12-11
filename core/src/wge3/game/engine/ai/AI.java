@@ -48,7 +48,7 @@ public class AI {
         lastTimeOfEnemyCheck = millis();
         for (Creature enemy : NPC.getEnemiesWithinFOV()) {
             // If dude is located in an OK move destination, attack:
-            if (NPC.canMoveTo(enemy.getTile())) {
+            if (NPC.canMoveTo(enemy.getTileUnder())) {
                 currentTask = new MeleeAttackTask(NPC, enemy);
                 return;
             }

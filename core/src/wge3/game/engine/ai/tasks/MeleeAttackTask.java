@@ -18,7 +18,7 @@ public final class MeleeAttackTask extends AITask {
         this.executor = executor;
         this.target = target;
         
-        moveTask = new MoveTask(executor, target.getTile());
+        moveTask = new MoveTask(executor, target.getTileUnder());
         timeOfLastAttack = millis();
         timeOfLastPathCalculation = millis();
     }
@@ -26,7 +26,7 @@ public final class MeleeAttackTask extends AITask {
     @Override
     public void execute() {
         // Check if target has moved to a new tile:
-        Tile targetTile = target.getTile();
+        Tile targetTile = target.getTileUnder();
         if (canCalculatePath()
                 && moveTask.getDestination() != targetTile
                 && target.canBeSeenBy(executor)

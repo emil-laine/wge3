@@ -255,8 +255,8 @@ public abstract class Creature implements Drawable {
         
         // These could be optimized to be checked less than FPS times per second:
         if (hasMovedToANewTile()) {
-            if (getTile().hasTeleport() && !getPreviousTile().hasTeleport()) {
-                Teleport tele = (Teleport) getTile().getObject();
+            if (getTileUnder().hasTeleport() && !getPreviousTile().hasTeleport()) {
+                Teleport tele = (Teleport) getTileUnder().getObject();
                 tele.teleport(this);
             }
             previousTileX = getTileX();
@@ -272,7 +272,7 @@ public abstract class Creature implements Drawable {
     }
     
     public void pickUpItems() {
-        Tile currentTile = getTile();
+        Tile currentTile = getTileUnder();
         if (currentTile.hasItem()) {
             inventory.addItem((Item) currentTile.getObject());
             currentTile.removeObject();
@@ -321,7 +321,7 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean canMoveTo(Tile dest) {
-        return findPath(this.getTile(), dest) != null;
+        return findPath(this.getTileUnder(), dest) != null;
     }
     
     public void useItem() {
@@ -521,7 +521,7 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return getTile().canBeSeenBy(creature) && !this.isInvisible();
+        return getTileUnder().canBeSeenBy(creature) && !this.isInvisible();
     }
     
     public boolean canSee(int x, int y) {
@@ -544,7 +544,7 @@ public abstract class Creature implements Drawable {
         sprite.setColor(color);
     }
     
-    public Tile getTile() {
+    public Tile getTileUnder() {
         return area.getTileAt(getX(), getY());
     }
     
@@ -746,7 +746,7 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean isOnPassableObject() {
-        return (this.getTile().isPassable());
+        return (this.getTileUnder().isPassable());
     }
     
     public Circle getBounds() {
@@ -767,10 +767,10 @@ public abstract class Creature implements Drawable {
 
     public List<Creature> getNearbyCreatures() {
         List<Creature> creatures = new ArrayList<Creature>();
-        for (Tile tile : getTile().getNearbyTiles(true)) {
+        for (Tile tile : getTileUnder().getNearbyTiles(true)) {
             creatures.addAll(tile.getCreatures());
         }
-        creatures.addAll(getTile().getCreatures());
+        creatures.addAll(getTileUnder().getCreatures());
         creatures.remove(this);
         return creatures;
     }
