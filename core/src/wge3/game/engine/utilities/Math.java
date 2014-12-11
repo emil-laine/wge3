@@ -5,6 +5,7 @@ import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.floor;
 import wge3.game.entity.Tile;
+import wge3.game.entity.creatures.Creature;
 
 public final class Math {
     
@@ -23,6 +24,10 @@ public final class Math {
     
     public static int floatPosToTilePos(float pos) {
         return floor(pos) / Tile.size;
+    }
+    
+    public static boolean isInCenterOfATile(Creature c) {
+        return isInCenterOfATile(c.getX(), c.getY());
     }
     
     public static boolean isInCenterOfATile(float x, float y) {
