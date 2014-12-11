@@ -747,7 +747,7 @@ public abstract class Creature implements Drawable {
         return statistics;
     }
     
-    public int getDefence() {
+    public int getDefense() {
         return this.defense;
     }
     
