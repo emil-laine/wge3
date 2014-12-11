@@ -276,19 +276,16 @@ public abstract class Creature implements Drawable {
     }
 
     public boolean canMoveTo(float x, float y) {
-        if (!area.hasLocation(x, y)) {
+        if (!area.hasLocation(x, y))
             return false;
-        }
         
-        if (this.isGhost()) {
+        if (this.isGhost())
             return true;
-        }
         
         Tile destination = area.getTileAt(x, y);
         
-        if (this.isFlying()) {
+        if (this.isFlying())
             return destination.isPassable();
-        }
         
         if (destination.isOneWay()) {
             OneWayFloor oneWayTile = (OneWayFloor) destination.getGround();
@@ -306,13 +303,12 @@ public abstract class Creature implements Drawable {
             }
         }
         
-        if (collisionDetected(x, y)) {
+        if (collisionDetected(x, y))
             return false;
-        }
         
-        if (!this.isOnPassableObject()) {
+        if (!this.isOnPassableObject())
             return true;
-        }
+        
         return (destination.isPassable());
     }
     
