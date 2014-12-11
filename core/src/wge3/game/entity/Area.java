@@ -80,7 +80,6 @@ public final class Area implements Drawable {
     }
     
     public void addTile(Tile tile, int x, int y) {
-        tile.setArea(this);
         tile.setPosition(x, y);
         allTiles.add(tile);
         tiles[x][y] = tile;
