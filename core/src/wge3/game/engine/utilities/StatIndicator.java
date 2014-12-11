@@ -55,7 +55,7 @@ public final class StatIndicator {
         return currentValue;
     }
     
-    public float getFraction() {
+    public float asFraction() {
         return (float)currentValue/maximumValue;
     }
 }

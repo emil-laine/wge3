@@ -168,6 +168,14 @@ public abstract class Creature implements Drawable {
     public void setTurningSpeed(float turningSpeed) {
         this.turningSpeed = turningSpeed;
     }
+    
+    public StatIndicator getHP() {
+        return HP;
+    }
+    
+    public StatIndicator getEnergy() {
+        return energy;
+    }
 
     public int getMaxHP() {
         return HP.getMax();
@@ -729,14 +737,6 @@ public abstract class Creature implements Drawable {
     public void setSprite(int x, int y) {
         sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
         updateSpriteRotation();
-    }
-    
-    public float getHPAsFraction() {
-        return HP.getFraction();
-    }
-    
-    public float getEnergyAsFraction() {
-        return energy.getFraction();
     }
     
     public void setStatistics(Statistics statistics) {

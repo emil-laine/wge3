@@ -51,7 +51,7 @@ public final class HUD implements Drawable {
         
         // Health and energy bars:
         batch.end();
-        float health = player.getHPAsFraction();
+        float health = player.getHP().asFraction();
         float healthBarLength = health * barMaxLength;
         sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.setColor(
@@ -66,7 +66,7 @@ public final class HUD implements Drawable {
                 healthBarY,
                 barThickness);
         
-        float energy = player.getEnergyAsFraction();
+        float energy = player.getEnergy().asFraction();
         float energyBarLength = energy * barMaxLength;
         sr.setColor(
                 min(-2*energy+2, 1),
