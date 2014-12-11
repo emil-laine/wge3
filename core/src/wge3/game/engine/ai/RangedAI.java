@@ -38,7 +38,7 @@ public class RangedAI extends AI {
         }
         
         if (randomBoolean(2/3f)) {
-            currentTask = new MoveTask(NPC, NPC.getNewMovementDestination());
+            currentTask = new MoveTask(NPC, getNewMovementDestination(NPC));
         } else {
             currentTask = new WaitTask(random(3000));
         }

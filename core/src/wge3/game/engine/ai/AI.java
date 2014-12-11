@@ -11,6 +11,8 @@ import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Integer.signum;
+import java.util.ArrayList;
+import java.util.List;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.Tile;
@@ -38,7 +40,7 @@ public class AI {
         }
         
         if (randomBoolean(2/3f)) {
-            currentTask = new MoveTask(NPC, NPC.getNewMovementDestination());
+            currentTask = new MoveTask(NPC, getNewMovementDestination(NPC));
         } else {
             currentTask = new WaitTask(random(3000));
         }
@@ -126,5 +128,24 @@ public class AI {
     
     private boolean canCheckForEnemies() {
         return millis() - lastTimeOfEnemyCheck > 500;
+    }
+    
+    public static List<Tile> getPossibleMovementDestinations(NonPlayer NPC) {
+        List<Tile> tiles = new ArrayList<Tile>();
+        for (Tile tile : NPC.getArea().getTiles()) {
+            if (tile.canBeSeenBy(NPC) && tile.isAnOKMoveDestinationFor(NPC)) tiles.add(tile);
+        }
+        return tiles;
+    }
+    
+    public static Tile getNewMovementDestination(NonPlayer NPC) {
+        // Ugly method for testing only!
+        // NPCs should decide their next movement destinations
+        // more intelligently rather than just by random.
+        
+        // Returns a random tile from all the tiles that are
+        // ok move destinations and can be seen by creature.
+        List<Tile> tiles = getPossibleMovementDestinations(NPC);
+        return tiles.get(random(tiles.size() - 1));
     }
 }

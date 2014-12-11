@@ -555,21 +555,6 @@ public abstract class Creature implements Drawable {
     public Team getTeam() {
         return team;
     }
-    
-    public List<Tile> getPossibleMovementDestinations() {
-        List<Tile> tiles = new ArrayList<Tile>();
-        for (Tile tile : area.getTiles()) {
-            if (tile.canBeSeenBy(this) && tile.isAnOKMoveDestinationFor(this)) tiles.add(tile);
-        }
-        return tiles;
-    }
-    
-    public Tile getNewMovementDestination() {
-        // Returns a random tile from all the tiles that are
-        // ok move destinations and can be seen by creature.
-        List<Tile> tiles = getPossibleMovementDestinations();
-        return tiles.get(random(tiles.size() - 1));
-    }
 
     public String getName() {
         return name;
