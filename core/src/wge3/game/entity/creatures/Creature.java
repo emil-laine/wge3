@@ -172,16 +172,16 @@ public abstract class Creature implements Drawable {
     public int getMaxHP() {
         return HP.getMax();
     }
-
-    public int getEnergy() {
+    
+    public int getCurrentEnergy() {
         return energy.getCurrent();
     }
 
     public int getMaxEnergy() {
         return energy.getMax();
     }
-
-    public int getHP() {
+    
+    public int getCurrentHP() {
         return HP.getCurrent();
     }
 
