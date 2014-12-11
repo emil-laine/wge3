@@ -8,7 +8,7 @@ package wge3.game.engine.utilities;
 
 import java.util.*;
 import wge3.game.engine.constants.Statistic;
-import wge3.game.entity.creatures.Creature;
+import wge3.game.entity.creatures.Player;
 /**
  *
  * @author chang
@@ -21,11 +21,11 @@ public class Statistics {
         playerStats = new HashMap<String, HashMap<Statistic, Integer>>();
     }
     
-    public void addPlayer(Creature player) {
+    public void addPlayer(Player player) {
         playerStats.put(player.getName(), new HashMap<Statistic, Integer>());
     }
     
-    public void addStatToPlayer(Creature player, Statistic stat, int amount) {
+    public void addStatToPlayer(Player player, Statistic stat, int amount) {
         String playerName = player.getName();
         
         if (!playerStats.containsKey(playerName)) {
@@ -42,7 +42,7 @@ public class Statistics {
         playerStats.get(playerName).put(stat, amount);
     }
     
-    public void removeStatFromPlayer(Creature player, Statistic stat, int amount) {
+    public void removeStatFromPlayer(Player player, Statistic stat, int amount) {
         String playerName = player.getName();
         
         if (!playerStats.containsKey(playerName)) {

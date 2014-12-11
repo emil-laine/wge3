@@ -18,7 +18,6 @@ public final class Gunman extends NonPlayer{
     
     public Gunman() {
         setSprite(4, 3);
-        name = "Gunman";
         HP.setMax(60);
         strength = 10;
         defense = 5;

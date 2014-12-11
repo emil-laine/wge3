@@ -13,7 +13,6 @@ public final class Zombie extends NonPlayer {
         sprite = new Sprite(new Texture(files.internal("graphics/creatures.png")), random(9)*Tile.size, 0, Tile.size, Tile.size);
         updateSpriteRotation();
         
-        name = "zombie";
         HP.setMax(random(30, 60));
         strength = random(5, 12);
         defense = random(0, 7);

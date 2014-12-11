@@ -9,6 +9,7 @@ import static wge3.game.engine.constants.Team.PlayerTeam;
 public final class Player extends Creature {
     
     private OrthographicCamera camera;
+    private String name;
     
     public Player() {
         setSprite(4, 3);
@@ -37,5 +38,9 @@ public final class Player extends Creature {
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
+    }
+
+    public String getName() {
+        return name;
     }
 }

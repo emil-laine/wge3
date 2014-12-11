@@ -10,6 +10,7 @@ import static wge3.game.engine.constants.TilePropertyFlag.CASTS_SHADOWS;
 import static wge3.game.engine.constants.TilePropertyFlag.IS_PASSABLE;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
+import wge3.game.entity.creatures.Player;
 import wge3.game.entity.tilelayers.MapObject;
 
 public class Teleport extends MapObject {
@@ -37,7 +38,7 @@ public class Teleport extends MapObject {
         teleporter.setPosition(destination.getX(), destination.getY());
         
         if (teleporter.isPlayer()) {
-            teleporter.getStatistics().addStatToPlayer(teleporter, Statistic.TELEPORTERSUSED, 1);
+            teleporter.getStatistics().addStatToPlayer((Player) teleporter, Statistic.TELEPORTERSUSED, 1);
         }
     }
 

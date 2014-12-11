@@ -13,6 +13,7 @@ import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.items.Gun;
 import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.entity.Tile;
+import wge3.game.entity.creatures.Player;
 
 public final class Handgun extends Gun {
     
@@ -74,8 +75,8 @@ public final class Handgun extends Gun {
         // Remember to change statistics counting if you do this ^!!
         target.dealDamage(getDamage());
         if (user.isPlayer()) {
-            user.getStatistics().addStatToPlayer(user, Statistic.GUNSHOTSFIRED, 1);
-            user.getStatistics().addStatToPlayer(user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefense(), 1));
+            user.getStatistics().addStatToPlayer((Player) user, Statistic.GUNSHOTSFIRED, 1);
+            user.getStatistics().addStatToPlayer((Player) user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefense(), 1));
         }
         
     }
