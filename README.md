@@ -10,7 +10,9 @@ You need Gradle to open the project. If you don't have it, here's how to get it:
 - Select it and install.
 - Now you can open the project file.
 
-Remember, when running the project, you must run the desktop subproject. The core subproject cannot be run directly.
+[Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html) is also required to compile the project.
+
+To run the project, you must run the `desktop` subproject. The `core` subproject cannot be run directly.
 
 ## Useful links
 - [Wiki](https://github.com/emlai/wge3/wiki)
