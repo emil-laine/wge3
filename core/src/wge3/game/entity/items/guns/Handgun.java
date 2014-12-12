@@ -12,6 +12,7 @@ import wge3.game.engine.constants.Statistic;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.items.Gun;
 import static wge3.game.engine.gamestates.PlayState.mStream;
+import static wge3.game.engine.utilities.Math.getDistance;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Player;
 
@@ -59,14 +60,14 @@ public final class Handgun extends Gun {
         
         // Calculate the target closest to the starting point of the bullet:
         Creature target = targets.get(0);
-        float targetDistance = target.getDistanceTo(originX, originY);
+        float targetDistance = getDistance(target, originX, originY);
         
         for (int i = 1; i < targets.size(); i++) {
             Creature next = targets.get(i);
-            float nextDistance = next.getDistanceTo(originX, originY);
+            float nextDistance = getDistance(next, originX, originY);
             if (nextDistance < targetDistance) {
                 target = next;
-                targetDistance = target.getDistanceTo(originX, originY);
+                targetDistance = getDistance(target, originX, originY);
             }
         }
         

@@ -12,6 +12,7 @@ import wge3.game.engine.ai.tasks.MeleeAttackTask;
 import wge3.game.engine.ai.tasks.MoveTask;
 import wge3.game.engine.ai.tasks.RangedAttackTask;
 import wge3.game.engine.ai.tasks.WaitTask;
+import static wge3.game.engine.utilities.Math.getDistance2;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.items.Gun;
@@ -50,7 +51,7 @@ public class RangedAI extends AI {
             Gun gun = (Gun) NPC.getSelectedItem();
             int gunRange2 = gun.getRange() * gun.getRange();
             for (Creature dude : NPC.getEnemiesWithinFOV()) {
-                if (NPC.getDistance2To(dude) <= gunRange2) {
+                if (getDistance2(NPC, dude) <= gunRange2) {
                     currentTask = new RangedAttackTask(NPC, dude);
                     return;
                 }

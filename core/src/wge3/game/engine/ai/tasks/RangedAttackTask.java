@@ -7,6 +7,7 @@
 package wge3.game.engine.ai.tasks;
 
 import static com.badlogic.gdx.utils.TimeUtils.millis;
+import static wge3.game.engine.utilities.Math.getDistance;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
@@ -70,6 +71,6 @@ public class RangedAttackTask extends AITask {
     public boolean isWithinGunRange(Creature enemy) {
         Gun gun = (Gun) executor.getSelectedItem();
         
-        return executor.getDistanceTo(enemy) / Tile.size <= gun.getRange();
+        return getDistance(executor, enemy) / Tile.size <= gun.getRange();
     }
 }
