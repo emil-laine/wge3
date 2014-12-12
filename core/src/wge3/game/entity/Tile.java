@@ -318,7 +318,7 @@ public class Tile implements Drawable {
     }
     
     public List<Tile> getNearbyTiles(boolean includeDiagonal) {
-        List<Tile> tiles = new ArrayList<Tile>();
+        List<Tile> tiles = new ArrayList<>();
         if (area.hasLocation(x-1, y)) tiles.add(area.getTileAt(x-1, y));
         if (area.hasLocation(x+1, y)) tiles.add(area.getTileAt(x+1, y));
         if (area.hasLocation(x, y-1)) tiles.add(area.getTileAt(x, y-1));

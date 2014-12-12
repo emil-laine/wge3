@@ -46,17 +46,17 @@ public final class Area implements Drawable {
     private long timeOfLastPassTime;
 
     public Area(String mapName) {
-        allTiles     = new ArrayList<Tile>();
-        creatures    = new ArrayList<Creature>();
-        flyingCreatures = new ArrayList<Creature>();
-        players      = new ArrayList<Player>();
-        NPCs         = new ArrayList<NonPlayer>();
-        items        = new ArrayList<Item>();
-        bombs        = new ArrayList<Bomb>();
-        slimes       = new ArrayList<GreenSlime>();
+        allTiles     = new ArrayList<>();
+        creatures    = new ArrayList<>();
+        flyingCreatures = new ArrayList<>();
+        players      = new ArrayList<>();
+        NPCs         = new ArrayList<>();
+        items        = new ArrayList<>();
+        bombs        = new ArrayList<>();
+        slimes       = new ArrayList<>();
         
-        tilesToDraw  = new LinkedList<Tile>();
-        treesToDraw  = new LinkedList<Tree>();
+        tilesToDraw  = new LinkedList<>();
+        treesToDraw  = new LinkedList<>();
         
         loadMap(mapName);
     }
@@ -355,7 +355,7 @@ public final class Area implements Drawable {
     }
     
     public void expandSlimes() {
-        List<GreenSlime> newSlimes = new ArrayList<GreenSlime>();
+        List<GreenSlime> newSlimes = new ArrayList<>();
         
         slimes.stream()
                 .filter((slime) -> (randomBoolean(GreenSlime.expansionProbability)))
