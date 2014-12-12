@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import wge3.game.engine.gui.Drawable;
 import wge3.game.entity.bombs.Bomb;
 import wge3.game.entity.creatures.Creature;
@@ -98,13 +99,13 @@ public class Tile implements Drawable {
     public void setLighting(Color color) {
         ground.setLighting(color);
         if (hasObject()) object.setLighting(color);
-        for (Creature creature : getCreatures()) {
-            if (!creature.isInvisible())
-                    creature.setLighting(color);
-        }
-        for (Bomb bomb : getBombs()) {
-            bomb.setLighting(color);
-        }
+        getCreatures()
+                .stream()
+                .filter((creature) -> (!creature.isInvisible()))
+                .forEach((creature) -> creature.setLighting(color));
+        getBombs()
+                .stream()
+                .forEach((bomb) -> bomb.setLighting(color));
     }
     
     public float getMovementModifier() {
@@ -146,13 +147,9 @@ public class Tile implements Drawable {
         
         if (getDistanceTo(x, y) > sight * Tile.size) return false;
         
-        for (Tile tile : area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())) {
-            if (tile.blocksVision()) {
-                if (!aerial) return false;
-            }
-        }
-        
-        return true;
+        return area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())
+                .stream()
+                .noneMatch((tile) -> (tile.blocksVision() && !aerial));
     }
     
     public boolean canBeSeenFrom(float x, float y, int range) {
@@ -186,23 +183,17 @@ public class Tile implements Drawable {
     }
 
     public List<Creature> getCreatures() {
-        List<Creature> creatures = new ArrayList<Creature>();
-        for (Creature creature : area.getCreatures()) {
-            if (creature.getTileX() == this.getX() && creature.getTileY() == this.getY()) {
-                creatures.add(creature);
-            }
-        }
-        return creatures;
+        return area.getCreatures()
+                .stream()
+                .filter((c) -> (c.getTileX() == getX() && c.getTileY() == getY()))
+                .collect(Collectors.toList());
     }
     
     public List<Bomb> getBombs() {
-        List<Bomb> bombs = new ArrayList<Bomb>();
-        for (Bomb bomb : area.getBombs()) {
-            if (area.getTileAt(bomb.getX(), bomb.getY()).equals(this)) {
-                bombs.add(bomb);
-            }
-        }
-        return bombs;
+        return area.getBombs()
+                .stream()
+                .filter((bomb) -> (area.getTileAt(bomb.getX(), bomb.getY()).equals(this)))
+                .collect(Collectors.toList());
     }
 
     public void dealDamage(int amount) {
@@ -277,13 +268,11 @@ public class Tile implements Drawable {
     public boolean isAnOKMoveDestinationFrom(float startX, float startY) {
         if (!isGoodMoveDest()) return false;
         
-        for (Tile tile : getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())) {
-            // Don't call tile.blocksVision() here;
-            // it must be called before calling this method.
-            if (!tile.isGoodMoveDest()) return false;
-        }
-        
-        return true;
+        // Don't call tile.blocksVision() here;
+        // it must be called before calling this method.
+        return getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())
+                .stream()
+                .noneMatch((tile) -> (!tile.isGoodMoveDest()));
     }
 
     public boolean isGoodMoveDest() {

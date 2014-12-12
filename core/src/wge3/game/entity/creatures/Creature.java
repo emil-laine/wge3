@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import static wge3.game.engine.constants.Direction.*;
 import wge3.game.engine.constants.StateFlag;
 import wge3.game.engine.constants.Statistic;
@@ -522,13 +523,9 @@ public abstract class Creature implements Drawable {
         
         if (getDistance(this, x, y) > sight * Tile.size) return false;
         
-        for (Tile tile : area.getTilesOnLine(getX(), getY(), x, y)) {
-            if (tile.blocksVision()) {
-                return false;
-            }
-        }
-        
-        return true;
+        return area.getTilesOnLine(getX(), getY(), x, y)
+                .stream()
+                .noneMatch((tile) -> (tile.blocksVision()));
     }
     
     public void setLighting(Color color) {
@@ -561,24 +558,17 @@ public abstract class Creature implements Drawable {
     
     //SORT THIS, make comparator
     public List<Creature> getEnemiesWithinFOV() {
-        List<Creature> enemiesWithinFOV = new ArrayList<Creature>();
-        for (Creature creature : getArea().getCreatures()) {
-            if (creature.isEnemyOf(this) && creature.canBeSeenBy(this)) {
-                enemiesWithinFOV.add(creature);
-            }
-        }
-        return enemiesWithinFOV;
+        return getArea().getCreatures()
+                .stream()
+                .filter((creature) -> (creature.isEnemyOf(this) && creature.canBeSeenBy(this)))
+                .collect(Collectors.toList());
     }
     
     public List<Creature> getFriendliesWithinFOV() {
-        List<Creature> friendlies = new ArrayList<Creature>();
-        for (Creature creature : getArea().getCreatures()) {
-            if (!creature.isEnemyOf(this) && creature.canBeSeenBy(this)) {
-                friendlies.add(creature);
-            }
-        }
-        return friendlies;
-        
+        return getArea().getCreatures()
+                .stream()
+                .filter((creature) -> (!creature.isEnemyOf(this) && creature.canBeSeenBy(this)))
+                .collect(Collectors.toList());
     }
     
     public void addHP(int amount) {
@@ -683,19 +673,16 @@ public abstract class Creature implements Drawable {
         Circle newBounds = new Circle(x, y, getSize());
         List<Creature> creatures = area.getCreaturesNear(x, y);
         creatures.remove(this);
-        for (Creature other : creatures) {
-            if (overlaps(newBounds, other.getBounds())) {
-                return true;
-            }
-        }
-        return false;
+        return creatures
+                .stream()
+                .anyMatch((other) -> (overlaps(newBounds, other.getBounds())));
     }
 
     public List<Creature> getNearbyCreatures() {
-        List<Creature> creatures = new ArrayList<Creature>();
-        for (Tile tile : getTileUnder().getNearbyTiles(true)) {
-            creatures.addAll(tile.getCreatures());
-        }
+        List<Creature> creatures = new ArrayList<>();
+        getTileUnder().getNearbyTiles(true)
+                .stream()
+                .forEach((tile) -> creatures.addAll(tile.getCreatures()));
         creatures.addAll(getTileUnder().getCreatures());
         creatures.remove(this);
         return creatures;

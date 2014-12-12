@@ -148,61 +148,56 @@ public final class Area implements Drawable {
     }
     
     public void drawFlyingCreatures(Batch batch) {
-        for (Creature creature : flyingCreatures) {
-            creature.draw(batch);
-        }
+        flyingCreatures.stream()
+                .forEach((creature) -> creature.draw(batch));
     }
 
     public void drawBombs(Batch batch) {
-        for (Player player : players) {
-            for (Bomb bomb : bombs) {
-                if (bomb.canBeSeenBy(player)) {
-                    bomb.draw(batch);
-                }
-            }
-        }
+        players.stream().forEach((player) -> {
+            bombs.stream()
+                    .filter((bomb) -> bomb.canBeSeenBy(player))
+                    .forEach((bomb) -> bomb.draw(batch));
+        });
     }
 
     public void calculateFOV() {
-        for (Player player : players) {
+        players.stream().forEach((player) -> {
             if (!player.seesEverything()) {
-                for (Tile tile : allTiles) {
-                    if (tile.canBeSeenBy(player)) {
-                        tile.requestDraw();
-                    }
-                }
+                allTiles.stream()
+                        .filter((tile) -> tile.canBeSeenBy(player))
+                        .forEach((tile) -> tile.requestDraw());
             } else {
-                for (Tile tile : allTiles) {
-                    tile.requestDraw();
-                }
+                allTiles.stream()
+                        .forEach((tile) -> tile.requestDraw());
             }
-        }
+        });
     }
     
     public void calculateLighting() {
-        for (Player player : players) {
+        players.stream().forEach((player) -> {
             if (player.seesEverything()) {
                 Color color = new Color(1, 1, 1, 1);
-                for (Tile tile : allTiles) {
-                    tile.setLighting(color);
-                }
+                allTiles.stream().forEach((tile) -> tile.setLighting(color));
             } else {
                 float x = player.getX();
                 float y = player.getY();
                 int range = player.getSight();
-                for (Tile tile : allTiles) {
-                    if (tile.canBeSeenBy(player)) {
-                        Color color = new Color(1, 1, 1, 1);
-                        float distance = tile.getDistanceTo(x, y) / Tile.size;
-                        float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
-                        for (Tile tile2 : getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY()))
-                            if (tile2.castsShadows()) multiplier *= tile2.getObject().getShadowDepth();
-                        color.mul(multiplier, multiplier, multiplier, 1f);
-                        tile.setLighting(color);
-                    }
-                }
+                allTiles.stream()
+                        .filter((tile) -> (tile.canBeSeenBy(player)))
+                        .forEach((tile) -> {
+                    Color color = new Color(1, 1, 1, 1);
+                    float distance = tile.getDistanceTo(x, y) / Tile.size;
+                    float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
+                    multiplier = getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY())
+                            .stream()
+                            .filter((tile2) -> tile2.castsShadows())
+                            .map((tile2) -> tile2.getObject().getShadowDepth())
+                            .reduce(multiplier, (accumulator, _item) -> accumulator * _item);
+                    color.mul(multiplier, multiplier, multiplier, 1f);
+                    tile.setLighting(color);
+                });
             }
-        }
+        });
     }
     
     public void addCreature(Creature guy) {
@@ -279,13 +274,15 @@ public final class Area implements Drawable {
     public void passTime(float delta) {
         long currentTime = millis();
         if (currentTime - timeOfLastPassTime > 100) {
-            for (Creature creature : creatures) {
+            creatures.stream().map((creature) -> {
                 Tile tileUnderCreature = creature.getTileUnder();
                 if (tileUnderCreature.drainsHP() && !creature.isGhost() && !creature.isFlying()) {
                     creature.dealDamage(tileUnderCreature.getHPDrainAmount());
                 }
+                return creature;
+            }).forEach((creature) -> {
                 creature.regenerate(currentTime);
-            }
+            });
             timeOfLastPassTime = currentTime;
             
             expandSlimes();
@@ -305,8 +302,8 @@ public final class Area implements Drawable {
         int finalTileX = floatPosToTilePos(finalX);
         int finalTileY = floatPosToTilePos(finalY);
         
-        List<Tile> tiles = new ArrayList<Tile>();
-        if (startTileX == finalTileX && startTileY == finalTileY) return tiles;
+        List<Tile> tilesOnLine = new ArrayList<>();
+        if (startTileX == finalTileX && startTileY == finalTileY) return tilesOnLine;
         
         int i = 0;
         int currentTileX;
@@ -323,19 +320,19 @@ public final class Area implements Drawable {
             
             if (currentTileX == finalTileX && currentTileY == finalTileY) break;
             
-            tiles.add(getTileAt(currentTileX, currentTileY));
+            tilesOnLine.add(getTileAt(currentTileX, currentTileY));
 
             previousTileX = currentTileX;
             previousTileY = currentTileY;
         }
         
-        return tiles;
+        return tilesOnLine;
     }
     
     public void dispose() {
-        for (Bomb bomb : getBombs()) {
+        getBombs().stream().forEach((bomb) -> {
             bomb.cancelTimer();
-        }
+        });
         // ...
     }
     
@@ -360,13 +357,11 @@ public final class Area implements Drawable {
     public void expandSlimes() {
         List<GreenSlime> newSlimes = new ArrayList<GreenSlime>();
         
-        for (GreenSlime slime : slimes) {
-            if (randomBoolean(GreenSlime.expansionProbability)) {
-                GreenSlime newSlime = slime.expand();
-                if (newSlime != null)
-                    newSlimes.add(newSlime);
-            }
-        }
+        slimes.stream()
+                .filter((slime) -> (randomBoolean(GreenSlime.expansionProbability)))
+                .map((slime) -> slime.expand())
+                .filter((newSlime) -> (newSlime != null))
+                .forEach((newSlime) -> newSlimes.add(newSlime));
         
         slimes.addAll(newSlimes);
     }
@@ -376,10 +371,10 @@ public final class Area implements Drawable {
     }
     
     public List<Creature> getCreaturesNear(float x, float y) {
-        List<Creature> creatures = new ArrayList<Creature>();
-        for (Tile tile : getTileAt(x, y).getNearbyTiles(true)) {
+        List<Creature> creatures = new ArrayList<>();
+        getTileAt(x, y).getNearbyTiles(true).stream().forEach((tile) -> {
             creatures.addAll(tile.getCreatures());
-        }
+        });
         return creatures;
     }
 }
