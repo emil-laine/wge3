@@ -13,7 +13,7 @@ public final class Inventory {
     
     public Inventory(Creature owner) {
         this.owner = owner;
-        items = new ArrayList<InventoryEntry>();
+        items = new ArrayList<>();
         selectedItem = 0;
     }
     
@@ -43,7 +43,7 @@ public final class Inventory {
     }
     
     public List<Item> getItems() {
-        List<Item> newList = new ArrayList<Item>();
+        List<Item> newList = new ArrayList<>();
         for (InventoryEntry item : items) {
             newList.add(item.getItem());
         }

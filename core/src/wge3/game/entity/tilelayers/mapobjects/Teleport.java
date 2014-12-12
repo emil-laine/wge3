@@ -47,7 +47,7 @@ public class Teleport extends MapObject {
     }
     
     public List<Teleport> getTeleportDestinations() {
-        List<Teleport> teleports = new ArrayList<Teleport>();
+        List<Teleport> teleports = new ArrayList<>();
         // This only happens when somebody uses a teleport
         // so looping through every tile is not a problem.
         for (Tile tile : Tile.getArea().getTiles()) {

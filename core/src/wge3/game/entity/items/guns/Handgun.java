@@ -44,7 +44,7 @@ public final class Handgun extends Gun {
         
         Line2D lineOfFire = new Line2D.Float(originX, originY, targetX, targetY);
         
-        List<Creature> targets = new LinkedList<Creature>(user.getArea().getCreatures());
+        List<Creature> targets = new LinkedList<>(user.getArea().getCreatures());
 
         // Remove impossible targets:
         targets.remove(user);
