@@ -19,7 +19,7 @@ public class Tile implements Drawable {
     
     public static final int size = 24;
     
-    private Area area;
+    private static Area area;
     private int x, y; // in tiles
     private Rectangle bounds;
     
@@ -72,11 +72,11 @@ public class Tile implements Drawable {
         return y;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    public static void setArea(Area area) {
+        Tile.area = area;
     }
 
-    public Area getArea() {
+    public static Area getArea() {
         return area;
     }
 

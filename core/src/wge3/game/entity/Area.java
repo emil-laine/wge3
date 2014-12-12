@@ -80,7 +80,6 @@ public final class Area implements Drawable {
     }
     
     public void addTile(Tile tile, int x, int y) {
-        tile.setArea(this);
         tile.setPosition(x, y);
         allTiles.add(tile);
         tiles[x][y] = tile;
@@ -281,7 +280,7 @@ public final class Area implements Drawable {
         long currentTime = millis();
         if (currentTime - timeOfLastPassTime > 100) {
             for (Creature creature : creatures) {
-                Tile tileUnderCreature = creature.getTile();
+                Tile tileUnderCreature = creature.getTileUnder();
                 if (tileUnderCreature.drainsHP() && !creature.isGhost() && !creature.isFlying()) {
                     creature.dealDamage(tileUnderCreature.getHPDrainAmount());
                 }

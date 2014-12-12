@@ -6,6 +6,7 @@ import wge3.game.entity.creatures.Creature;
 import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.Tile;
 import static wge3.game.engine.utilities.Math.angle;
+import static wge3.game.engine.utilities.Math.isInCenterOfATile;
 
 public final class MoveTask extends AITask {
     
@@ -21,7 +22,7 @@ public final class MoveTask extends AITask {
             path = new ArrayList<Tile>(1);
             path.add(dest);
         } else {
-            path = findPath(executor.getTile(), dest);
+            path = findPath(executor.getTileUnder(), dest);
             if (path == null) return;
         }
         
@@ -32,7 +33,7 @@ public final class MoveTask extends AITask {
 
     @Override
     public boolean isFinished() {
-        return path == null || (executor.getTile().equals(getDestination()) && executor.isInCenterOfATile());
+        return path == null || (executor.getTileUnder().equals(getDestination()) && isInCenterOfATile(executor));
     }
 
     @Override
@@ -42,7 +43,7 @@ public final class MoveTask extends AITask {
             return;
         }
         
-        if (executor.getTile().equals(path.get(position)) && executor.isInCenterOfATile()) {
+        if (executor.getTileUnder().equals(path.get(position)) && isInCenterOfATile(executor)) {
             position++;
             float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
             turnTask = new TurnTask(executor, angle);

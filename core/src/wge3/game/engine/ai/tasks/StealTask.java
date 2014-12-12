@@ -21,12 +21,12 @@ public class StealTask extends AITask{
         this.executor = executor;
         this.target = target;
         
-        subTask = new MoveTask(executor, target.getTile());
+        subTask = new MoveTask(executor, target.getTileUnder());
     }
     
     @Override
     public void execute() {
-        Tile targetTile = target.getTile();
+        Tile targetTile = target.getTileUnder();
         if (subTask.getDestination() != targetTile && target.canBeSeenBy(executor) && targetTile.isAnOKMoveDestinationFor(executor)) {
             subTask.setDestination(targetTile);
         }

@@ -5,16 +5,19 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.game.engine.constants.StateFlag;
 import static wge3.game.engine.constants.Team.PlayerTeam;
+import wge3.game.engine.utilities.Statistics;
 
 public final class Player extends Creature {
     
     private OrthographicCamera camera;
+    private String name;
+    public static Statistics statistics;
     
     public Player() {
         setSprite(4, 3);
         team = PlayerTeam;
         size = 14;
-        HP.setMaximum(100);
+        HP.setMax(100);
         strength = 10;
         defense = 5;
         
@@ -37,5 +40,17 @@ public final class Player extends Creature {
     @Override
     public void draw(Batch batch) {
         super.draw(batch);
+    }
+
+    public String getName() {
+        return name;
+    }
+    
+    public void setStats(Statistics statistics) {
+        Player.statistics = statistics;
+    }
+    
+    public static Statistics getStats() {
+        return statistics;
     }
 }

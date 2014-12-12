@@ -7,6 +7,7 @@
 package wge3.game.engine.ai.tasks;
 
 import static com.badlogic.gdx.utils.TimeUtils.millis;
+import static wge3.game.engine.utilities.Math.getDistance;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
@@ -28,7 +29,7 @@ public class RangedAttackTask extends AITask {
         this.executor = executor;
         this.target = target;
         
-        subTask = new MoveTask(executor, target.getTile());
+        subTask = new MoveTask(executor, target.getTileUnder());
         timeOfLastAttack = millis();
     }
     
@@ -37,14 +38,14 @@ public class RangedAttackTask extends AITask {
     @Override
     public void execute() {
         // Check if target has moved to a new tile:
-        Tile targetTile = target.getTile();
+        Tile targetTile = target.getTileUnder();
         
         if (!isWithinGunRange(target)) {
             subTask.setDestination(targetTile);
             return;
         }
         if (!executor.isFacing(target)) {
-            subTask = new MoveTask(executor, target.getTile());
+            subTask = new MoveTask(executor, target.getTileUnder());
             subTask.execute();
             return;
         }
@@ -70,6 +71,6 @@ public class RangedAttackTask extends AITask {
     public boolean isWithinGunRange(Creature enemy) {
         Gun gun = (Gun) executor.getSelectedItem();
         
-        return executor.getDistanceTo(enemy) / Tile.size <= gun.getRange();
+        return getDistance(executor, enemy) / Tile.size <= gun.getRange();
     }
 }

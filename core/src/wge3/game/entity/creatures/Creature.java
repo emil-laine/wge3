@@ -28,8 +28,8 @@ import static wge3.game.engine.gamestates.PlayState.mStream;
 import wge3.game.engine.gui.Drawable;
 import static wge3.game.engine.utilities.Math.floatPosToTilePos;
 import static wge3.game.engine.utilities.Math.getDiff;
+import static wge3.game.engine.utilities.Math.getDistance;
 import wge3.game.engine.utilities.StatIndicator;
-import wge3.game.engine.utilities.Statistics;
 import static wge3.game.engine.utilities.pathfinding.PathFinder.findPath;
 import wge3.game.entity.Area;
 import wge3.game.entity.Tile;
@@ -41,7 +41,6 @@ import wge3.game.entity.tilelayers.mapobjects.Teleport;
 public abstract class Creature implements Drawable {
 
     protected Area area;
-    protected Statistics statistics;
     protected int previousTileX;
     protected int previousTileY;
     protected Circle bounds;
@@ -55,9 +54,7 @@ public abstract class Creature implements Drawable {
     protected float direction;
     protected float turningSpeed;
     protected int sight;
-    protected float FOV;
     
-    protected String name;
     protected StatIndicator HP;
     protected StatIndicator energy;
     protected int strength;
@@ -74,13 +71,12 @@ public abstract class Creature implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
-    protected Texture texture;
+    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
     protected Sprite sprite;
     
     protected Set<StateFlag> stateFlags;
     
     public Creature() {
-        texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         size = Tile.size / 3;
         defaultSpeed = 75;
         currentSpeed = defaultSpeed;
@@ -88,7 +84,6 @@ public abstract class Creature implements Drawable {
         direction = random() * PI2;
         turningSpeed = 4;
         sight = 12;
-        FOV = PI;
         unarmedAttackSize = Tile.size/2;
         
         HP = new StatIndicator();
@@ -168,29 +163,29 @@ public abstract class Creature implements Drawable {
     public void setTurningSpeed(float turningSpeed) {
         this.turningSpeed = turningSpeed;
     }
+    
+    public StatIndicator getHP() {
+        return HP;
+    }
+    
+    public StatIndicator getEnergy() {
+        return energy;
+    }
 
     public int getMaxHP() {
-        return HP.getMaximum();
+        return HP.getMax();
     }
-
-    public void setMaxHP(int newMaxHP) {
-        HP.setMaximum(newMaxHP);
-    }
-
-    public int getEnergy() {
+    
+    public int getCurrentEnergy() {
         return energy.getCurrent();
     }
 
     public int getMaxEnergy() {
-        return energy.getMaximum();
+        return energy.getMax();
     }
-
-    public int getHP() {
+    
+    public int getCurrentHP() {
         return HP.getCurrent();
-    }
-
-    public void setHP(int newHP) {
-        HP.setCurrent(newHP);
     }
 
     public int getSize() {
@@ -255,8 +250,8 @@ public abstract class Creature implements Drawable {
         
         // These could be optimized to be checked less than FPS times per second:
         if (hasMovedToANewTile()) {
-            if (getTile().hasTeleport() && !getPreviousTile().hasTeleport()) {
-                Teleport tele = (Teleport) getTile().getObject();
+            if (getTileUnder().hasTeleport() && !getPreviousTile().hasTeleport()) {
+                Teleport tele = (Teleport) getTileUnder().getObject();
                 tele.teleport(this);
             }
             previousTileX = getTileX();
@@ -272,31 +267,28 @@ public abstract class Creature implements Drawable {
     }
     
     public void pickUpItems() {
-        Tile currentTile = getTile();
+        Tile currentTile = getTileUnder();
         if (currentTile.hasItem()) {
             inventory.addItem((Item) currentTile.getObject());
             currentTile.removeObject();
             if (this.isPlayer()) {
-                statistics.addStatToPlayer(this, Statistic.ITEMSPICKEDUP, 1);
+                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSPICKEDUP, 1);
             }
             
         }
     }
 
     public boolean canMoveTo(float x, float y) {
-        if (!area.hasLocation(x, y)) {
+        if (!area.hasLocation(x, y))
             return false;
-        }
         
-        if (this.isGhost()) {
+        if (this.isGhost())
             return true;
-        }
         
         Tile destination = area.getTileAt(x, y);
         
-        if (this.isFlying()) {
+        if (this.isFlying())
             return destination.isPassable();
-        }
         
         if (destination.isOneWay()) {
             OneWayFloor oneWayTile = (OneWayFloor) destination.getGround();
@@ -314,18 +306,17 @@ public abstract class Creature implements Drawable {
             }
         }
         
-        if (collisionDetected(x, y)) {
+        if (collisionDetected(x, y))
             return false;
-        }
         
-        if (!this.isOnPassableObject()) {
+        if (!this.isOnPassableObject())
             return true;
-        }
+        
         return (destination.isPassable());
     }
     
     public boolean canMoveTo(Tile dest) {
-        return findPath(this.getTile(), dest) != null;
+        return findPath(this.getTileUnder(), dest) != null;
     }
     
     public void useItem() {
@@ -339,7 +330,7 @@ public abstract class Creature implements Drawable {
         else { 
             selectedItem.use(this);
             if (this.isPlayer()) {
-                statistics.addStatToPlayer(this, Statistic.ITEMSUSED, 1);
+                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSUSED, 1);
             }
             
         }
@@ -359,10 +350,6 @@ public abstract class Creature implements Drawable {
 
     public int getSight() {
         return sight;
-    }
-
-    public float getFOV() {
-        return FOV;
     }
 
     public boolean seesEverything() {
@@ -391,17 +378,11 @@ public abstract class Creature implements Drawable {
         }
     }
 
-    public boolean isInCenterOfATile() {
-        float x = (getX() % Tile.size) / Tile.size;
-        float y = (getY() % Tile.size) / Tile.size;
-        return (x >= 0.25f && x < 0.75f) && (y >= 0.25f && y < 0.75f);
-    }
-
     public void dealDamage(int amount) {
         int decreaseAmount = max(amount - defense, 1);
         HP.decrease(decreaseAmount);
         if (this.isPlayer()) {
-            statistics.addStatToPlayer(this, Statistic.DAMAGETAKEN, decreaseAmount);
+            Player.getStats().addStatToPlayer((Player) this, Statistic.DAMAGETAKEN, decreaseAmount);
         }
     }
 
@@ -420,14 +401,14 @@ public abstract class Creature implements Drawable {
         }
     }
 
-    public void regenerateEnergy() {
+    private void regenerateEnergy() {
         energy.increase();
     }
 
-    public void regenerateHP() {
+    private void regenerateHP() {
         HP.increase();
         if (this.isPlayer()) {
-            statistics.addStatToPlayer(this, Statistic.HEALTHREGAINED, 1);
+            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, 1);
         } 
     }
     
@@ -448,7 +429,7 @@ public abstract class Creature implements Drawable {
                 if (creature.getTeam() != getTeam()) {
                     creature.dealDamage(strength);
                     if (this.isPlayer()) {
-                        statistics.addStatToPlayer(this, Statistic.DAMAGEDEALT, strength);
+                        Player.statistics.addStatToPlayer((Player) this, Statistic.DAMAGEDEALT, strength);
                     }
                 }
             }
@@ -531,15 +512,15 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return getTile().canBeSeenBy(creature) && !this.isInvisible();
+        return getTileUnder().canBeSeenBy(creature) && !this.isInvisible();
     }
     
-    public boolean canSee(int x, int y) {
+    public boolean canSee(float x, float y) {
         if (!getArea().hasLocation(x/Tile.size, y/Tile.size)) {
             throw new IllegalArgumentException("Not a valid location!");
         }
         
-        if (getDistanceTo(x, y) > sight * Tile.size) return false;
+        if (getDistance(this, x, y) > sight * Tile.size) return false;
         
         for (Tile tile : area.getTilesOnLine(getX(), getY(), x, y)) {
             if (tile.blocksVision()) {
@@ -554,7 +535,7 @@ public abstract class Creature implements Drawable {
         sprite.setColor(color);
     }
     
-    public Tile getTile() {
+    public Tile getTileUnder() {
         return area.getTileAt(getX(), getY());
     }
     
@@ -564,25 +545,6 @@ public abstract class Creature implements Drawable {
 
     public Team getTeam() {
         return team;
-    }
-    
-    public List<Tile> getPossibleMovementDestinations() {
-        List<Tile> tiles = new ArrayList<Tile>();
-        for (Tile tile : area.getTiles()) {
-            if (tile.canBeSeenBy(this) && tile.isAnOKMoveDestinationFor(this)) tiles.add(tile);
-        }
-        return tiles;
-    }
-    
-    public Tile getNewMovementDestination() {
-        // Returns a random tile from all the tiles that are
-        // ok move destinations and can be seen by creature.
-        List<Tile> tiles = getPossibleMovementDestinations();
-        return tiles.get(random(tiles.size() - 1));
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getUnarmedAttackSize() {
@@ -622,51 +584,13 @@ public abstract class Creature implements Drawable {
     public void addHP(int amount) {
         HP.increase(amount);
         if (this.isPlayer()) {
-            statistics.addStatToPlayer(this, Statistic.HEALTHREGAINED, amount);
+            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
         }
         
     }
     
     public void addEnergy(int amount) {
         energy.increase(amount);
-    }
-    
-    public float getDistanceTo(float x, float y) {
-        float dx = x - getX();
-        float dy = y - getY();
-        return (float) Math.sqrt(dx*dx + dy*dy);
-    }
-    
-    public float getDistance2To(float x, float y) {
-        float dx = x - getX();
-        float dy = y - getY();
-        return (dx * dx) + (dy * dy);
-    }
-    
-    public float getDistanceInTilesTo(float x, float y) {
-        return getDistanceTo(x, y) / Tile.size;
-    }
-    
-    public float getDistance2InTilesTo(float x, float y) {
-        return getDistance2To(x, y) / Tile.size;
-    }
-    
-    public float getDistanceTo(Creature other) {
-        return getDistanceTo(other.getX(), other.getY());
-    }
-    
-    public float getDistance2To(Creature other) {
-        return getDistance2To(other.getX(), other.getY());
-    }
-    
-    public float getDistanceTo(Tile tile) {
-        // Returns distance to middle point of tile
-        return getDistanceInTilesTo(tile.getMiddleX(), tile.getMiddleY());
-    }
-    
-    public float getDistance2To(Tile tile) {
-        // Returns squared distance to middle point of tile
-        return getDistance2InTilesTo(tile.getMiddleX(), tile.getMiddleY());
     }
     
     public void startRunning() {
@@ -743,28 +667,12 @@ public abstract class Creature implements Drawable {
         updateSpriteRotation();
     }
     
-    public float getHPAsFraction() {
-        return HP.getFraction();
-    }
-    
-    public float getEnergyAsFraction() {
-        return energy.getFraction();
-    }
-    
-    public void setStatistics(Statistics statistics) {
-        this.statistics = statistics;
-    }
-    
-    public Statistics getStatistics() {
-        return statistics;
-    }
-    
-    public int getDefence() {
+    public int getDefense() {
         return this.defense;
     }
     
     public boolean isOnPassableObject() {
-        return (this.getTile().isPassable());
+        return (this.getTileUnder().isPassable());
     }
     
     public Circle getBounds() {
@@ -785,15 +693,11 @@ public abstract class Creature implements Drawable {
 
     public List<Creature> getNearbyCreatures() {
         List<Creature> creatures = new ArrayList<Creature>();
-        for (Tile tile : getNearbyTiles(true)) {
+        for (Tile tile : getTileUnder().getNearbyTiles(true)) {
             creatures.addAll(tile.getCreatures());
         }
-        creatures.addAll(getTile().getCreatures());
+        creatures.addAll(getTileUnder().getCreatures());
         creatures.remove(this);
         return creatures;
-    }
-    
-    public List<Tile> getNearbyTiles(boolean checkForDiagonal) {
-        return getTile().getNearbyTiles(checkForDiagonal);
     }
 }

@@ -12,6 +12,7 @@ import wge3.game.engine.ai.tasks.MeleeAttackTask;
 import wge3.game.engine.ai.tasks.MoveTask;
 import wge3.game.engine.ai.tasks.RangedAttackTask;
 import wge3.game.engine.ai.tasks.WaitTask;
+import static wge3.game.engine.utilities.Math.getDistance2;
 import wge3.game.entity.creatures.Creature;
 import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.items.Gun;
@@ -38,7 +39,7 @@ public class RangedAI extends AI {
         }
         
         if (randomBoolean(2/3f)) {
-            currentTask = new MoveTask(NPC, NPC.getNewMovementDestination());
+            currentTask = new MoveTask(NPC, getNewMovementDestination(NPC));
         } else {
             currentTask = new WaitTask(random(3000));
         }
