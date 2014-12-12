@@ -53,7 +53,7 @@ public class AI {
         
                 NPC.getEnemiesWithinFOV()
                 .parallelStream()
-                .filter(x -> NPC.canMoveTo(x.getTile()))
+                .filter(x -> NPC.canMoveTo(x.getTileUnder()))
                 .findFirst()
                 .ifPresent(x -> currentTask = new MeleeAttackTask(NPC, x));
          

@@ -53,7 +53,7 @@ public class RangedAI extends AI {
             
             NPC.getEnemiesWithinFOV()
                     .parallelStream()
-                    .filter(x -> NPC.getDistance2To(x) <= gunRange2)
+                    .filter(x -> getDistance2(NPC, x) <= gunRange2)
                     .findAny()
                     .ifPresent(x -> currentTask = new RangedAttackTask(NPC, x));
             
