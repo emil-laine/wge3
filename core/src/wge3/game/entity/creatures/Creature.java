@@ -517,9 +517,7 @@ public abstract class Creature implements Drawable {
     }
     
     public boolean canSee(float x, float y) {
-        if (!getArea().hasLocation(x/Tile.size, y/Tile.size)) {
-            throw new IllegalArgumentException("Not a valid location!");
-        }
+        assert getArea().hasLocation(x / Tile.size, y / Tile.size) : "Not a valid location!";
         
         if (getDistance(this, x, y) > sight * Tile.size) return false;
         

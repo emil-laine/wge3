@@ -143,7 +143,7 @@ public class Tile implements Drawable {
     }
     
     public boolean canBeSeenFrom(float x, float y, int sight, boolean aerial) {
-        if (!getArea().hasLocation(x, y)) throw new IllegalArgumentException("Not a valid location!");
+        assert getArea().hasLocation(x, y) : "Not a valid location!";
         
         if (getDistanceTo(x, y) > sight * Tile.size) return false;
         

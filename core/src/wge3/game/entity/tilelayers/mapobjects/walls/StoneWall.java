@@ -5,7 +5,7 @@ import wge3.game.entity.tilelayers.mapobjects.Wall;
 public final class StoneWall extends Wall {
 
     public StoneWall(int type) {
-        if (type < 0 || type > 2) throw new IllegalArgumentException();
+        assert type >= 0 && type <= 2 : "Illegal arguments passed to StoneWall constructor!";
         setSprite(3+type, 1);
     }
 
