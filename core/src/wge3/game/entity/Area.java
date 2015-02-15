@@ -173,31 +173,29 @@ public final class Area implements Drawable {
         });
     }
     
-    public void calculateLighting() {
-        players.stream().forEach((player) -> {
-            if (player.seesEverything()) {
-                Color color = new Color(1, 1, 1, 1);
-                allTiles.stream().forEach((tile) -> tile.setLighting(color));
-            } else {
-                float x = player.getX();
-                float y = player.getY();
-                int range = player.getSight();
-                allTiles.stream()
-                        .filter((tile) -> (tile.canBeSeenBy(player)))
-                        .forEach((tile) -> {
-                    Color color = new Color(1, 1, 1, 1);
-                    float distance = tile.getDistanceTo(x, y) / Tile.size;
-                    float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
-                    multiplier = getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY())
-                            .stream()
-                            .filter((tile2) -> tile2.castsShadows())
-                            .map((tile2) -> tile2.getObject().getShadowDepth())
-                            .reduce(multiplier, (accumulator, _item) -> accumulator * _item);
-                    color.mul(multiplier, multiplier, multiplier, 1f);
-                    tile.setLighting(color);
-                });
-            }
-        });
+	public void calculateLighting() {
+		for (Player player : players) {
+            if (player.seesEverything())
+				continue;
+			
+			float x = player.getX();
+			float y = player.getY();
+			int range = player.getSight();
+			allTiles.stream()
+					.filter((tile) -> (tile.canBeSeenBy(player)))
+					.forEach((tile) -> {
+				Color color = new Color(1, 1, 1, 1);
+				float distance = tile.getDistanceTo(x, y) / Tile.size;
+				float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
+				multiplier = getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY())
+						.stream()
+						.filter((tile2) -> tile2.castsShadows())
+						.map((tile2) -> tile2.getObject().getShadowDepth())
+						.reduce(multiplier, (accumulator, _item) -> accumulator * _item);
+				color.mul(multiplier, multiplier, multiplier, 1f);
+				tile.setLighting(color);
+			});
+        }
     }
     
     public void addCreature(Creature guy) {

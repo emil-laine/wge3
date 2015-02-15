@@ -358,10 +358,12 @@ public abstract class Creature implements Drawable {
     }
     
     public void toggleSeeEverything() {
-        if (stateFlags.contains(StateFlag.SEES_EVERYTHING))
+		if (stateFlags.contains(StateFlag.SEES_EVERYTHING)) {
             stateFlags.remove(StateFlag.SEES_EVERYTHING);
-        else
+		} else {
             stateFlags.add(StateFlag.SEES_EVERYTHING);
+			getArea().getTiles().stream().forEach((tile) -> tile.setLighting(Color.WHITE));
+		}
     }
     
     public boolean isGhost() {
