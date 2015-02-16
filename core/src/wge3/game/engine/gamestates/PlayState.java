@@ -11,6 +11,7 @@ import wge3.game.engine.GameStateManager;
 import static wge3.game.engine.GameStateManager.HEIGHT;
 import static wge3.game.engine.GameStateManager.WIDTH;
 import wge3.game.engine.InputHandler;
+import wge3.game.engine.Command;
 import wge3.game.engine.gui.HUD;
 import wge3.game.engine.gui.MessageStream;
 import wge3.game.engine.utilities.Statistics;
@@ -97,7 +98,7 @@ public final class PlayState extends GameState {
         area.calculateLighting();
         area.passTime(delta);
         handleInput();
-        input.updateKeyDowns();
+        input.copyKeyBuffer();
     }
 
     @Override
@@ -119,39 +120,40 @@ public final class PlayState extends GameState {
 
     @Override
     public void handleInput() {
-        if (input.isDown(6)) {
+        if (input.isDown(Command.RUN))
             player.startRunning();
-        } else if (!input.isDown(6)) {
+        else if (!input.isDown(Command.RUN))
             player.stopRunning();
-        } 
         
-        if (input.isDown(0)) player.goForward();
-        else if (input.isDown(1)) player.goBackward();
+        if (input.isDown(Command.FORWARD))
+            player.goForward();
+        else if (input.isDown(Command.BACKWARD))
+            player.goBackward();
         
-        if (input.isDown(2)) player.turnLeft();
-        else if (input.isDown(3)) player.turnRight();
+        if (input.isDown(Command.TURN_LEFT))
+            player.turnLeft();
+        else if (input.isDown(Command.TURN_RIGHT))
+            player.turnRight();
         
-        if (input.isPressed(4)) {
+        if (input.isPressed(Command.USE_ITEM))
             player.useItem();
-        }
         
-        if (input.isPressed(5)) {
+        if (input.isPressed(Command.CHANGE_ITEM))
             player.changeItem();
-        } else if (input.isPressed(7)) {
+        else if (input.isPressed(Command.EXIT))
             gsm.setState(0);
-        } else if (input.isPressed(8)) {
+        else if (input.isPressed(Command.TOGGLE_FOV))
             player.toggleSeeEverything();
-        } else if (input.isPressed(9)) {
+        else if (input.isPressed(Command.TOGGLE_GHOST_MODE))
             player.toggleGhostMode();
-        } else if (input.isPressed(10)) {
+        else if (input.isPressed(Command.TOGGLE_INVENTORY))
             mStream.toggleShowInventory();
-        } else if (input.isPressed(11)) {
+        else if (input.isPressed(Command.SPAWN_WALL))
             area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
-        } else if (input.isPressed(12)) {
+        else if (input.isPressed(Command.DESTROY_OBJECT))
             area.getTileAt(player.getX(), player.getY()).removeObject();
-        } else if (input.isPressed(13)) {
+        else if (input.isPressed(Command.TOGGLE_FPS))
             mStream.toggleShowFPS();
-        }
     }
 
     @Override
