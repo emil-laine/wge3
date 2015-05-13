@@ -194,9 +194,7 @@ public class Tile implements Drawable {
     /** Calculates the distance from the middlepoint of this Tile to the given
      *  point (x, y). */
     public float getDistanceTo(float x, float y) {
-        float dx = x - this.getMiddleX();
-        float dy = y - this.getMiddleY();
-        return (float) Math.sqrt(dx*dx + dy*dy);
+        return (float) Math.sqrt(getDistance2To(x, y));
     }
     
     /** Calculates the squared distance from the middlepoint of this Tile to the
