@@ -33,12 +33,12 @@ public class Tile implements Drawable {
         bounds.height = Tile.size;
     }
     
-    /** Returns the Ground layer of this Tile */
+    /** Returns the Ground layer of this Tile. */
     public Ground getGround() {
         return ground;
     }
     
-    /** Returns the object on top of the ground, or null if there's no object */
+    /** Returns the object on top of the ground, or null if there's no object. */
     public MapObject getObject() {
         return object;
     }
@@ -65,7 +65,7 @@ public class Tile implements Drawable {
         object = null;
     }
     
-    /** Returns whether this tile is walkable */
+    /** Returns whether this tile is walkable. */
     public boolean isPassable() {
         if (object == null) {
             return true;
@@ -74,12 +74,12 @@ public class Tile implements Drawable {
         }
     }
     
-    /** Returns the x-coordinate of this Tile in the tile grid */
+    /** Returns the x-coordinate of this Tile in the tile grid. */
     public int getX() {
         return x;
     }
     
-    /** Returns the y-coordinate of this Tile in the tile grid */
+    /** Returns the y-coordinate of this Tile in the tile grid. */
     public int getY() {
         return y;
     }
@@ -89,12 +89,12 @@ public class Tile implements Drawable {
         Tile.area = area;
     }
     
-    /** Returns the Area this Tile belongs in */
+    /** Returns the Area this Tile belongs in. */
     public static Area getArea() {
         return area;
     }
     
-    /** Returns the rectangular area this Tile occupies */
+    /** Returns the rectangular area this Tile occupies. */
     public Rectangle getBounds() {
         return bounds;
     }
@@ -144,7 +144,7 @@ public class Tile implements Drawable {
     }
     
     /** Returns whether this Tile has a solid object on it that can't be seen
-     *  through */
+     *  through. */
     public boolean blocksVision() {
         if (object != null) {
             return object.blocksVision();
@@ -167,7 +167,7 @@ public class Tile implements Drawable {
         }
     }
     
-    /** Returns whether the given Creature can see this Tile */
+    /** Returns whether the given Creature can see this Tile. */
     public boolean canBeSeenBy(Creature creature) {
         return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.isFlying()) || creature.seesEverything();
     }
