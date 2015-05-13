@@ -13,7 +13,7 @@ public final class Math {
     /** Calculates the angle between the points (x1, y1) and (x2, y2). */
     public static float angle(float x1, float y1, float x2, float y2) {
         float angle = atan2(y2 - y1, x2 - x1);
-        if (angle < 0) angle += PI2;
+        if (angle < 0) return angle + PI2;
         return angle;
     }
     
@@ -21,8 +21,8 @@ public final class Math {
      *  @return in the range [-PI, +PI] */
     public static float getDiff(float src, float dst) {
         float diff = dst - src;
-        if (diff > PI) diff -= PI2;
-        else if (diff < -PI) diff += PI2;
+        if (diff > PI) return diff - PI2;
+        if (diff < -PI) return diff + PI2;
         return diff;
     }
     
