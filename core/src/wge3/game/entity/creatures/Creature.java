@@ -105,7 +105,7 @@ public abstract class Creature implements Drawable {
         stateFlags = EnumSet.noneOf(StateFlag.class);
     }
     
-    /** @return current x position of this Creature */
+    /** Returns the current x position of this Creature. */
     public float getX() {
         return bounds.x;
     }
@@ -115,7 +115,7 @@ public abstract class Creature implements Drawable {
         updateSpritePosition();
     }
     
-    /** @return current y position of this Creature */
+    /** Returns the current y position of this Creature. */
     public float getY() {
         return bounds.y;
     }
@@ -137,7 +137,7 @@ public abstract class Creature implements Drawable {
         updateSpritePosition();
     }
     
-    /** @return current Area this Creature is in */
+    /** Returns the current Area this Creature is in. */
     public Area getArea() {
         return area;
     }
@@ -147,7 +147,7 @@ public abstract class Creature implements Drawable {
         this.area = area;
     }
     
-    /** @return default walking speed of this Creature */
+    /** Returns the default walking speed of this Creature. */
     public int getDefaultSpeed() {
         return defaultSpeed;
     }
@@ -162,12 +162,12 @@ public abstract class Creature implements Drawable {
         this.currentSpeed = speed;
     }
     
-    /** @return the direction this Creature is currently facing */
+    /** Returns the direction this Creature is currently facing. */
     public float getDirection() {
         return direction;
     }
     
-    /** @return the current turning speed of this Creature */
+    /** Returns the current turning speed of this Creature. */
     public float getTurningSpeed() {
         return turningSpeed;
     }
@@ -177,47 +177,47 @@ public abstract class Creature implements Drawable {
         this.turningSpeed = turningSpeed;
     }
     
-    /** @return the StatIndicator representing this Creature's HP */
+    /** Returns the StatIndicator representing this Creature's HP. */
     public StatIndicator getHP() {
         return HP;
     }
     
-    /** @return the StatIndicator representing this Creature's energy */
+    /** Returns the StatIndicator representing this Creature's energy. */
     public StatIndicator getEnergy() {
         return energy;
     }
     
-    /** @return the maximum HP of this Creature */
+    /** Returns the maximum HP of this Creature. */
     public int getMaxHP() {
         return HP.getMax();
     }
     
-    /** @return the current energy of this Creature */
+    /** Returns the current energy of this Creature. */
     public int getCurrentEnergy() {
         return energy.getCurrent();
     }
     
-    /** @return the maximum energy of this Creature */
+    /** Returns the maximum energy of this Creature. */
     public int getMaxEnergy() {
         return energy.getMax();
     }
     
-    /** @return the current HP of this Creature */
+    /** Returns the current HP of this Creature. */
     public int getCurrentHP() {
         return HP.getCurrent();
     }
     
-    /** @return the size of this Creature */
+    /** Returns the size of this Creature. */
     public int getSize() {
         return size;
     }
     
-    /** @return the current speed of this Creature */
+    /** Returns the current speed of this Creature. */
     public int getCurrentSpeed() {
         return currentSpeed;
     }
     
-    /** @return this Creature's inventory */
+    /** Returns this Creature's inventory. */
     public Inventory getInventory() {
         return inventory;
     }
@@ -289,7 +289,7 @@ public abstract class Creature implements Drawable {
         }
     }
     
-    /** @return whether this Creature has just moved onto another tile */
+    /** Returns whether this Creature has just moved onto another tile. */
     public boolean hasMovedToANewTile() {
         return getTileX() != previousTileX
             || getTileY() != previousTileY;
@@ -308,7 +308,7 @@ public abstract class Creature implements Drawable {
         }
     }
     
-    /** @return whether this Creature can move to the specified point (x, y) */
+    /** Returns whether this Creature can move to the specified point (x, y). */
     public boolean canMoveTo(float x, float y) {
         if (!area.hasLocation(x, y))
             return false;
@@ -346,7 +346,7 @@ public abstract class Creature implements Drawable {
         return (destination.isPassable());
     }
     
-    /** @return whether this Creature can move onto the given Tile */
+    /** Returns whether this Creature can move onto the given Tile. */
     public boolean canMoveTo(Tile dest) {
         return findPath(this.getTileUnder(), dest) != null;
     }
@@ -380,17 +380,17 @@ public abstract class Creature implements Drawable {
         this.selectedItem = selectedItem;
     }
     
-    /** @return the currently equipped item */
+    /** Returns the currently equipped item. */
     public Item getSelectedItem() {
         return selectedItem;
     }
     
-    /** @return the sight attribute of this Creature */
+    /** Returns the sight attribute of this Creature. */
     public int getSight() {
         return sight;
     }
     
-    /** @return whether this Creature can see everything */
+    /** Returns whether this Creature can see everything. */
     public boolean seesEverything() {
         return stateFlags.contains(StateFlag.SEES_EVERYTHING);
     }
@@ -405,7 +405,7 @@ public abstract class Creature implements Drawable {
 		}
     }
     
-    /** @return whether this Creature is a ghost */
+    /** Returns whether this Creature is a ghost. */
     public boolean isGhost() {
         return stateFlags.contains(StateFlag.IS_GHOST);
     }
@@ -432,7 +432,7 @@ public abstract class Creature implements Drawable {
         }
     }
     
-    /** @return whether this Creature is dead */
+    /** Returns whether this Creature is dead. */
     public boolean isDead() {
         return HP.isEmpty();
     }
@@ -495,7 +495,7 @@ public abstract class Creature implements Drawable {
         area.getTileAt(destX, destY).dealDamage(this.strength);
     }
     
-    /** @return whether this Creature is a player */
+    /** Returns whether this Creature is a player. */
     public boolean isPlayer() {
         return this.getClass() == Player.class;
     }
@@ -523,7 +523,7 @@ public abstract class Creature implements Drawable {
         }
     }
     
-    /** @return whether this Creature is currently trying to move forward. */
+    /** Returns whether this Creature is currently trying to move forward. */
     public boolean isGoingForward() {
         return stateFlags.contains(StateFlag.GOING_FORWARD);
     }
@@ -538,7 +538,7 @@ public abstract class Creature implements Drawable {
         stateFlags.remove(StateFlag.GOING_FORWARD);
     }
     
-    /** @return whether this Creature is currently trying to move backward. */
+    /** Returns whether this Creature is currently trying to move backward. */
     public boolean isGoingBackward() {
         return stateFlags.contains(StateFlag.GOING_BACKWARD);
     }
@@ -553,7 +553,7 @@ public abstract class Creature implements Drawable {
         stateFlags.remove(StateFlag.GOING_BACKWARD);
     }
     
-    /** @return whether this Creature is currently turning left */
+    /** Returns whether this Creature is currently turning left. */
     public boolean isTurningLeft() {
         return stateFlags.contains(StateFlag.TURNING_LEFT);
     }
@@ -568,7 +568,7 @@ public abstract class Creature implements Drawable {
         stateFlags.remove(StateFlag.TURNING_LEFT);
     }
     
-    /** @return whether this Creature is currently turning right */
+    /** Returns whether this Creature is currently turning right. */
     public boolean isTurningRight() {
         return stateFlags.contains(StateFlag.TURNING_RIGHT);
     }
@@ -583,12 +583,12 @@ public abstract class Creature implements Drawable {
         stateFlags.remove(StateFlag.TURNING_RIGHT);
     }
     
-    /** @return whether this Creature can be seen by the given Creature */
+    /** Returns whether this Creature can be seen by the given Creature. */
     public boolean canBeSeenBy(Creature creature) {
         return getTileUnder().canBeSeenBy(creature) && !this.isInvisible();
     }
     
-    /** @return Whether this Creature can see the specified point (x, y) */
+    /** Returns Whether this Creature can see the specified point (x, y). */
     public boolean canSee(float x, float y) {
         assert getArea().hasLocation(x / Tile.size, y / Tile.size) : "Not a valid location!";
         
@@ -605,41 +605,41 @@ public abstract class Creature implements Drawable {
         sprite.setColor(color);
     }
     
-    /** @return the tile this Creature is currently standing on */
+    /** Returns the tile this Creature is currently standing on. */
     public Tile getTileUnder() {
         return area.getTileAt(getX(), getY());
     }
     
-    /** @return the tile this Creature was standing on before moving to its
-     *          current tile */
+    /** Returns the tile this Creature was standing on before moving to its
+     *  current tile. */
     public Tile getPreviousTile() {
         return area.getTileAt(previousTileX, previousTileY);
     }
     
-    /** @return the team this Creature belongs to */
+    /** Returns the team this Creature belongs to. */
     public Team getTeam() {
         return team;
     }
     
-    /** @return the radius of the circular area that this Creature's unarmed
-     *          attacks deal damage to */
+    /** Returns the radius of the circular area that this Creature's unarmed
+     *  attacks deal damage to. */
     public int getUnarmedAttackSize() {
         return unarmedAttackSize;
     }
     
-    /** @return whether this Creature is on a different team than the specified
-     *          Creature */
+    /** Returns whether this Creature is on a different team than the specified
+     *  Creature. */
     public boolean isEnemyOf(Creature other) {
         return this.getTeam() != other.getTeam();
     }
     
-    /** @return whether this Creature should pick up items on the ground */
+    /** Returns whether this Creature should pick up items on the ground. */
     public boolean picksUpItems() {
         return stateFlags.contains(StateFlag.PICKS_UP_ITEMS);
     }
     
     //SORT THIS, make comparator
-    /** @return all enemies that this Creature currently sees */
+    /** Returns all enemies that this Creature currently sees. */
     public List<Creature> getEnemiesWithinFOV() {
         return getArea().getCreatures()
                 .stream()
@@ -647,7 +647,7 @@ public abstract class Creature implements Drawable {
                 .collect(Collectors.toList());
     }
     
-    /** @return all allies that this Creature currently sees */
+    /** Returns all allies that this Creature currently sees. */
     public List<Creature> getFriendliesWithinFOV() {
         return getArea().getCreatures()
                 .stream()
@@ -679,7 +679,7 @@ public abstract class Creature implements Drawable {
         stateFlags.remove(StateFlag.IS_RUNNING);
     }
     
-    /** @return whether this Creature is currently in run mode */
+    /** Returns whether this Creature is currently in run mode. */
     public boolean isRunning() {
         return stateFlags.contains(StateFlag.IS_RUNNING);
     }
@@ -689,19 +689,19 @@ public abstract class Creature implements Drawable {
         energy.decrease();
     }
     
-    /** @return whether this Creature has energy left for running */
+    /** Returns whether this Creature has energy left for running. */
     public boolean canRun() {
         return !energy.isEmpty();
     }
     
-    /** @return the x-coordinate of the tile this Creature is currently
-     *          standing on */
+    /** Returns the x-coordinate of the tile this Creature is currently
+     *  standing on. */
     public int getTileX() {
         return floatPosToTilePos(getX());
     }
     
-    /** @return the y-coordinate of the tile this Creature is currently
-     *          standing on */
+    /** Returns the y-coordinate of the tile this Creature is currently
+     *  standing on. */
     public int getTileY() {
         return floatPosToTilePos(getY());
     }
@@ -711,8 +711,8 @@ public abstract class Creature implements Drawable {
         this.team = team;
     }
     
-    /** @return whether both this Creature and the specified Creature are
-     *          currently standing in the same tile */
+    /** Returns whether both this Creature and the specified Creature are
+     *  currently standing in the same tile. */
     public boolean isInSameTileAs(Creature other) {
         return this.getTileX() == other.getTileX()
             && this.getTileY() == other.getTileY();
@@ -729,7 +729,7 @@ public abstract class Creature implements Drawable {
             stateFlags.remove(StateFlag.IS_INVISIBLE);
     }
     
-    /** @return whether this Creature has invisibility currently activated */
+    /** Returns whether this Creature has invisibility currently activated. */
     public boolean isInvisible() {
         return stateFlags.contains(StateFlag.IS_INVISIBLE);
     }
@@ -739,12 +739,12 @@ public abstract class Creature implements Drawable {
         inventory.removeItem(item);
     }
     
-    /** @return whether this Creature is turned towards the target Creature */
+    /** Returns whether this Creature is turned towards the target Creature. */
     public boolean isFacing(Creature target) {
         return abs(getDiff(this.getDirection(), target.direction)) < PI/48;
     }
     
-    /** @return whether this Creature has fly mode currently activated */
+    /** Returns whether this Creature has fly mode currently activated. */
     public boolean isFlying() {
         return stateFlags.contains(StateFlag.IS_FLYING);
     }
@@ -767,18 +767,18 @@ public abstract class Creature implements Drawable {
         updateSpriteRotation();
     }
     
-    /** @return the current defense attribute of this Creature */
+    /** Returns the current defense attribute of this Creature. */
     public int getDefense() {
         return this.defense;
     }
     
-    /** @return whether this Creature is currently standing on a tile that's
-     *          passable, i.e. is not stuck and can move */
+    /** Returns whether this Creature is currently standing on a tile that's
+     *  passable, i.e. is not stuck and can move. */
     public boolean isOnPassableObject() {
         return (this.getTileUnder().isPassable());
     }
     
-    /** @return the circular area that this Creature occupies */
+    /** Returns the circular area that this Creature occupies. */
     public Circle getBounds() {
         return bounds;
     }
@@ -797,7 +797,7 @@ public abstract class Creature implements Drawable {
                 .anyMatch((other) -> (overlaps(newBounds, other.getBounds())));
     }
     
-    /** @return all Creatures that are on the same tile as this Creature or on
+    /** Returns all Creatures that are on the same tile as this Creature or on
      *  any of the 8 neighboring tiles. */
     public List<Creature> getNearbyCreatures() {
         List<Creature> creatures = new ArrayList<>();
