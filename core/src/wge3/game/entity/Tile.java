@@ -67,11 +67,7 @@ public class Tile implements Drawable {
     
     /** Returns whether this tile is walkable. */
     public boolean isPassable() {
-        if (object == null) {
-            return true;
-        } else {
-            return object.isPassable();
-        }
+        return !hasObject() || object.isPassable();
     }
     
     /** Returns the x-coordinate of this Tile in the tile grid. */
@@ -146,11 +142,7 @@ public class Tile implements Drawable {
     /** Returns whether this Tile has a solid object on it that can't be seen
      *  through. */
     public boolean blocksVision() {
-        if (object != null) {
-            return object.blocksVision();
-        } else {
-            return false;
-        }
+        return hasObject() && object.blocksVision();
     }
     
     @Override
@@ -168,8 +160,8 @@ public class Tile implements Drawable {
     }
     
     /** Returns whether the given Creature can see this Tile. */
-    public boolean canBeSeenBy(Creature creature) {
-        return canBeSeenFrom(creature.getX(), creature.getY(), creature.getSight(), creature.isFlying()) || creature.seesEverything();
+    public boolean canBeSeenBy(Creature c) {
+        return canBeSeenFrom(c.getX(), c.getY(), c.getSight(), c.isFlying()) || c.seesEverything();
     }
     
     /** Returns whether a Creature with the given sight would be able to see
@@ -212,8 +204,7 @@ public class Tile implements Drawable {
     
     /** Returns whether there's currently an item on this Tile. */
     public boolean hasItem() {
-        if (object == null) return false;
-        return object.isItem();
+        return hasObject() && object.isItem();
     }
     
     /** Returns whether there's currently a Creature standing on this Tile. */
@@ -284,17 +275,13 @@ public class Tile implements Drawable {
     /** Returns whether standing on this Tile causes a Creature's HP to
      *  decrease. */
     public boolean drainsHP() {
-        if (object == null) {
-            return ground.drainsHP();
-        } else {
-            return object.drainsHP();
-        }
+        return (hasObject() && object.drainsHP()) || ground.drainsHP();
     }
     
     /** Returns the amount of HP that standing on this Tile causes a Creature to
      *  lose when unprotected. */
     public int getHPDrainAmount() {
-        if (object == null) {
+        if (!hasObject()) {
             return ground.getHPDrainAmount();
         } else {
             return object.getHPDrainAmount();
@@ -369,14 +356,12 @@ public class Tile implements Drawable {
     
     /** Returns whether this Tile has a slime on it. */
     public boolean hasSlime() {
-        if (!hasObject()) return false;
-        return object.isSlime();
+        return hasObject() && object.isSlime();
     }
     
     /** Returns whether this Tile has a tree on it. */
     public boolean hasTree() {
-        if (!hasObject()) return false;
-        return object.isTree();
+        return hasObject() && object.isTree();
     }
     
     /** Returns all neighboring tiles. This includes tiles to the north, east,
@@ -400,8 +385,7 @@ public class Tile implements Drawable {
     
     /** Returns whether this Tile has an object on it that casts shadows. */
     public boolean castsShadows() {
-        if (!hasObject()) return false;
-        return object.castsShadows();
+        return hasObject() && object.castsShadows();
     }
     
     /** Creates a new GreenSlime to this Tile. */
@@ -413,8 +397,7 @@ public class Tile implements Drawable {
     
     /** Returns whether this Tile has a Teleport on it. */
     public boolean hasTeleport() {
-        if (!hasObject()) return false;
-        return object.isTeleport();
+        return hasObject() && object.isTeleport();
     }
     
     /** Returns the Teleport object on this Tile. Only call this if you know
