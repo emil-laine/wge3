@@ -11,6 +11,7 @@ import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -329,24 +330,26 @@ public final class Area implements Drawable {
     public List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
         assert this.hasLocation(startX, startY) && this.hasLocation(finalX, finalY)
             : "Illegal arguments passed to getTilesOnLine()";
-        
-        float angle = atan2(finalY-startY, finalX-startX);
-        float xUnit = cos(angle);
-        float yUnit = sin(angle);
   
         int startTileX = floatPosToTilePos(startX);
         int startTileY = floatPosToTilePos(startY);
         int finalTileX = floatPosToTilePos(finalX);
         int finalTileY = floatPosToTilePos(finalY);
         
-        List<Tile> tilesOnLine = new ArrayList<>();
-        if (startTileX == finalTileX && startTileY == finalTileY) return tilesOnLine;
+        if (startTileX == finalTileX && startTileY == finalTileY)
+            return Collections.EMPTY_LIST;
+        
+        float angle = atan2(finalY - startY, finalX - startX);
+        float xUnit = cos(angle);
+        float yUnit = sin(angle);
         
         int i = 0;
         int currentTileX;
         int currentTileY;
         int previousTileX = startTileX;
         int previousTileY = startTileY;
+        
+        List<Tile> tilesOnLine = new ArrayList();
         
         while (true) {
             do {
