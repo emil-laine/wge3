@@ -3,7 +3,6 @@ package wge3.game.engine.utilities;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.atan2;
-import static com.badlogic.gdx.math.MathUtils.floor;
 import static java.lang.Math.sqrt;
 import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
@@ -29,7 +28,7 @@ public final class Math {
     /** Returns the tile grid coordinate of the tile that the game world
      *  coordinate pos belongs in. */
     public static int floatPosToTilePos(float pos) {
-        return floor(pos) / Tile.size;
+        return ((int) pos) / Tile.size;
     }
     
     /** Checks whether the Creature c is in the middle of a tile. */
