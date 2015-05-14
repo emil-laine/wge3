@@ -775,7 +775,7 @@ public abstract class Creature implements Drawable {
     /** Returns whether this Creature is currently standing on a tile that's
      *  passable, i.e. is not stuck and can move. */
     public boolean isOnPassableObject() {
-        return (this.getTileUnder().isPassable());
+        return this.getTileUnder().isPassable();
     }
     
     /** Returns the circular area that this Creature occupies. */
