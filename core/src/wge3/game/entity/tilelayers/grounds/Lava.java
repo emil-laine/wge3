@@ -6,7 +6,7 @@ import static wge3.game.engine.constants.TilePropertyFlag.IS_PASSABLE;
 import wge3.game.entity.tilelayers.Ground;
 
 public final class Lava extends Ground {
-
+    
     public Lava() {
         setSprite(3, 0);
         propertyFlags = EnumSet.of(DRAINS_HP, IS_PASSABLE);

@@ -33,7 +33,7 @@ public final class OneWayFloor extends Ground {
     public Direction getDirection() {
         return direction;
     }
-
+    
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
