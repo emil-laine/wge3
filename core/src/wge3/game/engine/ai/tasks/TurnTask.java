@@ -12,7 +12,7 @@ public final class TurnTask extends AITask {
     private Creature executor;
     private float targetDirection;
     private float diff;
-
+    
     public TurnTask(Creature executor, float targetDirection) {
         this.executor = executor;
         this.targetDirection = targetDirection;
@@ -35,7 +35,7 @@ public final class TurnTask extends AITask {
             executor.turnRight();
         }
     }
-
+    
     @Override
     public boolean isFinished() {
         return abs(getDiff(executor.getDirection(), targetDirection)) < PI/48;
