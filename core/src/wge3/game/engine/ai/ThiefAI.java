@@ -48,8 +48,8 @@ public class ThiefAI extends AI {
         }
     }
     
-        @Override
-        public void checkForEnemies() {
+    @Override
+    public void checkForEnemies() {
         for (Creature enemy : NPC.getEnemiesWithinFOV()) {
             if (!enoughFriendliesNearby() || !NPC.getInventory().getItems().isEmpty() || enemy.getInventory().getItems().isEmpty()) {
                 currentTask = new MoveTask(NPC, whereToRun(enemy));
