@@ -40,7 +40,7 @@ import wge3.game.entity.tilelayers.mapobjects.walls.StoneWall;
 
 public final class MapLoader {
     
-    public void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
+    public static void loadMap(String mapName, Area area) throws FileNotFoundException, IOException {
         int w = getWidth(mapName);
         int h = getHeight(mapName);
         area.createTiles(w, h);
@@ -147,17 +147,17 @@ public final class MapLoader {
         mapLoader.close();
     }
     
-    public int getWidth(String mapName) throws IOException {
+    public static int getWidth(String mapName) throws IOException {
         Element mapData = new XmlReader().parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
         return Integer.parseInt(mapData.getAttribute("width"));
     }
     
-    public int getHeight(String mapName) throws IOException {
+    public static int getHeight(String mapName) throws IOException {
         Element mapData = new XmlReader().parse(Gdx.files.internal("maps/" + mapName + ".tmx"));
         return Integer.parseInt(mapData.getAttribute("height"));
     }
     
-    public String getLineSeparator() {
+    public static String getLineSeparator() {
         return System.getProperty("line.separator");
     }
 }
