@@ -114,10 +114,8 @@ public final class Area implements Drawable {
     /** Draws all tiles that should be redrawn.
      *  @param batch the libGDX batch object that handles all drawing. */
     public void drawTiles(Batch batch) {
-        for (Iterator<Tile> it = tilesToDraw.iterator(); it.hasNext();) {
-            it.next().draw(batch);
-            it.remove();
-        }
+        tilesToDraw.stream().forEach(tile -> tile.draw(batch));
+        tilesToDraw.clear();
     }
     
     /** Checks whether the given position is a valid location on this map. */
@@ -168,10 +166,8 @@ public final class Area implements Drawable {
     /** Redraws all flying creatures that can be seen by the players.
      *  @param batch the libGDX batch object that handles all drawing. */
     public void drawFlyingCreatures(Batch batch) {
-        for (Iterator<Creature> it = flyingCreaturesToDraw.iterator(); it.hasNext();) {
-            it.next().draw(batch);
-            it.remove();
-        }
+        flyingCreaturesToDraw.stream().forEach(c -> c.draw(batch));
+        flyingCreaturesToDraw.clear();
     }
     
     /** Redraws all bombs that can be seen by the players.
