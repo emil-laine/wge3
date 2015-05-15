@@ -27,8 +27,8 @@ public class PathFinder {
     private static List<TileData> calculateTileData(Tile origin) {
         Area area = origin.getArea();
         int c = 0;
-        List<TileData> tileData = new ArrayList<>();
-        List<TileData> queue = new ArrayList<>();
+        List<TileData> tileData = new ArrayList();
+        List<TileData> queue = new ArrayList();
         queue.add(new TileData(origin.getX(), origin.getY(), true));
         
         int dataAdded;
@@ -62,7 +62,7 @@ public class PathFinder {
     }
     
     private static List<TileData> getNearbyTileData(int counter, List<TileData> tiles, Area area){
-        List<TileData> newTiles = new ArrayList<>();
+        List<TileData> newTiles = new ArrayList();
         
         for (TileData tile : tiles) {
             int x = tile.getX();
@@ -85,7 +85,7 @@ public class PathFinder {
     }
     
     private static List<TileData> calculateRoute(List<TileData> tileData, Tile start) {
-        List<TileData> route = new ArrayList<>();
+        List<TileData> route = new ArrayList();
         
         int startX = start.getX();
         int startY = start.getY();
@@ -102,7 +102,7 @@ public class PathFinder {
         if (route.isEmpty()) return null;
         
         TileData last;
-        List<TileData> alternatives = new ArrayList<>();
+        List<TileData> alternatives = new ArrayList();
         int i = tileData.size() - 1;
         
         do {
@@ -129,7 +129,7 @@ public class PathFinder {
     }
     
     private static List<Tile> calculateWaypoints(List<TileData> route, Area area) {
-        List<Tile> waypoints = new ArrayList<>();
+        List<Tile> waypoints = new ArrayList();
         
         Tile current = area.getTileAt(route.get(0).getX(), route.get(0).getY());
         

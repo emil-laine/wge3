@@ -47,17 +47,17 @@ public final class Area implements Drawable {
     private long timeOfLastPassTime;
     
     public Area(String mapName) {
-        allTiles     = new ArrayList<>();
-        creatures    = new ArrayList<>();
-        flyingCreaturesToDraw = new ArrayList<>();
-        players      = new ArrayList<>();
-        NPCs         = new ArrayList<>();
-        items        = new ArrayList<>();
-        bombs        = new ArrayList<>();
-        slimes       = new ArrayList<>();
+        allTiles     = new ArrayList();
+        creatures    = new ArrayList();
+        flyingCreaturesToDraw = new ArrayList();
+        players      = new ArrayList();
+        NPCs         = new ArrayList();
+        items        = new ArrayList();
+        bombs        = new ArrayList();
+        slimes       = new ArrayList();
         
-        tilesToDraw  = new LinkedList<>();
-        treesToDraw  = new LinkedList<>();
+        tilesToDraw  = new LinkedList();
+        treesToDraw  = new LinkedList();
         
         loadMap(mapName);
     }
@@ -405,7 +405,7 @@ public final class Area implements Drawable {
     /** Causes all slimes in this Area to multiply according to their expansion
      *  rate. */
     public void expandSlimes() {
-        List<GreenSlime> newSlimes = new ArrayList<>();
+        List<GreenSlime> newSlimes = new ArrayList();
         
         slimes.stream()
                 .filter((slime) -> (randomBoolean(GreenSlime.expansionProbability)))
@@ -425,7 +425,7 @@ public final class Area implements Drawable {
      *  the specified game world position (x, y) and all eight Tiles around that
      *  Tile. */
     public List<Creature> getCreaturesNear(float x, float y) {
-        List<Creature> creatures = new ArrayList<>();
+        List<Creature> creatures = new ArrayList();
         getTileAt(x, y).getNearbyTiles(true).stream().forEach((tile) -> {
             creatures.addAll(tile.getCreatures());
         });

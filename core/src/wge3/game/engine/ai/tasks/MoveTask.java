@@ -19,7 +19,7 @@ public final class MoveTask extends AITask {
         this.executor = executor;
         
         if (dest.isAnOKMoveDestinationFor(executor)) {
-            path = new ArrayList<>(1);
+            path = new ArrayList(1);
             path.add(dest);
         } else {
             path = findPath(executor.getTileUnder(), dest);

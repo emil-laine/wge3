@@ -369,7 +369,7 @@ public class Tile implements Drawable {
      *  true, also tiles to the north-east, south-east, south-west, and
      *  north-west are included (if they exist). */
     public List<Tile> getNearbyTiles(boolean includeDiagonal) {
-        List<Tile> tiles = new ArrayList<>();
+        List<Tile> tiles = new ArrayList();
         if (area.hasLocation(x-1, y)) tiles.add(area.getTileAt(x-1, y));
         if (area.hasLocation(x+1, y)) tiles.add(area.getTileAt(x+1, y));
         if (area.hasLocation(x, y-1)) tiles.add(area.getTileAt(x, y-1));

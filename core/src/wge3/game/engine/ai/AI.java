@@ -142,7 +142,7 @@ public class AI {
     }
     
     public static List<Tile> getPossibleMovementDestinations(NonPlayer NPC) {
-        List<Tile> tiles = new ArrayList<>();
+        List<Tile> tiles = new ArrayList();
         NPC.getArea().getTiles()
                 .stream()
                 .filter((tile) -> (tile.canBeSeenBy(NPC) && tile.isAnOKMoveDestinationFor(NPC)))

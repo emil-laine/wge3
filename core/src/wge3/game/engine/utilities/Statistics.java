@@ -18,11 +18,11 @@ public class Statistics {
     
     
     public Statistics() {
-        playerStats = new HashMap<>();
+        playerStats = new HashMap();
     }
     
     public void addPlayer(Player player) {
-        playerStats.put(player.getName(), new HashMap<>());
+        playerStats.put(player.getName(), new HashMap());
     }
     
     public void addStatToPlayer(Player player, Statistic stat, int amount) {
@@ -69,7 +69,7 @@ public class Statistics {
     }
     
     public HashMap<Statistic, Integer> getAllStatsCombined() {
-        HashMap<Statistic, Integer> map = new HashMap<>();
+        HashMap<Statistic, Integer> map = new HashMap();
         for (Statistic stat : Statistic.values()) {
             map.put(stat, 0);
         }
@@ -86,7 +86,7 @@ public class Statistics {
     }
     
     public List<String> getPlayers() {
-        List list = new ArrayList<>();
+        List list = new ArrayList();
         
         list.addAll(playerStats.keySet());
         

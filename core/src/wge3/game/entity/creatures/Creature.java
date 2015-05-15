@@ -800,7 +800,7 @@ public abstract class Creature implements Drawable {
     /** Returns all Creatures that are on the same tile as this Creature or on
      *  any of the 8 neighboring tiles. */
     public List<Creature> getNearbyCreatures() {
-        List<Creature> creatures = new ArrayList<>();
+        List<Creature> creatures = new ArrayList();
         getTileUnder().getNearbyTiles(true)
                 .stream()
                 .forEach((tile) -> creatures.addAll(tile.getCreatures()));
