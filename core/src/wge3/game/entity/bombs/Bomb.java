@@ -25,25 +25,24 @@ public abstract class Bomb implements Drawable {
     protected Timer.Task task;
     protected int time; // in seconds
     protected int range;
-
+    
     public Bomb() {
         texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
         exists = true;
         
         timer = new Timer();
         task = new Timer.Task() {
-
             @Override
             public void run() {
                 explode();
             }
         };
     }
-
+    
     public float getX() {
         return x;
     }
-
+    
     public float getY() {
         return y;
     }
@@ -79,11 +78,11 @@ public abstract class Bomb implements Drawable {
     }
     
     public abstract void explode();
-
+    
     public int getRange() {
         return range;
     }
-
+    
     @Override
     public void draw(Batch batch) {
         sprite.draw(batch);

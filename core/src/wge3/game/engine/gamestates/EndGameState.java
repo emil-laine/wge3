@@ -11,7 +11,7 @@ import wge3.game.engine.utilities.Statistics;
 // Remember to implement statistics
 
 public final class EndGameState extends GameState {
-
+    
     private BitmapFont font;
     private boolean result;
     private Statistics statistics;
@@ -22,16 +22,16 @@ public final class EndGameState extends GameState {
         this.result = result;
         init();
     }
-
+    
     @Override
     public void init() {
     }
-
+    
     @Override
     public void update(float delta) {
         handleInput();
     }
-
+    
     @Override
     public void draw(Batch batch) {
         batch.begin();
@@ -55,14 +55,14 @@ public final class EndGameState extends GameState {
         }
         batch.end();
     }
-
+    
     @Override
     public void handleInput() {
         if (Gdx.input.isTouched()) {
             gsm.setState(0);
         }
     }
-
+    
     @Override
     public void dispose() {
         font.dispose();

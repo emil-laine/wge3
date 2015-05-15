@@ -13,7 +13,7 @@ public final class MeleeAttackTask extends AITask {
     private MoveTask moveTask;
     private long timeOfLastAttack;
     private long timeOfLastPathCalculation;
-
+    
     public MeleeAttackTask(NonPlayer executor, Creature target) {
         this.executor = executor;
         this.target = target;
@@ -22,7 +22,7 @@ public final class MeleeAttackTask extends AITask {
         timeOfLastAttack = millis();
         timeOfLastPathCalculation = millis();
     }
-
+    
     @Override
     public void execute() {
         // Check if target has moved to a new tile:
@@ -40,7 +40,7 @@ public final class MeleeAttackTask extends AITask {
             timeOfLastAttack = millis();
         }
     }
-
+    
     @Override
     public boolean isFinished() {
         return target.isDead() || (moveTask.isFinished() && !target.canBeSeenBy(executor));

@@ -113,7 +113,7 @@ public final class Inventory {
         
         
     }
-
+    
     public void setOwner(Creature owner) {
         this.owner = owner;
     }

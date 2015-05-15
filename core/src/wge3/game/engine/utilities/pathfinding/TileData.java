@@ -11,7 +11,7 @@ public class TileData {
     private int y;
     private int counter;
     private boolean passable;
-
+    
     public TileData(int x, int y, boolean passable) {
         this(x, y, 0, passable);
     }
@@ -19,7 +19,7 @@ public class TileData {
     public TileData(int x, int y, int counter) {
         this(x, y, counter, true);
     }
-
+    
     public TileData(int x, int y, int counter, boolean passable) {
         this.x = x;
         this.y = y;
@@ -28,35 +28,35 @@ public class TileData {
     }
     
     
-
+    
     public int getX() {
         return x;
     }
-
+    
     public void setX(int x) {
         this.x = x;
     }
-
+    
     public int getY() {
         return y;
     }
-
+    
     public void setY(int y) {
         this.y = y;
     }
-
+    
     public int getCounter() {
         return counter;
     }
-
+    
     public void setCounter(int counter) {
         this.counter = counter;
     }
-
+    
     public boolean isPassable() {
         return passable;
     }
-
+    
     public void setPassable(boolean passable) {
         this.passable = passable;
     }

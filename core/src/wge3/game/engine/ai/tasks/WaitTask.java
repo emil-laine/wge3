@@ -6,7 +6,7 @@ public final class WaitTask extends AITask {
     
     private int duration;
     private long startTime;
-
+    
     public WaitTask(int duration) {
         this.duration = duration;
         startTime = millis();
@@ -16,7 +16,7 @@ public final class WaitTask extends AITask {
     public boolean isFinished() {
         return millis() - startTime > duration;
     }
-
+    
     @Override
     public void execute() {
     }

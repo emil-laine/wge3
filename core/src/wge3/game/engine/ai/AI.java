@@ -20,11 +20,11 @@ import wge3.game.entity.Tile;
 import wge3.game.entity.creatures.Creature;
 
 public class AI {
-
+    
     protected NonPlayer NPC; // the controlled creature
     protected AITask currentTask;
     long lastTimeOfEnemyCheck;
-
+    
     public AI(NonPlayer creature) {
         this.NPC = creature;
         currentTask = new WaitTask(0); // dummy task
@@ -47,7 +47,7 @@ public class AI {
             currentTask = new WaitTask(random(3000));
         }
     }
-
+    
     public void checkForEnemies() {
         lastTimeOfEnemyCheck = millis();
         
@@ -80,7 +80,7 @@ public class AI {
 //            // If nearestOKTile was null, ignore enemy.
 //        }
     }
-
+    
     public boolean isAttacking() {
         return currentTask.getClass() == MeleeAttackTask.class;
     }
@@ -102,7 +102,7 @@ public class AI {
         }
         return null;
     }
-
+    
     public Tile getAlternativeDestinationTile(int i) {
         float angle = NPC.getDirection();
         angle += PI/2 * signum(i);
@@ -118,7 +118,7 @@ public class AI {
         
         return null;
     }
-
+    
     public Tile getNearestOKMoveDestination(Creature dude) {
         for (int i = 0; i < 31; i++) {
             for (int j = 1; j > -2; j -= 2) {

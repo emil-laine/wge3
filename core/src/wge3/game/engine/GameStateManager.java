@@ -18,7 +18,7 @@ public final class GameStateManager {
     
     private String nextMap;
     private boolean gameResult; // true means win, false means lose
-
+    
     public GameStateManager() {
         batch = new SpriteBatch();
     }
@@ -44,11 +44,11 @@ public final class GameStateManager {
                 break;
         }
     }
-
+    
     public String getNextMap() {
         return nextMap;
     }
-
+    
     public void setNextMap(String nextMap) {
         this.nextMap = nextMap;
     }

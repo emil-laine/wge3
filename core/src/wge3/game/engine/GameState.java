@@ -8,7 +8,7 @@ public abstract class GameState implements Drawable {
     
     protected GameStateManager gsm;
     protected InputHandler input;
-
+    
     public GameState(GameStateManager gsm) {
         this.gsm = gsm;
         input = new InputHandler();

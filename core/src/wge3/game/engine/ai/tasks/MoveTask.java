@@ -14,7 +14,7 @@ public final class MoveTask extends AITask {
     private TurnTask turnTask;
     private List<Tile> path;
     private int position;
-
+    
     public MoveTask(Creature executor, Tile dest) {
         this.executor = executor;
         
@@ -30,12 +30,12 @@ public final class MoveTask extends AITask {
         float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
         turnTask = new TurnTask(executor, angle);
     }
-
+    
     @Override
     public boolean isFinished() {
         return path == null || (executor.getTileUnder().equals(getDestination()) && isInCenterOfATile(executor));
     }
-
+    
     @Override
     public void execute() {
         if (!turnTask.isFinished()) {
@@ -51,11 +51,11 @@ public final class MoveTask extends AITask {
             executor.goForward();
         }
     }
-
+    
     public Tile getDestination() {
         return path == null ? null : path.get(path.size()-1);
     }
-
+    
     public void setDestination(Tile dest) {
         if (path != null) path.set(path.size()-1, dest);
     }

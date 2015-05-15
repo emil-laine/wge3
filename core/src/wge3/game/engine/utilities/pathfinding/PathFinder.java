@@ -11,7 +11,7 @@ import wge3.game.entity.Tile;
 
 
 public class PathFinder {
-
+    
     public static List<Tile> findPath(Tile start, Tile dest) {
         if (!dest.isGoodMoveDest()) {
             return null;

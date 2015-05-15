@@ -119,7 +119,7 @@ public abstract class Creature implements Drawable {
     public float getY() {
         return bounds.y;
     }
-
+    
     public void setY(float y) {
         bounds.setY(y);
         updateSpritePosition();

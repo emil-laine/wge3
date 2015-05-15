@@ -7,7 +7,7 @@ import static wge3.game.engine.constants.TilePropertyFlag.COVERS_WHOLE_TILE;
 import wge3.game.entity.tilelayers.MapObject;
 
 public abstract class Wall extends MapObject {
-
+    
     public Wall() {
         propertyFlags = EnumSet.of(BLOCKS_VISION, CASTS_SHADOWS, COVERS_WHOLE_TILE);
     }

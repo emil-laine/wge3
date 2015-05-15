@@ -8,7 +8,7 @@ import wge3.game.entity.creatures.NonPlayer;
 import wge3.game.entity.Tile;
 
 public final class Zombie extends NonPlayer {
-
+    
     public Zombie() {
         sprite = new Sprite(new Texture(files.internal("graphics/creatures.png")), random(9)*Tile.size, 0, Tile.size, Tile.size);
         updateSpriteRotation();

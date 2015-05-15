@@ -14,7 +14,7 @@ import wge3.game.entity.creatures.Player;
 import wge3.game.entity.tilelayers.MapObject;
 
 public class Teleport extends MapObject {
-
+    
     private Color color;
     
     public Teleport(Color color) {
@@ -41,7 +41,7 @@ public class Teleport extends MapObject {
             Player.statistics.addStatToPlayer((Player) teleporter, Statistic.TELEPORTERSUSED, 1);
         }
     }
-
+    
     public Color getColor() {
         return color;
     }

@@ -23,7 +23,7 @@ public final class Player extends Creature {
         
         stateFlags.add(StateFlag.PICKS_UP_ITEMS);
     }
-
+    
     public void setCamera(OrthographicCamera camera) {
         this.camera = camera;
     }
@@ -41,7 +41,7 @@ public final class Player extends Creature {
     public void draw(Batch batch) {
         super.draw(batch);
     }
-
+    
     public String getName() {
         return name;
     }

@@ -35,7 +35,7 @@ public abstract class TileLayer implements Drawable {
         propertyFlags = EnumSet.noneOf(TilePropertyFlag.class);
         movementModifier = 1f;
     }
-
+    
     public void setTile(Tile tile) {
         this.tile = tile;
     }
@@ -47,11 +47,11 @@ public abstract class TileLayer implements Drawable {
     public int getY() {
         return tile.getY();
     }
-
+    
     public Texture getTexture() {
         return texture;
     }
-
+    
     public Sprite getSprite() {
         return sprite;
     }
@@ -60,7 +60,7 @@ public abstract class TileLayer implements Drawable {
     public void draw(Batch batch) {
         sprite.draw(batch);
     }
-
+    
     public boolean isPassable() {
         return propertyFlags.contains(TilePropertyFlag.IS_PASSABLE);
     }
@@ -68,11 +68,11 @@ public abstract class TileLayer implements Drawable {
     public boolean blocksVision() {
         return propertyFlags.contains(TilePropertyFlag.BLOCKS_VISION);
     }
-
+    
     public boolean drainsHP() {
         return propertyFlags.contains(TilePropertyFlag.DRAINS_HP);
     }
-
+    
     public int getHPDrainAmount() {
         return HPDrainAmount;
     }
@@ -80,7 +80,7 @@ public abstract class TileLayer implements Drawable {
     public float getMovementModifier() {
         return movementModifier;
     }
-
+    
     public void setLighting(Color color) {
         sprite.setColor(color);
     }
@@ -88,7 +88,7 @@ public abstract class TileLayer implements Drawable {
     public void setPosition(int x, int y) {
         sprite.setPosition(x, y);
     }
-
+    
     public boolean isItem() {
         return Item.class.isAssignableFrom(this.getClass());
     }

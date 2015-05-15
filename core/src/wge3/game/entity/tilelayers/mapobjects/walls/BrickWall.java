@@ -10,7 +10,7 @@ import wge3.game.entity.tilelayers.mapobjects.Wall;
 import wge3.game.entity.Tile;
 
 public final class BrickWall extends Wall {
-
+    
     public BrickWall() {
         setSprite(0, 1);
         propertyFlags = EnumSet.of(HAS_DESTROYED_SPRITE, BLOCKS_VISION, CASTS_SHADOWS, COVERS_WHOLE_TILE);

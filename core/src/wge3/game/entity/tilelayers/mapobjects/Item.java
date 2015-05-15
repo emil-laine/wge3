@@ -11,26 +11,26 @@ public abstract class Item extends MapObject {
     protected String name;
     protected int value;
     protected int defaultAmount;
-
+    
     public Item() {
         // default values
         propertyFlags = EnumSet.of(TilePropertyFlag.IS_PASSABLE);
         defaultAmount = 1;
     }
-
+    
     public String getName() {
         return name;
     }
     
     public abstract void use(Creature user);
-
+    
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 71 * hash + (this.name != null ? this.name.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

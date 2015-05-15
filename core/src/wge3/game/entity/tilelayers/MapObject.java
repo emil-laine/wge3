@@ -24,7 +24,7 @@ public abstract class MapObject extends TileLayer {
         propertyFlags = EnumSet.of(IS_PASSABLE, BLOCKS_VISION, COVERS_WHOLE_TILE, CASTS_SHADOWS);
         hardness = 9;
     }
-
+    
     public void dealDamage(int amount) {
         if (amount > 0) HP -= amount;
     }
@@ -32,11 +32,11 @@ public abstract class MapObject extends TileLayer {
     public boolean isDestroyed() {
         return HP <= 0;
     }
-
+    
     public boolean hasDestroyedSprite() {
         return propertyFlags.contains(TilePropertyFlag.HAS_DESTROYED_SPRITE);
     }
-
+    
     public boolean isSlime() {
         return this.getClass() == GreenSlime.class;
     }
@@ -44,7 +44,7 @@ public abstract class MapObject extends TileLayer {
     public boolean isTree() {
         return this.getClass() == Tree.class;
     }
-
+    
     public boolean isTeleport() {
         return this.getClass() == Teleport.class;
     }
@@ -56,7 +56,7 @@ public abstract class MapObject extends TileLayer {
     public boolean castsShadows() {
         return propertyFlags.contains(TilePropertyFlag.CASTS_SHADOWS);
     }
-
+    
     public float getShadowDepth() {
         return shadowDepth;
     }

@@ -253,7 +253,7 @@ public class Tile implements Drawable {
         hash = 53 * hash + this.y;
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

@@ -15,7 +15,7 @@ public final class WGE3 extends Game {
         
         Gdx.gl.glClearColor(1/12f, 1/12f, 1/12f, 1);
     }
-
+    
     @Override
     public void render () {
         gsm.update(Gdx.graphics.getDeltaTime());

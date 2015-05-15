@@ -27,7 +27,7 @@ public final class MenuState extends GameState {
         super(gsm);
         init();
     }
-
+    
     @Override
     public void init() {
         stage = new Stage();
@@ -89,24 +89,24 @@ public final class MenuState extends GameState {
     public void exitGame() {
         Gdx.app.exit();
     }
-
+    
     @Override
     public void update(float delta) {
         stage.act(delta);
         handleInput();
     }
-
+    
     @Override
     public void draw(Batch batch) {
         stage.draw();
     }
-
+    
     @Override
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.ENTER)) startGame();
         else if (Gdx.input.isKeyPressed(Keys.Q)) exitGame();
     }
-
+    
     @Override
     public void dispose() {
         stage.dispose();

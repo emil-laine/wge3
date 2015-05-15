@@ -11,7 +11,7 @@ import java.util.Map;
 import wge3.game.entity.tilelayers.mapobjects.Item;
 
 public final class MessageStream implements Drawable {
-
+    
     private PlayState game;
     
     private BitmapFont font;
@@ -23,7 +23,7 @@ public final class MessageStream implements Drawable {
     
     private boolean showFPS;
     private boolean showInventory;
-
+    
     public MessageStream(int x, int y, PlayState game) {
         font = new BitmapFont();
         this.x = x;
@@ -33,7 +33,7 @@ public final class MessageStream implements Drawable {
         
         messages = new LinkedHashMap<Long, String>();
     }
-
+    
     @Override
     public void draw(Batch batch) {
         int line = 0;

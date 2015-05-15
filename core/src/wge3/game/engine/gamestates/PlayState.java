@@ -32,22 +32,22 @@ public final class PlayState extends GameState {
     private Player player;
     public static MessageStream mStream;
     private String map;
-
+    
     public PlayState(GameStateManager gsm, String map) {
         super(gsm);
         this.statistics = new Statistics();
         this.map = map;
         init();
     }
-
+    
     public InputHandler getInput() {
         return input;
     }
-
+    
     public Player getPlayer() {
         return player;
     }
-
+    
     @Override
     public void init() {
         playerViewport = new Rectangle(340, 60, 600, 600);
@@ -63,7 +63,7 @@ public final class PlayState extends GameState {
         camera.translate(player.getX(), player.getY());
         camera.update();
     }
-
+    
     @Override
     public void update(float delta) {
         for (NonPlayer NPC : area.getNPCs()) {
@@ -100,7 +100,7 @@ public final class PlayState extends GameState {
         handleInput();
         input.copyKeyBuffer();
     }
-
+    
     @Override
     public void draw(Batch batch) {
         Gdx.graphics.getGL20().glViewport(
@@ -117,7 +117,7 @@ public final class PlayState extends GameState {
         mStream.draw(batch);
         batch.end();
     }
-
+    
     @Override
     public void handleInput() {
         if (input.isDown(Command.RUN))
@@ -155,7 +155,7 @@ public final class PlayState extends GameState {
         else if (input.isPressed(Command.TOGGLE_FPS))
             mStream.toggleShowFPS();
     }
-
+    
     @Override
     public void dispose() {
         area.dispose();

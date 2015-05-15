@@ -24,7 +24,7 @@ public final class HUD implements Drawable {
     private int healthBarY = 653;
     private int energyBarX = healthBarX;
     private int energyBarY = healthBarY - 20;
-
+    
     public HUD(Player player) {
         this.player = player;
         sr = new ShapeRenderer();
@@ -34,7 +34,7 @@ public final class HUD implements Drawable {
         camera.update();
         texture = new Texture(Gdx.files.internal("graphics/frame.png"));
     }
-
+    
     @Override
     public void draw(Batch batch) {
         Gdx.graphics.getGL20().glViewport(

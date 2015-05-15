@@ -45,7 +45,7 @@ public final class MapLoader {
         int h = getHeight(mapName);
         area.createTiles(w, h);
         Tile.setArea(area);
-
+        
         Scanner mapLoader = new Scanner(new File("maps/" + mapName + ".tmx"));
         mapLoader.useDelimiter("[," + getLineSeparator() + "]");
         

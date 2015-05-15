@@ -3,7 +3,7 @@ package wge3.game.engine.utilities;
 public final class StatIndicator {
     private int maximumValue;
     private int currentValue;
-
+    
     public StatIndicator() {}
     
     public StatIndicator(int maximumValue) {
@@ -42,15 +42,15 @@ public final class StatIndicator {
         maximumValue = maximum;
         currentValue = maximum;
     }
-
+    
     public int getMax() {
         return maximumValue;
     }
-
+    
     public void setCurrent(int newValue) {
         this.currentValue = newValue;
     }
-
+    
     public int getCurrent() {
         return currentValue;
     }

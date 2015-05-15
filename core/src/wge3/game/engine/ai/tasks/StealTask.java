@@ -12,7 +12,7 @@ import wge3.game.entity.tilelayers.mapobjects.Item;
 
 
 public class StealTask extends AITask{
-
+    
     private Thief executor;
     private Creature target;
     private MoveTask subTask;
@@ -40,7 +40,7 @@ public class StealTask extends AITask{
             
         }
     }
-
+    
     @Override
     public boolean isFinished() {
         return !executor.getInventory().getItems().isEmpty() || (subTask.isFinished() && !target.canBeSeenBy(executor));

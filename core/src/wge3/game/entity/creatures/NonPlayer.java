@@ -24,7 +24,7 @@ public abstract class NonPlayer extends Creature {
     public int getAttackSpeed() {
         return attackSpeed;
     }
-
+    
     public float getFOV() {
         return FOV;
     }

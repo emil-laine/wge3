@@ -24,7 +24,7 @@ public class RangedAttackTask extends AITask {
     private MoveTask subTask;
     private long timeOfLastAttack;
     
-
+    
     public RangedAttackTask(NonPlayer executor, Creature target) {
         this.executor = executor;
         this.target = target;
@@ -58,7 +58,7 @@ public class RangedAttackTask extends AITask {
             
         
     }
-
+    
     @Override
     public boolean isFinished() {
         return target.isDead() || (subTask.isFinished() && !target.canBeSeenBy(executor));
@@ -67,7 +67,7 @@ public class RangedAttackTask extends AITask {
     public boolean canAttack() {
         return millis() - timeOfLastAttack > 5000/executor.getAttackSpeed();
     }
-
+    
     public boolean isWithinGunRange(Creature enemy) {
         Gun gun = (Gun) executor.getSelectedItem();
         

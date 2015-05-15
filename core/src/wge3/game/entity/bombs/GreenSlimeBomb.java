@@ -10,7 +10,7 @@ public class GreenSlimeBomb extends Bomb {
         range = 2;
         time = 2;
     }
-
+    
     @Override
     public void explode() {
         float x = this.getX();

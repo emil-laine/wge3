@@ -359,7 +359,7 @@ public final class Area implements Drawable {
             if (currentTileX == finalTileX && currentTileY == finalTileY) break;
             
             tilesOnLine.add(getTileAt(currentTileX, currentTileY));
-
+            
             previousTileX = currentTileX;
             previousTileY = currentTileY;
         }

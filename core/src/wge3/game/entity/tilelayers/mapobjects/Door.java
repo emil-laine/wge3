@@ -34,7 +34,7 @@ public final class Door extends Wall {
             propertyFlags.remove(BLOCKS_VISION);
             changeSprite();
     }
-
+    
     @Override
     public void dealDamage(int amount) {
         if (amount >= destroyThreshold)
