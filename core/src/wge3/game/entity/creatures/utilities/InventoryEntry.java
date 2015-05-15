@@ -13,7 +13,6 @@ import wge3.game.entity.tilelayers.mapobjects.Item;
  * @author chang
  */
 
-
 public final class InventoryEntry {
     private int amount;
     private Item item;
@@ -50,6 +49,4 @@ public final class InventoryEntry {
     public void setItem(Item item) {
         this.item = item;
     }
-    
-    
 }

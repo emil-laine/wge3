@@ -15,6 +15,4 @@ package wge3.game.engine.constants;
         HEALTHREGAINED, MONSTERSSPOTTED, TELEPORTERSUSED, 
         DAMAGETAKEN, DAMAGEDEALT, GUNMENKILLED, ZOMBIESKILLED, 
         GUNSHOTSFIRED;
-    } 
-    
-
+    }

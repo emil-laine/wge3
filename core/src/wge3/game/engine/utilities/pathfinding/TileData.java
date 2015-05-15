@@ -27,8 +27,6 @@ public class TileData {
         this.passable = passable;
     }
     
-    
-    
     public int getX() {
         return x;
     }
@@ -60,7 +58,6 @@ public class TileData {
     public void setPassable(boolean passable) {
         this.passable = passable;
     }
-    
     
     public boolean isNextTo(TileData tileData) {
        int x = tileData.getX();

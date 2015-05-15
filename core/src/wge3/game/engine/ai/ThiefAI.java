@@ -12,14 +12,12 @@ import wge3.game.entity.creatures.npcs.Thief;
  * @author chang
  */
 
-
-//The thief is a coward: he only acts when buddies are around. He closes in on his enemy FAST and takes an object he is carrying. 
+//The thief is a coward: he only acts when buddies are around. He closes in on his enemy FAST and takes an object he is carrying.
 //He then runs away. If the player can catch the thief and kill him, he can recover his items. The thief will do anything he can to avoid capture.
 public class ThiefAI extends AI {
     
     private int cowardLevel; //how many friendlies should be nearby for the thief to become active
     private boolean itemStolen;
-    
     
     public ThiefAI(Thief creature) {
         super(creature);
@@ -61,7 +59,6 @@ public class ThiefAI extends AI {
             
         }
     }
-    
     
     public boolean enoughFriendliesNearby() {
         return this.NPC.getFriendliesWithinFOV().size() >= cowardLevel;

@@ -260,7 +260,6 @@ public final class Area implements Drawable {
         tiles[x][y].setObject(item);
     }
     
-    
     /** Places the given Item to a random Tile in this Area that has no object
      *  on it. If every Tile has an object, this will loop infinitely. */
     public void addItem(Item item) {

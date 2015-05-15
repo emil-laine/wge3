@@ -10,7 +10,6 @@ import wge3.game.entity.tilelayers.mapobjects.Item;
  * @author chang
  */
 
-
 public class StealTask extends AITask{
     
     private Thief executor;

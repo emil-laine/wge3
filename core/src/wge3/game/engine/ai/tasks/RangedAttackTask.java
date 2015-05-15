@@ -24,7 +24,6 @@ public class RangedAttackTask extends AITask {
     private MoveTask subTask;
     private long timeOfLastAttack;
     
-    
     public RangedAttackTask(NonPlayer executor, Creature target) {
         this.executor = executor;
         this.target = target;
@@ -32,8 +31,6 @@ public class RangedAttackTask extends AITask {
         subTask = new MoveTask(executor, target.getTileUnder());
         timeOfLastAttack = millis();
     }
-    
-    
     
     @Override
     public void execute() {
@@ -55,8 +52,6 @@ public class RangedAttackTask extends AITask {
             executor.useItem();
             timeOfLastAttack = millis();
         }
-            
-        
     }
     
     @Override

@@ -11,7 +11,6 @@ import wge3.game.entity.creatures.NonPlayer;
 
 public class Thief extends NonPlayer{
     
-    
     public Thief() {
     
         setSprite(6, 2);
@@ -21,8 +20,5 @@ public class Thief extends NonPlayer{
         defaultSpeed = random(35, 40);
         currentSpeed = defaultSpeed;
         ai = new ThiefAI(this);
-        
-        
     }
-    
 }

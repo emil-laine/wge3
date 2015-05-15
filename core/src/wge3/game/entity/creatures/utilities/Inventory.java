@@ -110,8 +110,6 @@ public final class Inventory {
         }
         selectedItem = 0;
         return null;
-        
-        
     }
     
     public void setOwner(Creature owner) {

@@ -91,8 +91,6 @@ public final class PlayState extends GameState {
                     return;
                 }
             }
-            
-            
         }
         area.calculateFOV();
         area.calculateLighting();

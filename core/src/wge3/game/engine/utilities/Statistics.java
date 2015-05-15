@@ -16,7 +16,6 @@ import wge3.game.entity.creatures.Player;
 public class Statistics {
     private HashMap<String, HashMap<Statistic, Integer>> playerStats;
     
-    
     public Statistics() {
         playerStats = new HashMap();
     }
@@ -80,7 +79,6 @@ public class Statistics {
                 map.replace(stat, playerStats.get(player).get(stat) + previousValue);
             }
         }
-        
         
         return map;
     }

@@ -9,7 +9,6 @@ import wge3.game.entity.Tile;
  * @author chang
  */
 
-
 public class PathFinder {
     
     public static List<Tile> findPath(Tile start, Tile dest) {
