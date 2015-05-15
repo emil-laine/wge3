@@ -51,7 +51,7 @@ public class AI {
     public void checkForEnemies() {
         lastTimeOfEnemyCheck = millis();
         
-                NPC.getEnemiesWithinFOV()
+        NPC.getEnemiesWithinFOV()
                 .parallelStream()
                 .filter(x -> NPC.canMoveTo(x.getTileUnder()))
                 .findFirst()
