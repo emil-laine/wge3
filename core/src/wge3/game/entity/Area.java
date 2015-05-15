@@ -201,14 +201,14 @@ public final class Area implements Drawable {
             if (player.seesEverything())
 				continue;
 			
-			float x = player.getX();
-			float y = player.getY();
-			int range = player.getSight();
+			final float x = player.getX();
+			final float y = player.getY();
+			final int range = player.getSight();
 			allTiles.stream()
 					.filter((tile) -> (tile.canBeSeenBy(player)))
 					.forEach((tile) -> {
 				Color color = new Color(1, 1, 1, 1);
-				float distance = tile.getDistanceTo(x, y) / Tile.size;
+				final float distance = tile.getDistanceTo(x, y) / Tile.size;
 				float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
 				multiplier = getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY())
 						.stream()
