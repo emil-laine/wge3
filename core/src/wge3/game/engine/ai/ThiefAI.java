@@ -21,7 +21,7 @@ public class ThiefAI extends AI {
     
     public ThiefAI(Thief creature) {
         super(creature);
-        cowardLevel = 4; 
+        cowardLevel = 4;
         itemStolen = false;
     }
     
@@ -56,7 +56,6 @@ public class ThiefAI extends AI {
                 return;
             }
             currentTask = new StealTask((Thief) NPC, enemy);
-            
         }
     }
     

@@ -35,7 +35,7 @@ public final class EndGameState extends GameState {
     @Override
     public void draw(Batch batch) {
         batch.begin();
-        int maxX = Gdx.graphics.getWidth(); 
+        int maxX = Gdx.graphics.getWidth();
         int maxY = Gdx.graphics.getHeight();
         if (result) {
             font.draw(batch, "You won!", maxX / 2, maxY / 2);

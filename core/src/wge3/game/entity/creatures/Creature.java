@@ -358,15 +358,13 @@ public abstract class Creature implements Drawable {
             if (!selectedItem.isPotion()) {
                 this.setInvisibility(false);
             }
-            
         }
         if (selectedItem == null) attackUnarmed();
-        else { 
+        else {
             selectedItem.use(this);
             if (this.isPlayer()) {
                 Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSUSED, 1);
             }
-            
         }
     }
     
@@ -461,7 +459,7 @@ public abstract class Creature implements Drawable {
         HP.increase();
         if (this.isPlayer()) {
             Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, 1);
-        } 
+        }
     }
     
     /** Moves the graphical representation of this Creature to the Creature's
@@ -661,7 +659,6 @@ public abstract class Creature implements Drawable {
         if (this.isPlayer()) {
             Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
         }
-        
     }
     
     /** Increases this Creature's energy by the given amount. */

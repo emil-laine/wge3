@@ -60,14 +60,14 @@ public final class MapLoader {
                     case 2: ground = new WoodenFloor(); break;
                     case 3: ground = new Water(); break;
                     case 4: ground = new Lava(); break;
-                        
+                    
                     case 5: ground = new OneWayFloor(Direction.UP); break;
                     case 6: ground = new OneWayFloor(Direction.RIGHT); break;
                     case 7: ground = new OneWayFloor(Direction.DOWN); break;
                     case 8: ground = new OneWayFloor(Direction.LEFT); break;
-                        
+                    
                     case 21: ground = new Stone(); break;
-                                    
+                    
                     default:ground = new Abyss(); break;
                 }
                 Tile newtile = new Tile();

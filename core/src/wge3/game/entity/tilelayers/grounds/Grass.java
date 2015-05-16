@@ -8,5 +8,4 @@ public final class Grass extends Ground {
         setSprite(0, 0);
         movementModifier = 15/16f;
     }
-    
 }

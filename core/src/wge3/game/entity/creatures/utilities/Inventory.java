@@ -39,7 +39,6 @@ public final class Inventory {
         int randNumber = random.nextInt(items.size()-1)+1;
         
         return items.get(randNumber).getItem();
-        
     }
     
     public List<Item> getItems() {
@@ -48,7 +47,6 @@ public final class Inventory {
             newList.add(item.getItem());
         }
         return newList;
-        
     }
     
     public void addItem(Item item) {
@@ -56,7 +54,6 @@ public final class Inventory {
     }
     
     public void addItem(Item item, int amount) {
-        
         for (InventoryEntry itemEntry : items) {
             if (itemEntry.getItem().equals(item)) {
                     itemEntry.addAmount(amount);
@@ -64,7 +61,6 @@ public final class Inventory {
             }
         }
         items.add(new InventoryEntry(item, amount));
-        
     }
     
     public void removeItem(Item item) {

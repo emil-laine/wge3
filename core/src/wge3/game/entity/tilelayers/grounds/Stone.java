@@ -7,5 +7,4 @@ public final class Stone extends Ground {
     public Stone() {
         setSprite(4, 2);
     }
-    
 }

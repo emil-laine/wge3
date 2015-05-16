@@ -52,7 +52,7 @@ public class Statistics {
         }
         
         playerStats.get(playerName).put(stat, amount);
-    } 
+    }
     
     public int getStatFromPlayer(String player, Statistic stat) {
         if (playerStats.get(player).get(stat) == null) {
@@ -84,5 +84,4 @@ public class Statistics {
         
         return list;
     }
-    
 }

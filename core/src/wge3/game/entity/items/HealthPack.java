@@ -11,7 +11,7 @@ public final class HealthPack extends Item {
     public HealthPack() {
         setSprite(3, 2);
         name = "health pack";
-        this.healedAmount = 50; 
+        this.healedAmount = 50;
     }
 
     @Override

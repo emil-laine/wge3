@@ -79,6 +79,5 @@ public final class Handgun extends Gun {
             Player.statistics.addStatToPlayer((Player) user, Statistic.GUNSHOTSFIRED, 1);
             Player.statistics.addStatToPlayer((Player) user, Statistic.DAMAGEDEALT, max(getDamage() - target.getDefense(), 1));
         }
-        
     }
 }

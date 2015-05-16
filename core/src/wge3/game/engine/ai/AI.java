@@ -56,9 +56,9 @@ public class AI {
                 .filter(x -> NPC.canMoveTo(x.getTileUnder()))
                 .findFirst()
                 .ifPresent(x -> currentTask = new MeleeAttackTask(NPC, x));
-         
-                //does the same as the code below, except multithreaded
-                
+        
+        //does the same as the code below, except multithreaded
+        
 //        for (Creature enemy : NPC.getEnemiesWithinFOV()) {
 //            // If dude is located in an OK move destination, attack:
 //            if (NPC.canMoveTo(enemy.getTile())) {

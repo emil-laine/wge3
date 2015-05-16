@@ -31,12 +31,11 @@ public class StealTask extends AITask{
         }
         if (!subTask.isFinished()) subTask.execute();
         
-        //steals a random item 
+        //steals a random item
         else if (executor.isInSameTileAs(target)) {
             Item item = target.getInventory().getRandomItem();
             executor.getInventory().addItem(item);
             target.getInventory().removeAllOfAKind(item);
-            
         }
     }
     

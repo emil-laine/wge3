@@ -94,7 +94,7 @@ public final class Math {
         return getDistanceInTiles(c.getX(), c.getY(), x, y);
     }
     
-    /** Calculates the squared distance from Creature c to point (x, y) in 
+    /** Calculates the squared distance from Creature c to point (x, y) in
      *  tiles.
      *  @return squared distance from c to (x, y) in tiles, rounded down */
     public static float getDistance2InTiles(Creature c, float x, float y) {
