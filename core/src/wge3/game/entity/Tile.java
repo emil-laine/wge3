@@ -53,7 +53,7 @@ public class Tile implements Drawable {
     
     /** Adds the given object to this Tile. Any pre-existing objects on this
      *  Tile will be lost.
-     *  @param the non-null object to add onto this tile */
+     *  @param o the non-null object to add onto this tile */
     public void setObject(MapObject o) {
         o.setTile(this);
         o.setPosition(x * Tile.size, y * Tile.size);
