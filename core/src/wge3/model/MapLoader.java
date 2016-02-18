@@ -13,30 +13,10 @@ import java.io.IOException;
 import java.util.Scanner;
 import wge3.engine.util.Color;
 import wge3.engine.util.Direction;
-import wge3.model.actors.Player;
-import wge3.model.actors.Gunman;
-import wge3.model.actors.Thief;
-import wge3.model.actors.Zombie;
-import wge3.model.items.BasicBomb;
-import wge3.model.items.HealthPack;
-import wge3.model.items.Handgun;
-import wge3.model.items.GreenPotion;
-import wge3.model.items.InvisibilityPotion;
-import wge3.model.items.LevitationPotion;
-import wge3.model.items.SpeedPotion;
-import wge3.model.grounds.Abyss;
-import wge3.model.grounds.Grass;
-import wge3.model.grounds.Lava;
-import wge3.model.grounds.OneWayFloor;
-import wge3.model.grounds.Stone;
-import wge3.model.grounds.Water;
-import wge3.model.grounds.WoodenFloor;
-import wge3.model.objects.Door;
-import wge3.model.objects.GreenSlime;
-import wge3.model.objects.Teleport;
-import wge3.model.objects.Tree;
-import wge3.model.objects.BrickWall;
-import wge3.model.objects.StoneWall;
+import wge3.model.actors.*;
+import wge3.model.items.*;
+import wge3.model.grounds.*;
+import wge3.model.objects.*;
 
 public final class MapLoader {
     
