@@ -4,7 +4,6 @@
 
 package wge3.model.items;
 
-import wge3.model.items.Bomb;
 import wge3.model.objects.GreenSlime;
 import wge3.model.Tile;
 

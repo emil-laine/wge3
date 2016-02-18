@@ -4,7 +4,6 @@
 
 package wge3.engine;
 
-import wge3.engine.PlayState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import wge3.engine.PlayState;
 import wge3.engine.util.Drawable;
 import wge3.model.objects.Item;
 
@@ -37,7 +35,7 @@ public final class MessageStream implements Drawable {
         lineSpacing = 20;
         this.game = game;
         
-        messages = new LinkedHashMap<Long, String>();
+        messages = new LinkedHashMap();
     }
     
     @Override

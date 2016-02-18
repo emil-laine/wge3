@@ -4,7 +4,6 @@
 
 package wge3.gui;
 
-import wge3.engine.util.Drawable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;

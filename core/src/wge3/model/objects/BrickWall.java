@@ -10,7 +10,6 @@ import static wge3.model.TilePropertyFlag.BLOCKS_VISION;
 import static wge3.model.TilePropertyFlag.CASTS_SHADOWS;
 import static wge3.model.TilePropertyFlag.COVERS_WHOLE_TILE;
 import static wge3.model.TilePropertyFlag.HAS_DESTROYED_SPRITE;
-import wge3.model.objects.Wall;
 import wge3.model.Tile;
 
 public final class BrickWall extends Wall {

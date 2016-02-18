@@ -116,4 +116,6 @@ public final class Math {
     public static float getDistance2InTiles(Creature c, Tile tile) {
         return getDistance2InTiles(c, tile.getMiddleX(), tile.getMiddleY());
     }
+    
+    private Math() {}
 }

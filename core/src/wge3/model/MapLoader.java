@@ -126,7 +126,8 @@ public final class MapLoader {
                         
                     case 41: object = new SpeedPotion(); break;
                     case 42: object = new LevitationPotion(); break;
-                    case 43: object = object = null;
+                    case 43:
+                        object = null;
                         area.addCreature(new Thief(), x, y);
                         break;
                     case 44: object = new InvisibilityPotion(); break;
@@ -160,4 +161,6 @@ public final class MapLoader {
     public static String getLineSeparator() {
         return System.getProperty("line.separator");
     }
+    
+    private MapLoader() {}
 }

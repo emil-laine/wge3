@@ -4,8 +4,6 @@
 
 package wge3.model.objects;
 
-import wge3.model.objects.Wall;
-
 public final class StoneWall extends Wall {
     
     public StoneWall(int type) {

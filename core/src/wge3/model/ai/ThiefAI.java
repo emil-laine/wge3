@@ -34,6 +34,7 @@ public class ThiefAI extends AI {
         }
     }
     
+    @Override
     public void update() {
         if (!isStealing()) {
             checkForEnemies();

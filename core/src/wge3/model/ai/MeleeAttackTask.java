@@ -5,7 +5,6 @@
 package wge3.model.ai;
 
 import static com.badlogic.gdx.utils.TimeUtils.millis;
-import static wge3.model.ai.PathFinder.findPath;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
 import wge3.model.Tile;

@@ -23,12 +23,12 @@ public class PathFinder {
         List<TileData> allTiles = calculateTileData(dest);
         List<TileData> route = calculateRoute(allTiles, start);
         if (route == null) return null;
-        List<Tile> waypoints = calculateWaypoints(route, dest.getArea());
+        List<Tile> waypoints = calculateWaypoints(route, Tile.getArea());
         return waypoints;
     }
     
     private static List<TileData> calculateTileData(Tile origin) {
-        Area area = origin.getArea();
+        Area area = Tile.getArea();
         int c = 0;
         List<TileData> tileData = new ArrayList();
         List<TileData> queue = new ArrayList();
@@ -150,4 +150,6 @@ public class PathFinder {
         
         return waypoints;
     }
+    
+    private PathFinder() {}
 }

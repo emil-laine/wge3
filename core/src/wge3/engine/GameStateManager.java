@@ -4,12 +4,8 @@
 
 package wge3.engine;
 
-import wge3.engine.GameState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import wge3.engine.EndGameState;
-import wge3.engine.MenuState;
-import wge3.engine.PlayState;
 
 public final class GameStateManager {
     

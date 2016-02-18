@@ -4,16 +4,12 @@
 
 package wge3.model;
 
-import wge3.model.MapLoader;
-import wge3.model.Creature;
-import wge3.model.NonPlayer;
 import wge3.model.actors.Player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
@@ -30,8 +26,6 @@ import wge3.model.objects.Tree;
 import wge3.model.objects.Item;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 
 public final class Area implements Drawable {
@@ -72,7 +66,7 @@ public final class Area implements Drawable {
     /** Initializes this Area from the given map file. */
     public void loadMap(String mapFileName) {
         try {
-            new MapLoader().loadMap(mapFileName, this);
+            MapLoader.loadMap(mapFileName, this);
         } catch (IOException ex) {
             Logger.getLogger(Area.class.getName()).log(Level.SEVERE, null, ex);
         }

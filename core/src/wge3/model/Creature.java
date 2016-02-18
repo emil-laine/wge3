@@ -4,7 +4,6 @@
 
 package wge3.model;
 
-import wge3.model.actors.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

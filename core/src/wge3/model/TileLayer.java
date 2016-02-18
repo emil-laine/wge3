@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import java.util.EnumSet;
 import java.util.Set;
 import wge3.engine.util.Drawable;
-import wge3.model.Tile;
 
 public abstract class TileLayer implements Drawable {
     

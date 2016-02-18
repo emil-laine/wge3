@@ -13,8 +13,6 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
 import static wge3.engine.GameStateManager.HEIGHT;
 import static wge3.engine.GameStateManager.WIDTH;
-import wge3.engine.InputHandler;
-import wge3.engine.Command;
 import wge3.model.Area;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;

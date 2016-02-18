@@ -5,7 +5,6 @@
 package wge3.model;
 
 import java.util.*;
-import wge3.model.Creature;
 import wge3.model.objects.Item;
 
 public final class Inventory {

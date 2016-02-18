@@ -4,7 +4,6 @@
 
 package wge3.model;
 
-import wge3.model.Creature;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;

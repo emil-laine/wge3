@@ -8,7 +8,6 @@ import wge3.model.StateFlag;
 import wge3.model.Creature;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import static wge3.model.Team.PlayerTeam;
 import wge3.engine.Statistics;
 
