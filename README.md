@@ -18,3 +18,6 @@ To run the project, you must run the `desktop` subproject. The `core` subproject
 - [Wiki](https://github.com/emlai/wge3/wiki)
 - [GDD](https://github.com/emlai/wge3/wiki/GDD)
 - [Map Editor Guide](https://github.com/emlai/wge3/wiki/Map-Editor)
+
+## License
+This project is licensed under the Mozilla Public License, version 2.0. See the `LICENSE.txt` file for full text.
