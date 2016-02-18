@@ -11,18 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
+import java.util.Arrays;
 
 public final class MenuState extends GameState {
     
     private Stage stage;
     private Skin skin;
     
-    private TextField mapNameField;
+    private SelectBox mapSelector;
     private TextButton newGameButton;
     
     public MenuState(GameStateManager gsm) {
@@ -45,15 +47,14 @@ public final class MenuState extends GameState {
         menuLabel.setPosition(x, y);
         stage.addActor(menuLabel);
         
-        String mapName;
-        if (gsm.getNextMap() != null) mapName = gsm.getNextMap();
-        else mapName = "";
-        
-        mapNameField = new TextField(mapName, skin);
-        mapNameField.setPosition(x, y - buttonHeight*2);
-        mapNameField.setSize(buttonWidth, buttonHeight);
-        mapNameField.setMessageText("Enter map name");
-        stage.addActor(mapNameField);
+        mapSelector = new SelectBox(skin);
+        mapSelector.setItems(new Array(getMapNames()));
+        if (gsm.getNextMap() != null)
+            mapSelector.setSelected(gsm.getNextMap());
+        mapSelector.setPosition(x, y - buttonHeight*2
+                + (buttonHeight - mapSelector.getHeight())/2);
+        mapSelector.setWidth(buttonWidth);
+        stage.addActor(mapSelector);
         
         newGameButton = new TextButton("NEW GAME", skin);
         newGameButton.setPosition(x, y - buttonHeight*4);
@@ -79,12 +80,7 @@ public final class MenuState extends GameState {
     }
     
     public void startGame() {
-        if (!Gdx.files.internal("maps/" + mapNameField.getText() + ".tmx").exists()) {
-            gsm.setState(0);
-            return;
-        }
-        
-        gsm.setNextMap(mapNameField.getText());
+        gsm.setNextMap((String) mapSelector.getSelected());
         gsm.setState(1);
     }
     
@@ -113,5 +109,11 @@ public final class MenuState extends GameState {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+    
+    private String[] getMapNames() {
+        return Arrays.stream(Gdx.files.internal("maps").list(".tmx"))
+                .map(path -> path.nameWithoutExtension())
+                .toArray(String[]::new);
     }
 }
