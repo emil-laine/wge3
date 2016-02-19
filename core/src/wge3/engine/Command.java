@@ -11,7 +11,7 @@ public enum Command {
     TURN_RIGHT(3),
     USE_ITEM(4),
     CHANGE_ITEM(5),
-    RUN(6),
+    UNUSED(6),
     TOGGLE_FPS(7),
     EXIT(8),
     TOGGLE_FOV(9),

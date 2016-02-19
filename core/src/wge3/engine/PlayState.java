@@ -116,11 +116,6 @@ public final class PlayState extends GameState {
     
     @Override
     public void handleInput() {
-        if (input.isDown(Command.RUN))
-            player.startRunning();
-        else if (!input.isDown(Command.RUN))
-            player.stopRunning();
-        
         if (input.isDown(Command.FORWARD))
             player.goForward();
         else if (input.isDown(Command.BACKWARD))

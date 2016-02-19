@@ -51,23 +51,17 @@ public abstract class Creature implements Drawable {
     protected int size;
     protected int defaultSpeed;
     protected int currentSpeed;
-    protected float walkToRunMultiplier;
     protected float direction;
     protected float turningSpeed;
     protected int sight;
     
     protected StatIndicator HP;
-    protected StatIndicator energy;
     protected int strength;
     protected int defense;
     protected int unarmedAttackSize; // radius
     // Regen rates: the amount of milliseconds between regenerating 1 unit.
     protected int HPRegenRate;
-    protected int energyRegenRate;
-    protected int energyConsumptionRate;
     protected long lastHPRegen;
-    protected long lastEnergyRegen;
-    protected long lastEnergyConsumption;
     
     protected Inventory inventory;
     protected Item selectedItem;
@@ -81,21 +75,14 @@ public abstract class Creature implements Drawable {
         size = Tile.size / 3;
         defaultSpeed = Tile.size * 5;
         currentSpeed = defaultSpeed;
-        walkToRunMultiplier = 1.35f;
         direction = random() * PI2;
         turningSpeed = 4;
         sight = 12;
         unarmedAttackSize = Tile.size/2;
         
         HP = new StatIndicator();
-        energy = new StatIndicator(100);
-        
         HPRegenRate = 1000;
         lastHPRegen = millis();
-        lastEnergyRegen = millis();
-        lastEnergyConsumption = millis();
-        energyRegenRate = 500;
-        energyConsumptionRate = 80;
         
         bounds = new Circle(new Vector2(), size);
         
@@ -182,24 +169,9 @@ public abstract class Creature implements Drawable {
         return HP;
     }
     
-    /** Returns the StatIndicator representing this Creature's energy. */
-    public StatIndicator getEnergy() {
-        return energy;
-    }
-    
     /** Returns the maximum HP of this Creature. */
     public int getMaxHP() {
         return HP.getMax();
-    }
-    
-    /** Returns the current energy of this Creature. */
-    public int getCurrentEnergy() {
-        return energy.getCurrent();
-    }
-    
-    /** Returns the maximum energy of this Creature. */
-    public int getMaxEnergy() {
-        return energy.getMax();
     }
     
     /** Returns the current HP of this Creature. */
@@ -252,16 +224,6 @@ public abstract class Creature implements Drawable {
             float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
             dx *= movementModifier;
             dy *= movementModifier;
-        }
-        
-        if (isRunning() && canRun()) {
-            long currentTime = millis();
-            dx *= walkToRunMultiplier;
-            dy *= walkToRunMultiplier;
-            if (currentTime - lastEnergyConsumption > energyConsumptionRate) {
-                consumeEnergy();
-                lastEnergyConsumption = currentTime;
-            }
         }
         
         // Calculate actual movement:
@@ -435,7 +397,7 @@ public abstract class Creature implements Drawable {
         return HP.isEmpty();
     }
     
-    /** Regenerates the HP and energy of this Creature, if needed.
+    /** Regenerates the HP of this Creature, if needed.
      *  @param currentTime the current time, used to decide whether regeneration
      *                     is needed */
     public void regenerate(long currentTime) {
@@ -443,15 +405,6 @@ public abstract class Creature implements Drawable {
             regenerateHP();
             lastHPRegen = currentTime;
         }
-        if (!isRunning() && currentTime - lastEnergyRegen > energyRegenRate) {
-            regenerateEnergy();
-            lastEnergyRegen = currentTime;
-        }
-    }
-    
-    /** Regenerates the energy of this Creature. */
-    private void regenerateEnergy() {
-        energy.increase();
     }
     
     /** Regenerates the HP of this Creature. */
@@ -659,36 +612,6 @@ public abstract class Creature implements Drawable {
         if (this.isPlayer()) {
             Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
         }
-    }
-    
-    /** Increases this Creature's energy by the given amount. */
-    public void addEnergy(int amount) {
-        energy.increase(amount);
-    }
-    
-    /** Activates run mode for this Creature. */
-    public void startRunning() {
-        stateFlags.add(StateFlag.IS_RUNNING);
-    }
-    
-    /** Deactivates run mode for this Creature. */
-    public void stopRunning() {
-        stateFlags.remove(StateFlag.IS_RUNNING);
-    }
-    
-    /** Returns whether this Creature is currently in run mode. */
-    public boolean isRunning() {
-        return stateFlags.contains(StateFlag.IS_RUNNING);
-    }
-    
-    /** Decreases the energy of this Creature once. */
-    public void consumeEnergy() {
-        energy.decrease();
-    }
-    
-    /** Returns whether this Creature has energy left for running. */
-    public boolean canRun() {
-        return !energy.isEmpty();
     }
     
     /** Returns the x-coordinate of the tile this Creature is currently

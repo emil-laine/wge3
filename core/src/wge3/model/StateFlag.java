@@ -10,7 +10,6 @@ public enum StateFlag {
     TURNING_LEFT,
     TURNING_RIGHT,
     
-    IS_RUNNING,
     IS_INVISIBLE,
     IS_FLYING,
     IS_GHOST,

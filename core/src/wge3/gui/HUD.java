@@ -27,8 +27,6 @@ public final class HUD implements Drawable {
     private int barMaxLength = 200;
     private int healthBarX = 1055;
     private int healthBarY = 653;
-    private int energyBarX = healthBarX;
-    private int energyBarY = healthBarY - 20;
     
     public HUD(Player player) {
         this.player = player;
@@ -52,9 +50,8 @@ public final class HUD implements Drawable {
         
         // Text labels:
         font.draw(batch, "HP:", 1000, 660);
-        font.draw(batch, "Energy:", 1000, 640);
         
-        // Health and energy bars:
+        // Health bar:
         batch.end();
         float health = player.getHP().asFraction();
         float healthBarLength = health * barMaxLength;
@@ -69,20 +66,6 @@ public final class HUD implements Drawable {
                 healthBarY,
                 healthBarX + healthBarLength,
                 healthBarY,
-                barThickness);
-        
-        float energy = player.getEnergy().asFraction();
-        float energyBarLength = energy * barMaxLength;
-        sr.setColor(
-                min(-2*energy+2, 1),
-                min( 2*energy,   1),
-                0,
-                1);
-        sr.rectLine(
-                energyBarX,
-                energyBarY,
-                energyBarX + energyBarLength,
-                energyBarY,
                 barThickness);
         sr.end();
         batch.begin();

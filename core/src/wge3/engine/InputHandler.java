@@ -28,7 +28,6 @@ public final class InputHandler extends InputAdapter {
         setMappedKey(Command.TURN_RIGHT, Keys.RIGHT);
         setMappedKey(Command.USE_ITEM, Keys.Z);
         setMappedKey(Command.CHANGE_ITEM, Keys.X);
-        setMappedKey(Command.RUN, Keys.A);
         setMappedKey(Command.EXIT, Keys.ESCAPE);
         setMappedKey(Command.TOGGLE_FOV, Keys.S);
         setMappedKey(Command.TOGGLE_GHOST_MODE, Keys.G);
