@@ -79,7 +79,7 @@ public abstract class Creature implements Drawable {
     
     public Creature() {
         size = Tile.size / 3;
-        defaultSpeed = 75;
+        defaultSpeed = Tile.size * 5;
         currentSpeed = defaultSpeed;
         walkToRunMultiplier = 1.35f;
         direction = random() * PI2;
