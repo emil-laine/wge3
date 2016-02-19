@@ -18,7 +18,7 @@ public class DefaultGun implements MySound {
 
     public DefaultGun() {
         try {
-            sound = Gdx.audio.newSound(Gdx.files.internal("sounds/defaultGun2-16.wav"));
+            sound = Gdx.audio.newSound(Gdx.files.internal("sounds/defaultGun.wav"));
         } catch (Exception ex) {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
