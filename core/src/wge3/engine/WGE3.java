@@ -7,6 +7,8 @@ package wge3.engine;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import wge3.model.audio.MySound;
+import wge3.model.audio.SoundTrack;
 
 public final class WGE3 extends Game {
     
@@ -18,6 +20,8 @@ public final class WGE3 extends Game {
         gsm.setState(0);
         
         Gdx.gl.glClearColor(1/12f, 1/12f, 1/12f, 1);
+        MySound soundtrack = new SoundTrack();
+        soundtrack.play();
     }
     
     @Override
