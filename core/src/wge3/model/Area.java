@@ -27,11 +27,13 @@ import wge3.model.objects.Item;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
+import com.badlogic.gdx.math.Rectangle;
 
 public final class Area implements Drawable {
     private Tile[][] tiles;
     private int width;
     private int height;
+    private Rectangle bounds;
     
     private List<Tile> allTiles;
     private List<Creature> creatures;
@@ -81,6 +83,7 @@ public final class Area implements Drawable {
     public void createTiles(int width, int height) {
         this.width = width;
         this.height = height;
+        bounds = new Rectangle(0, 0, width * Tile.size, height * Tile.size);
         tiles = new Tile[width][height];
     }
     
@@ -99,6 +102,11 @@ public final class Area implements Drawable {
     /** Returns the number of rows this Area has. */
     public int getHeight() {
         return height;
+    }
+    
+    /** Returns the rectangular region that this Area occupies. */
+    public Rectangle getBounds() {
+        return bounds;
     }
     
     @Override
@@ -142,6 +150,24 @@ public final class Area implements Drawable {
      *  must be valid coordinates. */
     public Tile getTileAt(int x, int y) {
         return tiles[x][y];
+    }
+    
+    /** Returns the Tiles whose bounds overlap the given region. */
+    public List<Tile> getOverlappingTiles(Rectangle region) {
+        final int minX = floatPosToTilePos(region.x);
+        final int maxX = Math.min(width-1, floatPosToTilePos(region.x + region.width));
+        final int minY = floatPosToTilePos(region.y);
+        final int maxY = Math.min(height-1, floatPosToTilePos(region.y + region.height));
+        
+        List<Tile> results = new ArrayList((maxX - minX + 1) * (maxY - minY + 1));
+        
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                results.add(getTileAt(x, y));
+            }
+        }
+        
+        return results;
     }
     
     /** Specifies a Tile that should be redrawn. */
@@ -415,16 +441,5 @@ public final class Area implements Drawable {
     /** Returns a randomly selected Tile in this Area. */
     public Tile getRandomTile() {
         return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
-    }
-    
-    /** Returns all Creatures that are currently standing on the Tile located at
-     *  the specified game world position (x, y) and all eight Tiles around that
-     *  Tile. */
-    public List<Creature> getCreaturesNear(float x, float y) {
-        List<Creature> creatures = new ArrayList();
-        getTileAt(x, y).getNearbyTiles(true).stream().forEach((tile) -> {
-            creatures.addAll(tile.getCreatures());
-        });
-        return creatures;
     }
 }

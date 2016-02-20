@@ -10,13 +10,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
-import static com.badlogic.gdx.math.Intersector.overlaps;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -44,7 +43,7 @@ public abstract class Creature implements Drawable {
     protected Area area;
     protected int previousTileX;
     protected int previousTileY;
-    protected Circle bounds;
+    protected Rectangle bounds;
     
     protected Team team;
     
@@ -84,7 +83,7 @@ public abstract class Creature implements Drawable {
         HPRegenRate = 1000;
         lastHPRegen = millis();
         
-        bounds = new Circle(new Vector2(), size);
+        bounds = new Rectangle(0, 0, size, size);
         
         inventory = new Inventory(this);
         selectedItem = null;
@@ -94,33 +93,34 @@ public abstract class Creature implements Drawable {
     
     /** Returns the current x position of this Creature. */
     public float getX() {
-        return bounds.x;
+        return bounds.x + getSize()/2;
     }
     
     public void setX(float x) {
-        bounds.setX(x);
+        bounds.setX(x - getSize()/2);
         updateSpritePosition();
     }
     
     /** Returns the current y position of this Creature. */
     public float getY() {
-        return bounds.y;
+        return bounds.y + getSize()/2;
     }
     
     public void setY(float y) {
-        bounds.setY(y);
+        bounds.setY(y - getSize()/2);
         updateSpritePosition();
     }
     
     /** Moves the Creature to the given position (x, y). */
     public void setPosition(float x, float y) {
-        bounds.setPosition(x, y);
+        bounds.setPosition(x - getSize()/2, y - getSize()/2);
         updateSpritePosition();
     }
     
     /** Moves the Creature to the middle of the tile located at (x, y). */
     public void setPosition(int x, int y) {
-        bounds.setPosition(x * Tile.size + Tile.size/2, y * Tile.size + Tile.size/2);
+        bounds.setPosition(x * Tile.size + Tile.size/2 - getSize()/2,
+                           y * Tile.size + Tile.size/2 - getSize()/2);
         updateSpritePosition();
     }
     
@@ -272,19 +272,21 @@ public abstract class Creature implements Drawable {
     
     /** Returns whether this Creature can move to the specified point (x, y). */
     public boolean canMoveTo(float x, float y) {
-        if (!area.hasLocation(x, y))
+        Rectangle newBounds = new Rectangle(x - getSize()/2, y - getSize()/2, getSize(), getSize());
+        
+        if (!area.getBounds().contains(newBounds))
             return false;
         
         if (this.isGhost())
             return true;
         
-        Tile destination = area.getTileAt(x, y);
+        List<Tile> destTiles = area.getOverlappingTiles(newBounds);
         
         if (this.isFlying())
-            return destination.isPassable();
+            return destTiles.stream().allMatch(Tile::isPassable);
         
-        if (destination.isOneWay()) {
-            OneWayFloor oneWayTile = (OneWayFloor) destination.getGround();
+        if (area.getTileAt(x, y).isOneWay()) {
+            OneWayFloor oneWayTile = (OneWayFloor) area.getTileAt(x, y).getGround();
             if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
                 return false;
             }
@@ -299,13 +301,13 @@ public abstract class Creature implements Drawable {
             }
         }
         
-        if (collisionDetected(x, y))
+        if (collisionDetected(newBounds))
             return false;
         
         if (!this.isOnPassableObject())
             return true;
         
-        return (destination.isPassable());
+        return destTiles.stream().allMatch(Tile::isPassable);
     }
     
     /** Returns whether this Creature can move onto the given Tile. */
@@ -698,23 +700,25 @@ public abstract class Creature implements Drawable {
         return this.getTileUnder().isPassable();
     }
     
-    /** Returns the circular area that this Creature occupies. */
-    public Circle getBounds() {
+    /** Returns the rectangular area that this Creature occupies. */
+    public Rectangle getBounds() {
         return bounds;
     }
     
-    /** Tests whether this Creature would collide with other Creatures if it was
-     *  positioned at the the specified point (x, y).
-     *  @param x the x-coordinate of the position to test for collision
-     *  @param y the y-coordinate of the position to test for collision
+    /** Tests whether this Creature would collide with other Creatures
+     *  if it had the specified bounds.
+     *  @param targetBounds the rectangular area to test for collision
      *  @return whether any collision was detected */
-    private boolean collisionDetected(float x, float y) {
-        Circle newBounds = new Circle(x, y, getSize());
-        List<Creature> creatures = area.getCreaturesNear(x, y);
-        creatures.remove(this);
-        return creatures
-                .stream()
-                .anyMatch((other) -> (overlaps(newBounds, other.getBounds())));
+    private boolean collisionDetected(Rectangle targetBounds) {
+        for (Tile tile : area.getOverlappingTiles(targetBounds)) {
+            for (Creature creature : tile.getCreatures()) {
+                if (creature == this)
+                    continue;
+                if (creature.getBounds().overlaps(targetBounds))
+                    return true;
+            }
+        }
+        return false;
     }
     
     /** Returns all Creatures that are on the same tile as this Creature or on
