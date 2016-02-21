@@ -4,11 +4,11 @@
 
 package wge3.model.ai;
 
-import wge3.model.NonPlayer;
-import wge3.model.items.Gun;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static wge3.engine.util.Math.getDistance2;
+import wge3.model.NonPlayer;
+import wge3.model.objects.Item;
 
 /**
  *
@@ -40,9 +40,10 @@ public class RangedAI extends AI {
     
     @Override
     public void checkForEnemies() {
-        if (getNPC().getSelectedItem().isGun()) {
-            Gun gun = (Gun) getNPC().getSelectedItem();
-            int gunRange2 = gun.getRange() * gun.getRange();
+        if (getNPC().getSelectedItem().isRangedWeapon()) {
+            Item gun = getNPC().getSelectedItem();
+            int range = gun.getIntAttribute("range");
+            int gunRange2 = range * range;
             
             getNPC().getEnemiesWithinFOV()
                     .parallelStream()

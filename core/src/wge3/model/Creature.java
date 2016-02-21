@@ -17,6 +17,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import static wge3.engine.PlayState.mStream;
 import wge3.engine.Statistic;
@@ -80,7 +81,10 @@ public abstract class Creature extends Entity implements Drawable {
         lastHPRegen = millis();
         
         inventory = new Inventory(this);
-        selectedItem = null;
+        for (Map.Entry<String, Integer> entry : cfg.readStringIntMap(type, "inventory").entrySet()) {
+            inventory.addItem(new Item(entry.getKey()), entry.getValue());
+        }
+        changeItem();
         
         isFlying = false; // No flying creatures yet.
         

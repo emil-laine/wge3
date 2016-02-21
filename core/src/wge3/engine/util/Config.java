@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Config {
     
@@ -33,6 +35,11 @@ public final class Config {
         return value.asFloat();
     }
     
+    public boolean getBoolean(String type, String key) {
+        JsonValue value = get(type, key);
+        return value.asBoolean();
+    }
+    
     public String getString(String type, String key) {
         return get(type, key).asString();
     }
@@ -43,6 +50,15 @@ public final class Config {
     
     public int getIntY(String type, String key) {
         return json.get(type).get(key).get(1).asInt();
+    }
+    
+    public Map<String, Integer> readStringIntMap(String type, String key) {
+        Map<String, Integer> results = new HashMap();
+        JsonValue map = get(type, key);
+        for (JsonValue entry : map) {
+            results.put(entry.name(), entry.asInt());
+        }
+        return results;
     }
     
     private JsonValue get(String type, String key) {

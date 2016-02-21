@@ -14,7 +14,6 @@ import java.util.Scanner;
 import wge3.engine.util.Color;
 import wge3.engine.util.Direction;
 import wge3.model.grounds.*;
-import wge3.model.items.*;
 import wge3.model.objects.*;
 
 public final class MapLoader {
@@ -71,9 +70,9 @@ public final class MapLoader {
                     case 14: object = new StoneWall(2); break;
                     case 15: object = new Tree(); break;
                         
-                    case 17: object = new BasicBomb(); break;
-                    case 18: object = new Handgun(); break;
-                    case 20: object = new HealthPack(); break;
+                    case 17: object = new Item("bomb"); break;
+                    case 18: object = new Item("handgun"); break;
+                    case 20: object = new Item("health pack"); break;
                     
                     case 23:
                         object = null;
@@ -96,19 +95,19 @@ public final class MapLoader {
                         area.addCreature(new NonPlayer("gunman"), x, y);
                         break;
                         
-                    case 33: object = new GreenPotion(); break;
+                    case 33: object = new Item("green potion"); break;
                     case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
                     case 35: object = new Teleport(Color.RED); break;
                     case 36: object = new Teleport(Color.BLUE); break;
                     case 37: object = new Teleport(Color.GREEN); break;
                     case 38: object = new Teleport(Color.BLACK); break;
                         
-                    case 41: object = new SpeedPotion(); break;
+                    case 41: object = new Item("speed potion"); break;
                     case 43:
                         object = null;
                         area.addCreature(new NonPlayer("thief"), x, y);
                         break;
-                    case 44: object = new InvisibilityPotion(); break;
+                    case 44: object = new Item("invisibility potion"); break;
                         
                     default: object = null; break;
                 }

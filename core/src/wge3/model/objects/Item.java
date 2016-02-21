@@ -4,29 +4,41 @@
 
 package wge3.model.objects;
 
+import com.badlogic.gdx.math.MathUtils;
 import java.util.EnumSet;
-import wge3.model.TilePropertyFlag;
+import wge3.engine.util.Config;
 import wge3.model.Creature;
-import wge3.model.items.Gun;
+import wge3.model.Effect;
 import wge3.model.MapObject;
+import wge3.model.TilePropertyFlag;
 
-public abstract class Item extends MapObject {
+public class Item extends MapObject {
     
     protected String name;
     private int value;
     protected int defaultAmount;
+    private final Effect useEffect;
+    private final boolean isRangedWeapon;
+    private static final Config cfg = new Config("json/Item.json");
     
-    public Item() {
-        // default values
+    public Item(String type) {
+        name = type;
+        useEffect = new Effect(cfg.getString(type, "effect"), cfg, type);
+        isRangedWeapon = cfg.getString(type, "effect").equals("shootProjectile");
         propertyFlags = EnumSet.of(TilePropertyFlag.IS_PASSABLE);
         defaultAmount = 1;
+        setSprite(cfg.getIntX(type, "spritePos")
+                  + MathUtils.random(cfg.getInt(type, "spriteMultiplicity") - 1),
+                  cfg.getIntY(type, "spritePos"));
     }
     
     public String getName() {
         return name;
     }
     
-    public abstract void use(Creature user);
+    public void use(Creature user) {
+        useEffect.activate(user, this);
+    }
     
     @Override
     public int hashCode() {
@@ -47,15 +59,19 @@ public abstract class Item extends MapObject {
         return !((this.name == null) ? (other.name != null) : !this.name.equals(other.name));
     }
     
-    public boolean isGun() {
-        return this.getClass().getSuperclass() == Gun.class;
+    public boolean isRangedWeapon() {
+        return isRangedWeapon;
     }
     
     public boolean isPotion() {
-        return this.getClass().getSimpleName().toLowerCase().contains("potion");
+        return getName().contains("potion");
     }
     
     public int getDefaultAmount() {
         return defaultAmount;
+    }
+    
+    public int getIntAttribute(String attributeName) {
+        return cfg.getInt(name, attributeName);
     }
 }
