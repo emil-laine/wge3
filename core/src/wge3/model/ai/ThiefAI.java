@@ -6,9 +6,9 @@ package wge3.model.ai;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import wge3.model.Tile;
 import wge3.model.Creature;
-import wge3.model.actors.Thief;
+import wge3.model.NonPlayer;
+import wge3.model.Tile;
 
 /**
  *
@@ -23,7 +23,7 @@ public class ThiefAI extends AI {
     private boolean itemStolen;
     private boolean fleeing;
     
-    public ThiefAI(Thief creature) {
+    public ThiefAI(NonPlayer creature) {
         super(creature);
         cowardLevel = 4;
         itemStolen = false;
@@ -64,7 +64,7 @@ public class ThiefAI extends AI {
                 return;
             }
             fleeing = false;
-            setCurrentTask(new StealTask((Thief) getNPC(), enemy));
+            setCurrentTask(new StealTask(getNPC(), enemy));
             break; // TODO: Should steal from the nearest enemy instead of
                    // always picking the first one in the returned list.
         }

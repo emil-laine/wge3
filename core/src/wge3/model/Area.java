@@ -24,7 +24,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
-import wge3.model.actors.Player;
 import wge3.model.items.Bomb;
 import wge3.model.objects.GreenSlime;
 import wge3.model.objects.Item;

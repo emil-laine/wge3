@@ -5,7 +5,7 @@
 package wge3.engine;
 
 import java.util.*;
-import wge3.model.actors.Player;
+import wge3.model.Player;
 /**
  *
  * @author chang

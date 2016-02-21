@@ -6,8 +6,8 @@ package wge3.model.ai;
 
 import static wge3.engine.util.Math.getDistance2;
 import wge3.model.Creature;
+import wge3.model.NonPlayer;
 import wge3.model.Tile;
-import wge3.model.actors.Thief;
 import wge3.model.objects.Item;
 
 /**
@@ -17,11 +17,11 @@ import wge3.model.objects.Item;
 
 public class StealTask extends AITask{
     
-    private Thief executor;
+    private NonPlayer executor;
     private Creature target;
     private MoveTask subTask;
     
-    public StealTask(Thief executor, Creature target) {
+    public StealTask(NonPlayer executor, Creature target) {
         this.executor = executor;
         this.target = target;
         

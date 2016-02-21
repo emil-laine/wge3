@@ -2,14 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package wge3.model.actors;
+package wge3.model;
 
-import wge3.model.StateFlag;
-import wge3.model.Creature;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import static wge3.model.Team.PlayerTeam;
 import wge3.engine.Statistics;
+import static wge3.model.Team.PlayerTeam;
 
 public final class Player extends Creature {
     
@@ -18,13 +16,8 @@ public final class Player extends Creature {
     public static Statistics statistics;
     
     public Player() {
-        setSprite(4, 3);
+        super("player");
         team = PlayerTeam;
-        size = 14;
-        HP.setMax(100);
-        strength = 10;
-        defense = 5;
-        
         getStateFlags().add(StateFlag.PICKS_UP_ITEMS);
     }
     

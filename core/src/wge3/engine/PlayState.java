@@ -14,7 +14,7 @@ import java.util.Iterator;
 import wge3.model.Area;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
-import wge3.model.actors.Player;
+import wge3.model.Player;
 import wge3.model.objects.StoneWall;
 
 public final class PlayState extends GameState {

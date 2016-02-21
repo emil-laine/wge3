@@ -6,7 +6,7 @@ package wge3.model.items;
 
 import wge3.engine.Statistic;
 import wge3.model.Creature;
-import wge3.model.actors.Player;
+import wge3.model.Player;
 import wge3.model.objects.Item;
 
 public final class HealthPack extends Item {

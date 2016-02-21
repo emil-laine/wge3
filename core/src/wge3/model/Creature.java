@@ -18,15 +18,15 @@ import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import static wge3.engine.util.Direction.*;
-import wge3.engine.Statistic;
 import static wge3.engine.PlayState.mStream;
+import wge3.engine.Statistic;
+import wge3.engine.util.Config;
+import static wge3.engine.util.Direction.*;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
 import static wge3.engine.util.Math.getDiff;
 import static wge3.engine.util.Math.getDistance;
 import wge3.engine.util.StatIndicator;
-import wge3.model.actors.Player;
 import static wge3.model.ai.PathFinder.findPath;
 import wge3.model.grounds.OneWayFloor;
 import wge3.model.objects.Item;
@@ -57,26 +57,36 @@ public abstract class Creature extends Entity implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
+    private static final Config cfg = new Config("json/Creature.json");
+    
     private final boolean isFlying;
     
-    public Creature() {
-        super(Tile.size / 3);
+    public Creature(String type) {
+        super((int) (Tile.size * cfg.getFloat(type, "size")));
         
-        defaultSpeed = Tile.size * 5;
+        defaultSpeed = (int) (Tile.size * cfg.getFloat(type, "speed"));
         currentSpeed = defaultSpeed;
         direction = random() * PI2;
-        turningSpeed = 4;
-        sight = 12;
-        unarmedAttackSize = Tile.size/2;
+        turningSpeed = (int) (cfg.getFloat(type, "turningSpeed"));
+        sight = (int) (Tile.size * cfg.getFloat(type, "sight"));
+        unarmedAttackSize = (int) (Tile.size * cfg.getFloat(type, "unarmedAttackSize"));
+        
+        strength = cfg.getInt(type, "strength");
+        defense = cfg.getInt(type, "defense");
         
         HP = new StatIndicator();
-        HPRegenRate = 1000;
+        HP.setMax(cfg.getInt(type, "hp"));
+        HPRegenRate = cfg.getInt(type, "hpRegenRate");
         lastHPRegen = millis();
         
         inventory = new Inventory(this);
         selectedItem = null;
         
         isFlying = false; // No flying creatures yet.
+        
+        setSprite(cfg.getIntX(type, "spritePos")
+                  + MathUtils.random(cfg.getInt(type, "spriteMultiplicity") - 1),
+                  cfg.getIntY(type, "spritePos"));
     }
     
     /** Returns the default walking speed of this Creature. */
@@ -616,5 +626,9 @@ public abstract class Creature extends Entity implements Drawable {
             getTileUnder().setObject(item);
             getInventory().removeAll();
         }
+    }
+    
+    protected static final Config getCfg() {
+        return cfg;
     }
 }

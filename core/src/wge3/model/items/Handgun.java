@@ -14,7 +14,7 @@ import wge3.engine.Statistic;
 import wge3.model.Creature;
 import static wge3.engine.PlayState.mStream;
 import wge3.model.Tile;
-import wge3.model.actors.Player;
+import wge3.model.Player;
 import static java.lang.Math.max;
 import wge3.engine.Audio;
 import static wge3.engine.util.Math.getDistance;

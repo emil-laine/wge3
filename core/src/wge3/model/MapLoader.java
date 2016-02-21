@@ -13,9 +13,8 @@ import java.io.IOException;
 import java.util.Scanner;
 import wge3.engine.util.Color;
 import wge3.engine.util.Direction;
-import wge3.model.actors.*;
-import wge3.model.items.*;
 import wge3.model.grounds.*;
+import wge3.model.items.*;
 import wge3.model.objects.*;
 
 public final class MapLoader {
@@ -78,7 +77,7 @@ public final class MapLoader {
                     
                     case 23:
                         object = null;
-                        area.addCreature(new Zombie(), x, y);
+                        area.addCreature(new NonPlayer("zombie"), x, y);
                         break;
                         
                     case 31: object = new Door(false, true); break;
@@ -94,7 +93,7 @@ public final class MapLoader {
                         
                     case 26:
                         object = null;
-                        area.addCreature(new Gunman(), x, y);
+                        area.addCreature(new NonPlayer("gunman"), x, y);
                         break;
                         
                     case 33: object = new GreenPotion(); break;
@@ -107,7 +106,7 @@ public final class MapLoader {
                     case 41: object = new SpeedPotion(); break;
                     case 43:
                         object = null;
-                        area.addCreature(new Thief(), x, y);
+                        area.addCreature(new NonPlayer("thief"), x, y);
                         break;
                     case 44: object = new InvisibilityPotion(); break;
                         

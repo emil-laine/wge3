@@ -8,9 +8,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import wge3.engine.util.Drawable;
-import wge3.model.actors.Player;
 import static java.lang.Math.min;
+import wge3.engine.util.Drawable;
+import wge3.model.Player;
 
 public final class HUD implements Drawable {
     

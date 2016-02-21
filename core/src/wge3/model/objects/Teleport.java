@@ -8,14 +8,15 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import wge3.engine.util.Color;
 import wge3.engine.Statistic;
+import wge3.engine.util.Color;
+import static wge3.engine.util.Color.BLUE;
+import wge3.model.Creature;
+import wge3.model.MapObject;
+import wge3.model.Player;
+import wge3.model.Tile;
 import static wge3.model.TilePropertyFlag.CASTS_SHADOWS;
 import static wge3.model.TilePropertyFlag.IS_PASSABLE;
-import wge3.model.Tile;
-import wge3.model.Creature;
-import wge3.model.actors.Player;
-import wge3.model.MapObject;
 
 public class Teleport extends MapObject {
     
