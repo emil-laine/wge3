@@ -4,6 +4,10 @@
 
 package wge3.model.ai;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import java.util.ArrayList;
 import java.util.List;
 import wge3.model.Creature;
@@ -62,5 +66,22 @@ public final class MoveTask extends AITask {
     
     public void setDestination(Tile dest) {
         if (path != null) path.set(path.size()-1, dest);
+    }
+    
+    ShapeRenderer sr = new ShapeRenderer();
+    // For debugging
+    void draw(Batch batch) {
+        batch.end();
+        sr.setProjectionMatrix(batch.getProjectionMatrix());
+        sr.setColor(Color.RED);
+        sr.begin(ShapeType.Line);
+        for (int i = 1; i < path.size(); i++) {
+            Tile t1 = path.get(i-1);
+            Tile t2 = path.get(i);
+            sr.line(t1.getMiddleX(), t1.getMiddleY(),
+                    t2.getMiddleX(), t2.getMiddleY());
+        }
+        sr.end();
+        batch.begin();
     }
 }

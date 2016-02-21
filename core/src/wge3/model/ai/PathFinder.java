@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package wge3.model.ai;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.*;
 import wge3.model.Area;
 import wge3.model.Tile;

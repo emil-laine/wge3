@@ -4,6 +4,7 @@
 
 package wge3.model.ai;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
@@ -55,5 +56,9 @@ public final class MeleeAttackTask extends AITask {
     
     public boolean canCalculatePath() {
         return millis() - timeOfLastPathCalculation > 500;
+    }
+    
+    void draw(Batch batch) {
+        moveTask.draw(batch);
     }
 }

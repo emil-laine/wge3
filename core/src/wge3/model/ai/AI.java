@@ -4,6 +4,7 @@
 
 package wge3.model.ai;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -157,5 +158,13 @@ public class AI {
         // ok move destinations and can be seen by creature.
         List<Tile> tiles = getPossibleMovementDestinations(NPC);
         return tiles.get(random(tiles.size() - 1));
+    }
+    
+    public void draw(Batch batch) {
+        if (currentTask instanceof MoveTask) {
+            ((MoveTask) currentTask).draw(batch);
+        } else if (currentTask instanceof MeleeAttackTask) {
+            ((MeleeAttackTask) currentTask).draw(batch);
+        }
     }
 }
