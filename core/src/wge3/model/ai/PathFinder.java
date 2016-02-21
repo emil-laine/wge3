@@ -5,6 +5,7 @@
 package wge3.model.ai;
 
 import static com.badlogic.gdx.math.MathUtils.random;
+import com.badlogic.gdx.math.Rectangle;
 import java.util.*;
 import wge3.model.Area;
 import wge3.model.Tile;
@@ -15,7 +16,7 @@ import wge3.model.Tile;
 
 public class PathFinder {
     
-    public static List<Tile> findPath(Tile start, Tile dest) {
+    /*public static List<Tile> findPath(Tile start, Tile dest) {
         if (!dest.isGoodMoveDest()) {
             return null;
         }
@@ -25,6 +26,62 @@ public class PathFinder {
         if (route == null) return null;
         List<Tile> waypoints = calculateWaypoints(route, Tile.getArea());
         return waypoints;
+    }*/
+    
+    // Ideana siis, että hashmap parents pitää yllä jokaiselle tilelle että mistä tilestä sinne tultiin.
+    // Näyttäis siltä, että nyt sinne menee syklejä eli on jonkun parent on se itse.
+    public static List<Tile> findPath(Tile start, Tile dest) {
+        Queue<Tile> queue = new ArrayDeque();
+        Area area = Tile.getArea();
+        boolean[][] visited = new boolean[area.getWidth()][area.getHeight()];
+        int[][] dist = new int[area.getWidth()][area.getHeight()];
+        dist[start.getX()][start.getY()] = 0;
+        
+        
+        HashMap<Tile, Tile> parents = new HashMap();
+        
+        queue.add(start);
+        while(!queue.isEmpty()) {
+           Tile current = queue.poll();
+           if (visited[current.getX()][current.getY()]) continue;
+           visited[current.getX()][current.getY()] = true;
+           
+           List<Tile> adjacent = current.getNearbyTiles(false);
+           for (Tile tile : adjacent) {
+               if (tile.isGoodMoveDest()) {
+                   dist[tile.getX()][tile.getY()] = dist[current.getX()][current.getY()] + 1;
+                   queue.add(tile);
+                   parents.put(tile, current);
+               }
+           }
+        }
+        
+        for (Tile kek : parents.keySet()) {
+            if (kek.getX() == start.getX() && kek.getY() == start.getY()) {
+                System.out.println("AMAZING");
+            }
+            if (kek.getX() == dest.getX() && kek.getY() == dest.getY()) {
+                System.out.println("ASDINAS");
+            }
+        }
+        System.out.println(dist[dest.getX()][dest.getY()]);
+        System.out.println("kek");
+        System.out.println(parents);
+        return tracePathBack(parents, dest, start);
+    }
+    
+    private static List<Tile> tracePathBack(HashMap<Tile,Tile> parents, Tile dest, Tile start) {
+        Tile current = dest;
+        List<Tile> tiles = new ArrayList();
+        
+        while(current != null) {
+            current = parents.get(current);
+            System.out.println(current.getX() + " " + current.getY());
+        }
+        
+        
+        Collections.reverse(tiles);
+        return tiles;
     }
     
     private static List<TileData> calculateTileData(Tile origin) {
