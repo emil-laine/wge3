@@ -51,11 +51,14 @@ public class PathFinder {
                if (tile.isGoodMoveDest()) {
                    dist[tile.getX()][tile.getY()] = dist[current.getX()][current.getY()] + 1;
                    queue.add(tile);
-                   parents.put(tile, current);
+                   if ((!parents.containsKey(current) || parents.get(current).getX() != tile.getX()) || parents.get(current).getY() != tile.getY()) {
+                        parents.put(tile, current);
+                   }
                }
            }
         }
-        
+        /*
+        debugii
         for (Tile kek : parents.keySet()) {
             if (kek.getX() == start.getX() && kek.getY() == start.getY()) {
                 System.out.println("AMAZING");
@@ -66,19 +69,18 @@ public class PathFinder {
         }
         System.out.println(dist[dest.getX()][dest.getY()]);
         System.out.println("kek");
-        System.out.println(parents);
+        System.out.println(parents);*/
         return tracePathBack(parents, dest, start);
     }
     
     private static List<Tile> tracePathBack(HashMap<Tile,Tile> parents, Tile dest, Tile start) {
         Tile current = dest;
         List<Tile> tiles = new ArrayList();
-        
-        while(current != null) {
+        while (current != null) {
+            if (current.getX() == start.getX() && current.getY() == start.getY()) break;
+            tiles.add(current);
             current = parents.get(current);
-            System.out.println(current.getX() + " " + current.getY());
         }
-        
         
         Collections.reverse(tiles);
         return tiles;
