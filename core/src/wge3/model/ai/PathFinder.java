@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package wge3.model.ai;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.*;
 import wge3.model.Area;
 import wge3.model.Tile;
@@ -12,7 +11,6 @@ import wge3.model.Tile;
  *
  * @author chang
  */
-
 public class PathFinder {
 
     public static List<Tile> findPath(Tile start, Tile dest) {
@@ -32,14 +30,13 @@ public class PathFinder {
             }
             visited[current.getX()][current.getY()] = true;
 
+            parents.put(current, current.getPrevious());
             List<Tile> adjacent = current.getNearbyTiles(false);
             for (Tile tile : adjacent) {
                 if (tile.isGoodMoveDest()) {
+                    tile.setPrevious(current);
                     dist[tile.getX()][tile.getY()] = dist[current.getX()][current.getY()] + 1;
                     queue.add(tile);
-                    if ((!parents.containsKey(current) || parents.get(current).getX() != tile.getX()) || parents.get(current).getY() != tile.getY()) {
-                        parents.put(tile, current);
-                    }
                 }
             }
         }
