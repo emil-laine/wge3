@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
+import static com.badlogic.gdx.math.MathUtils.PI;
 import java.util.ArrayList;
 import java.util.List;
 import wge3.model.Creature;
 import static wge3.model.ai.PathFinder.findPath;
 import wge3.model.Tile;
 import static wge3.engine.util.Math.angle;
+import static wge3.engine.util.Math.getDiff;
 import static wge3.engine.util.Math.isInCenterOfATile;
 
 public final class MoveTask extends AITask {
@@ -54,7 +56,12 @@ public final class MoveTask extends AITask {
         
         if (executor.getTileUnder().equals(path.get(position)) && isInCenterOfATile(executor)) {
             position++;
-            float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
+        }
+        
+        float angle = angle(executor.getX(), executor.getY(), path.get(position).getMiddleX(), path.get(position).getMiddleY());
+        float diff = getDiff(executor.getDirection(), angle);
+        
+        if (Math.abs(diff) > PI/48) {
             turnTask = new TurnTask(executor, angle);
         } else {
             executor.goForward();
