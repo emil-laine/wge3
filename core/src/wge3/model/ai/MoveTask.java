@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import java.util.ArrayList;
 import java.util.List;
 import wge3.model.Creature;
@@ -69,18 +70,26 @@ public final class MoveTask extends AITask {
     }
     
     ShapeRenderer sr = new ShapeRenderer();
+    Color color = new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1);
+    float circleSize = MathUtils.random();
+    
     // For debugging
     void draw(Batch batch) {
         batch.end();
         sr.setProjectionMatrix(batch.getProjectionMatrix());
-        sr.setColor(Color.RED);
+        sr.setColor(color);
         sr.begin(ShapeType.Line);
-        for (int i = 1; i < path.size(); i++) {
-            Tile t1 = path.get(i-1);
-            Tile t2 = path.get(i);
-            sr.line(t1.getMiddleX(), t1.getMiddleY(),
-                    t2.getMiddleX(), t2.getMiddleY());
+        if (path.size() == 1) {
+            sr.circle(path.get(0).getMiddleX(), path.get(0).getMiddleY(), Tile.size/2 * circleSize);
+        } else {
+            for (int i = 1; i < path.size(); i++) {
+                Tile t1 = path.get(i-1);
+                Tile t2 = path.get(i);
+                sr.line(t1.getMiddleX(), t1.getMiddleY(),
+                        t2.getMiddleX(), t2.getMiddleY());
+            }
         }
+        sr.circle(executor.getX(), executor.getY(), Tile.size/2 * circleSize);
         sr.end();
         batch.begin();
     }
