@@ -35,7 +35,7 @@ public final class MeleeAttackTask extends AITask {
                 && moveTask.getDestination() != targetTile
                 && target.canBeSeenBy(executor)
                 && targetTile.isGoodMoveDest()) {
-            moveTask = new MoveTask(executor, targetTile);
+            moveTask.setDestination(targetTile);
             timeOfLastPathCalculation = millis();
         }
         if (!moveTask.isFinished()) moveTask.execute();

@@ -28,7 +28,10 @@ public final class MoveTask extends AITask {
     
     public MoveTask(Creature executor, Tile dest) {
         this.executor = executor;
-        
+        setDestination(dest);
+    }
+    
+    public void setDestination(Tile dest) {
         if (dest.isAnOKMoveDestinationFor(executor)) {
             path = new ArrayList(1);
             path.add(dest);
@@ -70,10 +73,6 @@ public final class MoveTask extends AITask {
     
     public Tile getDestination() {
         return path == null ? null : path.get(path.size()-1);
-    }
-    
-    public void setDestination(Tile dest) {
-        if (path != null) path.set(path.size()-1, dest);
     }
     
     ShapeRenderer sr = new ShapeRenderer();
