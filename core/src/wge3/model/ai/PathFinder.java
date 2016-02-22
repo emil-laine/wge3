@@ -55,6 +55,25 @@ public class PathFinder {
         }
 
         Collections.reverse(tiles);
-        return tiles;
+        return calculateWaypoints(tiles);
+    }
+
+    private static List<Tile> calculateWaypoints(List<Tile> route) {
+        List<Tile> waypoints = new ArrayList();
+
+        Tile current = route.get(0);
+        for (int i = 1; i < route.size(); i++) {
+            Tile next = route.get(i);
+
+            if (!next.isAnOKMoveDestinationFrom(current.getMiddleX(), current.getMiddleY())) {
+                // add the previous tile
+                waypoints.add(route.get(i - 1));
+                current = route.get(i - 1);
+            }
+        }
+
+        waypoints.add(route.get(route.size() - 1));
+
+        return waypoints;
     }
 }
