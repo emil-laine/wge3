@@ -4,6 +4,7 @@
 
 package wge3.model;
 
+import com.badlogic.gdx.math.MathUtils;
 import java.util.*;
 import wge3.model.objects.Item;
 
@@ -30,17 +31,10 @@ public final class Inventory {
     
     // Gets random item, not #0
     public Item getRandomItem() {
-        if (items.size() == 1 || items.isEmpty()) {
+        if (items.isEmpty()) {
             return null;
         }
-        if (items.size() == 2) {
-            return items.get(1).getItem();
-        }
-        
-        Random random = new Random();
-        int randNumber = random.nextInt(items.size()-1)+1;
-        
-        return items.get(randNumber).getItem();
+        return items.get(MathUtils.random(items.size()-1)).getItem();
     }
     
     public List<Item> getItems() {

@@ -4,6 +4,7 @@
 
 package wge3.model.ai;
 
+import static wge3.engine.util.Math.getDistance2;
 import wge3.model.Creature;
 import wge3.model.Tile;
 import wge3.model.actors.Thief;
@@ -36,8 +37,11 @@ public class StealTask extends AITask{
         if (!subTask.isFinished()) subTask.execute();
         
         // Steals a random item
-        else if (executor.isInSameTileAs(target)) {
+        else if (getDistance2(executor, target) < Tile.size*Tile.size) {
             Item item = target.getInventory().getRandomItem();
+            if (item == null) {
+                return;
+            }
             executor.getInventory().addItem(item);
             target.getInventory().removeAllOfAKind(item);
         }
@@ -45,6 +49,8 @@ public class StealTask extends AITask{
     
     @Override
     public boolean isFinished() {
-        return !executor.getInventory().getItems().isEmpty() || (subTask.isFinished() && !target.canBeSeenBy(executor));
+        return target.getInventory().getItems().isEmpty() ||
+                !executor.getInventory().getItems().isEmpty() ||
+                (subTask.isFinished() && !target.canBeSeenBy(executor));
     }
 }

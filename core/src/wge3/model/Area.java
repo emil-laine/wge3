@@ -442,4 +442,12 @@ public final class Area implements Drawable {
     public Tile getRandomTile() {
         return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
     }
+    
+    public Tile getRandomTileWithoutObject() {
+        Tile dest;
+        do {
+            dest = tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
+        } while (dest.hasObject());
+        return dest;
+    }
 }

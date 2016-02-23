@@ -80,6 +80,6 @@ public class ThiefAI extends AI {
     
     // Plots a place to run away from enemy
     private Tile whereToRun(Creature enemy) {
-        return enemy.getArea().getTiles().get(3);
+        return enemy.getArea().getRandomTileWithoutObject();
     }
 }
