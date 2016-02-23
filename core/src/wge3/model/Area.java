@@ -7,9 +7,11 @@ package wge3.model;
 import wge3.model.actors.Player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
@@ -26,8 +28,9 @@ import wge3.model.objects.Tree;
 import wge3.model.objects.Item;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import com.badlogic.gdx.math.Rectangle;
+import wge3.engine.util.Debug;
+import wge3.engine.util.QuadTree;
 
 public final class Area implements Drawable {
     private Tile[][] tiles;
@@ -35,6 +38,7 @@ public final class Area implements Drawable {
     private int height;
     private Rectangle bounds;
     
+    private QuadTree<Creature> creatureQuadTree;
     private List<Tile> allTiles;
     private List<Creature> creatures;
     private List<Creature> flyingCreaturesToDraw;
@@ -85,6 +89,7 @@ public final class Area implements Drawable {
         this.height = height;
         bounds = new Rectangle(0, 0, width * Tile.size, height * Tile.size);
         tiles = new Tile[width][height];
+        creatureQuadTree = new QuadTree(bounds.width, bounds.height);
     }
     
     /** Adds the given Tile to the given position in this map. */
@@ -118,6 +123,15 @@ public final class Area implements Drawable {
         drawTrees(batch);
         drawFlyingCreatures(batch);
         batch.disableBlending();
+        
+        if (Debug.quadTreeDebug) {
+            ShapeRenderer sr = Debug.getShapeRenderer();
+            
+            batch.end();
+            sr.setProjectionMatrix(batch.getProjectionMatrix());
+            creatureQuadTree.draw(batch, sr);
+            batch.begin();
+        }
     }
     
     /** Draws all tiles that should be redrawn.
@@ -179,7 +193,7 @@ public final class Area implements Drawable {
      *  @param batch the libGDX batch object that handles all drawing. */
     public void drawNonFlyingCreatures(Batch batch) {
         for (Creature player : players) {
-            for (Creature NPC : NPCs) {
+            for (Creature NPC : getCreaturesToDraw(player)) {
                 if ((NPC.canBeSeenBy(player))) {
                     if (!NPC.isFlying()) NPC.draw(batch);
                     else flyingCreaturesToDraw.add(NPC);
@@ -264,6 +278,8 @@ public final class Area implements Drawable {
         guy.setPosition(x, y);
         guy.updateSpritePosition();
         creatures.add(guy);
+        creatureQuadTree.add(guy);
+        
         if (guy.getClass() == Player.class) {
             players.add((Player) guy);
         } else {
@@ -274,6 +290,8 @@ public final class Area implements Drawable {
     /** Deletes the given Creature from this Area. */
     public void removeCreature(Creature creature) {
         creatures.remove(creature);
+        creatureQuadTree.remove(creature);
+        
         if (!creature.isPlayer()) {
             NPCs.remove((NonPlayer) creature);
         } else {
@@ -441,5 +459,38 @@ public final class Area implements Drawable {
     /** Returns a randomly selected Tile in this Area. */
     public Tile getRandomTile() {
         return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
+    }
+    
+    private List<Creature> getCreaturesToDraw(Creature player) {
+        if (player.seesEverything()) {
+            return creatures; // TODO: getCreaturesWithin(player.getViewport())
+        } else {
+            return getCreaturesNear(player, player.getSight());
+        }
+    }
+    
+    public List<Creature> getCreaturesInside(Rectangle region) {
+        return creatureQuadTree.getElementsInside(region);
+    }
+    
+    public List<Creature> getCreaturesNear(Creature creature, float maxDistance) {
+        return getCreaturesInside(new Rectangle(creature.getX() - maxDistance,
+                                                creature.getY() - maxDistance,
+                                                2 * maxDistance, 2 * maxDistance));
+    }
+    
+    public boolean collisionDetected(Rectangle collisionBox, Creature ignore) {
+//        for (Creature creature : creatureQuadTree.getElementsOverlapping(collisionBox)) {
+//            if (creature == ignore)
+//                continue;
+//            if (creature.getBounds().overlaps(collisionBox))
+//                return true;
+//        }
+        return false;
+    }
+    
+    public void updateQuadTreeElement(Creature creature, float oldX, float oldY) {
+        creatureQuadTree.updateElement(creature, new Rectangle(oldX, oldY,
+                creature.getBounds().width, creature.getBounds().height));
     }
 }

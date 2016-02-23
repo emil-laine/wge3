@@ -31,6 +31,7 @@ import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
 import static wge3.engine.util.Math.getDiff;
 import static wge3.engine.util.Math.getDistance;
+import wge3.engine.util.QuadTreeElement;
 import wge3.engine.util.StatIndicator;
 import wge3.model.actors.Player;
 import static wge3.model.ai.PathFinder.findPath;
@@ -38,7 +39,7 @@ import wge3.model.grounds.OneWayFloor;
 import wge3.model.objects.Item;
 import wge3.model.objects.Teleport;
 
-public abstract class Creature implements Drawable {
+public abstract class Creature implements Drawable, QuadTreeElement {
     
     protected Area area;
     protected int previousTileX;
@@ -97,7 +98,9 @@ public abstract class Creature implements Drawable {
     }
     
     public void setX(float x) {
+        final float oldX = getX();
         bounds.setX(x - getSize()/2);
+        getArea().updateQuadTreeElement(this, oldX, getY());
         updateSpritePosition();
     }
     
@@ -107,20 +110,56 @@ public abstract class Creature implements Drawable {
     }
     
     public void setY(float y) {
+        final float oldY = getY();
         bounds.setY(y - getSize()/2);
+        getArea().updateQuadTreeElement(this, getX(), oldY);
         updateSpritePosition();
+    }
+    
+    @Override
+    public float getLeftX() {
+        return bounds.x;
+    }
+    
+    @Override
+    public float getRightX() {
+        return bounds.x + bounds.width;
+    }
+    
+    @Override
+    public float getBottomY() {
+        return bounds.y;
+    }
+    
+    @Override
+    public float getTopY() {
+        return bounds.y + bounds.height;
+    }
+    
+    @Override
+    public float getHeight() {
+        return bounds.width;
+    }
+    
+    @Override
+    public float getWidth() {
+        return bounds.height;
     }
     
     /** Moves the Creature to the given position (x, y). */
     public void setPosition(float x, float y) {
+        final float oldX = getX(), oldY = getY();
         bounds.setPosition(x - getSize()/2, y - getSize()/2);
+        getArea().updateQuadTreeElement(this, oldX, oldY);
         updateSpritePosition();
     }
     
     /** Moves the Creature to the middle of the tile located at (x, y). */
     public void setPosition(int x, int y) {
+        final float oldX = getX(), oldY = getY();
         bounds.setPosition(x * Tile.size + Tile.size/2 - getSize()/2,
                            y * Tile.size + Tile.size/2 - getSize()/2);
+        getArea().updateQuadTreeElement(this, oldX, oldY);
         updateSpritePosition();
     }
     
@@ -701,6 +740,7 @@ public abstract class Creature implements Drawable {
     }
     
     /** Returns the rectangular area that this Creature occupies. */
+    @Override
     public Rectangle getBounds() {
         return bounds;
     }
@@ -710,15 +750,7 @@ public abstract class Creature implements Drawable {
      *  @param targetBounds the rectangular area to test for collision
      *  @return whether any collision was detected */
     private boolean collisionDetected(Rectangle targetBounds) {
-        for (Tile tile : area.getOverlappingTiles(targetBounds)) {
-            for (Creature creature : tile.getCreatures()) {
-                if (creature == this)
-                    continue;
-                if (creature.getBounds().overlaps(targetBounds))
-                    return true;
-            }
-        }
-        return false;
+        return getArea().collisionDetected(targetBounds, this);
     }
     
     /** Returns all Creatures that are on the same tile as this Creature or on
