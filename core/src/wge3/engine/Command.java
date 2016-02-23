@@ -18,10 +18,11 @@ public enum Command {
     TOGGLE_GHOST_MODE(10),
     TOGGLE_INVENTORY(11),
     SPAWN_WALL(12),
-    DESTROY_OBJECT(13);
+    DESTROY_OBJECT(13),
+    TOGGLE_MUSIC(14);
     
     public final int code;
-    public static final int numberOfCommands = 14;
+    public static final int numberOfCommands = 15;
     
     private Command(int code) {
         this.code = code;

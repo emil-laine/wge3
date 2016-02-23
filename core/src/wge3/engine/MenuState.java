@@ -6,6 +6,7 @@ package wge3.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -35,7 +36,7 @@ public final class MenuState extends GameState {
     @Override
     public void init() {
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(new InputMultiplexer(stage, input));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         
         int buttonWidth = 200;
@@ -92,6 +93,7 @@ public final class MenuState extends GameState {
     public void update(float delta) {
         stage.act(delta);
         handleInput();
+        input.copyKeyBuffer();
     }
     
     @Override
@@ -103,6 +105,7 @@ public final class MenuState extends GameState {
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.ENTER)) startGame();
         else if (Gdx.input.isKeyPressed(Keys.Q)) exitGame();
+        else if (input.isPressed(Command.TOGGLE_MUSIC)) Audio.toggleMusic();
     }
     
     @Override

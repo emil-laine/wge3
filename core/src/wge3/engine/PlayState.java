@@ -145,6 +145,8 @@ public final class PlayState extends GameState {
             area.getTileAt(player.getX(), player.getY()).removeObject();
         else if (input.isPressed(Command.TOGGLE_FPS))
             mStream.toggleShowFPS();
+        else if (input.isPressed(Command.TOGGLE_MUSIC))
+            Audio.toggleMusic();
     }
     
     @Override

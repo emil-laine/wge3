@@ -16,16 +16,12 @@ import static wge3.engine.PlayState.mStream;
 import wge3.model.Tile;
 import wge3.model.actors.Player;
 import static java.lang.Math.max;
+import wge3.engine.Audio;
 import static wge3.engine.util.Math.getDistance;
-import wge3.model.audio.DefaultGun;
-import wge3.model.audio.MySound;
 
 public final class Handgun extends Gun {
     
-    private MySound sound;
-    
     public Handgun() {
-        sound = new DefaultGun();
         setSprite(1, 2);
         name = "handgun";
         range = 12;
@@ -34,7 +30,7 @@ public final class Handgun extends Gun {
     
     @Override
     public void use(Creature user) {
-        sound.play();
+        Audio.playSound("defaultGun.wav");
         mStream.addMessage("BANG");
         user.getInventory().removeItem(this);
         
