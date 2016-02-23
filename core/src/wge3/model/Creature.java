@@ -732,4 +732,12 @@ public abstract class Creature implements Drawable {
         creatures.remove(this);
         return creatures;
     }
+    
+    public void die() {
+        Item item = getInventory().getRandomItem();
+        if (item != null) {
+            getTileUnder().setObject(item);
+            getInventory().removeAll();
+        }
+    }
 }

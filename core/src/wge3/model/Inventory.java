@@ -76,6 +76,10 @@ public final class Inventory {
         }
     }
     
+    public void removeAll() {
+        items.clear();
+    }
+    
     public void removeAllOfAKind(Item item) {
         removeItem(item, getAmount(item));
     }

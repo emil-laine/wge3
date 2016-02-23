@@ -73,6 +73,7 @@ public final class PlayState extends GameState {
             
             // Clean up the dead:
             if (creature.isDead()) {
+                creature.die();
                 it.remove();
                 area.removeCreature(creature);
                 
