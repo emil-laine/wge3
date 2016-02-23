@@ -58,6 +58,7 @@ public final class MeleeAttackTask extends AITask {
         return millis() - timeOfLastPathCalculation > 500;
     }
     
+    // For debugging
     void draw(Batch batch) {
         moveTask.draw(batch);
     }

@@ -14,6 +14,7 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Integer.signum;
 import java.util.ArrayList;
 import java.util.List;
+import wge3.engine.util.Debug;
 import wge3.model.NonPlayer;
 import wge3.model.Tile;
 import wge3.model.Creature;
@@ -160,11 +161,14 @@ public class AI {
         return tiles.get(random(tiles.size() - 1));
     }
     
+    // For debugging
     public void draw(Batch batch) {
-        if (currentTask instanceof MoveTask) {
-            ((MoveTask) currentTask).draw(batch);
-        } else if (currentTask instanceof MeleeAttackTask) {
-            ((MeleeAttackTask) currentTask).draw(batch);
+        if (Debug.moveTaskDebug) {
+            if (currentTask instanceof MoveTask) {
+                ((MoveTask) currentTask).draw(batch);
+            } else if (currentTask instanceof MeleeAttackTask) {
+                ((MeleeAttackTask) currentTask).draw(batch);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import java.util.ArrayList;
 import java.util.List;
+import wge3.engine.util.Debug;
 import wge3.model.Creature;
 import static wge3.model.ai.PathFinder.findPath;
 import wge3.model.Tile;
@@ -75,12 +76,13 @@ public final class MoveTask extends AITask {
         return path == null ? null : path.get(path.size()-1);
     }
     
-    ShapeRenderer sr = new ShapeRenderer();
     Color color = new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1);
     float circleSize = MathUtils.random();
     
     // For debugging
     void draw(Batch batch) {
+        ShapeRenderer sr = Debug.getShapeRenderer();
+        
         batch.end();
         sr.setProjectionMatrix(batch.getProjectionMatrix());
         sr.setColor(color);
