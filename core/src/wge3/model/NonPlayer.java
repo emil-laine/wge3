@@ -4,7 +4,9 @@
 
 package wge3.model;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.PI;
+import wge3.engine.util.Debug;
 import wge3.model.ai.AI;
 import static wge3.model.Team.MonsterTeam;
 
@@ -31,5 +33,14 @@ public abstract class NonPlayer extends Creature {
     
     public float getFOV() {
         return FOV;
+    }
+    
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
+        
+        if (Debug.aiDebug) {
+            ai.draw(batch);
+        }
     }
 }

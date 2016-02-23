@@ -28,6 +28,16 @@ public class Tile implements Drawable {
     private Ground ground;
     private MapObject object;
     
+    private Tile previous;
+
+    public Tile getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(Tile previous) {
+        this.previous = previous;
+    }
+    
     public Tile() {
         bounds = new Rectangle();
         bounds.width = Tile.size;

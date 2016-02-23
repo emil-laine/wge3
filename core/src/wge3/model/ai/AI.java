@@ -4,6 +4,7 @@
 
 package wge3.model.ai;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -13,6 +14,7 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Integer.signum;
 import java.util.ArrayList;
 import java.util.List;
+import wge3.engine.util.Debug;
 import wge3.model.NonPlayer;
 import wge3.model.Tile;
 import wge3.model.Creature;
@@ -157,5 +159,16 @@ public class AI {
         // ok move destinations and can be seen by creature.
         List<Tile> tiles = getPossibleMovementDestinations(NPC);
         return tiles.get(random(tiles.size() - 1));
+    }
+    
+    // For debugging
+    public void draw(Batch batch) {
+        if (Debug.moveTaskDebug) {
+            if (currentTask instanceof MoveTask) {
+                ((MoveTask) currentTask).draw(batch);
+            } else if (currentTask instanceof MeleeAttackTask) {
+                ((MeleeAttackTask) currentTask).draw(batch);
+            }
+        }
     }
 }

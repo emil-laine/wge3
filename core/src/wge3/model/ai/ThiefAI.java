@@ -21,11 +21,13 @@ public class ThiefAI extends AI {
     
     private int cowardLevel; // How many friendlies should be nearby for the thief to become active
     private boolean itemStolen;
+    private boolean fleeing;
     
     public ThiefAI(Thief creature) {
         super(creature);
         cowardLevel = 4;
         itemStolen = false;
+        fleeing = false;
     }
     
     public void setCowardLevel(int newLevel) {
@@ -56,10 +58,15 @@ public class ThiefAI extends AI {
     public void checkForEnemies() {
         for (Creature enemy : NPC.getEnemiesWithinFOV()) {
             if (!enoughFriendliesNearby() || !NPC.getInventory().getItems().isEmpty() || enemy.getInventory().getItems().isEmpty()) {
+                if (fleeing) return;
+                fleeing = true;
                 currentTask = new MoveTask(NPC, whereToRun(enemy));
                 return;
             }
+            fleeing = false;
             currentTask = new StealTask((Thief) NPC, enemy);
+            break; // TODO: Should steal from the nearest enemy instead of
+                   // always picking the first one in the returned list.
         }
     }
     
