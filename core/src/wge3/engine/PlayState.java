@@ -48,7 +48,7 @@ public final class PlayState extends GameState {
     
     @Override
     public void init() {
-        playerViewport = new Rectangle(340, 60, 600, 600);
+        playerViewport = new Rectangle(0, 0, WIDTH, HEIGHT);
         camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
         
         mStream = new MessageStream(WIDTH - 280, HEIGHT - 60, this);

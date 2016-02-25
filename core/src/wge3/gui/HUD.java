@@ -19,7 +19,6 @@ import wge3.model.actors.Player;
 public final class HUD implements Drawable {
     
     private OrthographicCamera camera;
-    private Texture texture;
     private ShapeRenderer sr;
     private BitmapFont font;
     private Player player;
@@ -35,7 +34,6 @@ public final class HUD implements Drawable {
         camera = new OrthographicCamera(WIDTH, HEIGHT);
         camera.translate(WIDTH/2, HEIGHT/2);
         camera.update();
-        texture = new Texture(Gdx.files.internal("graphics/frame.png"));
     }
     
     @Override
@@ -46,7 +44,6 @@ public final class HUD implements Drawable {
                 WIDTH,
                 HEIGHT);
         batch.setProjectionMatrix(camera.combined);
-        batch.draw(texture, 0, 0);
         
         // Text labels:
         font.draw(batch, "HP:", 1000, 660);
