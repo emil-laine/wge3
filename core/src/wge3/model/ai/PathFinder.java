@@ -65,7 +65,7 @@ public class PathFinder {
         for (int i = 1; i < route.size(); i++) {
             Tile next = route.get(i);
 
-            if (!next.isAnOKMoveDestinationFrom(current.getMiddleX(), current.getMiddleY())) {
+            if (!next.isAnOKMoveDestinationFrom(current.getMiddlePos())) {
                 // add the previous tile
                 waypoints.add(route.get(i - 1));
                 current = route.get(i - 1);

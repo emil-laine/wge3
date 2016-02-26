@@ -7,6 +7,7 @@ package wge3.model;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -172,33 +173,31 @@ public class Tile implements Drawable {
     
     /** Returns whether the given Creature can see this Tile. */
     public boolean canBeSeenBy(Creature c) {
-        return canBeSeenFrom(c.getX(), c.getY(), c.getSight()) || c.seesEverything();
+        return canBeSeenFrom(c.getPos(), c.getSight()) || c.seesEverything();
     }
     
     /** Returns whether a Creature with the given sight would be able to see
-     *  this Tile from the given position (x, y). */
-    public boolean canBeSeenFrom(float x, float y, int sight) {
-        assert getArea().hasLocation(x, y) : "Not a valid location!";
+     *  this Tile from the given position. */
+    public boolean canBeSeenFrom(Vector2 pos, int sight) {
+        assert getArea().hasLocation(pos) : "Not a valid location!";
         
-        if (getDistanceTo(x, y) > sight * Tile.size) return false;
+        if (getDistanceTo(pos) > sight * Tile.size) return false;
         
-        return area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())
+        return area.getTilesOnLine(pos, getMiddlePos())
                 .stream()
                 .noneMatch((tile) -> (tile.blocksVision()));
     }
     
     /** Calculates the distance from the middlepoint of this Tile to the given
-     *  point (x, y). */
-    public float getDistanceTo(float x, float y) {
-        return (float) Math.sqrt(getDistance2To(x, y));
+     *  point. */
+    public float getDistanceTo(Vector2 pos) {
+        return (float) Math.sqrt(getDistance2To(pos));
     }
     
     /** Calculates the squared distance from the middlepoint of this Tile to the
-     *  given point (x, y). */
-    public float getDistance2To(float x, float y) {
-        float dx = x - this.getMiddleX();
-        float dy = y - this.getMiddleY();
-        return (dx * dx) + (dy * dy);
+     *  given point. */
+    public float getDistance2To(Vector2 pos) {
+        return pos.cpy().sub(getMiddlePos()).len2();
     }
     
     /** Returns whether there's currently an object on this Tile. */
@@ -228,7 +227,7 @@ public class Tile implements Drawable {
     public List<Bomb> getBombs() {
         return area.getBombs()
                 .stream()
-                .filter((bomb) -> (area.getTileAt(bomb.getX(), bomb.getY()).equals(this)))
+                .filter((bomb) -> (area.getTileAt(bomb.getPos()).equals(this)))
                 .collect(Collectors.toList());
     }
     
@@ -302,17 +301,17 @@ public class Tile implements Drawable {
     /** Returns whether the given Creature can safely move to this Tile from its
      *  current position in a straight line. */
     public boolean isAnOKMoveDestinationFor(Creature creature) {
-        return isAnOKMoveDestinationFrom(creature.getX(), creature.getY());
+        return isAnOKMoveDestinationFrom(creature.getPos());
     }
     
     /** Returns whether a Creature could safely move to this Tile in a straight
-     *  line from the given position (startX, startY). */
-    public boolean isAnOKMoveDestinationFrom(float startX, float startY) {
+     *  line from the given position. */
+    public boolean isAnOKMoveDestinationFrom(Vector2 start) {
         if (!isGoodMoveDest()) return false;
         
         // Don't call tile.blocksVision() here;
         // it must be called before calling this method.
-        return getArea().getTilesOnLine(startX, startY, getMiddleX(), getMiddleY())
+        return getArea().getTilesOnLine(start, getMiddlePos())
                 .stream()
                 .noneMatch((tile) -> (!tile.isGoodMoveDest()));
     }
@@ -341,6 +340,11 @@ public class Tile implements Drawable {
     /** Returns the y-coordinate of the top border of this Tile. */
     public int getTopY() {
         return (getY() + 1) * Tile.size;
+    }
+    
+    public Vector2 getMiddlePos() {
+        return new Vector2(getX()*Tile.size + Tile.size/2,
+                           getY()*Tile.size + Tile.size/2);
     }
     
     /** Returns the x-coordinate of the middle point of this Tile. */

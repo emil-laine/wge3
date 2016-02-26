@@ -8,7 +8,6 @@ import wge3.model.actors.Player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
-import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
@@ -25,6 +24,7 @@ import wge3.model.objects.GreenSlime;
 import wge3.model.objects.Tree;
 import wge3.model.objects.Item;
 import wge3.engine.util.Drawable;
+import com.badlogic.gdx.math.Vector2;
 import static wge3.engine.util.Math.floatPosToTilePos;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import com.badlogic.gdx.math.Rectangle;
@@ -125,8 +125,12 @@ public final class Area implements Drawable {
     }
     
     /** Checks whether the given position is a valid location on this map. */
+    public boolean hasLocation(Vector2 pos) {
+        return hasLocation(floatPosToTilePos(pos.x), floatPosToTilePos(pos.y));
+    }
+    
     public boolean hasLocation(float x, float y) {
-        return hasLocation(floatPosToTilePos(x), floatPosToTilePos(y));
+        throw new UnsupportedOperationException("Call hasLocation(Vector2)!");
     }
     
     /** Checks whether the given tile grid position is valid on this map. */
@@ -137,10 +141,14 @@ public final class Area implements Drawable {
             && y < this.getHeight();
     }
     
-    /** Returns the Tile that's under the given game world position (x, y).
+    /** Returns the Tile that's under the given game world position.
      *  This method won't return null, so the coordinates must be valid. */
+    public Tile getTileAt(Vector2 pos) {
+        return getTileAt(floatPosToTilePos(pos.x), floatPosToTilePos(pos.y));
+    }
+    
     public Tile getTileAt(float x, float y) {
-        return getTileAt(floatPosToTilePos(x), floatPosToTilePos(y));
+        throw new UnsupportedOperationException("Call getTileAt(Vector2)!");
     }
     
     /** Returns the Tile at position (x, y) in the tile grid. The parameters
@@ -216,16 +224,15 @@ public final class Area implements Drawable {
             if (player.seesEverything())
                 continue;
             
-            final float x = player.getX();
-            final float y = player.getY();
+            final Vector2 playerPos = player.getPos();
             final int range = player.getSight();
             allTiles.stream()
                     .filter((tile) -> (tile.canBeSeenBy(player)))
                     .forEach((tile) -> {
                 Color color = new Color(1, 1, 1, 1);
-                final float distance = tile.getDistanceTo(x, y) / Tile.size;
+                final float distance = tile.getDistanceTo(playerPos) / Tile.size;
                 float multiplier = 1f - Math.max(distance-1, 0) * (1f/range);
-                multiplier = getTilesOnLine(x, y, tile.getMiddleX(), tile.getMiddleY())
+                multiplier = getTilesOnLine(playerPos, tile.getMiddlePos())
                         .stream()
                         .filter((tile2) -> tile2.castsShadows())
                         .map((tile2) -> tile2.getObject().getShadowDepth())
@@ -249,7 +256,7 @@ public final class Area implements Drawable {
     /** Places the given Creature to the Tile in the specified position. */
     public void addCreature(Creature guy, int x, int y) {
         guy.setArea(this);
-        guy.setPosition(x, y);
+        guy.setPos(x, y);
         guy.updateSpritePosition();
         creatures.add(guy);
         if (guy.getClass() == Player.class) {
@@ -339,21 +346,20 @@ public final class Area implements Drawable {
     /** Returns all Tiles that the specified line segment with endpoints
      *  (startX, startY) and (finalX, finalY) intersects. The coordinates must
      *  refer to valid locations on this map. */
-    public List<Tile> getTilesOnLine(float startX, float startY, float finalX, float finalY) {
-        assert this.hasLocation(startX, startY) && this.hasLocation(finalX, finalY)
+    public List<Tile> getTilesOnLine(Vector2 start, Vector2 end) {
+        assert this.hasLocation(start) && this.hasLocation(end)
             : "Illegal arguments passed to getTilesOnLine()";
   
-        int startTileX = floatPosToTilePos(startX);
-        int startTileY = floatPosToTilePos(startY);
-        int finalTileX = floatPosToTilePos(finalX);
-        int finalTileY = floatPosToTilePos(finalY);
+        int startTileX = floatPosToTilePos(start.x);
+        int startTileY = floatPosToTilePos(start.y);
+        int endTileX = floatPosToTilePos(end.x);
+        int endTileY = floatPosToTilePos(end.y);
         
-        if (startTileX == finalTileX && startTileY == finalTileY)
+        if (startTileX == endTileX && startTileY == endTileY)
             return Collections.EMPTY_LIST;
         
-        float angle = atan2(finalY - startY, finalX - startX);
-        float xUnit = cos(angle);
-        float yUnit = sin(angle);
+        float angle = end.cpy().sub(start).getAngleRad();
+        Vector2 unit = new Vector2(cos(angle), sin(angle));
         
         int i = 0;
         int currentTileX;
@@ -366,11 +372,11 @@ public final class Area implements Drawable {
         while (true) {
             do {
                 i++;
-                currentTileX = floatPosToTilePos(startX + i * xUnit);
-                currentTileY = floatPosToTilePos(startY + i * yUnit);
+                currentTileX = floatPosToTilePos(start.x + i * unit.x);
+                currentTileY = floatPosToTilePos(start.y + i * unit.y);
             } while (currentTileX == previousTileX && currentTileY == previousTileY);
             
-            if (currentTileX == finalTileX && currentTileY == finalTileY) break;
+            if (currentTileX == endTileX && currentTileY == endTileY) break;
             
             tilesOnLine.add(getTileAt(currentTileX, currentTileY));
             

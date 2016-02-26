@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import wge3.model.Creature;
 import wge3.engine.util.Drawable;
@@ -18,8 +19,7 @@ import wge3.model.Tile;
 public abstract class Bomb implements Drawable {
     
     protected Area area;
-    protected float x;
-    protected float y;
+    protected Vector2 pos;
     
     protected Texture texture;
     protected Sprite sprite;
@@ -43,22 +43,25 @@ public abstract class Bomb implements Drawable {
         };
     }
     
+    public Vector2 getPos() {
+        return pos;
+    }
+    
     public float getX() {
-        return x;
+        return pos.x;
     }
     
     public float getY() {
-        return y;
+        return pos.y;
     }
     
     public void setArea(Area area) {
         this.area = area;
     }
     
-    public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
-        sprite.setPosition(x - Tile.size/2, y - Tile.size/2);
+    public void setPos(Vector2 pos) {
+        this.pos = pos.cpy();
+        sprite.setPosition(pos.x - Tile.size/2, pos.y - Tile.size/2);
     }
     
     public boolean exists() {
@@ -66,7 +69,7 @@ public abstract class Bomb implements Drawable {
     }
     
     public boolean canBeSeenBy(Creature creature) {
-        return area.getTileAt(getX(), getY()).canBeSeenBy(creature);
+        return area.getTileAt(getPos()).canBeSeenBy(creature);
     }
     
     public void setLighting(Color color) {

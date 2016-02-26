@@ -8,6 +8,7 @@ import wge3.model.StateFlag;
 import wge3.model.Creature;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import static wge3.model.Team.PlayerTeam;
 import wge3.engine.Statistics;
 
@@ -33,11 +34,10 @@ public final class Player extends Creature {
     }
     
     @Override
-    public void move(float dx, float dy) {
-        float oldX = getX();
-        float oldY = getY();
-        super.move(dx, dy);
-        camera.translate(getX() - oldX, getY() - oldY);
+    public void move(Vector2 delta) {
+        Vector2 oldPos = getPos().cpy();
+        super.move(delta);
+        camera.translate(getPos().cpy().sub(oldPos));
         camera.update();
     }
     

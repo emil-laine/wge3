@@ -7,6 +7,7 @@ package wge3.engine.util;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.atan2;
+import com.badlogic.gdx.math.Vector2;
 import static java.lang.Math.sqrt;
 import wge3.model.Tile;
 import wge3.model.Creature;
@@ -35,6 +36,13 @@ public final class Math {
         return ((int) pos) / Tile.size;
     }
     
+    /** Returns a new vector created from the results of calling
+     *  {@link #floatPosToTilePos(float) with both x and y components of
+     *  the given vector. */
+    public static Vector2 floatPosToTilePos(Vector2 pos) {
+        return new Vector2(floatPosToTilePos(pos.x), floatPosToTilePos(pos.y));
+    }
+    
     /** Checks whether the Creature c is in the middle of a tile. */
     public static boolean isInCenterOfATile(Creature c) {
         return isInCenterOfATile(c.getX(), c.getY());
@@ -54,67 +62,64 @@ public final class Math {
         return (x >= border && x < opposite) && (y >= border && y < opposite);
     }
     
-    /** Calculates the distance from point (x1, y1) to point (x2, y2). */
-    public static float getDistance(float x1, float y1, float x2, float y2) {
-        return (float) sqrt(getDistance2(x1, y1, x2, y2));
+    /** Calculates the distance between the given points. */
+    public static float getDistance(Vector2 pos1, Vector2 pos2) {
+        return (float) sqrt(getDistance2(pos1, pos2));
     }
     
-    /** Calculates the squared distance from (x1, y1) to (x2, y2). */
-    public static float getDistance2(float x1, float y1, float x2, float y2) {
-        float dx = x2 - x1;
-        float dy = y2 - y1;
-        return (dx * dx) + (dy * dy);
+    /** Calculates the squared distance between the given points. */
+    public static float getDistance2(Vector2 pos1, Vector2 pos2) {
+        return pos2.cpy().sub(pos1).len2();
     }
     
-    /** Calculates the distance from Creature c to point (x, y). */
-    public static float getDistance(Creature c, float x, float y) {
-        return getDistance(c.getX(), c.getY(), x, y);
+    /** Calculates the distance from Creature c to pos. */
+    public static float getDistance(Creature c, Vector2 pos) {
+        return getDistance(c.getPos(), pos);
     }
     
-    /** Calculates the squared distance from Creature c to point (x, y). */
-    public static float getDistance2(Creature c, float x, float y) {
-        return getDistance2(c.getX(), c.getY(), x, y);
+    /** Calculates the squared distance from Creature c to pos. */
+    public static float getDistance2(Creature c, Vector2 pos) {
+        return getDistance2(c.getPos(), pos);
     }
     
     /** Calculates the distance from Creature c1 to Creature c2. */
     public static float getDistance(Creature c1, Creature c2) {
-        return getDistance(c1.getX(), c1.getY(), c2.getX(), c2.getY());
+        return getDistance(c1.getPos(), c2.getPos());
     }
     
     /** Calculates the squared distance from Creature c1 to Creature c2. */
     public static float getDistance2(Creature c1, Creature c2) {
-        return getDistance2(c1.getX(), c1.getY(), c2.getX(), c2.getY());
+        return getDistance2(c1.getPos(), c2.getPos());
     }
     
-    /** Calculates the distance from point (x1, y1) to point (x2, y2) in tiles.
+    /** Calculates the distance between pos1 and pos2 in tiles.
      *  @return distance from (x1, y1) to (x2, y2) in tiles, rounded down */
-    public static float getDistanceInTiles(float x1, float y1, float x2, float y2) {
-        return getDistance(x1, y1, x2, y2) / Tile.size;
+    public static float getDistanceInTiles(Vector2 pos1, Vector2 pos2) {
+        return getDistance(pos1, pos2) / Tile.size;
     }
     
-    /** Calculates the distance from Creature c to point (x, y) in tiles.
+    /** Calculates the distance from Creature c to pos in tiles.
      *  @return distance from c to (x, y) in tiles, rounded down */
-    public static float getDistanceInTiles(Creature c, float x, float y) {
-        return getDistanceInTiles(c.getX(), c.getY(), x, y);
+    public static float getDistanceInTiles(Creature c, Vector2 pos) {
+        return getDistanceInTiles(c.getPos(), pos);
     }
     
-    /** Calculates the squared distance from Creature c to point (x, y) in
-     *  tiles.
+    /** Calculates the squared distance from Creature c to pos in tiles.
      *  @return squared distance from c to (x, y) in tiles, rounded down */
-    public static float getDistance2InTiles(Creature c, float x, float y) {
-        return getDistance2(c, x, y) / Tile.size;
+    public static float getDistance2InTiles(Creature c, Vector2 pos) {
+        return getDistance2(c, pos) / Tile.size;
     }
     
     /** Calculates the distance from Creature c to Tile tile in tiles.
      *  @return distance from c to tile in tiles, rounded down */
     public static float getDistanceInTiles(Creature c, Tile tile) {
-        return getDistanceInTiles(c, tile.getMiddleX(), tile.getMiddleY());
+        return getDistanceInTiles(c, tile.getMiddlePos());
     }
     
     /** Calculates the squared distance from Creature c to Tile tile in tiles.
      *  @return squared distance from c to tile in tiles, rounded down */
     public static float getDistance2InTiles(Creature c, Tile tile) {
-        return getDistance2InTiles(c, tile.getMiddleX(), tile.getMiddleY());
+        return getDistance2InTiles(c, tile.getMiddlePos());
     }
     
     private Math() {}

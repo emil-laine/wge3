@@ -10,6 +10,7 @@ import static com.badlogic.gdx.math.MathUtils.cos;
 import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
+import com.badlogic.gdx.math.Vector2;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Integer.signum;
 import java.util.ArrayList;
@@ -86,17 +87,17 @@ public class AI {
     }
     
     public Tile getTileBeforeObstacle(Creature enemy) {
-        float startX = NPC.getX();
-        float startY = NPC.getY();
-        float dx = enemy.getX() - startX;
-        float dy = enemy.getY() - startY;
-        float distance = (float) (Math.sqrt(dx*dx + dy*dy) / Tile.size);
+        Vector2 start = NPC.getPos();
+        Vector2 delta = enemy.getPos().cpy().sub(start);
+        int distance = (int) (delta.len() / Tile.size);
         
         for (int i = 1; i <= distance; i++) {
-            if (NPC.getArea().hasLocation(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size))) {
-                Tile currentTile = NPC.getArea().getTileAt(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size));
+            Vector2 tilePos = start.cpy().add(delta.cpy().scl(i * Tile.size));
+            if (NPC.getArea().hasLocation(tilePos)) {
+                Tile currentTile = NPC.getArea().getTileAt(tilePos);
                 if (!currentTile.isPassable() || currentTile.drainsHP()) {
-                    return NPC.getArea().getTileAt(startX + (i-1)*(dx*Tile.size), startY + (i-1)*(dy*Tile.size));
+                    Vector2 prevTilePos = start.cpy().add(delta.cpy().scl((i-1) * Tile.size));
+                    return NPC.getArea().getTileAt(prevTilePos);
                 }
             }
         }
@@ -106,14 +107,10 @@ public class AI {
     public Tile getAlternativeDestinationTile(int i) {
         float angle = NPC.getDirection();
         angle += PI/2 * signum(i);
-        float dx = cos(angle);
-        float dy = sin(angle);
+        Vector2 tilePos = new Vector2(cos(angle), sin(angle)).scl(i * Tile.size);
         
-        float tileX = i*dx*Tile.size;
-        float tileY = i*dy*Tile.size;
-        
-        if (NPC.getArea().hasLocation(tileX, tileY)) {
-            return NPC.getArea().getTileAt(tileX, tileY);
+        if (NPC.getArea().hasLocation(tilePos)) {
+            return NPC.getArea().getTileAt(tilePos);
         }
         
         return null;

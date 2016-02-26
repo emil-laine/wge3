@@ -17,7 +17,7 @@ public final class BasicBomb extends Item {
     @Override
     public void use(Creature user) {
         FusedBomb bomb = new FusedBomb();
-        bomb.setPosition(user.getX(), user.getY());
+        bomb.setPos(user.getPos());
         user.getInventory().removeItem(this);
         user.getArea().addBomb(bomb);
         bomb.startTimer();

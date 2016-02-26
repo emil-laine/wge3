@@ -17,11 +17,9 @@ public class GreenSlimeBomb extends Bomb {
     
     @Override
     public void explode() {
-        float x = this.getX();
-        float y = this.getY();
         int range = this.getRange();
         for (Tile currentTile : area.getTiles()) {
-            if (currentTile.canBeSeenFrom(x, y, range)
+            if (currentTile.canBeSeenFrom(getPos(), range)
                     && !currentTile.hasObject()
                     && !currentTile.hasCreature()) {
                 currentTile.setObject(new GreenSlime());

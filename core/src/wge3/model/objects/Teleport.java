@@ -39,7 +39,7 @@ public class Teleport extends MapObject {
         List<Teleport> destinations = getTeleportDestinations();
         if (destinations.isEmpty()) return;
         Teleport destination = destinations.get(random(destinations.size()-1));
-        teleporter.setPosition(destination.getX(), destination.getY());
+        teleporter.setPos(destination.getX(), destination.getY());
         
         if (teleporter.isPlayer()) {
             Player.statistics.addStatToPlayer((Player) teleporter, Statistic.TELEPORTERSUSED, 1);

@@ -16,6 +16,7 @@ import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
 import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
@@ -93,6 +94,11 @@ public abstract class Creature implements Drawable {
         isFlying = false; // No flying creatures yet.
     }
     
+    /** Returns the current position of this Creature. */
+    public Vector2 getPos() {
+        return bounds.getCenter(new Vector2());
+    }
+    
     /** Returns the current x position of this Creature. */
     public float getX() {
         return bounds.x + getSize()/2;
@@ -113,14 +119,18 @@ public abstract class Creature implements Drawable {
         updateSpritePosition();
     }
     
-    /** Moves the Creature to the given position (x, y). */
-    public void setPosition(float x, float y) {
-        bounds.setPosition(x - getSize()/2, y - getSize()/2);
+    /** Moves the Creature to the given position. */
+    public void setPos(Vector2 pos) {
+        bounds.setCenter(pos);
         updateSpritePosition();
     }
     
+    public void setPos(float x, float y) {
+        throw new UnsupportedOperationException("Call setPos(Vector2)!");
+    }
+    
     /** Moves the Creature to the middle of the tile located at (x, y). */
-    public void setPosition(int x, int y) {
+    public void setPos(int x, int y) {
         bounds.setPosition(x * Tile.size + Tile.size/2 - getSize()/2,
                            y * Tile.size + Tile.size/2 - getSize()/2);
         updateSpritePosition();
@@ -217,28 +227,24 @@ public abstract class Creature implements Drawable {
         updateSpriteRotation();
     }
     
-    /** Tries to move the Creature by dx and dy.
-     *  @param dx movement along x-axis
-     *  @param dy movement along y-axis */
-    public void move(float dx, float dy) {
+    /** Tries to move the Creature by the given vector. */
+    public void move(Vector2 delta) {
+        delta = delta.cpy();
+        
         // Apply movement modifiers:
         if (!isGhost()) {
-            float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
-            dx *= movementModifier;
-            dy *= movementModifier;
+            delta.scl(getTileUnder().getMovementModifier());
         }
         
         // Calculate actual movement:
-        float destX = getX() + dx;
-        float destY = getY() + dy;
+        Vector2 dest = getPos().cpy().add(delta);
         
-        if (canMoveTo(destX, destY)) {
-            setX(destX);
-            setY(destY);
-        } else if (canMoveTo(getX(), destY)) {
-            setY(destY);
-        } else if (canMoveTo(destX, getY())) {
-            setX(destX);
+        if (canMoveTo(dest)) {
+            setPos(dest);
+        } else if (canMoveTo(new Vector2(getX(), dest.y))) {
+            setY(dest.y);
+        } else if (canMoveTo(new Vector2(dest.x, getY()))) {
+            setX(dest.x);
         }
         
         // These could be optimized to be checked less than FPS times per second:
@@ -272,9 +278,9 @@ public abstract class Creature implements Drawable {
         }
     }
     
-    /** Returns whether this Creature can move to the specified point (x, y). */
-    public boolean canMoveTo(float x, float y) {
-        Rectangle newBounds = new Rectangle(x - getSize()/2, y - getSize()/2, getSize(), getSize());
+    /** Returns whether this Creature can move to the specified position. */
+    public boolean canMoveTo(Vector2 dest) {
+        Rectangle newBounds = new Rectangle(bounds).setCenter(dest);
         
         if (!area.getBounds().contains(newBounds))
             return false;
@@ -284,18 +290,18 @@ public abstract class Creature implements Drawable {
         
         List<Tile> destTiles = area.getOverlappingTiles(newBounds);
         
-        if (area.getTileAt(x, y).isOneWay()) {
-            OneWayFloor oneWayTile = (OneWayFloor) area.getTileAt(x, y).getGround();
-            if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
+        if (area.getTileAt(dest).isOneWay()) {
+            OneWayFloor oneWayTile = (OneWayFloor) area.getTileAt(dest).getGround();
+            if (oneWayTile.getDirection() == LEFT && dest.x > getX()) {
                 return false;
             }
-            if (oneWayTile.getDirection() == RIGHT && x - getX() < 0) {
+            if (oneWayTile.getDirection() == RIGHT && dest.x < getX()) {
                 return false;
             }
-            if (oneWayTile.getDirection() == UP && y - getY() < 0) {
+            if (oneWayTile.getDirection() == UP && dest.y < getY()) {
                 return false;
             }
-            if (oneWayTile.getDirection() == DOWN && y - getY() > 0) {
+            if (oneWayTile.getDirection() == DOWN && dest.y > getY()) {
                 return false;
             }
         }
@@ -431,9 +437,9 @@ public abstract class Creature implements Drawable {
     /** Performs an unarmed attack targeted at a circular area directly in front
      *  of the Creature. */
     public void attackUnarmed() {
-        float destX = getX() + MathUtils.cos(direction) * Tile.size;
-        float destY = getY() + MathUtils.sin(direction) * Tile.size;
-        Circle dest = new Circle(destX, destY, getUnarmedAttackSize());
+        Vector2 destPos = getPos().cpy().add(MathUtils.cos(direction) * Tile.size,
+                                             MathUtils.sin(direction) * Tile.size);
+        Circle dest = new Circle(destPos, getUnarmedAttackSize());
         for (Creature creature : area.getCreatures()) {
             if (dest.contains(creature.getX(), creature.getY())) {
                 if (creature.getTeam() != getTeam()) {
@@ -444,7 +450,7 @@ public abstract class Creature implements Drawable {
                 }
             }
         }
-        area.getTileAt(destX, destY).dealDamage(this.strength);
+        area.getTileAt(destPos).dealDamage(this.strength);
     }
     
     /** Returns whether this Creature is a player. */
@@ -456,14 +462,16 @@ public abstract class Creature implements Drawable {
     public void doMovement(float delta) {
         if (isGoingForward()) {
             stopGoingForward();
-            float dx = MathUtils.cos(direction) * currentSpeed * delta;
-            float dy = MathUtils.sin(direction) * currentSpeed * delta;
-            move(dx, dy);
+            Vector2 movementVector = new Vector2(MathUtils.cos(direction),
+                                                 MathUtils.sin(direction));
+            movementVector.scl(currentSpeed * delta);
+            move(movementVector);
         } else if (isGoingBackward()) {
             stopGoingBackward();
-            float dx = -(MathUtils.cos(direction) * currentSpeed/1.5f * delta);
-            float dy = -(MathUtils.sin(direction) * currentSpeed/1.5f * delta);
-            move(dx, dy);
+            Vector2 movementVector = new Vector2(MathUtils.cos(direction),
+                                                 MathUtils.sin(direction));
+            movementVector.scl(-currentSpeed/1.5f * delta);
+            move(movementVector);
         }
         
         if (isTurningLeft()) {
@@ -541,12 +549,12 @@ public abstract class Creature implements Drawable {
     }
     
     /** Returns Whether this Creature can see the specified point (x, y). */
-    public boolean canSee(float x, float y) {
-        assert getArea().hasLocation(x / Tile.size, y / Tile.size) : "Not a valid location!";
+    public boolean canSee(Vector2 pos) {
+        assert getArea().hasLocation(pos.cpy().scl(1f / Tile.size)) : "Not a valid location!";
         
-        if (getDistance(this, x, y) > sight * Tile.size) return false;
+        if (getDistance(this, pos) > sight * Tile.size) return false;
         
-        return area.getTilesOnLine(getX(), getY(), x, y)
+        return area.getTilesOnLine(getPos(), pos)
                 .stream()
                 .noneMatch((tile) -> (tile.blocksVision()));
     }
@@ -559,7 +567,7 @@ public abstract class Creature implements Drawable {
     
     /** Returns the tile this Creature is currently standing on. */
     public Tile getTileUnder() {
-        return area.getTileAt(getX(), getY());
+        return area.getTileAt(getPos());
     }
     
     /** Returns the tile this Creature was standing on before moving to its

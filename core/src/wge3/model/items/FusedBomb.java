@@ -22,12 +22,10 @@ public final class FusedBomb extends Bomb {
     public void explode() {
         mStream.addMessage("*EXPLOSION*");
         
-        float x = this.getX();
-        float y = this.getY();
         int range = this.getRange();
         for (Tile currentTile : area.getTiles()) {
-            if (currentTile.canBeSeenFrom(x, y, range)) {
-                float distance = currentTile.getDistanceTo(x, y) / Tile.size;
+            if (currentTile.canBeSeenFrom(getPos(), range)) {
+                float distance = currentTile.getDistanceTo(getPos()) / Tile.size;
                 float intensity = 1f - Math.max(distance-1f, 0f) * (1f / range);
                 // intensity = 1, when distance = [0,1].
                 currentTile.dealDamage((int) (intensity*damage));

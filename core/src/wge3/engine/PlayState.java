@@ -140,9 +140,9 @@ public final class PlayState extends GameState {
         else if (input.isPressed(Command.TOGGLE_INVENTORY))
             mStream.toggleShowInventory();
         else if (input.isPressed(Command.SPAWN_WALL))
-            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
+            area.getTileAt(player.getPos()).setObject(new StoneWall(random(2)));
         else if (input.isPressed(Command.DESTROY_OBJECT))
-            area.getTileAt(player.getX(), player.getY()).removeObject();
+            area.getTileAt(player.getPos()).removeObject();
         else if (input.isPressed(Command.TOGGLE_FPS))
             mStream.toggleShowFPS();
         else if (input.isPressed(Command.TOGGLE_MUSIC))
