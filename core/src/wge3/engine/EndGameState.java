@@ -43,17 +43,19 @@ public final class EndGameState extends GameState {
         }
         else {
             font.draw(batch, "You lost!", maxX / 2, maxY / 2);
-            String player = statistics.getPlayers().get(0);
-            font.draw(batch, "You took " + statistics.getStatFromPlayer(player, Statistic.DAMAGETAKEN) + " damage", maxX / 2, maxY / 4);
-            
-            font.draw(batch, "You dealt " + statistics.getStatFromPlayer(player, Statistic.DAMAGEDEALT) + " damage", maxX / 2, maxY / 3);
-            
-            font.draw(batch, "You regained " + statistics.getStatFromPlayer(player, Statistic.HEALTHREGAINED) + " health", maxX / 2, maxY / 5);
-            
-            font.draw(batch, "You fired " + statistics.getStatFromPlayer(player, Statistic.GUNSHOTSFIRED) + " shot" + (statistics.getStatFromPlayer(player, Statistic.GUNSHOTSFIRED) == 1 ? "" : "s"), maxX / 2, maxY / 6);
-            
-            font.draw(batch, "You used " + statistics.getStatFromPlayer(player, Statistic.TELEPORTERSUSED) + " teleporter" + (statistics.getStatFromPlayer(player, Statistic.TELEPORTERSUSED) == 1 ? "" : "s"), maxX / 2, maxY / 7);
         }
+        
+        String player = statistics.getPlayers().get(0);
+        font.draw(batch, "You took " + statistics.getStatFromPlayer(player, Statistic.DAMAGETAKEN) + " damage", maxX / 2, maxY / 4);
+        
+        font.draw(batch, "You dealt " + statistics.getStatFromPlayer(player, Statistic.DAMAGEDEALT) + " damage", maxX / 2, maxY / 3);
+        
+        font.draw(batch, "You regained " + statistics.getStatFromPlayer(player, Statistic.HEALTHREGAINED) + " health", maxX / 2, maxY / 5);
+        
+        font.draw(batch, "You fired " + statistics.getStatFromPlayer(player, Statistic.GUNSHOTSFIRED) + " shot" + (statistics.getStatFromPlayer(player, Statistic.GUNSHOTSFIRED) == 1 ? "" : "s"), maxX / 2, maxY / 6);
+        
+        font.draw(batch, "You used " + statistics.getStatFromPlayer(player, Statistic.TELEPORTERSUSED) + " teleporter" + (statistics.getStatFromPlayer(player, Statistic.TELEPORTERSUSED) == 1 ? "" : "s"), maxX / 2, maxY / 7);
+        
         batch.end();
     }
     
