@@ -36,6 +36,9 @@ public final class InputHandler extends InputAdapter {
         setMappedKey(Command.DESTROY_OBJECT, Keys.D);
         setMappedKey(Command.TOGGLE_FPS, Keys.F);
         setMappedKey(Command.TOGGLE_MUSIC, Keys.M);
+        setMappedKey(Command.ZOOM_IN, Keys.PAGE_DOWN);
+        setMappedKey(Command.ZOOM_OUT, Keys.PAGE_UP);
+        setMappedKey(Command.ZOOM_RESET, Keys.HOME);
     }
     
     public int getMappedKey(Command key) {

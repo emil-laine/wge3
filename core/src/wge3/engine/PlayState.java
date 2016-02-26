@@ -23,6 +23,7 @@ public final class PlayState extends GameState {
     
     private HUD hud;
     private OrthographicCamera camera;
+    private final float zoomAmount = 1.05f;
     private Rectangle playerViewport;
     private Statistics statistics;
     
@@ -148,6 +149,27 @@ public final class PlayState extends GameState {
             mStream.toggleShowFPS();
         else if (input.isPressed(Command.TOGGLE_MUSIC))
             Audio.toggleMusic();
+        else if (input.isDown(Command.ZOOM_IN))
+            zoomIn();
+        else if (input.isDown(Command.ZOOM_OUT))
+            zoomOut();
+        else if (input.isDown(Command.ZOOM_RESET))
+            zoomReset();
+    }
+    
+    private void zoomIn() {
+        camera.zoom *= zoomAmount;
+        camera.update();
+    }
+    
+    private void zoomOut() {
+        camera.zoom /= zoomAmount;
+        camera.update();
+    }
+    
+    private void zoomReset() {
+        camera.zoom = 1;
+        camera.update();
     }
     
     @Override
