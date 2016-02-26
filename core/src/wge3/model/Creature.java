@@ -69,6 +69,7 @@ public abstract class Creature implements Drawable {
     protected Sprite sprite;
     
     protected Set<StateFlag> stateFlags;
+    private final boolean isFlying;
     
     public Creature() {
         size = Tile.size / 3;
@@ -89,6 +90,7 @@ public abstract class Creature implements Drawable {
         selectedItem = null;
         
         stateFlags = EnumSet.noneOf(StateFlag.class);
+        isFlying = false; // No flying creatures yet.
     }
     
     /** Returns the current x position of this Creature. */
@@ -281,9 +283,6 @@ public abstract class Creature implements Drawable {
             return true;
         
         List<Tile> destTiles = area.getOverlappingTiles(newBounds);
-        
-        if (this.isFlying())
-            return destTiles.stream().allMatch(Tile::isPassable);
         
         if (area.getTileAt(x, y).isOneWay()) {
             OneWayFloor oneWayTile = (OneWayFloor) area.getTileAt(x, y).getGround();
@@ -666,18 +665,9 @@ public abstract class Creature implements Drawable {
         return abs(getDiff(this.getDirection(), target.direction)) < PI/48;
     }
     
-    /** Returns whether this Creature has fly mode currently activated. */
+    /** Returns whether this is a flying Creature. */
     public boolean isFlying() {
-        return stateFlags.contains(StateFlag.IS_FLYING);
-    }
-    
-    /** Activates/deactivates flying for this Creature.
-     *  @param truth whether the fly mode should be activated */
-    public void setFlying(boolean truth) {
-        if (truth)
-            stateFlags.add(StateFlag.IS_FLYING);
-        else
-            stateFlags.remove(StateFlag.IS_FLYING);
+        return isFlying;
     }
     
     /** Specifies the position of this Creature's graphical representation in

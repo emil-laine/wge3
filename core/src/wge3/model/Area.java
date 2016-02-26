@@ -37,7 +37,6 @@ public final class Area implements Drawable {
     
     private List<Tile> allTiles;
     private List<Creature> creatures;
-    private List<Creature> flyingCreaturesToDraw;
     private List<Player> players;
     private List<NonPlayer> NPCs;
     private List<Item> items;
@@ -52,7 +51,6 @@ public final class Area implements Drawable {
     public Area(String mapName) {
         allTiles     = new ArrayList();
         creatures    = new ArrayList();
-        flyingCreaturesToDraw = new ArrayList();
         players      = new ArrayList();
         NPCs         = new ArrayList();
         items        = new ArrayList();
@@ -114,9 +112,8 @@ public final class Area implements Drawable {
         drawTiles(batch);
         batch.enableBlending();
         drawBombs(batch);
-        drawNonFlyingCreatures(batch);
+        drawCreatures(batch);
         drawTrees(batch);
-        drawFlyingCreatures(batch);
         batch.disableBlending();
     }
     
@@ -175,26 +172,17 @@ public final class Area implements Drawable {
         tilesToDraw.add(tile);
     }
     
-    /** Redraws all non-flying creatures that can be seen by the players.
+    /** Redraws all creatures that can be seen by the players.
      *  @param batch the libGDX batch object that handles all drawing. */
-    public void drawNonFlyingCreatures(Batch batch) {
+    public void drawCreatures(Batch batch) {
         for (Creature player : players) {
             for (Creature NPC : NPCs) {
                 if ((NPC.canBeSeenBy(player))) {
-                    if (!NPC.isFlying()) NPC.draw(batch);
-                    else flyingCreaturesToDraw.add(NPC);
+                    NPC.draw(batch);
                 }
             }
-            if (!player.isFlying()) player.draw(batch);
-            else flyingCreaturesToDraw.add(player);
+            player.draw(batch);
         }
-    }
-    
-    /** Redraws all flying creatures that can be seen by the players.
-     *  @param batch the libGDX batch object that handles all drawing. */
-    public void drawFlyingCreatures(Batch batch) {
-        flyingCreaturesToDraw.stream().forEach(c -> c.draw(batch));
-        flyingCreaturesToDraw.clear();
     }
     
     /** Redraws all bombs that can be seen by the players.

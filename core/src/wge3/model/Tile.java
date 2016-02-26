@@ -172,26 +172,19 @@ public class Tile implements Drawable {
     
     /** Returns whether the given Creature can see this Tile. */
     public boolean canBeSeenBy(Creature c) {
-        return canBeSeenFrom(c.getX(), c.getY(), c.getSight(), c.isFlying()) || c.seesEverything();
+        return canBeSeenFrom(c.getX(), c.getY(), c.getSight()) || c.seesEverything();
     }
     
     /** Returns whether a Creature with the given sight would be able to see
-     *  this Tile from the given position (x, y). If aerial is true, then the
-     *  Creature is considered to be flying, i.e. it can see over walls, etc. */
-    public boolean canBeSeenFrom(float x, float y, int sight, boolean aerial) {
+     *  this Tile from the given position (x, y). */
+    public boolean canBeSeenFrom(float x, float y, int sight) {
         assert getArea().hasLocation(x, y) : "Not a valid location!";
         
         if (getDistanceTo(x, y) > sight * Tile.size) return false;
         
         return area.getTilesOnLine(x, y, getMiddleX(), getMiddleY())
                 .stream()
-                .noneMatch((tile) -> (tile.blocksVision() && !aerial));
-    }
-    
-    /** Calls {@link #canBeSeenFrom(float, float, int, boolean)}
-     *  with aerial set to false. */
-    public boolean canBeSeenFrom(float x, float y, int range) {
-        return canBeSeenFrom(x, y, range, false);
+                .noneMatch((tile) -> (tile.blocksVision()));
     }
     
     /** Calculates the distance from the middlepoint of this Tile to the given

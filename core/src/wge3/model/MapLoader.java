@@ -105,7 +105,6 @@ public final class MapLoader {
                     case 38: object = new Teleport(Color.BLACK); break;
                         
                     case 41: object = new SpeedPotion(); break;
-                    case 42: object = new LevitationPotion(); break;
                     case 43:
                         object = null;
                         area.addCreature(new Thief(), x, y);

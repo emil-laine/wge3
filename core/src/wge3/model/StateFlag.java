@@ -11,7 +11,6 @@ public enum StateFlag {
     TURNING_RIGHT,
     
     IS_INVISIBLE,
-    IS_FLYING,
     IS_GHOST,
     
     PICKS_UP_ITEMS,
