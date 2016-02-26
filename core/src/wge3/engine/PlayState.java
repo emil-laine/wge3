@@ -34,6 +34,7 @@ public final class PlayState extends GameState {
     
     public PlayState(GameStateManager gsm, String map) {
         super(gsm);
+        gsm.setNextMap(map);
         this.statistics = new Statistics();
         this.map = map;
         init();
@@ -79,15 +80,12 @@ public final class PlayState extends GameState {
                 area.removeCreature(creature);
                 
                 if (area.getPlayers().isEmpty()) {
-                    gsm.setGameEnd(false);
-                    gsm.setStatistics(statistics);
-                    gsm.setState(2);
+                    gsm.setState(new EndGameState(gsm, false, statistics));
                     return;
                 }
                 
                 if (area.getNPCs().isEmpty()) {
-                    gsm.setGameEnd(true);
-                    gsm.setState(2);
+                    gsm.setState(new EndGameState(gsm, true, statistics));
                     return;
                 }
             }
@@ -134,7 +132,7 @@ public final class PlayState extends GameState {
         if (input.isPressed(Command.CHANGE_ITEM))
             player.changeItem();
         else if (input.isPressed(Command.EXIT))
-            gsm.setState(0);
+            gsm.setState(new MenuState(gsm));
         else if (input.isPressed(Command.TOGGLE_FOV))
             player.toggleSeeEverything();
         else if (input.isPressed(Command.TOGGLE_GHOST_MODE))

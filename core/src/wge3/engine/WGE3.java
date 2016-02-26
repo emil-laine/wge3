@@ -15,7 +15,7 @@ public final class WGE3 extends Game {
     @Override
     public void create () {
         gsm = new GameStateManager();
-        gsm.setState(0);
+        gsm.setState(new MenuState(gsm));
         
         Gdx.gl.glClearColor(1/12f, 1/12f, 1/12f, 1);
         Audio.playMusic("soundtrack.mp3");

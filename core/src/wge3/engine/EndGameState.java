@@ -16,10 +16,11 @@ public final class EndGameState extends GameState {
     private boolean result;
     private Statistics statistics;
     
-    public EndGameState(GameStateManager gsm, boolean result) {
+    public EndGameState(GameStateManager gsm, boolean result, Statistics statistics) {
         super(gsm);
         font = new BitmapFont();
         this.result = result;
+        this.statistics = statistics;
         init();
     }
     
@@ -59,16 +60,12 @@ public final class EndGameState extends GameState {
     @Override
     public void handleInput() {
         if (Gdx.input.isTouched()) {
-            gsm.setState(0);
+            gsm.setState(new MenuState(gsm));
         }
     }
     
     @Override
     public void dispose() {
         font.dispose();
-    }
-    
-    public void setStatistics(Statistics statistics) {
-        this.statistics = statistics;
     }
 }

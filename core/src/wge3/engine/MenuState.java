@@ -81,8 +81,7 @@ public final class MenuState extends GameState {
     }
     
     public void startGame() {
-        gsm.setNextMap((String) mapSelector.getSelected());
-        gsm.setState(1);
+        gsm.setState(new PlayState(gsm, (String) mapSelector.getSelected()));
     }
     
     public void exitGame() {
