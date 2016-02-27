@@ -17,7 +17,10 @@ public final class WGE3 extends Game {
     public void create () {
         gsm = new GameStateManager();
         graphics = new GraphicsContext();
-        gsm.setState(new MenuState(gsm, graphics));
+        GameState.setStateManager(gsm);
+        GameState.setGraphicsContext(graphics);
+        GameState.setInputHandler(new InputHandler());
+        gsm.pushState(new MenuState());
         
         Audio.playMusic("soundtrack.mp3");
     }

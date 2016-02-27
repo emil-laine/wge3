@@ -5,24 +5,28 @@
 package wge3.engine;
 
 import wge3.engine.util.Drawable;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.gui.GraphicsContext;
 
 public abstract class GameState implements Drawable {
     
-    protected GameStateManager gsm;
-    protected InputHandler input;
-    protected GraphicsContext graphics;
+    protected static GameStateManager gsm;
+    protected static InputHandler input;
+    protected static GraphicsContext graphics;
     
-    public GameState(GameStateManager gsm, GraphicsContext graphics) {
-        this.gsm = gsm;
-        input = new InputHandler();
-        Gdx.input.setInputProcessor(input);
-        this.graphics = graphics;
+    static void setStateManager(GameStateManager gsm) {
+        GameState.gsm = gsm;
     }
     
-    public abstract void init();
+    static void setGraphicsContext(GraphicsContext graphics) {
+        GameState.graphics = graphics;
+    }
+    
+    static void setInputHandler(InputHandler input) {
+        GameState.input = input;
+    }
+    
+    public void enter() {}
     public abstract void update(float delta);
     @Override
     public abstract void draw(Batch batch);

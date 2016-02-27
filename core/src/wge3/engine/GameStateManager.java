@@ -6,41 +6,42 @@ package wge3.engine;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Disposable;
+import java.util.Stack;
 
 public final class GameStateManager implements Disposable {
     
-    private GameState currentState;
-    private String nextMap;
+    private Stack<GameState> states;
     
-    public void setState(GameState newState) {
-        if (currentState != null) {
-            currentState.dispose();
-        }
+    public GameStateManager() {
+        states = new Stack();
+    }
+    
+    public void pushState(GameState newState) {
+        states.push(newState);
+        newState.enter();
+    }
+    
+    public void popState() {
+        states.pop().dispose();
         
-        currentState = newState;
+        if (!states.empty()) {
+            states.peek().enter();
+        }
     }
     
     @Override
     public void dispose() {
-        if (currentState != null) {
-            currentState.dispose();
+        while (!states.empty()) {
+            popState();
         }
     }
     
-    public String getNextMap() {
-        return nextMap;
-    }
-    
-    public void setNextMap(String nextMap) {
-        this.nextMap = nextMap;
-    }
-    
     public void update(float delta) {
-        currentState.update(delta);
+        states.peek().update(delta);
     }
     
     public void draw(Batch batch) {
-        currentState.draw(batch);
+        states.peek().draw(batch);
     }
     
 }

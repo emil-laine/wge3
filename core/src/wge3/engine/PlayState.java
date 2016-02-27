@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
-import wge3.gui.GraphicsContext;
 import wge3.model.Area;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
@@ -29,18 +28,10 @@ public final class PlayState extends GameState {
     private Area area;
     private Player player;
     public static MessageStream mStream;
-    private String map;
     
-    public PlayState(GameStateManager gsm, GraphicsContext graphics, String map) {
-        super(gsm, graphics);
-        gsm.setNextMap(map);
+    public PlayState(String map) {
         this.statistics = new Statistics();
-        this.map = map;
-        init();
-    }
-    
-    @Override
-    public void init() {
+        
         playerViewport = new Rectangle(0, 0,
                                        graphics.getLogicalWidth(),
                                        graphics.getLogicalHeight());
@@ -58,8 +49,9 @@ public final class PlayState extends GameState {
         camera.update();
     }
     
-    public InputHandler getInput() {
-        return input;
+    @Override
+    public void enter() {
+        Gdx.input.setInputProcessor(input);
     }
     
     public Player getPlayer() {
@@ -82,12 +74,14 @@ public final class PlayState extends GameState {
                 area.removeCreature(creature);
                 
                 if (area.getPlayers().isEmpty()) {
-                    gsm.setState(new EndGameState(gsm, graphics, false, statistics));
+                    gsm.popState();
+                    gsm.pushState(new EndGameState(false, statistics));
                     return;
                 }
                 
                 if (area.getNPCs().isEmpty()) {
-                    gsm.setState(new EndGameState(gsm, graphics, true, statistics));
+                    gsm.popState();
+                    gsm.pushState(new EndGameState(true, statistics));
                     return;
                 }
             }
@@ -134,7 +128,7 @@ public final class PlayState extends GameState {
         if (input.isPressed(Command.CHANGE_ITEM))
             player.changeItem();
         else if (input.isPressed(Command.EXIT))
-            gsm.setState(new MenuState(gsm, graphics));
+            gsm.popState();
         else if (input.isPressed(Command.TOGGLE_FOV))
             player.toggleSeeEverything();
         else if (input.isPressed(Command.TOGGLE_GHOST_MODE))

@@ -7,7 +7,6 @@ package wge3.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import wge3.gui.GraphicsContext;
 
 // Remember to implement statistics
 
@@ -16,16 +15,9 @@ public final class EndGameState extends GameState {
     private boolean result;
     private Statistics statistics;
     
-    public EndGameState(GameStateManager gsm, GraphicsContext graphics, boolean result, Statistics statistics) {
-        super(gsm, graphics);
-        this.graphics = graphics;
+    public EndGameState(boolean result, Statistics statistics) {
         this.result = result;
         this.statistics = statistics;
-        init();
-    }
-    
-    @Override
-    public void init() {
     }
     
     @Override
@@ -64,7 +56,7 @@ public final class EndGameState extends GameState {
     @Override
     public void handleInput() {
         if (Gdx.input.isTouched()) {
-            gsm.setState(new MenuState(gsm, graphics));
+            gsm.popState();
         }
     }
     
