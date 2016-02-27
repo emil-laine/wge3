@@ -12,13 +12,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import wge3.engine.util.Drawable;
+import wge3.gui.GraphicsContext;
 import wge3.model.objects.Item;
 
 public final class MessageStream implements Drawable {
     
     private PlayState game;
     
-    private BitmapFont font;
+    private GraphicsContext graphics;
     private int x;
     private int y;
     private int lineSpacing;
@@ -28,8 +29,8 @@ public final class MessageStream implements Drawable {
     private boolean showFPS;
     private boolean showInventory;
     
-    public MessageStream(int x, int y, PlayState game) {
-        font = new BitmapFont();
+    public MessageStream(GraphicsContext graphics, int x, int y, PlayState game) {
+        this.graphics = graphics;
         this.x = x;
         this.y = y;
         lineSpacing = 20;
@@ -40,6 +41,8 @@ public final class MessageStream implements Drawable {
     
     @Override
     public void draw(Batch batch) {
+        BitmapFont font = graphics.getFont();
+        
         int line = 0;
         line++;
         line++;

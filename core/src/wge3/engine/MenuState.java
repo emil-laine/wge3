@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import java.util.Arrays;
+import wge3.gui.GraphicsContext;
 
 public final class MenuState extends GameState {
     
@@ -28,8 +29,8 @@ public final class MenuState extends GameState {
     private SelectBox mapSelector;
     private TextButton newGameButton;
     
-    public MenuState(GameStateManager gsm) {
-        super(gsm);
+    public MenuState(GameStateManager gsm, GraphicsContext graphics) {
+        super(gsm, graphics);
         init();
     }
     
@@ -41,8 +42,8 @@ public final class MenuState extends GameState {
         
         int buttonWidth = 200;
         int buttonHeight = 50;
-        int x = Gdx.graphics.getWidth() / 2 - (buttonWidth / 2);
-        int y = Gdx.graphics.getHeight() - 200;
+        int x = graphics.getLogicalWidth() / 2 - (buttonWidth / 2);
+        int y = graphics.getLogicalHeight() - 200;
         
         Label menuLabel = new Label("WGE3 EXPERIMENTAL HQ", skin);
         menuLabel.setPosition(x, y);
@@ -81,7 +82,7 @@ public final class MenuState extends GameState {
     }
     
     public void startGame() {
-        gsm.setState(new PlayState(gsm, (String) mapSelector.getSelected()));
+        gsm.setState(new PlayState(gsm, graphics, (String) mapSelector.getSelected()));
     }
     
     public void exitGame() {

@@ -11,8 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
-import static wge3.engine.GameStateManager.HEIGHT;
-import static wge3.engine.GameStateManager.WIDTH;
+import wge3.gui.GraphicsContext;
 import wge3.model.Area;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
@@ -32,12 +31,31 @@ public final class PlayState extends GameState {
     public static MessageStream mStream;
     private String map;
     
-    public PlayState(GameStateManager gsm, String map) {
-        super(gsm);
+    public PlayState(GameStateManager gsm, GraphicsContext graphics, String map) {
+        super(gsm, graphics);
         gsm.setNextMap(map);
         this.statistics = new Statistics();
         this.map = map;
         init();
+    }
+    
+    @Override
+    public void init() {
+        playerViewport = new Rectangle(0, 0,
+                                       graphics.getLogicalWidth(),
+                                       graphics.getLogicalHeight());
+        camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
+        
+        mStream = new MessageStream(graphics, graphics.getLogicalWidth() - 280,
+                                    graphics.getLogicalHeight() - 60, this);
+        area = new Area(map);
+        player = area.getPlayers().get(0);
+        player.setStats(statistics);
+        player.setCamera(camera);
+        hud = new HUD(player, graphics);
+        
+        camera.translate(player.getX(), player.getY());
+        camera.update();
     }
     
     public InputHandler getInput() {
@@ -46,22 +64,6 @@ public final class PlayState extends GameState {
     
     public Player getPlayer() {
         return player;
-    }
-    
-    @Override
-    public void init() {
-        playerViewport = new Rectangle(0, 0, WIDTH, HEIGHT);
-        camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
-        
-        mStream = new MessageStream(WIDTH - 280, HEIGHT - 60, this);
-        area = new Area(map);
-        player = area.getPlayers().get(0);
-        player.setStats(statistics);
-        player.setCamera(camera);
-        hud = new HUD(player);
-        
-        camera.translate(player.getX(), player.getY());
-        camera.update();
     }
     
     @Override
@@ -80,12 +82,12 @@ public final class PlayState extends GameState {
                 area.removeCreature(creature);
                 
                 if (area.getPlayers().isEmpty()) {
-                    gsm.setState(new EndGameState(gsm, false, statistics));
+                    gsm.setState(new EndGameState(gsm, graphics, false, statistics));
                     return;
                 }
                 
                 if (area.getNPCs().isEmpty()) {
-                    gsm.setState(new EndGameState(gsm, true, statistics));
+                    gsm.setState(new EndGameState(gsm, graphics, true, statistics));
                     return;
                 }
             }
@@ -132,7 +134,7 @@ public final class PlayState extends GameState {
         if (input.isPressed(Command.CHANGE_ITEM))
             player.changeItem();
         else if (input.isPressed(Command.EXIT))
-            gsm.setState(new MenuState(gsm));
+            gsm.setState(new MenuState(gsm, graphics));
         else if (input.isPressed(Command.TOGGLE_FOV))
             player.toggleSeeEverything();
         else if (input.isPressed(Command.TOGGLE_GHOST_MODE))

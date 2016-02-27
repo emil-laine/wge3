@@ -6,33 +6,29 @@ package wge3.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import wge3.engine.util.Drawable;
-import static java.lang.Math.min;
-import static wge3.engine.GameStateManager.HEIGHT;
-import static wge3.engine.GameStateManager.WIDTH;
 import wge3.model.actors.Player;
+import static java.lang.Math.min;
 
 public final class HUD implements Drawable {
     
     private OrthographicCamera camera;
-    private ShapeRenderer sr;
-    private BitmapFont font;
+    private GraphicsContext graphics;
     private Player player;
     private int barThickness = 10;
     private int barMaxLength = 200;
     private int healthBarX = 1055;
     private int healthBarY = 653;
     
-    public HUD(Player player) {
+    public HUD(Player player, GraphicsContext graphics) {
         this.player = player;
-        sr = new ShapeRenderer();
-        font = new BitmapFont();
-        camera = new OrthographicCamera(WIDTH, HEIGHT);
-        camera.translate(WIDTH/2, HEIGHT/2);
+        this.graphics = graphics;
+        camera = new OrthographicCamera(graphics.getLogicalWidth(),
+                                        graphics.getLogicalHeight());
+        camera.translate(graphics.getLogicalWidth()/2,
+                         graphics.getLogicalHeight()/2);
         camera.update();
     }
     
@@ -41,15 +37,16 @@ public final class HUD implements Drawable {
         Gdx.graphics.getGL20().glViewport(
                 0,
                 0,
-                WIDTH,
-                HEIGHT);
+                graphics.getLogicalWidth(),
+                graphics.getLogicalHeight());
         batch.setProjectionMatrix(camera.combined);
         
         // Text labels:
-        font.draw(batch, "HP:", 1000, 660);
+        graphics.getFont().draw(batch, "HP:", 1000, 660);
         
         // Health bar:
         batch.end();
+        ShapeRenderer sr = graphics.getShapeRenderer();
         float health = player.getHP().asFraction();
         float healthBarLength = health * barMaxLength;
         sr.begin(ShapeRenderer.ShapeType.Filled);

@@ -7,16 +7,19 @@ package wge3.engine;
 import wge3.engine.util.Drawable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import wge3.gui.GraphicsContext;
 
 public abstract class GameState implements Drawable {
     
     protected GameStateManager gsm;
     protected InputHandler input;
+    protected GraphicsContext graphics;
     
-    public GameState(GameStateManager gsm) {
+    public GameState(GameStateManager gsm, GraphicsContext graphics) {
         this.gsm = gsm;
         input = new InputHandler();
         Gdx.input.setInputProcessor(input);
+        this.graphics = graphics;
     }
     
     public abstract void init();

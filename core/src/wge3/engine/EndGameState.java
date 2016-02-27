@@ -7,18 +7,18 @@ package wge3.engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import wge3.gui.GraphicsContext;
 
 // Remember to implement statistics
 
 public final class EndGameState extends GameState {
     
-    private BitmapFont font;
     private boolean result;
     private Statistics statistics;
     
-    public EndGameState(GameStateManager gsm, boolean result, Statistics statistics) {
-        super(gsm);
-        font = new BitmapFont();
+    public EndGameState(GameStateManager gsm, GraphicsContext graphics, boolean result, Statistics statistics) {
+        super(gsm, graphics);
+        this.graphics = graphics;
         this.result = result;
         this.statistics = statistics;
         init();
@@ -36,8 +36,10 @@ public final class EndGameState extends GameState {
     @Override
     public void draw(Batch batch) {
         batch.begin();
-        int maxX = Gdx.graphics.getWidth();
-        int maxY = Gdx.graphics.getHeight();
+        int maxX = graphics.getLogicalWidth();
+        int maxY = graphics.getLogicalHeight();
+        BitmapFont font = graphics.getFont();
+        
         if (result) {
             font.draw(batch, "You won!", maxX / 2, maxY / 2);
         }
@@ -62,12 +64,11 @@ public final class EndGameState extends GameState {
     @Override
     public void handleInput() {
         if (Gdx.input.isTouched()) {
-            gsm.setState(new MenuState(gsm));
+            gsm.setState(new MenuState(gsm, graphics));
         }
     }
     
     @Override
     public void dispose() {
-        font.dispose();
     }
 }

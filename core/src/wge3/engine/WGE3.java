@@ -6,29 +6,35 @@ package wge3.engine;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import wge3.gui.GraphicsContext;
 
 public final class WGE3 extends Game {
     
     private GameStateManager gsm;
+    private GraphicsContext graphics;
     
     @Override
     public void create () {
         gsm = new GameStateManager();
-        gsm.setState(new MenuState(gsm));
+        graphics = new GraphicsContext();
+        gsm.setState(new MenuState(gsm, graphics));
         
-        Gdx.gl.glClearColor(1/12f, 1/12f, 1/12f, 1);
         Audio.playMusic("soundtrack.mp3");
     }
     
     @Override
     public void render () {
         gsm.update(Gdx.graphics.getDeltaTime());
-        gsm.draw();
+        
+        graphics.beginDraw();
+        gsm.draw(graphics.getBatch());
+        graphics.endDraw();
     }
     
     @Override
     public void dispose() {
         Audio.dispose();
+        graphics.dispose();
         gsm.dispose();
     }
 }
