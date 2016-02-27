@@ -41,7 +41,7 @@ public class GreenSlime extends MapObject {
     }
     
     public Tile getExpansionTarget() {
-        List<Tile> tiles = tile.getNearbyTiles(false);
+        List<Tile> tiles = getTile().getNearbyTiles(false);
         for (Iterator<Tile> it = tiles.iterator(); it.hasNext();) {
             Tile tile = it.next();
             if (tile.hasCreature() || tile.hasSlime())

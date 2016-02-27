@@ -13,7 +13,7 @@ import wge3.model.MapObject;
 public abstract class Item extends MapObject {
     
     protected String name;
-    protected int value;
+    private int value;
     protected int defaultAmount;
     
     public Item() {

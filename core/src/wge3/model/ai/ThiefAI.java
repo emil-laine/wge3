@@ -42,40 +42,40 @@ public class ThiefAI extends AI {
             checkForEnemies();
         }
         
-        if (!currentTask.isFinished()) {
-            currentTask.execute();
+        if (!getCurrentTask().isFinished()) {
+            getCurrentTask().execute();
             return;
         }
         
         if (randomBoolean(2/3f)) {
-            currentTask = new MoveTask(NPC, getNewMovementDestination(NPC));
+            setCurrentTask(new MoveTask(getNPC(), getNewMovementDestination(getNPC())));
         } else {
-            currentTask = new WaitTask(random(3000));
+            setCurrentTask(new WaitTask(random(3000)));
         }
     }
     
     @Override
     public void checkForEnemies() {
-        for (Creature enemy : NPC.getEnemiesWithinFOV()) {
-            if (!enoughFriendliesNearby() || !NPC.getInventory().getItems().isEmpty() || enemy.getInventory().getItems().isEmpty()) {
+        for (Creature enemy : getNPC().getEnemiesWithinFOV()) {
+            if (!enoughFriendliesNearby() || !getNPC().getInventory().getItems().isEmpty() || enemy.getInventory().getItems().isEmpty()) {
                 if (fleeing) return;
                 fleeing = true;
-                currentTask = new MoveTask(NPC, whereToRun(enemy));
+                setCurrentTask(new MoveTask(getNPC(), whereToRun(enemy)));
                 return;
             }
             fleeing = false;
-            currentTask = new StealTask((Thief) NPC, enemy);
+            setCurrentTask(new StealTask((Thief) getNPC(), enemy));
             break; // TODO: Should steal from the nearest enemy instead of
                    // always picking the first one in the returned list.
         }
     }
     
     public boolean enoughFriendliesNearby() {
-        return this.NPC.getFriendliesWithinFOV().size() >= cowardLevel;
+        return getNPC().getFriendliesWithinFOV().size() >= cowardLevel;
     }
     
     public boolean isStealing() {
-        return currentTask.getClass() == StealTask.class;
+        return getCurrentTask().getClass() == StealTask.class;
     }
     
     // Plots a place to run away from enemy

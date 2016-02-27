@@ -31,8 +31,8 @@ public final class MenuState extends GameState {
         
         int buttonWidth = 200;
         int buttonHeight = 50;
-        int x = graphics.getLogicalWidth() / 2 - (buttonWidth / 2);
-        int y = graphics.getLogicalHeight() - 200;
+        int x = getGraphicsContext().getLogicalWidth() / 2 - (buttonWidth / 2);
+        int y = getGraphicsContext().getLogicalHeight() - 200;
         
         Label menuLabel = new Label("WGE3 EXPERIMENTAL HQ", skin);
         menuLabel.setPosition(x, y);
@@ -70,11 +70,11 @@ public final class MenuState extends GameState {
     
     @Override
     public void enter() {
-        Gdx.input.setInputProcessor(new InputMultiplexer(stage, input));
+        Gdx.input.setInputProcessor(new InputMultiplexer(stage, getInputHandler()));
     }
     
     public void startGame() {
-        gsm.pushState(new PlayState((String) mapSelector.getSelected()));
+        getStateManager().pushState(new PlayState((String) mapSelector.getSelected()));
     }
     
     public void exitGame() {
@@ -85,7 +85,7 @@ public final class MenuState extends GameState {
     public void update(float delta) {
         stage.act(delta);
         handleInput();
-        input.copyKeyBuffer();
+        getInputHandler().copyKeyBuffer();
     }
     
     @Override
@@ -97,7 +97,7 @@ public final class MenuState extends GameState {
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Keys.ENTER)) startGame();
         else if (Gdx.input.isKeyPressed(Keys.Q)) exitGame();
-        else if (input.isPressed(Command.TOGGLE_MUSIC)) Audio.toggleMusic();
+        else if (getInputHandler().isPressed(Command.TOGGLE_MUSIC)) Audio.toggleMusic();
     }
     
     @Override

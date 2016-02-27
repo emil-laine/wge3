@@ -16,10 +16,10 @@ import wge3.engine.util.Drawable;
 
 public abstract class TileLayer implements Drawable {
     
-    protected Tile tile;
+    private Tile tile;
     
-    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
-    protected Sprite sprite;
+    private final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
+    private Sprite sprite;
     
     protected Set<TilePropertyFlag> propertyFlags;
     
@@ -42,6 +42,10 @@ public abstract class TileLayer implements Drawable {
         this.tile = tile;
     }
     
+    public Tile getTile() {
+        return tile;
+    }
+    
     public int getX() {
         return tile.getX();
     }
@@ -50,11 +54,7 @@ public abstract class TileLayer implements Drawable {
         return tile.getY();
     }
     
-    public Texture getTexture() {
-        return texture;
-    }
-    
-    public Sprite getSprite() {
+    protected Sprite getSprite() {
         return sprite;
     }
     

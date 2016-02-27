@@ -21,9 +21,9 @@ import wge3.model.Creature;
 
 public class AI {
     
-    protected NonPlayer NPC; // the controlled creature
-    protected AITask currentTask;
-    long lastTimeOfEnemyCheck;
+    private NonPlayer NPC; // the controlled creature
+    private AITask currentTask;
+    private long lastTimeOfEnemyCheck;
     
     public AI(NonPlayer creature) {
         this.NPC = creature;
@@ -170,5 +170,17 @@ public class AI {
                 ((MeleeAttackTask) currentTask).draw(batch);
             }
         }
+    }
+    
+    protected NonPlayer getNPC() {
+        return NPC;
+    }
+    
+    protected AITask getCurrentTask() {
+        return currentTask;
+    }
+    
+    protected void setCurrentTask(AITask newTask) {
+        currentTask = newTask;
     }
 }

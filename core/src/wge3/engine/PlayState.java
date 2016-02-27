@@ -33,17 +33,19 @@ public final class PlayState extends GameState {
         this.statistics = new Statistics();
         
         playerViewport = new Rectangle(0, 0,
-                                       graphics.getLogicalWidth(),
-                                       graphics.getLogicalHeight());
+                                       getGraphicsContext().getLogicalWidth(),
+                                       getGraphicsContext().getLogicalHeight());
         camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
         
-        mStream = new MessageStream(graphics, graphics.getLogicalWidth() - 280,
-                                    graphics.getLogicalHeight() - 60, this);
+        mStream = new MessageStream(getGraphicsContext(),
+                                    getGraphicsContext().getLogicalWidth() - 280,
+                                    getGraphicsContext().getLogicalHeight() - 60,
+                                    this);
         area = new Area(map);
         player = area.getPlayers().get(0);
         player.setStats(statistics);
         player.setCamera(camera);
-        hud = new HUD(player, graphics);
+        hud = new HUD(player, getGraphicsContext());
         
         camera.translate(player.getX(), player.getY());
         camera.update();
@@ -51,7 +53,7 @@ public final class PlayState extends GameState {
     
     @Override
     public void enter() {
-        Gdx.input.setInputProcessor(input);
+        Gdx.input.setInputProcessor(getInputHandler());
     }
     
     public Player getPlayer() {
@@ -74,14 +76,14 @@ public final class PlayState extends GameState {
                 area.removeCreature(creature);
                 
                 if (area.getPlayers().isEmpty()) {
-                    gsm.popState();
-                    gsm.pushState(new EndGameState(false, statistics));
+                    getStateManager().popState();
+                    getStateManager().pushState(new EndGameState(false, statistics));
                     return;
                 }
                 
                 if (area.getNPCs().isEmpty()) {
-                    gsm.popState();
-                    gsm.pushState(new EndGameState(true, statistics));
+                    getStateManager().popState();
+                    getStateManager().pushState(new EndGameState(true, statistics));
                     return;
                 }
             }
@@ -90,7 +92,7 @@ public final class PlayState extends GameState {
         area.calculateLighting();
         area.passTime(delta);
         handleInput();
-        input.copyKeyBuffer();
+        getInputHandler().copyKeyBuffer();
     }
     
     @Override
@@ -112,6 +114,8 @@ public final class PlayState extends GameState {
     
     @Override
     public void handleInput() {
+        InputHandler input = getInputHandler();
+        
         if (input.isDown(Command.FORWARD))
             player.goForward();
         else if (input.isDown(Command.BACKWARD))
@@ -128,7 +132,7 @@ public final class PlayState extends GameState {
         if (input.isPressed(Command.CHANGE_ITEM))
             player.changeItem();
         else if (input.isPressed(Command.EXIT))
-            gsm.popState();
+            getStateManager().popState();
         else if (input.isPressed(Command.TOGGLE_FOV))
             player.toggleSeeEverything();
         else if (input.isPressed(Command.TOGGLE_GHOST_MODE))

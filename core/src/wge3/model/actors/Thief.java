@@ -23,6 +23,6 @@ public class Thief extends NonPlayer{
         defense = random(3, 7);
         defaultSpeed = random(35, 40);
         currentSpeed = defaultSpeed;
-        ai = new ThiefAI(this);
+        setAI(new ThiefAI(this));
     }
 }

@@ -10,9 +10,21 @@ import wge3.gui.GraphicsContext;
 
 public abstract class GameState implements Drawable {
     
-    protected static GameStateManager gsm;
-    protected static InputHandler input;
-    protected static GraphicsContext graphics;
+    private static GameStateManager gsm;
+    private static InputHandler input;
+    private static GraphicsContext graphics;
+    
+    protected static GameStateManager getStateManager() {
+        return gsm;
+    }
+    
+    protected static InputHandler getInputHandler() {
+        return input;
+    }
+    
+    protected static GraphicsContext getGraphicsContext() {
+        return graphics;
+    }
     
     static void setStateManager(GameStateManager gsm) {
         GameState.gsm = gsm;

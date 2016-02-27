@@ -23,7 +23,7 @@ public final class Gunman extends NonPlayer{
         currentSpeed = 70;
         inventory.addItem(new Handgun(), 60);
         this.changeItem();
-        ai = new RangedAI(this);
+        setAI(new RangedAI(this));
     }
     
     @Override

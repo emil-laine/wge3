@@ -28,9 +28,9 @@ public final class EndGameState extends GameState {
     @Override
     public void draw(Batch batch) {
         batch.begin();
-        int maxX = graphics.getLogicalWidth();
-        int maxY = graphics.getLogicalHeight();
-        BitmapFont font = graphics.getFont();
+        int maxX = getGraphicsContext().getLogicalWidth();
+        int maxY = getGraphicsContext().getLogicalHeight();
+        BitmapFont font = getGraphicsContext().getFont();
         
         if (result) {
             font.draw(batch, "You won!", maxX / 2, maxY / 2);
@@ -56,7 +56,7 @@ public final class EndGameState extends GameState {
     @Override
     public void handleInput() {
         if (Gdx.input.isTouched()) {
-            gsm.popState();
+            getStateManager().popState();
         }
     }
     

@@ -26,29 +26,29 @@ public class RangedAI extends AI {
             checkForEnemies();
         }
         
-        if (!currentTask.isFinished()) {
-            currentTask.execute();
+        if (!getCurrentTask().isFinished()) {
+            getCurrentTask().execute();
             return;
         }
         
         if (randomBoolean(2/3f)) {
-            currentTask = new MoveTask(NPC, getNewMovementDestination(NPC));
+            setCurrentTask(new MoveTask(getNPC(), getNewMovementDestination(getNPC())));
         } else {
-            currentTask = new WaitTask(random(3000));
+            setCurrentTask(new WaitTask(random(3000)));
         }
     }
     
     @Override
     public void checkForEnemies() {
-        if (NPC.getSelectedItem().isGun()) {
-            Gun gun = (Gun) NPC.getSelectedItem();
+        if (getNPC().getSelectedItem().isGun()) {
+            Gun gun = (Gun) getNPC().getSelectedItem();
             int gunRange2 = gun.getRange() * gun.getRange();
             
-            NPC.getEnemiesWithinFOV()
+            getNPC().getEnemiesWithinFOV()
                     .parallelStream()
-                    .filter(x -> getDistance2(NPC, x) <= gunRange2)
+                    .filter(x -> getDistance2(getNPC(), x) <= gunRange2)
                     .findAny()
-                    .ifPresent(x -> currentTask = new RangedAttackTask(NPC, x));
+                    .ifPresent(x -> setCurrentTask(new RangedAttackTask(getNPC(), x)));
             
 //            for (Creature dude : NPC.getEnemiesWithinFOV()) {
 //                if (NPC.getDistance2To(dude) <= gunRange2) {
@@ -58,10 +58,10 @@ public class RangedAI extends AI {
 //            }
         } else {
             
-            NPC.getEnemiesWithinFOV()
+            getNPC().getEnemiesWithinFOV()
                     .parallelStream()
                     .findAny()
-                    .ifPresent(x -> currentTask = new MeleeAttackTask(NPC, x));
+                    .ifPresent(x -> setCurrentTask(new MeleeAttackTask(getNPC(), x)));
             
 //            for (Creature dude : NPC.getEnemiesWithinFOV()) {
 //                currentTask = new MeleeAttackTask(NPC, dude);

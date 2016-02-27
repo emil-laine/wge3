@@ -28,14 +28,14 @@ public final class BrickWall extends Wall {
         
         if (isDestroyed()) {
             // show destroyed sprite
-            sprite.setRegion(2*Tile.size, Tile.size, Tile.size, Tile.size);
+            getSprite().setRegion(2*Tile.size, Tile.size, Tile.size, Tile.size);
             propertyFlags.add(TilePropertyFlag.IS_PASSABLE);
             propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
             propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
             movementModifier = 0.7f;
         } else if (HP < maxHP/2) {
             // show damaged sprite
-            sprite.setRegion(Tile.size, Tile.size, Tile.size, Tile.size);
+            getSprite().setRegion(Tile.size, Tile.size, Tile.size, Tile.size);
             propertyFlags.remove(TilePropertyFlag.BLOCKS_VISION);
             propertyFlags.remove(TilePropertyFlag.COVERS_WHOLE_TILE);
         }

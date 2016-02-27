@@ -12,9 +12,9 @@ import static wge3.model.Team.MonsterTeam;
 
 public abstract class NonPlayer extends Creature {
     
-    protected AI ai;
-    protected int attackSpeed; // How many times the creature attacks in 5 seconds.
-    protected float FOV;
+    private AI ai;
+    private int attackSpeed; // How many times the creature attacks in 5 seconds.
+    private float FOV;
     
     public NonPlayer() {
         team = MonsterTeam;
@@ -25,6 +25,10 @@ public abstract class NonPlayer extends Creature {
     
     public void updateAI() {
         ai.update();
+    }
+    
+    protected void setAI(AI newAI) {
+        ai = newAI;
     }
     
     public int getAttackSpeed() {
