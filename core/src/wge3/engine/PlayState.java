@@ -16,6 +16,7 @@ import wge3.model.Creature;
 import wge3.model.NonPlayer;
 import wge3.model.actors.Player;
 import wge3.model.objects.StoneWall;
+import wge3.engine.util.Direction;
 
 public final class PlayState extends GameState {
     
@@ -116,15 +117,34 @@ public final class PlayState extends GameState {
     public void handleInput() {
         InputHandler input = getInputHandler();
         
-        if (input.isDown(Command.FORWARD))
-            player.goForward();
-        else if (input.isDown(Command.BACKWARD))
-            player.goBackward();
+        final boolean left  = input.isDown(Command.LEFT);
+        final boolean right = input.isDown(Command.RIGHT);
+        final boolean up    = input.isDown(Command.UP);
+        final boolean down  = input.isDown(Command.DOWN);
         
-        if (input.isDown(Command.TURN_LEFT))
-            player.turnLeft();
-        else if (input.isDown(Command.TURN_RIGHT))
-            player.turnRight();
+        if (left && !right) {
+            if (up) {
+                player.go(Direction.UP_LEFT);
+            } else if (down) {
+                player.go(Direction.DOWN_LEFT);
+            } else {
+                player.go(Direction.LEFT);
+            }
+        } else if (right && !left) {
+            if (up) {
+                player.go(Direction.UP_RIGHT);
+            } else if (down) {
+                player.go(Direction.DOWN_RIGHT);
+            } else {
+                player.go(Direction.RIGHT);
+            }
+        } else if (up && !down) {
+            player.go(Direction.UP);
+        } else if (down && !up) {
+            player.go(Direction.DOWN);
+        } else {
+            player.stopGoing();
+        }
         
         if (input.isPressed(Command.USE_ITEM))
             player.useItem();

@@ -22,10 +22,10 @@ public final class InputHandler extends InputAdapter {
         keyMap = new int[Command.numberOfCommands];
         commandMap = new HashMap();
         // Default keys. These should be loaded from a file.
-        setMappedKey(Command.FORWARD, Keys.UP);
-        setMappedKey(Command.BACKWARD, Keys.DOWN);
-        setMappedKey(Command.TURN_LEFT, Keys.LEFT);
-        setMappedKey(Command.TURN_RIGHT, Keys.RIGHT);
+        setMappedKey(Command.UP, Keys.UP);
+        setMappedKey(Command.DOWN, Keys.DOWN);
+        setMappedKey(Command.LEFT, Keys.LEFT);
+        setMappedKey(Command.RIGHT, Keys.RIGHT);
         setMappedKey(Command.USE_ITEM, Keys.Z);
         setMappedKey(Command.CHANGE_ITEM, Keys.X);
         setMappedKey(Command.EXIT, Keys.ESCAPE);

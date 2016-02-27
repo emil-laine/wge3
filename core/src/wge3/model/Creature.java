@@ -37,6 +37,7 @@ import static wge3.model.ai.PathFinder.findPath;
 import wge3.model.grounds.OneWayFloor;
 import wge3.model.objects.Item;
 import wge3.model.objects.Teleport;
+import wge3.engine.util.Direction;
 
 public abstract class Creature implements Drawable {
     
@@ -50,6 +51,7 @@ public abstract class Creature implements Drawable {
     protected int size;
     protected int defaultSpeed;
     protected int currentSpeed;
+    private Direction currentDir;
     protected float direction;
     protected float turningSpeed;
     protected int sight;
@@ -425,7 +427,8 @@ public abstract class Creature implements Drawable {
     /** Rotates the graphical representation of this Creature according to
      *  the direction the Creature is currently facing. */
     public void updateSpriteRotation() {
-        sprite.setRotation(direction * radiansToDegrees);
+        if (currentDir == null) return;
+        sprite.setRotation(currentDir.getAngleRad() * MathUtils.radiansToDegrees);
     }
     
     /** Performs an unarmed attack targeted at a circular area directly in front
@@ -454,25 +457,19 @@ public abstract class Creature implements Drawable {
     
     /** Tries to move the Creature according to its current movement flags. */
     public void doMovement(float delta) {
-        if (isGoingForward()) {
-            stopGoingForward();
-            float dx = MathUtils.cos(direction) * currentSpeed * delta;
-            float dy = MathUtils.sin(direction) * currentSpeed * delta;
-            move(dx, dy);
-        } else if (isGoingBackward()) {
-            stopGoingBackward();
-            float dx = -(MathUtils.cos(direction) * currentSpeed/1.5f * delta);
-            float dy = -(MathUtils.sin(direction) * currentSpeed/1.5f * delta);
-            move(dx, dy);
-        }
-        
-        if (isTurningLeft()) {
-            stopTurningLeft();
-            turnLeft(delta);
-        } else if (isTurningRight()) {
-            stopTurningRight();
-            turnRight(delta);
-        }
+        if (currentDir == null) return;
+        move(currentDir.getDx() * currentSpeed * delta,
+             currentDir.getDy() * currentSpeed * delta);
+    }
+    
+    public void go(Direction where) {
+        if (where == currentDir) return;
+        currentDir = where;
+        updateSpriteRotation();
+    }
+    
+    public void stopGoing() {
+        currentDir = null;
     }
     
     /** Returns whether this Creature is currently trying to move forward. */

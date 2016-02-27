@@ -5,10 +5,10 @@
 package wge3.engine;
 
 public enum Command {
-    FORWARD(0),
-    BACKWARD(1),
-    TURN_LEFT(2),
-    TURN_RIGHT(3),
+    UP(0),
+    DOWN(1),
+    LEFT(2),
+    RIGHT(3),
     USE_ITEM(4),
     CHANGE_ITEM(5),
     UNUSED(6),
