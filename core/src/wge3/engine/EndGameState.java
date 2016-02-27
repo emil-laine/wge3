@@ -5,6 +5,7 @@
 package wge3.engine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -18,6 +19,11 @@ public final class EndGameState extends GameState {
     public EndGameState(boolean result, Statistics statistics) {
         this.result = result;
         this.statistics = statistics;
+    }
+    
+    @Override
+    public void enter() {
+        Gdx.input.setInputProcessor(getInputHandler());
     }
     
     @Override
@@ -55,7 +61,7 @@ public final class EndGameState extends GameState {
     
     @Override
     public void handleInput() {
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
             getStateManager().popState();
         }
     }
