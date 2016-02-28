@@ -25,7 +25,7 @@ public final class FusedBomb extends Bomb {
         float x = this.getX();
         float y = this.getY();
         int range = this.getRange();
-        for (Tile currentTile : area.getTiles()) {
+        for (Tile currentTile : getArea().getTiles()) {
             if (currentTile.canBeSeenFrom(x, y, range)) {
                 float distance = currentTile.getDistanceTo(x, y) / Tile.size;
                 float intensity = 1f - Math.max(distance-1f, 0f) * (1f / range);
@@ -33,6 +33,6 @@ public final class FusedBomb extends Bomb {
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
-        area.removeBomb(this);
+        getArea().removeBomb(this);
     }
 }

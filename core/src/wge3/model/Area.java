@@ -4,13 +4,14 @@
 
 package wge3.model;
 
-import wge3.model.actors.Player;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
+import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
+import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,14 +21,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import wge3.model.items.Bomb;
-import wge3.model.objects.GreenSlime;
-import wge3.model.objects.Tree;
-import wge3.model.objects.Item;
+import java.util.stream.Collectors;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
-import com.badlogic.gdx.math.Rectangle;
+import wge3.model.actors.Player;
+import wge3.model.items.Bomb;
+import wge3.model.objects.GreenSlime;
+import wge3.model.objects.Item;
+import wge3.model.objects.Tree;
 
 public final class Area implements Drawable {
     private Tile[][] tiles;
@@ -36,11 +37,11 @@ public final class Area implements Drawable {
     private Rectangle bounds;
     
     private List<Tile> allTiles;
-    private List<Creature> creatures;
+    private List<Entity> entities;
+    
     private List<Player> players;
     private List<NonPlayer> NPCs;
     private List<Item> items;
-    private List<Bomb> bombs;
     private List<GreenSlime> slimes;
     
     private List<Tile> tilesToDraw;
@@ -50,11 +51,11 @@ public final class Area implements Drawable {
     
     public Area(String mapName) {
         allTiles     = new ArrayList();
-        creatures    = new ArrayList();
+        entities     = new ArrayList();
+        
         players      = new ArrayList();
         NPCs         = new ArrayList();
         items        = new ArrayList();
-        bombs        = new ArrayList();
         slimes       = new ArrayList();
         
         tilesToDraw  = new LinkedList();
@@ -111,8 +112,7 @@ public final class Area implements Drawable {
     public void draw(Batch batch) {
         drawTiles(batch);
         batch.enableBlending();
-        drawBombs(batch);
-        drawCreatures(batch);
+        drawEntities(batch);
         drawTrees(batch);
         batch.disableBlending();
     }
@@ -172,27 +172,15 @@ public final class Area implements Drawable {
         tilesToDraw.add(tile);
     }
     
-    /** Redraws all creatures that can be seen by the players.
-     *  @param batch the libGDX batch object that handles all drawing. */
-    public void drawCreatures(Batch batch) {
+    /** Draws all entities that can be seen by a player. */
+    public void drawEntities(Batch batch) {
         for (Creature player : players) {
-            for (Creature NPC : NPCs) {
-                if ((NPC.canBeSeenBy(player))) {
-                    NPC.draw(batch);
+            for (Entity entity : entities) {
+                if (entity.canBeSeenBy(player)) {
+                    entity.draw(batch);
                 }
             }
-            player.draw(batch);
         }
-    }
-    
-    /** Redraws all bombs that can be seen by the players.
-     *  @param batch the libGDX batch object that handles all drawing. */
-    public void drawBombs(Batch batch) {
-        players.stream().forEach((player) -> {
-            bombs.stream()
-                    .filter((bomb) -> bomb.canBeSeenBy(player))
-                    .forEach((bomb) -> bomb.draw(batch));
-        });
     }
     
     /** Requests redraw on Tiles that are currently visible to any players. */
@@ -251,7 +239,7 @@ public final class Area implements Drawable {
         guy.setArea(this);
         guy.setPosition(x, y);
         guy.updateSpritePosition();
-        creatures.add(guy);
+        entities.add(guy);
         if (guy.getClass() == Player.class) {
             players.add((Player) guy);
         } else {
@@ -261,7 +249,7 @@ public final class Area implements Drawable {
     
     /** Deletes the given Creature from this Area. */
     public void removeCreature(Creature creature) {
-        creatures.remove(creature);
+        entities.remove(creature);
         if (!creature.isPlayer()) {
             NPCs.remove((NonPlayer) creature);
         } else {
@@ -286,8 +274,10 @@ public final class Area implements Drawable {
     }
     
     /** Returns all Creatures that are currently in this Area. */
+    // TODO: Remove this method.
+    @Deprecated
     public List<Creature> getCreatures() {
-        return creatures;
+        return getListOfEntitiesOfType(Creature.class);
     }
     
     /** Returns all Players that are currently in this Area. */
@@ -301,19 +291,25 @@ public final class Area implements Drawable {
     }
     
     /** Returns all Bombs that are currently in this Area. */
+    // TODO: Remove this method.
+    @Deprecated
     public List<Bomb> getBombs() {
-        return bombs;
+        return getListOfEntitiesOfType(Bomb.class);
     }
     
     /** Considers the given Bomb to belong to this Area. */
+    // TODO: Replace with addEntity(Entity).
+    @Deprecated
     public void addBomb(Bomb bomb) {
         bomb.setArea(this);
-        bombs.add(bomb);
+        entities.add(bomb);
     }
     
     /** Considers the given Bomb to no more belong to this Area. */
+    // TODO: Replace with removeEntity(Entity)
+    @Deprecated
     public void removeBomb(Bomb bomb) {
-        bombs.remove(bomb);
+        entities.remove(bomb);
     }
     
     /** Updates everything in this Area that is affected by time. For example,
@@ -321,7 +317,7 @@ public final class Area implements Drawable {
     public void passTime(float delta) {
         long currentTime = millis();
         if (currentTime - timeOfLastPassTime > 100) {
-            creatures.stream().map((creature) -> {
+            getCreatures().stream().map((creature) -> {
                 Tile tileUnderCreature = creature.getTileUnder();
                 if (tileUnderCreature.drainsHP() && !creature.isGhost() && !creature.isFlying()) {
                     creature.dealDamage(tileUnderCreature.getHPDrainAmount());
@@ -437,5 +433,12 @@ public final class Area implements Drawable {
             dest = tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
         } while (dest.hasObject());
         return dest;
+    }
+    
+    private <T extends Entity> List<T> getListOfEntitiesOfType(Class<T> type) {
+        return entities.stream()
+                .filter(e -> type.isAssignableFrom(e.getClass()))
+                .map(e -> (T) e)
+                .collect(Collectors.toList());
     }
 }

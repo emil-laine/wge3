@@ -20,13 +20,13 @@ public class GreenSlimeBomb extends Bomb {
         float x = this.getX();
         float y = this.getY();
         int range = this.getRange();
-        for (Tile currentTile : area.getTiles()) {
+        for (Tile currentTile : getArea().getTiles()) {
             if (currentTile.canBeSeenFrom(x, y, range)
                     && !currentTile.hasObject()
                     && !currentTile.hasCreature()) {
                 currentTile.setObject(new GreenSlime());
             }
         }
-        area.removeBomb(this);
+        getArea().removeBomb(this);
     }
 }

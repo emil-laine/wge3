@@ -25,7 +25,7 @@ public final class Player extends Creature {
         strength = 10;
         defense = 5;
         
-        stateFlags.add(StateFlag.PICKS_UP_ITEMS);
+        getStateFlags().add(StateFlag.PICKS_UP_ITEMS);
     }
     
     public void setCamera(OrthographicCamera camera) {

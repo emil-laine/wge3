@@ -4,11 +4,7 @@
 
 package wge3.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
@@ -20,9 +16,7 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import static wge3.engine.util.Direction.*;
 import wge3.engine.Statistic;
@@ -38,12 +32,10 @@ import wge3.model.grounds.OneWayFloor;
 import wge3.model.objects.Item;
 import wge3.model.objects.Teleport;
 
-public abstract class Creature implements Drawable {
+public abstract class Creature extends Entity implements Drawable {
     
-    protected Area area;
     protected int previousTileX;
     protected int previousTileY;
-    protected Rectangle bounds;
     
     protected Team team;
     
@@ -65,14 +57,11 @@ public abstract class Creature implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
-    protected final static Texture texture = new Texture(Gdx.files.internal("graphics/graphics.png"));
-    protected Sprite sprite;
-    
-    protected Set<StateFlag> stateFlags;
     private final boolean isFlying;
     
     public Creature() {
-        size = Tile.size / 3;
+        super(Tile.size / 3);
+        
         defaultSpeed = Tile.size * 5;
         currentSpeed = defaultSpeed;
         direction = random() * PI2;
@@ -84,56 +73,10 @@ public abstract class Creature implements Drawable {
         HPRegenRate = 1000;
         lastHPRegen = millis();
         
-        bounds = new Rectangle(0, 0, size, size);
-        
         inventory = new Inventory(this);
         selectedItem = null;
         
-        stateFlags = EnumSet.noneOf(StateFlag.class);
         isFlying = false; // No flying creatures yet.
-    }
-    
-    /** Returns the current x position of this Creature. */
-    public float getX() {
-        return bounds.x + getSize()/2;
-    }
-    
-    public void setX(float x) {
-        bounds.setX(x - getSize()/2);
-        updateSpritePosition();
-    }
-    
-    /** Returns the current y position of this Creature. */
-    public float getY() {
-        return bounds.y + getSize()/2;
-    }
-    
-    public void setY(float y) {
-        bounds.setY(y - getSize()/2);
-        updateSpritePosition();
-    }
-    
-    /** Moves the Creature to the given position (x, y). */
-    public void setPosition(float x, float y) {
-        bounds.setPosition(x - getSize()/2, y - getSize()/2);
-        updateSpritePosition();
-    }
-    
-    /** Moves the Creature to the middle of the tile located at (x, y). */
-    public void setPosition(int x, int y) {
-        bounds.setPosition(x * Tile.size + Tile.size/2 - getSize()/2,
-                           y * Tile.size + Tile.size/2 - getSize()/2);
-        updateSpritePosition();
-    }
-    
-    /** Returns the current Area this Creature is in. */
-    public Area getArea() {
-        return area;
-    }
-    
-    /** Moves the Creature to the given Area. */
-    public void setArea(Area area) {
-        this.area = area;
     }
     
     /** Returns the default walking speed of this Creature. */
@@ -181,11 +124,6 @@ public abstract class Creature implements Drawable {
         return HP.getCurrent();
     }
     
-    /** Returns the size of this Creature. */
-    public int getSize() {
-        return size;
-    }
-    
     /** Returns the current speed of this Creature. */
     public int getCurrentSpeed() {
         return currentSpeed;
@@ -194,11 +132,6 @@ public abstract class Creature implements Drawable {
     /** Returns this Creature's inventory. */
     public Inventory getInventory() {
         return inventory;
-    }
-    
-    @Override
-    public void draw(Batch batch) {
-        sprite.draw(batch);
     }
     
     /** Turns the Creature left by the amount specified by turningSpeed.
@@ -223,7 +156,7 @@ public abstract class Creature implements Drawable {
     public void move(float dx, float dy) {
         // Apply movement modifiers:
         if (!isGhost()) {
-            float movementModifier = area.getTileAt(getX(), getY()).getMovementModifier();
+            float movementModifier = getArea().getTileAt(getX(), getY()).getMovementModifier();
             dx *= movementModifier;
             dy *= movementModifier;
         }
@@ -276,16 +209,16 @@ public abstract class Creature implements Drawable {
     public boolean canMoveTo(float x, float y) {
         Rectangle newBounds = new Rectangle(x - getSize()/2, y - getSize()/2, getSize(), getSize());
         
-        if (!area.getBounds().contains(newBounds))
+        if (!getArea().getBounds().contains(newBounds))
             return false;
         
         if (this.isGhost())
             return true;
         
-        List<Tile> destTiles = area.getOverlappingTiles(newBounds);
+        List<Tile> destTiles = getArea().getOverlappingTiles(newBounds);
         
-        if (area.getTileAt(x, y).isOneWay()) {
-            OneWayFloor oneWayTile = (OneWayFloor) area.getTileAt(x, y).getGround();
+        if (getArea().getTileAt(x, y).isOneWay()) {
+            OneWayFloor oneWayTile = (OneWayFloor) getArea().getTileAt(x, y).getGround();
             if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
                 return false;
             }
@@ -353,32 +286,32 @@ public abstract class Creature implements Drawable {
     
     /** Returns whether this Creature can see everything. */
     public boolean seesEverything() {
-        return stateFlags.contains(StateFlag.SEES_EVERYTHING);
+        return getStateFlags().contains(StateFlag.SEES_EVERYTHING);
     }
     
     /** Changes the state of the SEES_EVERYTHING flag. */
     public void toggleSeeEverything() {
-        if (stateFlags.contains(StateFlag.SEES_EVERYTHING)) {
-            stateFlags.remove(StateFlag.SEES_EVERYTHING);
+        if (getStateFlags().contains(StateFlag.SEES_EVERYTHING)) {
+            getStateFlags().remove(StateFlag.SEES_EVERYTHING);
         } else {
-            stateFlags.add(StateFlag.SEES_EVERYTHING);
+            getStateFlags().add(StateFlag.SEES_EVERYTHING);
             getArea().getTiles().stream().forEach((tile) -> tile.setLighting(Color.WHITE));
         }
     }
     
     /** Returns whether this Creature is a ghost. */
     public boolean isGhost() {
-        return stateFlags.contains(StateFlag.IS_GHOST);
+        return getStateFlags().contains(StateFlag.IS_GHOST);
     }
     
     /** Changes the state of the IS_GHOST flag. */
     public void toggleGhostMode() {
-        if (stateFlags.contains(StateFlag.IS_GHOST)) {
-            stateFlags.remove(StateFlag.IS_GHOST);
+        if (getStateFlags().contains(StateFlag.IS_GHOST)) {
+            getStateFlags().remove(StateFlag.IS_GHOST);
             mStream.addMessage("Ghost Mode Off");
         }
         else {
-            stateFlags.add(StateFlag.IS_GHOST);
+            getStateFlags().add(StateFlag.IS_GHOST);
             mStream.addMessage("Ghost Mode On");
         }
     }
@@ -416,16 +349,10 @@ public abstract class Creature implements Drawable {
         }
     }
     
-    /** Moves the graphical representation of this Creature to the Creature's
-     *  current position. */
-    public void updateSpritePosition() {
-        sprite.setPosition(getX() - Tile.size/2, getY() - Tile.size/2);
-    }
-    
     /** Rotates the graphical representation of this Creature according to
      *  the direction the Creature is currently facing. */
     public void updateSpriteRotation() {
-        sprite.setRotation(direction * radiansToDegrees);
+        getSprite().setRotation(direction * radiansToDegrees);
     }
     
     /** Performs an unarmed attack targeted at a circular area directly in front
@@ -434,7 +361,7 @@ public abstract class Creature implements Drawable {
         float destX = getX() + MathUtils.cos(direction) * Tile.size;
         float destY = getY() + MathUtils.sin(direction) * Tile.size;
         Circle dest = new Circle(destX, destY, getUnarmedAttackSize());
-        for (Creature creature : area.getCreatures()) {
+        for (Creature creature : getArea().getCreatures()) {
             if (dest.contains(creature.getX(), creature.getY())) {
                 if (creature.getTeam() != getTeam()) {
                     creature.dealDamage(strength);
@@ -444,7 +371,7 @@ public abstract class Creature implements Drawable {
                 }
             }
         }
-        area.getTileAt(destX, destY).dealDamage(this.strength);
+        getArea().getTileAt(destX, destY).dealDamage(this.strength);
     }
     
     /** Returns whether this Creature is a player. */
@@ -477,67 +404,62 @@ public abstract class Creature implements Drawable {
     
     /** Returns whether this Creature is currently trying to move forward. */
     public boolean isGoingForward() {
-        return stateFlags.contains(StateFlag.GOING_FORWARD);
+        return getStateFlags().contains(StateFlag.GOING_FORWARD);
     }
     
     /** Causes the Creature to start trying to move forward. */
     public void goForward() {
-        stateFlags.add(StateFlag.GOING_FORWARD);
+        getStateFlags().add(StateFlag.GOING_FORWARD);
     }
     
     /** Causes the Creature to stop trying to move forward. */
     public void stopGoingForward() {
-        stateFlags.remove(StateFlag.GOING_FORWARD);
+        getStateFlags().remove(StateFlag.GOING_FORWARD);
     }
     
     /** Returns whether this Creature is currently trying to move backward. */
     public boolean isGoingBackward() {
-        return stateFlags.contains(StateFlag.GOING_BACKWARD);
+        return getStateFlags().contains(StateFlag.GOING_BACKWARD);
     }
     
     /** Causes the Creature to start trying to move backward. */
     public void goBackward() {
-        stateFlags.add(StateFlag.GOING_BACKWARD);
+        getStateFlags().add(StateFlag.GOING_BACKWARD);
     }
     
     /** Causes the Creature to stop trying to move backward. */
     public void stopGoingBackward() {
-        stateFlags.remove(StateFlag.GOING_BACKWARD);
+        getStateFlags().remove(StateFlag.GOING_BACKWARD);
     }
     
     /** Returns whether this Creature is currently turning left. */
     public boolean isTurningLeft() {
-        return stateFlags.contains(StateFlag.TURNING_LEFT);
+        return getStateFlags().contains(StateFlag.TURNING_LEFT);
     }
     
     /** Causes the Creature to start turning left. */
     public void turnLeft() {
-        stateFlags.add(StateFlag.TURNING_LEFT);
+        getStateFlags().add(StateFlag.TURNING_LEFT);
     }
     
     /** Causes the Creature to stop turning left. */
     public void stopTurningLeft() {
-        stateFlags.remove(StateFlag.TURNING_LEFT);
+        getStateFlags().remove(StateFlag.TURNING_LEFT);
     }
     
     /** Returns whether this Creature is currently turning right. */
     public boolean isTurningRight() {
-        return stateFlags.contains(StateFlag.TURNING_RIGHT);
+        return getStateFlags().contains(StateFlag.TURNING_RIGHT);
     }
     
     /** Causes the Creature to start turning right. */
     public void turnRight() {
-        stateFlags.add(StateFlag.TURNING_RIGHT);
+        getStateFlags().add(StateFlag.TURNING_RIGHT);
     }
     
     /** Causes the Creature to stop turning right. */
     public void stopTurningRight() {
-        stateFlags.remove(StateFlag.TURNING_RIGHT);
-    }
-    
-    /** Returns whether this Creature can be seen by the given Creature. */
-    public boolean canBeSeenBy(Creature creature) {
-        return getTileUnder().canBeSeenBy(creature) && !this.isInvisible();
+        getStateFlags().remove(StateFlag.TURNING_RIGHT);
     }
     
     /** Returns Whether this Creature can see the specified point (x, y). */
@@ -546,26 +468,15 @@ public abstract class Creature implements Drawable {
         
         if (getDistance(this, x, y) > sight * Tile.size) return false;
         
-        return area.getTilesOnLine(getX(), getY(), x, y)
+        return getArea().getTilesOnLine(getX(), getY(), x, y)
                 .stream()
                 .noneMatch((tile) -> (tile.blocksVision()));
-    }
-    
-    /** Modulate the graphical representation of this Creature by the given
-     *  Color. */
-    public void setLighting(Color color) {
-        sprite.setColor(color);
-    }
-    
-    /** Returns the tile this Creature is currently standing on. */
-    public Tile getTileUnder() {
-        return area.getTileAt(getX(), getY());
     }
     
     /** Returns the tile this Creature was standing on before moving to its
      *  current tile. */
     public Tile getPreviousTile() {
-        return area.getTileAt(previousTileX, previousTileY);
+        return getArea().getTileAt(previousTileX, previousTileY);
     }
     
     /** Returns the team this Creature belongs to. */
@@ -587,7 +498,7 @@ public abstract class Creature implements Drawable {
     
     /** Returns whether this Creature should pick up items on the ground. */
     public boolean picksUpItems() {
-        return stateFlags.contains(StateFlag.PICKS_UP_ITEMS);
+        return getStateFlags().contains(StateFlag.PICKS_UP_ITEMS);
     }
     
     // TODO: Sort this, make comparator
@@ -639,22 +550,6 @@ public abstract class Creature implements Drawable {
             && this.getTileY() == other.getTileY();
     }
     
-    /** Activates/deactivates invisibility for this Creature.
-     *  @param truth whether the invisibility mode should be activated */
-    public void setInvisibility(boolean truth) {
-        if (truth) sprite.setAlpha(0.3f);
-        else sprite.setAlpha(1);
-        if (truth)
-            stateFlags.add(StateFlag.IS_INVISIBLE);
-        else
-            stateFlags.remove(StateFlag.IS_INVISIBLE);
-    }
-    
-    /** Returns whether this Creature has invisibility currently activated. */
-    public boolean isInvisible() {
-        return stateFlags.contains(StateFlag.IS_INVISIBLE);
-    }
-    
     /** Removes the specified item from this Creature's inventory. */
     public void removeItem(Item item) {
         inventory.removeItem(item);
@@ -670,12 +565,9 @@ public abstract class Creature implements Drawable {
         return isFlying;
     }
     
-    /** Specifies the position of this Creature's graphical representation in
-     *  the main texture file.
-     *  @param x the x-coordinate of the sprite
-     *  @param y the y-coordinate of the sprite */
+    @Override
     public void setSprite(int x, int y) {
-        sprite = new Sprite(texture, x*Tile.size, y*Tile.size, Tile.size, Tile.size);
+        super.setSprite(x, y);
         updateSpriteRotation();
     }
     
@@ -690,17 +582,12 @@ public abstract class Creature implements Drawable {
         return this.getTileUnder().isPassable();
     }
     
-    /** Returns the rectangular area that this Creature occupies. */
-    public Rectangle getBounds() {
-        return bounds;
-    }
-    
     /** Tests whether this Creature would collide with other Creatures
      *  if it had the specified bounds.
      *  @param targetBounds the rectangular area to test for collision
      *  @return whether any collision was detected */
     private boolean collisionDetected(Rectangle targetBounds) {
-        for (Tile tile : area.getOverlappingTiles(targetBounds)) {
+        for (Tile tile : getArea().getOverlappingTiles(targetBounds)) {
             for (Creature creature : tile.getCreatures()) {
                 if (creature == this)
                     continue;
