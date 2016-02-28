@@ -5,17 +5,12 @@
 package wge3.model.actors;
 
 import wge3.model.NonPlayer;
-import static com.badlogic.gdx.Gdx.files;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import static com.badlogic.gdx.math.MathUtils.random;
-import wge3.model.Tile;
 
 public final class Zombie extends NonPlayer {
     
     public Zombie() {
-        sprite = new Sprite(new Texture(files.internal("graphics/creatures.png")), random(9)*Tile.size, 0, Tile.size, Tile.size);
-        updateSpriteRotation();
+        setSprite(random(9), 6);
         
         HP.setMax(random(30, 60));
         strength = random(5, 12);
