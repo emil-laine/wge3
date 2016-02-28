@@ -6,66 +6,79 @@ package wge3.engine.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import me.grison.jtoml.impl.Toml;
 
 public final class Config {
     
-    private JsonValue json;
+    private Toml toml;
     
     public Config(String filePath) {
-        json = new JsonReader().parse(Gdx.files.internal(filePath));
+        toml = Toml.parse(Gdx.files.internal(filePath).readString());
     }
     
     public int getInt(String type, String key) {
-        JsonValue value = get(type, key);
-        if (value.isArray()) {
-            return MathUtils.random(value.getInt(0), value.getInt(1));
+        Object value = get(type, key);
+        if (value instanceof List) {
+            List<Object> list = (List) value;
+            return MathUtils.random(toInt(list.get(0)), toInt(list.get(1)));
         }
-        return value.asInt();
+        return toInt(value);
     }
     
     public float getFloat(String type, String key) {
-        JsonValue value = get(type, key);
-        if (value.isArray()) {
-            return MathUtils.random(value.getFloat(0), value.getFloat(1));
+        Object value = get(type, key);
+        if (value instanceof List) {
+            List<Object> list = (List) value;
+            return MathUtils.random(toFloat(list.get(0)), toFloat(list.get(1)));
         }
-        return value.asFloat();
+        return toFloat(value);
     }
     
     public boolean getBoolean(String type, String key) {
-        JsonValue value = get(type, key);
-        return value.asBoolean();
+        return (boolean) get(type, key);
     }
     
     public String getString(String type, String key) {
-        return get(type, key).asString();
+        return (String) get(type, key);
     }
     
     public int getIntX(String type, String key) {
-        return json.get(type).get(key).get(0).asInt();
+        return toInt(toml.getList(toPath(type, key)).get(0));
     }
     
     public int getIntY(String type, String key) {
-        return json.get(type).get(key).get(1).asInt();
+        return toInt(toml.getList(toPath(type, key)).get(1));
     }
     
-    public Map<String, Integer> readStringIntMap(String type, String key) {
-        Map<String, Integer> results = new HashMap();
-        JsonValue map = get(type, key);
-        for (JsonValue entry : map) {
-            results.put(entry.name(), entry.asInt());
-        }
-        return results;
+    public List<String> getStringList(String type, String key) {
+        Object value = get(type, key);
+        return (List<String>) value;
     }
     
-    private JsonValue get(String type, String key) {
-        JsonValue value = json.get(type).get(key);
+    private Object get(String type, String key) {
+        Object value = toml.get(toPath(type, key));
         if (value == null) {
-            value = json.get("default").get(key);
+            value = toml.get(toPath("default", key));
         }
         return value;
+    }
+    
+    private static int toInt(Object value) {
+        return (int) (long) value;
+    }
+    
+    private static float toFloat(Object value) {
+        if (value instanceof Long) {
+            return (float) (long) value;
+        } else if (value instanceof Double) {
+            return (float) (double) value;
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    private static String toPath(String type, String key) {
+        return type + "." + key;
     }
 }

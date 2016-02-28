@@ -72,7 +72,7 @@ public final class MapLoader {
                         
                     case 17: object = new Item("bomb"); break;
                     case 18: object = new Item("handgun"); break;
-                    case 20: object = new Item("health pack"); break;
+                    case 20: object = new Item("healthPack"); break;
                     
                     case 23:
                         object = null;
@@ -95,19 +95,19 @@ public final class MapLoader {
                         area.addCreature(new NonPlayer("gunman"), x, y);
                         break;
                         
-                    case 33: object = new Item("green potion"); break;
+                    case 33: object = new Item("greenPotion"); break;
                     case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
                     case 35: object = new Teleport(Color.RED); break;
                     case 36: object = new Teleport(Color.BLUE); break;
                     case 37: object = new Teleport(Color.GREEN); break;
                     case 38: object = new Teleport(Color.BLACK); break;
                         
-                    case 41: object = new Item("speed potion"); break;
+                    case 41: object = new Item("speedPotion"); break;
                     case 43:
                         object = null;
                         area.addCreature(new NonPlayer("thief"), x, y);
                         break;
-                    case 44: object = new Item("invisibility potion"); break;
+                    case 44: object = new Item("invisibilityPotion"); break;
                         
                     default: object = null; break;
                 }

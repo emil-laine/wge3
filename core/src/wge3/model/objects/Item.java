@@ -19,7 +19,7 @@ public class Item extends MapObject {
     protected int defaultAmount;
     private final Effect useEffect;
     private final boolean isRangedWeapon;
-    private static final Config cfg = new Config("json/Item.json");
+    private static final Config cfg = new Config("config/item.toml");
     
     public Item(String type) {
         name = type;

@@ -17,7 +17,6 @@ import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import static wge3.engine.PlayState.mStream;
 import wge3.engine.Statistic;
@@ -58,13 +57,12 @@ public abstract class Creature extends Entity implements Drawable {
     protected Inventory inventory;
     protected Item selectedItem;
     
-    private static final Config cfg = new Config("json/Creature.json");
+    private static final Config cfg = new Config("config/creature.toml");
     
     private final boolean isFlying;
     
     public Creature(String type) {
         super((int) (Tile.size * cfg.getFloat(type, "size")));
-        
         defaultSpeed = (int) (Tile.size * cfg.getFloat(type, "speed"));
         currentSpeed = defaultSpeed;
         direction = random() * PI2;
@@ -81,8 +79,8 @@ public abstract class Creature extends Entity implements Drawable {
         lastHPRegen = millis();
         
         inventory = new Inventory(this);
-        for (Map.Entry<String, Integer> entry : cfg.readStringIntMap(type, "inventory").entrySet()) {
-            inventory.addItem(new Item(entry.getKey()), entry.getValue());
+        for (String itemType : cfg.getStringList(type, "inventory")) {
+            inventory.addItem(new Item(itemType));
         }
         changeItem();
         

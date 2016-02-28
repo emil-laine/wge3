@@ -1,0 +1,36 @@
+[default]
+spriteMultiplicity = 1
+isRangedWeapon = false
+effectData = []
+
+[bomb]
+spritePos = [0, 2]
+effect = "spawnFusedBomb"
+
+[handgun]
+spritePos = [1, 2]
+isRangedWeapon = true
+effect = "shootProjectile"
+range = 12
+damage = 20
+lineOfFireWidth = 0.5
+
+[healthPack]
+spritePos = [3, 2]
+effect = "healSelf"
+healAmount = 50
+
+[greenPotion]
+spritePos = [0, 4]
+effect = "spawnGreenSlimeBomb"
+
+[invisibilityPotion]
+spritePos = [3, 5]
+effect = "invisibility"
+duration = 10
+
+[speedPotion]
+spritePos = [0, 5]
+effect = "boostSpeed"
+duration = 10
+boostMultiplier = 2
