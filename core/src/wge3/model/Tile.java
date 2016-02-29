@@ -11,11 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import wge3.engine.util.Drawable;
-import wge3.model.items.Bomb;
-import wge3.model.grounds.OneWayFloor;
-import wge3.model.objects.GreenSlime;
-import wge3.model.objects.Teleport;
-import wge3.model.objects.Tree;
 
 public class Tile implements Drawable {
     
@@ -128,13 +123,10 @@ public class Tile implements Drawable {
     public void setLighting(Color color) {
         ground.setLighting(color);
         if (hasObject()) object.setLighting(color);
-        getCreatures()
-                .stream()
-                .filter((creature) -> (!creature.isInvisible()))
-                .forEach((creature) -> creature.setLighting(color));
-        getBombs()
-                .stream()
-                .forEach((bomb) -> bomb.setLighting(color));
+        getEntities().stream().forEach(e -> e.setLighting(color));
+        
+        // TODO:
+//                .filter((creature) -> (!creature.isInvisible()))
     }
     
     /** Returns the multiplier that tells how this Tile affects movement speed.
@@ -143,11 +135,7 @@ public class Tile implements Drawable {
      *          movement will be slowed down. 0.0 will stop all movement, and
      *          negative values will reverse movement direction. */
     public float getMovementModifier() {
-        if (!hasObject()) {
-            return ground.getMovementModifier();
-        } else {
-            return ground.getMovementModifier() * object.getMovementModifier();
-        }
+        return ground.getMovementModifier();
     }
     
     /** Returns whether this Tile has a solid object on it that can't be seen
@@ -158,12 +146,9 @@ public class Tile implements Drawable {
     
     @Override
     public void draw(Batch batch) {
-        if (!hasObject() || object.isTree()) {
-            ground.draw(batch);
-        } else if (object.coversWholeTile()) {
-            object.draw(batch);
-        } else {
-            ground.draw(batch);
+        ground.draw(batch);
+        
+        if (hasObject()) {
             batch.enableBlending();
             object.draw(batch);
             batch.disableBlending();
@@ -216,19 +201,15 @@ public class Tile implements Drawable {
         return !getCreatures().isEmpty();
     }
     
+    public List<Entity> getEntities() {
+        return getArea().getEntitiesOverlapping(bounds);
+    }
+    
     /** Returns all creatures on this Tile. */
     public List<Creature> getCreatures() {
         return area.getCreatures()
                 .stream()
                 .filter((c) -> (c.getTileX() == getX() && c.getTileY() == getY()))
-                .collect(Collectors.toList());
-    }
-    
-    /** Returns all bomb objects on this Tile. */
-    public List<Bomb> getBombs() {
-        return area.getBombs()
-                .stream()
-                .filter((bomb) -> (area.getTileAt(bomb.getX(), bomb.getY()).equals(this)))
                 .collect(Collectors.toList());
     }
     
@@ -276,27 +257,15 @@ public class Tile implements Drawable {
         return true;
     }
     
-    /** Returns whether standing on this Tile causes a Creature's HP to
-     *  decrease. */
-    public boolean drainsHP() {
-        return (hasObject() && object.drainsHP()) || ground.drainsHP();
-    }
-    
     /** Returns the amount of HP that standing on this Tile causes a Creature to
      *  lose when unprotected. */
     public int getHPDrainAmount() {
-        if (!hasObject()) {
-            return ground.getHPDrainAmount();
-        } else {
-            return object.getHPDrainAmount();
-        }
+        return ground.getHPDrainAmount();
     }
     
     /** Tells the game that this Tile should be redrawn. */
     public void requestDraw() {
         area.addTileToDraw(this);
-        if (hasTree())
-            area.addTreeToDraw((Tree) object);
     }
     
     /** Returns whether the given Creature can safely move to this Tile from its
@@ -320,52 +289,37 @@ public class Tile implements Drawable {
     /** Returns whether this Tile is a sensible location to move to for a
      *  non-ghost non-flying Creature. */
     public boolean isGoodMoveDest() {
-        return isPassable() && !drainsHP();
+        return isPassable() && getHPDrainAmount() == 0;
     }
     
     /** Returns the x-coordinate of the left border of this Tile. */
-    public int getLeftX() {
+    public float getLeftX() {
         return getX() * Tile.size;
     }
     
     /** Returns the x-coordinate of the right border of this Tile. */
-    public int getRightX() {
+    public float getRightX() {
         return (getX() + 1) * Tile.size;
     }
     
     /** Returns the y-coordinate of the bottom border of this Tile. */
-    public int getBottomY() {
+    public float getBottomY() {
         return getY() * Tile.size;
     }
     
     /** Returns the y-coordinate of the top border of this Tile. */
-    public int getTopY() {
+    public float getTopY() {
         return (getY() + 1) * Tile.size;
     }
     
     /** Returns the x-coordinate of the middle point of this Tile. */
-    public int getMiddleX() {
+    public float getMiddleX() {
         return getX()*Tile.size + Tile.size/2;
     }
     
     /** Returns the y-coordinate of the middle point of this Tile. */
-    public int getMiddleY() {
+    public float getMiddleY() {
         return getY()*Tile.size + Tile.size/2;
-    }
-    
-    /** Returns whether this Tile only allows movement to one direction. */
-    public boolean isOneWay() {
-        return getGround().getClass() == OneWayFloor.class;
-    }
-    
-    /** Returns whether this Tile has a slime on it. */
-    public boolean hasSlime() {
-        return hasObject() && object.isSlime();
-    }
-    
-    /** Returns whether this Tile has a tree on it. */
-    public boolean hasTree() {
-        return hasObject() && object.isTree();
     }
     
     /** Returns all neighboring tiles. This includes tiles to the north, east,
@@ -394,19 +348,20 @@ public class Tile implements Drawable {
     
     /** Creates a new GreenSlime to this Tile. */
     public void addSlime() {
-        GreenSlime newSlime = new GreenSlime();
+        MapObject newSlime = new MapObject("greenSlime");
         this.setObject(newSlime);
-        area.addSlime(newSlime);
     }
     
-    /** Returns whether this Tile has a Teleport on it. */
-    public boolean hasTeleport() {
-        return hasObject() && object.isTeleport();
+    public boolean preventsMovement(Entity entity, float dx, float dy) {
+        return false; // TODO: Reimplement one-way tiles.
     }
     
-    /** Returns the Teleport object on this Tile. Only call this if you know
-     *  that this Tile has a Teleport, e.g. after a call to hasTeleport(). */
-    public Teleport getTeleport() {
-        return (Teleport) object;
+    /** Called when an Entity enters this tile. */
+    public void enter(Entity entity, Tile previousTile) {
+        if (hasObject()) {
+            for (Component component : getObject().getComponents()) {
+                component.entityTouches(entity);
+            }
+        }
     }
 }

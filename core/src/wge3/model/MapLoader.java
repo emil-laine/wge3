@@ -12,9 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 import wge3.engine.util.Color;
-import wge3.engine.util.Direction;
-import wge3.model.grounds.*;
-import wge3.model.objects.*;
 
 public final class MapLoader {
     
@@ -34,19 +31,13 @@ public final class MapLoader {
             for (int x = 0; x < w; x++) {
                 Ground ground;
                 switch (mapLoader.nextInt()) {
-                    case 1: ground = new Grass(); break;
-                    case 2: ground = new WoodenFloor(); break;
-                    case 3: ground = new Water(); break;
-                    case 4: ground = new Lava(); break;
-                    
-                    case 5: ground = new OneWayFloor(Direction.UP); break;
-                    case 6: ground = new OneWayFloor(Direction.RIGHT); break;
-                    case 7: ground = new OneWayFloor(Direction.DOWN); break;
-                    case 8: ground = new OneWayFloor(Direction.LEFT); break;
-                    
-                    case 21: ground = new Stone(); break;
-                    
-                    default:ground = new Abyss(); break;
+                    case 1:  ground = new Ground("grass"); break;
+                    case 2:  ground = new Ground("woodenFloor"); break;
+                    case 3:  ground = new Ground("water"); break;
+                    case 4:  ground = new Ground("lava"); break;
+                    case 21: ground = new Ground("stone"); break;
+                    case 22:
+                    default: ground = new Ground("abyss"); break;
                 }
                 Tile newtile = new Tile();
                 newtile.setGround(ground);
@@ -61,28 +52,30 @@ public final class MapLoader {
         // Load objects, items and creatures:
         for (int y = h-1; y >= 0; y--) {
             for (int x = 0; x < w; x++) {
-                MapObject object;
+                MapObject object = null;
+                Item item = null;
+                
                 switch (mapLoader.nextInt()) {
                     case 0:  object = null; break;
-                    case 9:  object = new BrickWall(); break;
-                    case 12: object = new StoneWall(0); break;
-                    case 13: object = new StoneWall(1); break;
-                    case 14: object = new StoneWall(2); break;
-                    case 15: object = new Tree(); break;
+                    case 9:  object = new MapObject("brickWall"); break;
+                    case 12: object = new MapObject("stoneWall", 0); break;
+                    case 13: object = new MapObject("stoneWall", 1); break;
+                    case 14: object = new MapObject("stoneWall", 2); break;
+                    case 15: object = new MapObject("tree"); break;
                         
-                    case 17: object = new Item("bomb"); break;
-                    case 18: object = new Item("handgun"); break;
-                    case 20: object = new Item("healthPack"); break;
+                    case 17: item = new Item("bomb"); break;
+                    case 18: item = new Item("handgun"); break;
+                    case 20: item = new Item("healthPack"); break;
                     
                     case 23:
                         object = null;
                         area.addCreature(new NonPlayer("zombie"), x, y);
                         break;
                         
-                    case 31: object = new Door(false, true); break;
-                    case 32: object = new Door(true, true); break;
-                    case 39: object = new Door(false, false); break;
-                    case 40: object = new Door(true, false); break;
+                    case 31: object = new MapObject("door", false, true); break;
+                    case 32: object = new MapObject("door", true, true); break;
+                    case 39: object = new MapObject("door", false, false); break;
+                    case 40: object = new MapObject("door", true, false); break;
                         
                     case 25:
                         object = null;
@@ -95,24 +88,25 @@ public final class MapLoader {
                         area.addCreature(new NonPlayer("gunman"), x, y);
                         break;
                         
-                    case 33: object = new Item("greenPotion"); break;
-                    case 34: object = new GreenSlime(); area.addSlime((GreenSlime) object); break;
-                    case 35: object = new Teleport(Color.RED); break;
-                    case 36: object = new Teleport(Color.BLUE); break;
-                    case 37: object = new Teleport(Color.GREEN); break;
-                    case 38: object = new Teleport(Color.BLACK); break;
+                    case 33: item = new Item("greenPotion"); break;
+                    case 34: object = new MapObject("greenSlime"); break;
+                    case 35: object = new MapObject("teleport", Color.RED); break;
+                    case 36: object = new MapObject("teleport", Color.BLUE); break;
+                    case 37: object = new MapObject("teleport", Color.GREEN); break;
+                    case 38: object = new MapObject("teleport", Color.BLACK); break;
                         
-                    case 41: object = new Item("speedPotion"); break;
+                    case 41: item = new Item("speedPotion"); break;
                     case 43:
                         object = null;
                         area.addCreature(new NonPlayer("thief"), x, y);
                         break;
-                    case 44: object = new Item("invisibilityPotion"); break;
-                        
-                    default: object = null; break;
+                    case 44: item = new Item("invisibilityPotion"); break;
                 }
                 if (object != null) {
                     area.getTileAt(x, y).setObject(object);
+                }
+                if (item != null) {
+                    area.addItem(item, x, y);
                 }
             }
             mapLoader.nextLine();

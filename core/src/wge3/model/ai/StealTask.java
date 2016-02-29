@@ -8,7 +8,7 @@ import static wge3.engine.util.Math.getDistance2;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
 import wge3.model.Tile;
-import wge3.model.objects.Item;
+import wge3.model.Item;
 
 /**
  *

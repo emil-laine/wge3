@@ -4,4 +4,20 @@
 
 package wge3.model;
 
-public abstract class Ground extends TileLayer {}
+import wge3.engine.util.Config;
+
+public class Ground extends TileLayer {
+    
+    private final int hpDrainAmount;
+    
+    private final static Config cfg = new Config("config/ground.toml");
+    
+    public Ground(String type) {
+        super(cfg, type);
+        hpDrainAmount = cfg.getInt(type, "hpDrainAmount");
+    }
+    
+    public int getHPDrainAmount() {
+        return hpDrainAmount;
+    }
+}

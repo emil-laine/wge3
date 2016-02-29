@@ -5,12 +5,8 @@
 package wge3.model;
 
 public enum TilePropertyFlag {
-    IS_PASSABLE,
-    DRAINS_HP,
-    
+    BLOCKS_MOVEMENT,
     BLOCKS_VISION,
-    COVERS_WHOLE_TILE,
     CASTS_SHADOWS,
-    
     HAS_DESTROYED_SPRITE
 }

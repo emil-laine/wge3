@@ -60,6 +60,10 @@ public final class Config {
         Object value = toml.get(toPath(type, key));
         if (value == null) {
             value = toml.get(toPath("default", key));
+            if (value == null) {
+                throw new IllegalArgumentException("No key \"" + key
+                        + "\" found for type \"" + type + "\"");
+            }
         }
         return value;
     }

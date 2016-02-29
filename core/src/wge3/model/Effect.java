@@ -8,22 +8,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import java.awt.geom.Line2D;
-import static java.lang.Math.max;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import wge3.engine.Audio;
 import static wge3.engine.PlayState.mStream;
 import wge3.engine.Statistic;
 import wge3.engine.util.Config;
+import static java.lang.Math.max;
 import static wge3.engine.util.Math.getDistance;
-import wge3.model.items.GreenSlimeBomb;
-import wge3.model.items.FusedBomb;
-import wge3.model.objects.Item;
 
 public class Effect {
     
@@ -53,30 +48,50 @@ public class Effect {
         } catch (IllegalAccessException |
                  IllegalArgumentException |
                  InvocationTargetException ex) {
-            Logger.getLogger(Effect.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
     }
     
-    private void spawnFusedBomb() {
-        FusedBomb bomb = new FusedBomb();
-        bomb.setPosition(user.getX(), user.getY());
-        user.removeItem(item);
-        user.getArea().addBomb(bomb);
-        bomb.startTimer();
+    private void dropAndStartTimer() {
+        item.setCanBePickedUp(false);
+        user.drop(item);
+        item.getComponents().stream().forEach(c -> c.use(user));
     }
     
-    private void spawnGreenSlimeBomb() {
-        GreenSlimeBomb bomb = new GreenSlimeBomb();
-        bomb.setPosition(user.getX(), user.getY());
-        user.removeItem(item);
-        user.getArea().addBomb(bomb);
-        bomb.startTimer();
+    private void bombExplosion() {
+        mStream.addMessage("*EXPLOSION*");
+        
+        int range = cfg.getInt(supertype, "range");
+        int damage = cfg.getInt(supertype, "damage");
+        
+        for (Tile currentTile : user.getArea().getTiles()) {
+            if (currentTile.canBeSeenFrom(user.getX(), user.getY(), range)) {
+                float distance = currentTile.getDistanceTo(user.getX(), user.getY()) / Tile.size;
+                float intensity = 1f - Math.max(distance-1f, 0f) * (1f / range);
+                // intensity = 1, when distance = [0,1].
+                currentTile.dealDamage((int) (intensity*damage));
+            }
+        }
+        user.getArea().removeEntity(item);
+    }
+    
+    private void spawnGreenSlime() {
+        int range = cfg.getInt(supertype, "range");
+        
+        for (Tile currentTile : user.getArea().getTiles()) {
+            if (currentTile.canBeSeenFrom(user.getX(), user.getY(), range)
+                    && !currentTile.hasObject()
+                    && !currentTile.hasCreature()) {
+                currentTile.setObject(new MapObject("greenSlime"));
+            }
+        }
+        user.getArea().removeEntity(item);
     }
     
     private void shootProjectile() {
-        int range = 12;
-        int damage = 20;
-        int lofWidth = Tile.size / 2;
+        int range = cfg.getInt(supertype, "range");
+        int damage = cfg.getInt(supertype, "damage");
+        int lofWidth = (int) (Tile.size * cfg.getFloat(supertype, "lineOfFireWidth"));
         
         Audio.playSound("defaultGun.wav");
         mStream.addMessage("BANG");
@@ -132,7 +147,7 @@ public class Effect {
     }
     
     private void healSelf() {
-        final int healAmount = cfg.getInt(supertype, "healAmount");
+        int healAmount = cfg.getInt(supertype, "healAmount");
         
         user.addHP(healAmount);
         if (user.getCurrentHP() - healAmount >= 0) {
@@ -146,7 +161,7 @@ public class Effect {
     }
     
     private void invisibility() {
-        final int duration = cfg.getInt(supertype, "duration");
+        int duration = cfg.getInt(supertype, "duration");
         
         mStream.addMessage("*glug*");
         user.removeItem(item);
@@ -160,8 +175,8 @@ public class Effect {
     }
     
     private void boostSpeed() {
-        final int duration = cfg.getInt(supertype, "duration");
-        final float boostMultiplier = cfg.getFloat(supertype, "boostMultiplier");
+        int duration = cfg.getInt(supertype, "duration");
+        float boostMultiplier = cfg.getFloat(supertype, "boostMultiplier");
         
         mStream.addMessage("*glug*");
         user.removeItem(item);

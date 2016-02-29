@@ -10,32 +10,24 @@ import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import static com.badlogic.gdx.math.MathUtils.PI2;
 import static com.badlogic.gdx.math.MathUtils.radiansToDegrees;
-import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
-import static java.lang.Math.abs;
-import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import static wge3.engine.PlayState.mStream;
 import wge3.engine.Statistic;
 import wge3.engine.util.Config;
-import static wge3.engine.util.Direction.*;
 import wge3.engine.util.Drawable;
-import static wge3.engine.util.Math.floatPosToTilePos;
 import static wge3.engine.util.Math.getDiff;
-import static wge3.engine.util.Math.getDistance;
 import wge3.engine.util.StatIndicator;
 import static wge3.model.ai.PathFinder.findPath;
-import wge3.model.grounds.OneWayFloor;
-import wge3.model.objects.Item;
-import wge3.model.objects.Teleport;
+import static com.badlogic.gdx.math.MathUtils.random;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+import static wge3.engine.util.Math.getDistance;
 
 public abstract class Creature extends Entity implements Drawable {
-    
-    protected int previousTileX;
-    protected int previousTileY;
     
     protected Team team;
     
@@ -146,6 +138,14 @@ public abstract class Creature extends Entity implements Drawable {
         return inventory;
     }
     
+    @Override
+    public void update() {
+        if (!isGhost() && !isFlying()) {
+            dealDamage(getTileUnder().getHPDrainAmount());
+        }
+        regenerate(millis());
+    }
+    
     /** Turns the Creature left by the amount specified by turningSpeed.
      *  @param delta seconds since last frame */
     public void turnLeft(float delta) {
@@ -178,8 +178,7 @@ public abstract class Creature extends Entity implements Drawable {
         float destY = getY() + dy;
         
         if (canMoveTo(destX, destY)) {
-            setX(destX);
-            setY(destY);
+            setPosition(destX, destY);
         } else if (canMoveTo(getX(), destY)) {
             setY(destY);
         } else if (canMoveTo(destX, getY())) {
@@ -188,29 +187,19 @@ public abstract class Creature extends Entity implements Drawable {
         
         // These could be optimized to be checked less than FPS times per second:
         if (hasMovedToANewTile()) {
-            if (getTileUnder().hasTeleport() && !getPreviousTile().hasTeleport()) {
-                Teleport tele = (Teleport) getTileUnder().getObject();
-                tele.teleport(this);
-            }
-            previousTileX = getTileX();
-            previousTileY = getTileY();
+            getTileUnder().enter(this, getPreviousTile());
+            setPreviousTilePosition(getTileX(), getTileY());
             if (picksUpItems()) pickUpItems();
         }
     }
     
-    /** Returns whether this Creature has just moved onto another tile. */
-    public boolean hasMovedToANewTile() {
-        return getTileX() != previousTileX
-            || getTileY() != previousTileY;
-    }
-    
-    /** Removes any items on the tile the Creature is standing on, and adds them
+    /** Removes any items this Creature is touching, and adds them
      *  to the Creature's inventory. */
     public void pickUpItems() {
-        Tile currentTile = getTileUnder();
-        if (currentTile.hasItem()) {
-            inventory.addItem((Item) currentTile.getObject());
-            currentTile.removeObject();
+        for (Item item : getArea().getItemsWithin(getBounds())) {
+            if (!item.canBePickedUp()) continue;
+            inventory.addItem(item);
+            getArea().removeEntity(item);
             if (this.isPlayer()) {
                 Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSPICKEDUP, 1);
             }
@@ -229,21 +218,8 @@ public abstract class Creature extends Entity implements Drawable {
         
         List<Tile> destTiles = getArea().getOverlappingTiles(newBounds);
         
-        if (getArea().getTileAt(x, y).isOneWay()) {
-            OneWayFloor oneWayTile = (OneWayFloor) getArea().getTileAt(x, y).getGround();
-            if (oneWayTile.getDirection() == LEFT && x - getX() > 0) {
-                return false;
-            }
-            if (oneWayTile.getDirection() == RIGHT && x - getX() < 0) {
-                return false;
-            }
-            if (oneWayTile.getDirection() == UP && y - getY() < 0) {
-                return false;
-            }
-            if (oneWayTile.getDirection() == DOWN && y - getY() > 0) {
-                return false;
-            }
-        }
+        if (getTileUnder().preventsMovement(this, x - getX(), y - getY()))
+            return false;
         
         if (collisionDetected(newBounds))
             return false;
@@ -279,6 +255,11 @@ public abstract class Creature extends Entity implements Drawable {
     /** Equips the next item from inventory. */
     public void changeItem() {
         setSelectedItem(inventory.getNextItem());
+    }
+    
+    public void drop(Item toDrop) {
+        removeItem(toDrop);
+        getArea().addEntity(toDrop, getX(), getY());
     }
     
     /** Equips the given item. */
@@ -331,7 +312,7 @@ public abstract class Creature extends Entity implements Drawable {
     /** Deals damage to this Creature.
      *  @param amount how much damage */
     public void dealDamage(int amount) {
-        int decreaseAmount = max(amount - defense, 1);
+        int decreaseAmount = max(amount - defense, 0);
         HP.decrease(decreaseAmount);
         if (this.isPlayer()) {
             Player.getStats().addStatToPlayer((Player) this, Statistic.DAMAGETAKEN, decreaseAmount);
@@ -384,11 +365,6 @@ public abstract class Creature extends Entity implements Drawable {
             }
         }
         getArea().getTileAt(destX, destY).dealDamage(this.strength);
-    }
-    
-    /** Returns whether this Creature is a player. */
-    public boolean isPlayer() {
-        return this.getClass() == Player.class;
     }
     
     /** Tries to move the Creature according to its current movement flags. */
@@ -485,12 +461,6 @@ public abstract class Creature extends Entity implements Drawable {
                 .noneMatch((tile) -> (tile.blocksVision()));
     }
     
-    /** Returns the tile this Creature was standing on before moving to its
-     *  current tile. */
-    public Tile getPreviousTile() {
-        return getArea().getTileAt(previousTileX, previousTileY);
-    }
-    
     /** Returns the team this Creature belongs to. */
     public Team getTeam() {
         return team;
@@ -536,18 +506,6 @@ public abstract class Creature extends Entity implements Drawable {
         if (this.isPlayer()) {
             Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
         }
-    }
-    
-    /** Returns the x-coordinate of the tile this Creature is currently
-     *  standing on. */
-    public int getTileX() {
-        return floatPosToTilePos(getX());
-    }
-    
-    /** Returns the y-coordinate of the tile this Creature is currently
-     *  standing on. */
-    public int getTileY() {
-        return floatPosToTilePos(getY());
     }
     
     /** Changes the team of this Creature to the specified team. */
@@ -625,7 +583,7 @@ public abstract class Creature extends Entity implements Drawable {
     public void die() {
         Item item = getInventory().getRandomItem();
         if (item != null) {
-            getTileUnder().setObject(item);
+            getArea().addEntity(item, getX(), getY());
             getInventory().removeAll();
         }
     }
