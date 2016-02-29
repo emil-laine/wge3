@@ -5,8 +5,8 @@
 package wge3.model;
 
 import com.badlogic.gdx.math.MathUtils;
-import java.util.*;
-import wge3.model.objects.Item;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Inventory {
     
@@ -18,15 +18,6 @@ public final class Inventory {
         this.owner = owner;
         items = new ArrayList();
         selectedItem = 0;
-    }
-    
-    public Item getItem(Item item) {
-        for (InventoryEntry inventoryEntry : items) {
-            if (inventoryEntry.getItem().equals(item)) {
-                return inventoryEntry.getItem();
-            }
-        }
-        return null;
     }
     
     // Gets random item, not #0

@@ -9,14 +9,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import static com.badlogic.gdx.math.MathUtils.atan2;
 import static com.badlogic.gdx.math.MathUtils.cos;
-import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,10 +22,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
-import wge3.model.items.Bomb;
-import wge3.model.objects.GreenSlime;
-import wge3.model.objects.Item;
-import wge3.model.objects.Tree;
 
 public final class Area implements Drawable {
     private Tile[][] tiles;
@@ -40,25 +34,17 @@ public final class Area implements Drawable {
     
     private List<Player> players;
     private List<NonPlayer> NPCs;
-    private List<Item> items;
-    private List<GreenSlime> slimes;
     
     private List<Tile> tilesToDraw;
-    private List<Tree> treesToDraw;
     
     private long timeOfLastPassTime;
     
     public Area(String mapName) {
         allTiles     = new ArrayList();
         entities     = new ArrayList();
-        
         players      = new ArrayList();
         NPCs         = new ArrayList();
-        items        = new ArrayList();
-        slimes       = new ArrayList();
-        
         tilesToDraw  = new LinkedList();
-        treesToDraw  = new LinkedList();
         
         loadMap(mapName);
     }
@@ -112,7 +98,6 @@ public final class Area implements Drawable {
         drawTiles(batch);
         batch.enableBlending();
         drawEntities(batch);
-        drawTrees(batch);
         batch.disableBlending();
     }
     
@@ -175,7 +160,7 @@ public final class Area implements Drawable {
     public void drawEntities(Batch batch) {
         for (Creature player : players) {
             for (Entity entity : entities) {
-                if (entity.canBeSeenBy(player)) {
+                if (entity == player || entity.canBeSeenBy(player)) {
                     entity.draw(batch);
                 }
             }
@@ -256,10 +241,15 @@ public final class Area implements Drawable {
         }
     }
     
+    public void addEntity(Entity entity, float x, float y) {
+        entities.add(entity);
+        entity.setArea(this);
+        entity.setPosition(x, y);
+    }
+    
     /** Places the given Item to the Tile in the specified position. */
     public void addItem(Item item, int x, int y) {
-        items.add(item);
-        tiles[x][y].setObject(item);
+        addEntity(item, x*Tile.size + Tile.size/2f, y*Tile.size + Tile.size/2f);
     }
     
     /** Places the given Item to a random Tile in this Area that has no object
@@ -272,8 +262,18 @@ public final class Area implements Drawable {
         addItem(item, dest.getX(), dest.getY());
     }
     
+    public void removeEntity(Entity entity) {
+        entities.removeIf(e -> e == entity);
+    }
+    
+    public List<Entity> getEntitiesOverlapping(Rectangle region) {
+        return entities.stream()
+                .filter(e -> e.getBounds().overlaps(region))
+                .collect(Collectors.toList());
+    }
+    
     /** Returns all Creatures that are currently in this Area. */
-    // TODO: Remove this method.
+    // TODO: Remove this method. Use getEntities instead.
     @Deprecated
     public List<Creature> getCreatures() {
         return getListOfEntitiesOfType(Creature.class);
@@ -289,45 +289,29 @@ public final class Area implements Drawable {
         return NPCs;
     }
     
-    /** Returns all Bombs that are currently in this Area. */
-    // TODO: Remove this method.
-    @Deprecated
-    public List<Bomb> getBombs() {
-        return getListOfEntitiesOfType(Bomb.class);
-    }
-    
-    /** Considers the given Bomb to belong to this Area. */
-    // TODO: Replace with addEntity(Entity).
-    @Deprecated
-    public void addBomb(Bomb bomb) {
-        bomb.setArea(this);
-        entities.add(bomb);
-    }
-    
-    /** Considers the given Bomb to no more belong to this Area. */
-    // TODO: Replace with removeEntity(Entity)
-    @Deprecated
-    public void removeBomb(Bomb bomb) {
-        entities.remove(bomb);
-    }
-    
     /** Updates everything in this Area that is affected by time. For example,
      *  the expansion of slimes, and interactive terrains such as lava. */
     public void passTime(float delta) {
         long currentTime = millis();
         if (currentTime - timeOfLastPassTime > 100) {
-            getCreatures().stream().map((creature) -> {
-                Tile tileUnderCreature = creature.getTileUnder();
-                if (tileUnderCreature.drainsHP() && !creature.isGhost() && !creature.isFlying()) {
-                    creature.dealDamage(tileUnderCreature.getHPDrainAmount());
-                }
-                return creature;
-            }).forEach((creature) -> {
-                creature.regenerate(currentTime);
-            });
+            updateObjectComponents();
+            updateEntities();
             timeOfLastPassTime = currentTime;
-            
-            expandSlimes();
+        }
+    }
+    
+    private void updateObjectComponents() {
+        for (Tile tile : allTiles) {
+            if (!tile.hasObject()) continue;
+            for (Component component : tile.getObject().getComponents()) {
+                component.update();
+            }
+        }
+    }
+    
+    private void updateEntities() {
+        for (Entity entity : entities) {
+            entity.update();
         }
     }
     
@@ -376,51 +360,6 @@ public final class Area implements Drawable {
         return tilesOnLine;
     }
     
-    /** Gets rid of all external resources associated with this Area to avoid
-     *  memory leaks. */
-    public void dispose() {
-        getBombs().stream().forEach((bomb) -> {
-            bomb.cancelTimer();
-        });
-        // ...
-    }
-    
-    /** Specifies a Tree that should be redrawn. */
-    public void addTreeToDraw(Tree tree) {
-        treesToDraw.add(tree);
-    }
-    
-    /** Draws all Trees in this Area.
-     *  @param batch the libGDX batch object that handles all drawing. */
-    public void drawTrees(Batch batch) {
-        batch.enableBlending();
-        for (Iterator<Tree> it = treesToDraw.iterator(); it.hasNext();) {
-            Tree tree = it.next();
-            tree.draw(batch);
-            it.remove();
-        }
-        batch.disableBlending();
-    }
-    
-    /** Considers the given GreenSlime to belong to this Area. */
-    public void addSlime(GreenSlime slime) {
-        slimes.add(slime);
-    }
-    
-    /** Causes all slimes in this Area to multiply according to their expansion
-     *  rate. */
-    public void expandSlimes() {
-        List<GreenSlime> newSlimes = new ArrayList();
-        
-        slimes.stream()
-                .filter((slime) -> (randomBoolean(GreenSlime.expansionProbability)))
-                .map((slime) -> slime.expand())
-                .filter((newSlime) -> (newSlime != null))
-                .forEach((newSlime) -> newSlimes.add(newSlime));
-        
-        slimes.addAll(newSlimes);
-    }
-    
     /** Returns a randomly selected Tile in this Area. */
     public Tile getRandomTile() {
         return tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
@@ -438,6 +377,12 @@ public final class Area implements Drawable {
         return entities.stream()
                 .filter(e -> type.isAssignableFrom(e.getClass()))
                 .map(e -> (T) e)
+                .collect(Collectors.toList());
+    }
+    
+    public List<Item> getItemsWithin(Rectangle region) {
+        return getListOfEntitiesOfType(Item.class).stream()
+                .filter(item -> item.getBounds().overlaps(region))
                 .collect(Collectors.toList());
     }
 }

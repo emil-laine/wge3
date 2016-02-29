@@ -2,19 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package wge3.model.objects;
+package wge3.model;
 
 import com.badlogic.gdx.math.MathUtils;
-import java.util.EnumSet;
 import wge3.engine.util.Config;
-import wge3.model.Creature;
-import wge3.model.Effect;
-import wge3.model.MapObject;
-import wge3.model.TilePropertyFlag;
 
-public class Item extends MapObject {
+public class Item extends Entity {
     
     protected String name;
+    private boolean canBePickedUp;
     private int value;
     protected int defaultAmount;
     private final Effect useEffect;
@@ -22,10 +18,11 @@ public class Item extends MapObject {
     private static final Config cfg = new Config("config/item.toml");
     
     public Item(String type) {
-        name = type;
+        super((int) (cfg.getFloat(type, "size") * Tile.size));
+        name = type.replaceAll("([a-z])([A-Z])", "$1 $2").toLowerCase();
+        canBePickedUp = true;
         useEffect = new Effect(cfg.getString(type, "effect"), cfg, type);
         isRangedWeapon = cfg.getString(type, "effect").equals("shootProjectile");
-        propertyFlags = EnumSet.of(TilePropertyFlag.IS_PASSABLE);
         defaultAmount = 1;
         setSprite(cfg.getIntX(type, "spritePos")
                   + MathUtils.random(cfg.getInt(type, "spriteMultiplicity") - 1),
@@ -37,7 +34,16 @@ public class Item extends MapObject {
     }
     
     public void use(Creature user) {
+//        getComponents().forEach(c -> c.use(user));
         useEffect.activate(user, this);
+    }
+    
+    public boolean canBePickedUp() {
+        return canBePickedUp;
+    }
+    
+    void setCanBePickedUp(boolean newState) {
+        canBePickedUp = newState;
     }
     
     @Override

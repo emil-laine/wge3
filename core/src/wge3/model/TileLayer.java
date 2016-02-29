@@ -4,7 +4,6 @@
 
 package wge3.model;
 
-import wge3.model.objects.Item;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import java.util.EnumSet;
 import java.util.Set;
+import wge3.engine.util.Config;
 import wge3.engine.util.Drawable;
 
 public abstract class TileLayer implements Drawable {
@@ -23,7 +23,6 @@ public abstract class TileLayer implements Drawable {
     
     protected Set<TilePropertyFlag> propertyFlags;
     
-    protected int HPDrainAmount;
     protected float movementModifier;
     // Effects of movementModifier's values:
     // ]1, inf[ -> speeds up movement
@@ -32,10 +31,12 @@ public abstract class TileLayer implements Drawable {
     //        0 -> stops movement
     // Negative values reverse the movement direction, but that's not any useful.
     
-    public TileLayer() {
-        // Default values:
+    public TileLayer(Config cfg, String type) {
+        sprite = new Sprite(texture, cfg.getIntX(type, "spritePos") * Tile.size,
+                                     cfg.getIntY(type, "spritePos") * Tile.size,
+                                     Tile.size, Tile.size);
+        movementModifier = cfg.getFloat(type, "movementModifier");
         propertyFlags = EnumSet.noneOf(TilePropertyFlag.class);
-        movementModifier = 1f;
     }
     
     public void setTile(Tile tile) {
@@ -64,19 +65,11 @@ public abstract class TileLayer implements Drawable {
     }
     
     public boolean isPassable() {
-        return propertyFlags.contains(TilePropertyFlag.IS_PASSABLE);
+        return !propertyFlags.contains(TilePropertyFlag.BLOCKS_MOVEMENT);
     }
     
     public boolean blocksVision() {
         return propertyFlags.contains(TilePropertyFlag.BLOCKS_VISION);
-    }
-    
-    public boolean drainsHP() {
-        return propertyFlags.contains(TilePropertyFlag.DRAINS_HP);
-    }
-    
-    public int getHPDrainAmount() {
-        return HPDrainAmount;
     }
     
     public float getMovementModifier() {

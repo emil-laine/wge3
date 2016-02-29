@@ -2,17 +2,22 @@
 spriteMultiplicity = 1
 isRangedWeapon = false
 effectData = []
+size = 0.5
 
 [bomb]
 spritePos = [0, 2]
-effect = "spawnFusedBomb"
+effect = "dropAndStartTimer"
+damage = 100
+range = 2
+time = 2
+components = ["Timer"]
 
 [handgun]
 spritePos = [1, 2]
 isRangedWeapon = true
 effect = "shootProjectile"
-range = 12
 damage = 20
+range = 12
 lineOfFireWidth = 0.5
 
 [healthPack]
@@ -22,11 +27,14 @@ healAmount = 50
 
 [greenPotion]
 spritePos = [0, 4]
-effect = "spawnGreenSlimeBomb"
+effect = "dropAndStartTimer"
+time = 2
+components = ["Timer"]
 
 [invisibilityPotion]
 spritePos = [3, 5]
 effect = "invisibility"
+range = 2
 duration = 10
 
 [speedPotion]
