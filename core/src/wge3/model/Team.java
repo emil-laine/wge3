@@ -5,6 +5,6 @@
 package wge3.model;
 
 public enum Team {
-    PlayerTeam,
-    MonsterTeam
+    PLAYER_TEAM,
+    MONSTER_TEAM
 }

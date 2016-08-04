@@ -7,7 +7,7 @@ package wge3.model;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import wge3.engine.Statistics;
-import static wge3.model.Team.PlayerTeam;
+import static wge3.model.Team.PLAYER_TEAM;
 
 public final class Player extends Creature {
     
@@ -17,7 +17,7 @@ public final class Player extends Creature {
     
     public Player() {
         super("player");
-        team = PlayerTeam;
+        team = PLAYER_TEAM;
         getStateFlags().add(StateFlag.PICKS_UP_ITEMS);
     }
     

@@ -10,12 +10,12 @@ import wge3.gui.GraphicsContext;
 
 public abstract class GameState implements Drawable {
     
-    private static GameStateManager gsm;
+    private static GameStateManager stateManager;
     private static InputHandler input;
     private static GraphicsContext graphics;
     
     protected static GameStateManager getStateManager() {
-        return gsm;
+        return stateManager;
     }
     
     protected static InputHandler getInputHandler() {
@@ -27,7 +27,7 @@ public abstract class GameState implements Drawable {
     }
     
     static void setStateManager(GameStateManager gsm) {
-        GameState.gsm = gsm;
+        GameState.stateManager = gsm;
     }
     
     static void setGraphicsContext(GraphicsContext graphics) {

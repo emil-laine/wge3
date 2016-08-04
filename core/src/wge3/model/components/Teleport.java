@@ -39,7 +39,7 @@ public class Teleport extends Component {
         teleporter.setPosition(destination.getMiddleX(), destination.getMiddleY());
         
         if (teleporter.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) teleporter, Statistic.TELEPORTERSUSED, 1);
+            Player.statistics.addStatToPlayer((Player) teleporter, Statistic.TELEPORTS_USED, 1);
         }
     }
     

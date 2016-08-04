@@ -10,27 +10,27 @@ import wge3.gui.GraphicsContext;
 
 public final class WGE3 extends Game {
     
-    private GameStateManager gsm;
+    private GameStateManager stateManager;
     private GraphicsContext graphics;
     
     @Override
     public void create () {
-        gsm = new GameStateManager();
+        stateManager = new GameStateManager();
         graphics = new GraphicsContext();
-        GameState.setStateManager(gsm);
+        GameState.setStateManager(stateManager);
         GameState.setGraphicsContext(graphics);
         GameState.setInputHandler(new InputHandler());
-        gsm.pushState(new MenuState());
+        stateManager.pushState(new MenuState());
         
         Audio.playMusic("soundtrack.mp3");
     }
     
     @Override
     public void render () {
-        gsm.update(Gdx.graphics.getDeltaTime());
+        stateManager.update(Gdx.graphics.getDeltaTime());
         
         graphics.beginDraw();
-        gsm.draw(graphics.getBatch());
+        stateManager.draw(graphics.getBatch());
         graphics.endDraw();
     }
     
@@ -38,6 +38,6 @@ public final class WGE3 extends Game {
     public void dispose() {
         Audio.dispose();
         graphics.dispose();
-        gsm.dispose();
+        stateManager.dispose();
     }
 }

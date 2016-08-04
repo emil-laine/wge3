@@ -15,7 +15,7 @@ import static com.badlogic.gdx.utils.TimeUtils.millis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import static wge3.engine.PlayState.mStream;
+import static wge3.engine.PlayState.messageStream;
 import wge3.engine.Statistic;
 import wge3.engine.util.Config;
 import wge3.engine.util.Drawable;
@@ -201,7 +201,7 @@ public abstract class Creature extends Entity implements Drawable {
             inventory.addItem(item);
             getArea().removeEntity(item);
             if (this.isPlayer()) {
-                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSPICKEDUP, 1);
+                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMS_PICKED_UP, 1);
             }
         }
     }
@@ -247,7 +247,7 @@ public abstract class Creature extends Entity implements Drawable {
         else {
             selectedItem.use(this);
             if (this.isPlayer()) {
-                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMSUSED, 1);
+                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMS_USED, 1);
             }
         }
     }
@@ -301,11 +301,11 @@ public abstract class Creature extends Entity implements Drawable {
     public void toggleGhostMode() {
         if (getStateFlags().contains(StateFlag.IS_GHOST)) {
             getStateFlags().remove(StateFlag.IS_GHOST);
-            mStream.addMessage("Ghost Mode Off");
+            messageStream.addMessage("Ghost Mode Off");
         }
         else {
             getStateFlags().add(StateFlag.IS_GHOST);
-            mStream.addMessage("Ghost Mode On");
+            messageStream.addMessage("Ghost Mode On");
         }
     }
     
@@ -315,7 +315,7 @@ public abstract class Creature extends Entity implements Drawable {
         int decreaseAmount = max(amount - defense, 0);
         HP.decrease(decreaseAmount);
         if (this.isPlayer()) {
-            Player.getStats().addStatToPlayer((Player) this, Statistic.DAMAGETAKEN, decreaseAmount);
+            Player.getStats().addStatToPlayer((Player) this, Statistic.DAMAGE_TAKEN, decreaseAmount);
         }
     }
     
@@ -338,7 +338,7 @@ public abstract class Creature extends Entity implements Drawable {
     private void regenerateHP() {
         HP.increase();
         if (this.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, 1);
+            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTH_REGAINED, 1);
         }
     }
     
@@ -359,7 +359,7 @@ public abstract class Creature extends Entity implements Drawable {
                 if (creature.getTeam() != getTeam()) {
                     creature.dealDamage(strength);
                     if (this.isPlayer()) {
-                        Player.statistics.addStatToPlayer((Player) this, Statistic.DAMAGEDEALT, strength);
+                        Player.statistics.addStatToPlayer((Player) this, Statistic.DAMAGE_DEALT, strength);
                     }
                 }
             }
@@ -504,7 +504,7 @@ public abstract class Creature extends Entity implements Drawable {
     public void addHP(int amount) {
         HP.increase(amount);
         if (this.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTHREGAINED, amount);
+            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTH_REGAINED, amount);
         }
     }
     

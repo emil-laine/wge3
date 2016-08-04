@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import wge3.engine.Audio;
-import static wge3.engine.PlayState.mStream;
+import static wge3.engine.PlayState.messageStream;
 import wge3.engine.Statistic;
 import wge3.engine.util.Config;
 import static java.lang.Math.max;
@@ -59,7 +59,7 @@ public class Effect {
     }
     
     private void bombExplosion() {
-        mStream.addMessage("*EXPLOSION*");
+        messageStream.addMessage("*EXPLOSION*");
         
         int range = cfg.getInt(supertype, "range");
         int damage = cfg.getInt(supertype, "damage");
@@ -94,7 +94,7 @@ public class Effect {
         int lofWidth = (int) (Tile.size * cfg.getFloat(supertype, "lineOfFireWidth"));
         
         Audio.playSound("defaultGun.wav");
-        mStream.addMessage("BANG");
+        messageStream.addMessage("BANG");
         user.removeItem(item);
         
         float angle = user.getDirection();
@@ -141,8 +141,8 @@ public class Effect {
         // Remember to change statistics counting if you do this ^!!
         target.dealDamage(damage);
         if (user.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) user, Statistic.GUNSHOTSFIRED, 1);
-            Player.statistics.addStatToPlayer((Player) user, Statistic.DAMAGEDEALT, max(damage - target.getDefense(), 1));
+            Player.statistics.addStatToPlayer((Player) user, Statistic.GUNSHOTS_FIRED, 1);
+            Player.statistics.addStatToPlayer((Player) user, Statistic.DAMAGE_DEALT, max(damage - target.getDefense(), 1));
         }
     }
     
@@ -151,10 +151,10 @@ public class Effect {
         
         user.addHP(healAmount);
         if (user.getCurrentHP() - healAmount >= 0) {
-            Player.statistics.addStatToPlayer((Player) user, Statistic.HEALTHREGAINED, healAmount);
+            Player.statistics.addStatToPlayer((Player) user, Statistic.HEALTH_REGAINED, healAmount);
         }
         else {
-            Player.statistics.addStatToPlayer((Player) user, Statistic.HEALTHREGAINED, (user.getMaxHP() - user.getCurrentHP()));
+            Player.statistics.addStatToPlayer((Player) user, Statistic.HEALTH_REGAINED, (user.getMaxHP() - user.getCurrentHP()));
         }
         
         user.removeItem(item);
@@ -163,7 +163,7 @@ public class Effect {
     private void invisibility() {
         int duration = cfg.getInt(supertype, "duration");
         
-        mStream.addMessage("*glug*");
+        messageStream.addMessage("*glug*");
         user.removeItem(item);
         user.setInvisibility(true);
         new Timer().scheduleTask(new Task() {
@@ -178,7 +178,7 @@ public class Effect {
         int duration = cfg.getInt(supertype, "duration");
         float boostMultiplier = cfg.getFloat(supertype, "boostMultiplier");
         
-        mStream.addMessage("*glug*");
+        messageStream.addMessage("*glug*");
         user.removeItem(item);
         user.setCurrentSpeed((int) (user.getCurrentSpeed() * boostMultiplier));
         new Timer().scheduleTask(new Timer.Task() {

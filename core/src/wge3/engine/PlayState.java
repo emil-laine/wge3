@@ -26,7 +26,7 @@ public final class PlayState extends GameState {
     
     private Area area;
     private Player player;
-    public static MessageStream mStream;
+    public static MessageStream messageStream;
     
     public PlayState(String map) {
         this.statistics = new Statistics();
@@ -36,10 +36,10 @@ public final class PlayState extends GameState {
                                        getGraphicsContext().getLogicalHeight());
         camera = new OrthographicCamera(playerViewport.width, playerViewport.height);
         
-        mStream = new MessageStream(getGraphicsContext(),
-                                    getGraphicsContext().getLogicalWidth() - 280,
-                                    getGraphicsContext().getLogicalHeight() - 60,
-                                    this);
+        messageStream = new MessageStream(getGraphicsContext(),
+                                          getGraphicsContext().getLogicalWidth() - 280,
+                                          getGraphicsContext().getLogicalHeight() - 60,
+                                          this);
         area = new Area(map);
         player = area.getPlayers().get(0);
         player.setStats(statistics);
@@ -107,7 +107,7 @@ public final class PlayState extends GameState {
         area.draw(batch);
         batch.enableBlending();
         hud.draw(batch);
-        mStream.draw(batch);
+        messageStream.draw(batch);
         batch.end();
     }
     
@@ -137,13 +137,13 @@ public final class PlayState extends GameState {
         else if (input.isPressed(Command.TOGGLE_GHOST_MODE))
             player.toggleGhostMode();
         else if (input.isPressed(Command.TOGGLE_INVENTORY))
-            mStream.toggleShowInventory();
+            messageStream.toggleShowInventory();
         else if (input.isPressed(Command.SPAWN_WALL))
             area.getTileAt(player.getX(), player.getY()).setObject(new MapObject("stoneWall"));
         else if (input.isPressed(Command.DESTROY_OBJECT))
             area.getTileAt(player.getX(), player.getY()).removeObject();
         else if (input.isPressed(Command.TOGGLE_FPS))
-            mStream.toggleShowFPS();
+            messageStream.toggleShowFPS();
         else if (input.isPressed(Command.TOGGLE_MUSIC))
             Audio.toggleMusic();
         else if (input.isDown(Command.ZOOM_IN))
