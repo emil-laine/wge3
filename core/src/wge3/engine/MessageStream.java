@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import wge3.engine.util.Drawable;
 import wge3.gui.GraphicsContext;
-import wge3.model.objects.Item;
+import wge3.model.Item;
 
 public final class MessageStream implements Drawable {
     

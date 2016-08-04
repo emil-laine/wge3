@@ -7,18 +7,22 @@ package wge3.model;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import static com.badlogic.gdx.math.MathUtils.PI;
 import wge3.engine.util.Debug;
-import wge3.model.ai.AI;
 import static wge3.model.Team.MonsterTeam;
+import wge3.model.ai.AI;
+import wge3.model.ai.RangedAI;
+import wge3.model.ai.ThiefAI;
 
-public abstract class NonPlayer extends Creature {
+public final class NonPlayer extends Creature {
     
     private AI ai;
     private int attackSpeed; // How many times the creature attacks in 5 seconds.
     private float FOV;
     
-    public NonPlayer() {
+    public NonPlayer(String type) {
+        super(type);
+        
         team = MonsterTeam;
-        ai = new AI(this);
+        ai = getAI(type);
         attackSpeed = 10;
         FOV = PI;
     }
@@ -45,6 +49,15 @@ public abstract class NonPlayer extends Creature {
         
         if (Debug.aiDebug) {
             ai.draw(batch);
+        }
+    }
+    
+    private AI getAI(String type) {
+        switch (getCfg().getString(type, "behavior")) {
+            case "meleeAttack": return new AI(this);
+            case "rangedAttack": return new RangedAI(this);
+            case "thief": return new ThiefAI(this);
+            default: throw new UnsupportedOperationException("Unknown AI");
         }
     }
 }

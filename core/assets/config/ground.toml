@@ -1,0 +1,29 @@
+[default]
+hasDirection = false
+movementModifier = 1
+hpDrainAmount = 0
+
+[abyss]
+spritePos = [5, 2]
+hpDrainAmount = 1000
+
+[grass]
+spritePos = [0, 0]
+movementModifier = 0.95
+
+[ice]
+
+[lava]
+spritePos = [3, 0]
+movementModifier = 0.5
+hpDrainAmount = 15
+
+[stone]
+spritePos = [4, 2]
+
+[water]
+spritePos = [2, 0]
+movementModifier = 0.5
+
+[woodenFloor]
+spritePos = [1, 0]

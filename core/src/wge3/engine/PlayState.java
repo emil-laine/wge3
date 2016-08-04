@@ -8,14 +8,13 @@ import wge3.gui.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import static com.badlogic.gdx.math.MathUtils.random;
 import com.badlogic.gdx.math.Rectangle;
 import java.util.Iterator;
 import wge3.model.Area;
 import wge3.model.Creature;
+import wge3.model.MapObject;
 import wge3.model.NonPlayer;
-import wge3.model.actors.Player;
-import wge3.model.objects.StoneWall;
+import wge3.model.Player;
 
 public final class PlayState extends GameState {
     
@@ -140,7 +139,7 @@ public final class PlayState extends GameState {
         else if (input.isPressed(Command.TOGGLE_INVENTORY))
             mStream.toggleShowInventory();
         else if (input.isPressed(Command.SPAWN_WALL))
-            area.getTileAt(player.getX(), player.getY()).setObject(new StoneWall(random(2)));
+            area.getTileAt(player.getX(), player.getY()).setObject(new MapObject("stoneWall"));
         else if (input.isPressed(Command.DESTROY_OBJECT))
             area.getTileAt(player.getX(), player.getY()).removeObject();
         else if (input.isPressed(Command.TOGGLE_FPS))
@@ -172,9 +171,5 @@ public final class PlayState extends GameState {
     
     @Override
     public void dispose() {
-        area.dispose();
-        mStream = null;
-        area = null;
-        player = null;
     }
 }

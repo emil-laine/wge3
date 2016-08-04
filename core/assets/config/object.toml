@@ -1,0 +1,54 @@
+[default]
+hasDestroyedSprite = false
+blocksMovement = true
+blocksVision = false
+castsShadows = true
+shadowDepth = 0.75
+movementModifier = 1
+drainsHP = false
+hp = 1
+hardness = 1
+components = []
+
+[brickWall]
+spritePos = [0, 1]
+hasDestroyedSprite = true
+blocksVision = true
+hp = 150
+hardness = 8
+
+[stoneWall]
+spritePos = [3, 1]
+blocksVision = true
+hp = 300
+hardness = 16
+
+[greenSlime]
+spritePos = [1, 4]
+drainsHP = true
+hp = 100
+hardness = 10
+damage = 20
+behavior = "expand"
+expansionProbability = 0.01
+components = ["Expander"]
+
+[teleport]
+spritePos = [2, 4]
+blocksMovement = false
+components = ["Teleport"]
+[teleport.red]
+spritePos = [2, 4]
+[teleport.blue]
+spritePos = [3, 4]
+[teleport.green]
+spritePos = [4, 4]
+[teleport.black]
+spritePos = [5, 4]
+
+[tree]
+spritePos = [6, 1]
+
+[door]
+spritePos = [6, 3]
+blocksVision = true

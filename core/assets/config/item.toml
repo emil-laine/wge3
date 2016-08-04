@@ -1,0 +1,44 @@
+[default]
+spriteMultiplicity = 1
+isRangedWeapon = false
+effectData = []
+size = 0.5
+
+[bomb]
+spritePos = [0, 2]
+effect = "dropAndStartTimer"
+damage = 100
+range = 2
+time = 2
+components = ["Timer"]
+
+[handgun]
+spritePos = [1, 2]
+isRangedWeapon = true
+effect = "shootProjectile"
+damage = 20
+range = 12
+lineOfFireWidth = 0.5
+
+[healthPack]
+spritePos = [3, 2]
+effect = "healSelf"
+healAmount = 50
+
+[greenPotion]
+spritePos = [0, 4]
+effect = "dropAndStartTimer"
+time = 2
+components = ["Timer"]
+
+[invisibilityPotion]
+spritePos = [3, 5]
+effect = "invisibility"
+range = 2
+duration = 10
+
+[speedPotion]
+spritePos = [0, 5]
+effect = "boostSpeed"
+duration = 10
+boostMultiplier = 2

@@ -4,8 +4,6 @@
 
 package wge3.model;
 
-import wge3.model.objects.Item;
-
 /**
  *
  * @author chang

@@ -5,11 +5,10 @@
 package wge3.model.ai;
 
 import static com.badlogic.gdx.utils.TimeUtils.millis;
-import wge3.model.Tile;
+import static wge3.engine.util.Math.getDistance;
 import wge3.model.Creature;
 import wge3.model.NonPlayer;
-import wge3.model.items.Gun;
-import static wge3.engine.util.Math.getDistance;
+import wge3.model.Tile;
 
 /**
  *
@@ -62,8 +61,7 @@ public class RangedAttackTask extends AITask {
     }
     
     public boolean isWithinGunRange(Creature enemy) {
-        Gun gun = (Gun) executor.getSelectedItem();
-        
-        return getDistance(executor, enemy) / Tile.size <= gun.getRange();
+        int range = executor.getSelectedItem().getIntAttribute("range");
+        return getDistance(executor, enemy) / Tile.size <= range;
     }
 }

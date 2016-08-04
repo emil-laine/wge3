@@ -11,13 +11,16 @@ import static com.badlogic.gdx.math.MathUtils.random;
 import static com.badlogic.gdx.math.MathUtils.randomBoolean;
 import static com.badlogic.gdx.math.MathUtils.sin;
 import static com.badlogic.gdx.utils.TimeUtils.millis;
-import static java.lang.Integer.signum;
+import static java.lang.Math.signum;
 import java.util.ArrayList;
 import java.util.List;
 import wge3.engine.util.Debug;
+import wge3.model.Creature;
 import wge3.model.NonPlayer;
 import wge3.model.Tile;
-import wge3.model.Creature;
+import static com.badlogic.gdx.math.MathUtils.random;
+import static com.badlogic.gdx.math.MathUtils.randomBoolean;
+import static java.lang.Math.signum;
 
 public class AI {
     
@@ -95,7 +98,7 @@ public class AI {
         for (int i = 1; i <= distance; i++) {
             if (NPC.getArea().hasLocation(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size))) {
                 Tile currentTile = NPC.getArea().getTileAt(startX + i*(dx*Tile.size), startY + i*(dy*Tile.size));
-                if (!currentTile.isPassable() || currentTile.drainsHP()) {
+                if (!currentTile.isPassable() || currentTile.getHPDrainAmount() > 0) {
                     return NPC.getArea().getTileAt(startX + (i-1)*(dx*Tile.size), startY + (i-1)*(dy*Tile.size));
                 }
             }
