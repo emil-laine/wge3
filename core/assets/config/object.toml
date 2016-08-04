@@ -34,7 +34,7 @@ expansionProbability = 0.01
 components = ["Expander"]
 
 [teleport]
-# spritePos = [2, 4]
+spritePos = [2, 4]
 blocksMovement = false
 components = ["Teleport"]
 [teleport.red]

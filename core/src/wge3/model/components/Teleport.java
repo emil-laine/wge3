@@ -18,8 +18,8 @@ public class Teleport extends Component {
     
     private Color color;
     
-    public Teleport(Object... params) {
-        getOwner().setSprite(0, 0);
+    public Teleport(/*Object... params*/) {
+        //getOwner().setSprite(0, 0);
     }
     
     @Override
@@ -78,4 +78,3 @@ public class Teleport extends Component {
 //    public Color getColor() {
 //        return color;
 //    }
-//    
