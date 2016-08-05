@@ -37,10 +37,7 @@ public class Teleport extends Component {
             destination = destinations.get(random(destinations.size()-1));
         }
         teleporter.setPosition(destination.getMiddleX(), destination.getMiddleY());
-        
-        if (teleporter.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) teleporter, Statistic.TELEPORTS_USED, 1);
-        }
+        teleporter.incrementStat(Statistic.TELEPORTS_USED, 1);
     }
     
     private List<Tile> getTeleportDestinations() {

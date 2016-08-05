@@ -6,6 +6,7 @@ package wge3.model;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import wge3.engine.Statistic;
 import wge3.engine.Statistics;
 import static wge3.model.Team.PLAYER_TEAM;
 
@@ -13,7 +14,7 @@ public final class Player extends Creature {
     
     private OrthographicCamera camera;
     private String name;
-    public static Statistics statistics;
+    private static Statistics statistics;
     
     public Player() {
         super("player");
@@ -47,7 +48,7 @@ public final class Player extends Creature {
         Player.statistics = statistics;
     }
     
-    public static Statistics getStats() {
-        return statistics;
+    public void incrementStat(Statistic statistic, int amount) {
+        statistics.addStatToPlayer(this, statistic, amount);
     }
 }

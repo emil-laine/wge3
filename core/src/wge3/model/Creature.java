@@ -200,9 +200,7 @@ public abstract class Creature extends Entity implements Drawable {
             if (!item.canBePickedUp()) continue;
             inventory.addItem(item.getType());
             getArea().removeEntity(item);
-            if (this.isPlayer()) {
-                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMS_PICKED_UP, 1);
-            }
+            incrementStat(Statistic.ITEMS_PICKED_UP, 1);
         }
     }
     
@@ -246,9 +244,7 @@ public abstract class Creature extends Entity implements Drawable {
         if (selectedItem == null) attackUnarmed();
         else {
             selectedItem.use(this);
-            if (this.isPlayer()) {
-                Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMS_USED, 1);
-            }
+            incrementStat(Statistic.ITEMS_USED, 1);
         }
     }
     
@@ -314,9 +310,7 @@ public abstract class Creature extends Entity implements Drawable {
     public void dealDamage(int amount) {
         int decreaseAmount = max(amount - defense, 0);
         HP.decrease(decreaseAmount);
-        if (this.isPlayer()) {
-            Player.getStats().addStatToPlayer((Player) this, Statistic.DAMAGE_TAKEN, decreaseAmount);
-        }
+        incrementStat(Statistic.DAMAGE_TAKEN, decreaseAmount);
     }
     
     /** Returns whether this Creature is dead. */
@@ -337,9 +331,7 @@ public abstract class Creature extends Entity implements Drawable {
     /** Regenerates the HP of this Creature. */
     private void regenerateHP() {
         HP.increase();
-        if (this.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTH_REGAINED, 1);
-        }
+        incrementStat(Statistic.HEALTH_REGAINED, 1);
     }
     
     /** Rotates the graphical representation of this Creature according to
@@ -358,9 +350,7 @@ public abstract class Creature extends Entity implements Drawable {
             if (dest.contains(creature.getX(), creature.getY())) {
                 if (creature.getTeam() != getTeam()) {
                     creature.dealDamage(strength);
-                    if (this.isPlayer()) {
-                        Player.statistics.addStatToPlayer((Player) this, Statistic.DAMAGE_DEALT, strength);
-                    }
+                    incrementStat(Statistic.DAMAGE_DEALT, strength);
                 }
             }
         }
@@ -503,9 +493,8 @@ public abstract class Creature extends Entity implements Drawable {
     /** Increases this Creature's HP by the given amount. */
     public void addHP(int amount) {
         HP.increase(amount);
-        if (this.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) this, Statistic.HEALTH_REGAINED, amount);
-        }
+        final int healedAmount = getCurrentHP() >= amount ? amount : (getMaxHP() - getCurrentHP());
+        incrementStat(Statistic.HEALTH_REGAINED, healedAmount);
     }
     
     /** Changes the team of this Creature to the specified team. */

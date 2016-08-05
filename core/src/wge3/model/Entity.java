@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+
+import wge3.engine.Statistic;
 import wge3.engine.util.Drawable;
 import static wge3.engine.util.Math.floatPosToTilePos;
 
@@ -189,4 +191,9 @@ public abstract class Entity implements Drawable {
     protected final Sprite getSprite() {
         return sprite;
     }
+    
+    /** Increments the given statistic by the given amount for this Entity.
+     *  Currently this is overridden only by Player to do the actual stat
+     *  incrementation; non-player stats aren't logged at all. */
+    public void incrementStat(Statistic statistic, int amount) {}
 }

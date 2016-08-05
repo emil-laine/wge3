@@ -164,24 +164,14 @@ public class Effect {
         // This should be changed: lower ptSegDist -> greater damage.
         // Remember to change statistics counting if you do this ^!!
         target.dealDamage(damage);
-        if (user.isPlayer()) {
-            Player.statistics.addStatToPlayer((Player) user, Statistic.GUNSHOTS_FIRED, 1);
-            Player.statistics.addStatToPlayer((Player) user, Statistic.DAMAGE_DEALT, max(damage - target.getDefense(), 1));
-        }
+        user.incrementStat(Statistic.GUNSHOTS_FIRED, 1);
+        user.incrementStat(Statistic.DAMAGE_DEALT, max(damage - target.getDefense(), 1));
     }
     
     @SuppressWarnings("unused") // used via reflection
     private void healSelf() {
         int healAmount = cfg.getInt(supertype, "healAmount");
-        
         user.addHP(healAmount);
-        if (user.getCurrentHP() - healAmount >= 0) {
-            Player.statistics.addStatToPlayer((Player) user, Statistic.HEALTH_REGAINED, healAmount);
-        }
-        else {
-            Player.statistics.addStatToPlayer((Player) user, Statistic.HEALTH_REGAINED, (user.getMaxHP() - user.getCurrentHP()));
-        }
-        
         user.removeItem(item);
     }
     
