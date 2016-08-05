@@ -52,12 +52,14 @@ public class Effect {
         }
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void dropAndStartTimer() {
         item.setCanBePickedUp(false);
         user.drop(item);
         item.getComponents().stream().forEach(c -> c.use(user));
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void bombExplosion() {
         messageStream.addMessage("*EXPLOSION*");
         
@@ -75,6 +77,7 @@ public class Effect {
         user.getArea().removeEntity(item);
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void spawnGreenSlime() {
         int range = cfg.getInt(supertype, "range");
         
@@ -88,6 +91,7 @@ public class Effect {
         user.getArea().removeEntity(item);
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void shootProjectile() {
         int range = cfg.getInt(supertype, "range");
         int damage = cfg.getInt(supertype, "damage");
@@ -146,6 +150,7 @@ public class Effect {
         }
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void healSelf() {
         int healAmount = cfg.getInt(supertype, "healAmount");
         
@@ -160,6 +165,7 @@ public class Effect {
         user.removeItem(item);
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void invisibility() {
         int duration = cfg.getInt(supertype, "duration");
         
@@ -174,6 +180,7 @@ public class Effect {
         }, duration);
     }
     
+    @SuppressWarnings("unused") // used via reflection
     private void boostSpeed() {
         int duration = cfg.getInt(supertype, "duration");
         float boostMultiplier = cfg.getFloat(supertype, "boostMultiplier");
