@@ -14,6 +14,7 @@ import wge3.model.Tile;
 import static com.badlogic.gdx.math.MathUtils.random;
 import wge3.engine.util.Color;
 
+@SuppressWarnings("unused") // used via reflection
 public class Teleport extends Component {
     
     private Color color;

@@ -10,6 +10,7 @@ import wge3.model.Component;
 import wge3.model.MapObject;
 import wge3.model.Tile;
 
+@SuppressWarnings("unused") // used via reflection
 public class Expander extends Component {
     
     private final float expansionRate = 0.02f; // TODO: Move to config file.

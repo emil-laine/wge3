@@ -6,6 +6,7 @@ package wge3.model.components;
 
 import wge3.model.Component;
 
+@SuppressWarnings("unused") // used via reflection
 public class Timer extends Component {
     
     protected final com.badlogic.gdx.utils.Timer timer;
