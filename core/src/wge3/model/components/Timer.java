@@ -12,25 +12,22 @@ public class Timer extends Component {
     protected final com.badlogic.gdx.utils.Timer.Task task;
     protected int seconds;
     
-    public Timer() {
+    public Timer(Runnable effect, int seconds) {
         timer = new com.badlogic.gdx.utils.Timer();
         task = new com.badlogic.gdx.utils.Timer.Task() {
             @Override
             public void run() {
-                effect();
+                effect.run();
             }
         };
+        this.seconds = seconds;
     }
     
-    private void startTimer() {
+    public void start() {
         timer.scheduleTask(task, seconds);
     }
     
-    private void cancelTimer() {
+    public void cancel() {
         timer.clear();
-    }
-    
-    private void effect() {
-        
     }
 }

@@ -6,7 +6,6 @@ package wge3.model;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import java.awt.geom.Line2D;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -57,6 +56,10 @@ public class Effect {
         item.setCanBePickedUp(false);
         user.drop(item);
         item.getComponents().stream().forEach(c -> c.use(user));
+        wge3.model.components.Timer timer =
+                new wge3.model.components.Timer(() -> bombExplosion(), cfg.getInt(supertype, "time"));
+        item.addComponent(timer);
+        timer.start();
     }
     
     @SuppressWarnings("unused") // used via reflection
@@ -66,9 +69,9 @@ public class Effect {
         int range = cfg.getInt(supertype, "range");
         int damage = cfg.getInt(supertype, "damage");
         
-        for (Tile currentTile : user.getArea().getTiles()) {
-            if (currentTile.canBeSeenFrom(user.getX(), user.getY(), range)) {
-                float distance = currentTile.getDistanceTo(user.getX(), user.getY()) / Tile.size;
+        for (Tile currentTile : item.getArea().getTiles()) {
+            if (currentTile.canBeSeenFrom(item.getX(), item.getY(), range)) {
+                float distance = currentTile.getDistanceTo(item.getX(), item.getY()) / Tile.size;
                 float intensity = 1f - Math.max(distance-1f, 0f) * (1f / range);
                 // intensity = 1, when distance = [0,1].
                 currentTile.dealDamage((int) (intensity*damage));
@@ -172,7 +175,7 @@ public class Effect {
         messageStream.addMessage("*glug*");
         user.removeItem(item);
         user.setInvisibility(true);
-        new Timer().scheduleTask(new Task() {
+        new Timer().scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 user.setInvisibility(false);

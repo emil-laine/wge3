@@ -11,6 +11,7 @@ damage = 100
 range = 2
 time = 2
 components = ["Timer"]
+timedEffect = "bombExplosion"
 
 [handgun]
 spritePos = [1, 2]
