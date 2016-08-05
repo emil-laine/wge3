@@ -248,13 +248,13 @@ public final class Area implements Drawable {
     }
     
     /** Places the given Item to the Tile in the specified position. */
-    public void addItem(Item item, int x, int y) {
+    public void addItem(ItemInstance item, int x, int y) {
         addEntity(item, x*Tile.size + Tile.size/2f, y*Tile.size + Tile.size/2f);
     }
     
     /** Places the given Item to a random Tile in this Area that has no object
      *  on it. If every Tile has an object, this will loop infinitely. */
-    public void addItem(Item item) {
+    public void addItem(ItemInstance item) {
         Tile dest;
         do {
             dest = tiles[MathUtils.random(width-1)][MathUtils.random(height-1)];
@@ -380,8 +380,8 @@ public final class Area implements Drawable {
                 .collect(Collectors.toList());
     }
     
-    public List<Item> getItemsWithin(Rectangle region) {
-        return getListOfEntitiesOfType(Item.class).stream()
+    public List<ItemInstance> getItemsWithin(Rectangle region) {
+        return getListOfEntitiesOfType(ItemInstance.class).stream()
                 .filter(item -> item.getBounds().overlaps(region))
                 .collect(Collectors.toList());
     }

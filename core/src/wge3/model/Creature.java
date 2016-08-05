@@ -72,7 +72,7 @@ public abstract class Creature extends Entity implements Drawable {
         
         inventory = new Inventory(this);
         for (String itemType : cfg.getStringList(type, "inventory")) {
-            inventory.addItem(new Item(itemType));
+            inventory.addItem(Item.get(itemType));
         }
         changeItem();
         
@@ -196,9 +196,9 @@ public abstract class Creature extends Entity implements Drawable {
     /** Removes any items this Creature is touching, and adds them
      *  to the Creature's inventory. */
     public void pickUpItems() {
-        for (Item item : getArea().getItemsWithin(getBounds())) {
+        for (ItemInstance item : getArea().getItemsWithin(getBounds())) {
             if (!item.canBePickedUp()) continue;
-            inventory.addItem(item);
+            inventory.addItem(item.getType());
             getArea().removeEntity(item);
             if (this.isPlayer()) {
                 Player.getStats().addStatToPlayer((Player) this, Statistic.ITEMS_PICKED_UP, 1);
@@ -257,7 +257,7 @@ public abstract class Creature extends Entity implements Drawable {
         setSelectedItem(inventory.getNextItem());
     }
     
-    public void drop(Item toDrop) {
+    public void drop(ItemInstance toDrop) {
         removeItem(toDrop);
         getArea().addEntity(toDrop, getX(), getY());
     }
@@ -521,8 +521,8 @@ public abstract class Creature extends Entity implements Drawable {
     }
     
     /** Removes the specified item from this Creature's inventory. */
-    public void removeItem(Item item) {
-        inventory.removeItem(item);
+    public void removeItem(ItemInstance item) {
+        inventory.removeItem(item.getType());
     }
     
     /** Returns whether this Creature is turned towards the target Creature. */
@@ -581,7 +581,7 @@ public abstract class Creature extends Entity implements Drawable {
     }
     
     public void die() {
-        Item item = getInventory().getRandomItem();
+        ItemInstance item = new ItemInstance(getInventory().getRandomItem());
         if (item != null) {
             getArea().addEntity(item, getX(), getY());
             getInventory().removeAll();

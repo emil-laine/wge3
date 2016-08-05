@@ -22,7 +22,7 @@ import static wge3.engine.util.Math.getDistance;
 public class Effect {
     
     private Creature user;
-    private Item item;
+    private ItemInstance item;
     private Method method;
     private Config cfg;
     private String supertype;
@@ -38,7 +38,7 @@ public class Effect {
         this.supertype = supertype;
     }
     
-    public void activate(Creature user, Item item) {
+    public void activate(Creature user, ItemInstance item) {
         this.user = user;
         this.item = item;
         

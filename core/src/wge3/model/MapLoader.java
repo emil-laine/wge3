@@ -53,7 +53,7 @@ public final class MapLoader {
         for (int y = h-1; y >= 0; y--) {
             for (int x = 0; x < w; x++) {
                 MapObject object = null;
-                Item item = null;
+                ItemInstance item = null;
                 
                 switch (mapLoader.nextInt()) {
                     case 0:  object = null; break;
@@ -63,9 +63,9 @@ public final class MapLoader {
                     case 14: object = new MapObject("stoneWall", 2); break;
                     case 15: object = new MapObject("tree"); break;
                         
-                    case 17: item = new Item("bomb"); break;
-                    case 18: item = new Item("handgun"); break;
-                    case 20: item = new Item("healthPack"); break;
+                    case 17: item = new ItemInstance("bomb"); break;
+                    case 18: item = new ItemInstance("handgun"); break;
+                    case 20: item = new ItemInstance("healthPack"); break;
                     
                     case 23:
                         object = null;
@@ -88,19 +88,19 @@ public final class MapLoader {
                         area.addCreature(new NonPlayer("gunman"), x, y);
                         break;
                         
-                    case 33: item = new Item("greenPotion"); break;
+                    case 33: item = new ItemInstance("greenPotion"); break;
                     case 34: object = new MapObject("greenSlime"); break;
                     case 35: object = new MapObject("teleport", Color.RED); break;
                     case 36: object = new MapObject("teleport", Color.BLUE); break;
                     case 37: object = new MapObject("teleport", Color.GREEN); break;
                     case 38: object = new MapObject("teleport", Color.BLACK); break;
                         
-                    case 41: item = new Item("speedPotion"); break;
+                    case 41: item = new ItemInstance("speedPotion"); break;
                     case 43:
                         object = null;
                         area.addCreature(new NonPlayer("thief"), x, y);
                         break;
-                    case 44: item = new Item("invisibilityPotion"); break;
+                    case 44: item = new ItemInstance("invisibilityPotion"); break;
                 }
                 if (object != null) {
                     area.getTileAt(x, y).setObject(object);

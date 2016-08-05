@@ -1,0 +1,35 @@
+package wge3.model;
+
+import com.badlogic.gdx.math.MathUtils;
+
+public class ItemInstance extends Entity {
+    
+    private final Item type;
+    private boolean canBePickedUp;
+    
+    public ItemInstance(Item type) {
+        super((int) (Item.cfg.getFloat(type.getType(), "size") * Tile.size));
+        this.type = type;
+        canBePickedUp = true;
+        
+        int offsetX = MathUtils.random(Item.cfg.getInt(type.getType(), "spriteMultiplicity") - 1);
+        setSprite(Item.cfg.getIntX(type.getType(), "spritePos") + offsetX,
+                  Item.cfg.getIntY(type.getType(), "spritePos"));
+    }
+    
+    public ItemInstance(String itemType) {
+        this(Item.get(itemType));
+    }
+    
+    public Item getType() {
+        return type;
+    }
+    
+    public boolean canBePickedUp() {
+        return canBePickedUp;
+    }
+    
+    void setCanBePickedUp(boolean newState) {
+        canBePickedUp = newState;
+    }
+}

@@ -4,29 +4,40 @@
 
 package wge3.model;
 
-import com.badlogic.gdx.math.MathUtils;
 import wge3.engine.util.Config;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Item extends Entity {
+/** Represents an item type, not an item instance. */
+public class Item {
     
+    private final String type;
     protected String name;
-    private boolean canBePickedUp;
     private int value;
     protected int defaultAmount;
     private final Effect useEffect;
     private final boolean isRangedWeapon;
-    private static final Config cfg = new Config("config/item.toml");
+    public static final Config cfg = new Config("config/item.toml");
+    private static final Map<String, Item> itemTypes = new HashMap();
     
-    public Item(String type) {
-        super((int) (cfg.getFloat(type, "size") * Tile.size));
+    public static final Item get(String type) {
+        if (!itemTypes.containsKey(type)) {
+            itemTypes.put(type, new Item(type));
+        }
+        return itemTypes.get(type);
+    }
+    
+    /** Use {@link #get(String)} to get an Item instance. */
+    private Item(String type) {
+        this.type = type;
         name = type.replaceAll("([a-z])([A-Z])", "$1 $2").toLowerCase();
-        canBePickedUp = true;
         useEffect = new Effect(cfg.getString(type, "effect"), cfg, type);
         isRangedWeapon = cfg.getString(type, "effect").equals("shootProjectile");
         defaultAmount = 1;
-        setSprite(cfg.getIntX(type, "spritePos")
-                  + MathUtils.random(cfg.getInt(type, "spriteMultiplicity") - 1),
-                  cfg.getIntY(type, "spritePos"));
+    }
+    
+    public String getType() {
+        return type;
     }
     
     public String getName() {
@@ -35,15 +46,7 @@ public class Item extends Entity {
     
     public void use(Creature user) {
 //        getComponents().forEach(c -> c.use(user));
-        useEffect.activate(user, this);
-    }
-    
-    public boolean canBePickedUp() {
-        return canBePickedUp;
-    }
-    
-    void setCanBePickedUp(boolean newState) {
-        canBePickedUp = newState;
+        useEffect.activate(user, new ItemInstance(this));
     }
     
     @Override
