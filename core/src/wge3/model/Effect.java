@@ -56,8 +56,25 @@ public class Effect {
         item.setCanBePickedUp(false);
         user.drop(item);
         item.getComponents().stream().forEach(c -> c.use(user));
+        
+        Method method;
+        String timedEffect = cfg.getString(supertype, "timedEffect");
+        try {
+            method = getClass().getDeclaredMethod(timedEffect);
+        } catch (NoSuchMethodException ex) {
+            throw new UnsupportedOperationException("Unknown timedEffect: '" + timedEffect + "'");
+        }
+        Runnable effect = () -> {
+            try {
+                method.invoke(this);
+            } catch (IllegalAccessException |
+                     IllegalArgumentException |
+                     InvocationTargetException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
         wge3.model.components.Timer timer =
-                new wge3.model.components.Timer(() -> bombExplosion(), cfg.getInt(supertype, "time"));
+                new wge3.model.components.Timer(effect, cfg.getInt(supertype, "time"));
         item.addComponent(timer);
         timer.start();
     }
@@ -77,21 +94,21 @@ public class Effect {
                 currentTile.dealDamage((int) (intensity*damage));
             }
         }
-        user.getArea().removeEntity(item);
+        item.getArea().removeEntity(item);
     }
     
     @SuppressWarnings("unused") // used via reflection
     private void spawnGreenSlime() {
         int range = cfg.getInt(supertype, "range");
         
-        for (Tile currentTile : user.getArea().getTiles()) {
-            if (currentTile.canBeSeenFrom(user.getX(), user.getY(), range)
+        for (Tile currentTile : item.getArea().getTiles()) {
+            if (currentTile.canBeSeenFrom(item.getX(), item.getY(), range)
                     && !currentTile.hasObject()
                     && !currentTile.hasCreature()) {
                 currentTile.setObject(new MapObject("greenSlime"));
             }
         }
-        user.getArea().removeEntity(item);
+        item.getArea().removeEntity(item);
     }
     
     @SuppressWarnings("unused") // used via reflection

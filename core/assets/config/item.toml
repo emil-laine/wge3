@@ -30,12 +30,13 @@ healAmount = 50
 spritePos = [0, 4]
 effect = "dropAndStartTimer"
 time = 2
+range = 2
 components = ["Timer"]
+timedEffect = "spawnGreenSlime"
 
 [invisibilityPotion]
 spritePos = [3, 5]
 effect = "invisibility"
-range = 2
 duration = 10
 
 [speedPotion]
