@@ -570,9 +570,9 @@ public abstract class Creature extends Entity implements Drawable {
     }
     
     public void die() {
-        ItemInstance item = new ItemInstance(getInventory().getRandomItem());
+        Item item = getInventory().getRandomItem();
         if (item != null) {
-            getArea().addEntity(item, getX(), getY());
+            getArea().addEntity(new ItemInstance(item), getX(), getY());
             getInventory().removeAll();
         }
     }
