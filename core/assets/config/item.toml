@@ -7,11 +7,10 @@ size = 0.5
 [bomb]
 spritePos = [0, 2]
 effect = "dropAndStartTimer"
+timedEffect = "bombExplosion"
 damage = 100
 range = 2
 time = 2
-components = ["Timer"]
-timedEffect = "bombExplosion"
 
 [handgun]
 spritePos = [1, 2]
@@ -29,10 +28,9 @@ healAmount = 50
 [greenPotion]
 spritePos = [0, 4]
 effect = "dropAndStartTimer"
+timedEffect = "spawnGreenSlime"
 time = 2
 range = 2
-components = ["Timer"]
-timedEffect = "spawnGreenSlime"
 
 [invisibilityPotion]
 spritePos = [3, 5]

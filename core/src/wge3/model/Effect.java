@@ -73,10 +73,12 @@ public class Effect {
                 throw new RuntimeException(ex);
             }
         };
-        wge3.model.components.Timer timer =
-                new wge3.model.components.Timer(effect, cfg.getInt(supertype, "time"));
-        item.addComponent(timer);
-        timer.start();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                effect.run();
+            }
+        }, cfg.getInt(supertype, "time"));
     }
     
     @SuppressWarnings("unused") // used via reflection
@@ -182,7 +184,7 @@ public class Effect {
         messageStream.addMessage("*glug*");
         user.removeItem(item);
         user.setInvisibility(true);
-        new Timer().scheduleTask(new Timer.Task() {
+        Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 user.setInvisibility(false);
@@ -198,7 +200,7 @@ public class Effect {
         messageStream.addMessage("*glug*");
         user.removeItem(item);
         user.setCurrentSpeed((int) (user.getCurrentSpeed() * boostMultiplier));
-        new Timer().scheduleTask(new Timer.Task() {
+        Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 user.setCurrentSpeed(user.getDefaultSpeed());
