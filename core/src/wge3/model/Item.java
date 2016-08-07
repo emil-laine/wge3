@@ -15,7 +15,6 @@ public class Item {
     protected String name;
     private int value;
     protected int defaultAmount;
-    private final Effect useEffect;
     private final boolean isRangedWeapon;
     public static final Config cfg = new Config("config/item.toml");
     private static final Map<String, Item> itemTypes = new HashMap();
@@ -31,7 +30,6 @@ public class Item {
     private Item(String type) {
         this.type = type;
         name = type.replaceAll("([a-z])([A-Z])", "$1 $2").toLowerCase();
-        useEffect = new Effect(cfg.getString(type, "effect"), cfg, type);
         isRangedWeapon = cfg.getString(type, "effect").equals("shootProjectile");
         defaultAmount = 1;
     }
@@ -45,8 +43,7 @@ public class Item {
     }
     
     public void use(Creature user) {
-//        getComponents().forEach(c -> c.use(user));
-        useEffect.activate(user, new ItemInstance(this));
+        new ItemInstance(this).use(user);
     }
     
     @Override
